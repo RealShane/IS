@@ -13,23 +13,35 @@ namespace app\common\business\api;
 
 
 use app\common\business\lib\Config;
+use app\common\business\lib\Excel;
+use app\common\business\lib\Str;
+use app\common\model\api\Classes;
+use app\common\model\api\Department;
 use app\common\model\api\SynthesizePoorSign;
+use app\common\model\api\UserClass;
 use think\facade\App;
+use think\facade\Db;
 
 class Synthesize
 {
 
     private $config = NULL;
     private $synthesizePoorSignModel = NULL;
+    private $userClassModel = NULL;
 
     public function __construct(){
         $this -> config = new Config();
         $this -> synthesizePoorSignModel = new SynthesizePoorSign();
+        $this -> userClassModel = new UserClass();
     }
 
     public function poorSign($data, $user){
         if (!($this -> config -> getSynthesizePoorStatus())){
             return config("status.close");
+        }
+        $isJoin = $this -> userClassModel -> findByUid($user['id']);
+        if (empty($isJoin)){
+            return config("status.error");
         }
         $isExist = $this -> synthesizePoorSignModel -> findByUid($user['id']);
         if (empty($isExist)){
@@ -49,6 +61,87 @@ class Synthesize
         }catch (\Exception $exception){
             return config("status.failed");
         }
+    }
+
+    public function test($user){
+        $strLib = new Str();
+        $temp = $this -> userClassModel -> findByUid($user['id']);
+        $class = (new Classes()) -> findById($temp['class_id']);
+        $department = (new Department()) -> findById($class['depart_id']);
+        $user = (new \app\common\model\api\User()) -> findById($user['id']);
+        $sign = $this -> synthesizePoorSignModel -> findByUid($user['id']);
+        $user['sex'] = $strLib -> convertSex($user['sex']);
+        $sign['poor_type_one'] = $strLib -> convertIs($sign['poor_type_one']);
+        $sign['poor_type_two'] = $strLib -> convertIs($sign['poor_type_two']);
+        $sign['poor_type_three'] = $strLib -> convertIs($sign['poor_type_three']);
+        $sign['poor_type_four'] = $strLib -> convertIs($sign['poor_type_four']);
+        $sign['poor_type_five'] = $strLib -> convertIs($sign['poor_type_five']);
+        $sign['poor_type_six'] = $strLib -> convertIs($sign['poor_type_six']);
+        $sign['poor_type_seven'] = $strLib -> convertIs($sign['poor_type_seven']);
+        $sign['poor_type_eight'] = $strLib -> convertIs($sign['poor_type_eight']);
+        $data[] = [
+            'id' => 1,
+            'department' => $department['name'],
+            'grade' => $class['grade'],
+            'charge' => $class['charge'],
+            'class' => $class['name'],
+            'name' => $user['name'],
+            'sex' => $user['sex'],
+            'political_outlook' => $sign['political_outlook'],
+            'student_id' => $user['student_id'],
+            'id_card_type' => $sign['id_card_type'],
+            'id_card_number' => $sign['id_card_number'],
+            'confirm_level' => $sign['confirm_level'],
+            'poor_type_one' => $sign['poor_type_one'],
+            'poor_type_two' => $sign['poor_type_two'],
+            'poor_type_three' => $sign['poor_type_three'],
+            'poor_type_four' => $sign['poor_type_four'],
+            'poor_type_five' => $sign['poor_type_five'],
+            'poor_type_six' => $sign['poor_type_six'],
+            'poor_type_seven' => $sign['poor_type_seven'],
+            'poor_type_eight' => $sign['poor_type_eight'],
+            'confirm_time' => $sign['confirm_time'],
+            'confirm_reason' => $sign['confirm_reason'],
+            'confirm_reason_explain' => $sign['confirm_reason_explain'],
+            'address' => $sign['address'],
+            'home_phone' => $sign['home_phone'],
+            'contact_phone' => $sign['contact_phone'],
+            'remark' => $sign['remark']
+        ];
+        $classIndex = Db::query("SHOW FULL FIELDS FROM api_class");
+        $departmentIndex = Db::query("SHOW FULL FIELDS FROM api_department");
+        $userIndex = Db::query("SHOW FULL FIELDS FROM api_user");
+        $signIndex = Db::query("SHOW FULL FIELDS FROM api_synthesize_poor_sign");
+        $indexes = [
+            "序号",
+            $departmentIndex[1]['Comment'],
+            $classIndex[1]['Comment'],
+            $classIndex[3]['Comment'],
+            $classIndex[2]['Comment'],
+            $userIndex[4]['Comment'],
+            $userIndex[5]['Comment'],
+            $signIndex[2]['Comment'],
+            $userIndex[6]['Comment'],
+            $signIndex[3]['Comment'],
+            $signIndex[4]['Comment'],
+            $signIndex[5]['Comment'],
+            $signIndex[6]['Comment'],
+            $signIndex[7]['Comment'],
+            $signIndex[8]['Comment'],
+            $signIndex[9]['Comment'],
+            $signIndex[10]['Comment'],
+            $signIndex[11]['Comment'],
+            $signIndex[12]['Comment'],
+            $signIndex[13]['Comment'],
+            $signIndex[14]['Comment'],
+            $signIndex[15]['Comment'],
+            $signIndex[16]['Comment'],
+            $signIndex[17]['Comment'],
+            $signIndex[18]['Comment'],
+            $signIndex[19]['Comment'],
+            $signIndex[20]['Comment'],
+        ];
+        (new Excel()) -> push('贫困生报名', $indexes, $data);
     }
 
 }

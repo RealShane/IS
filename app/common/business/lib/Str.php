@@ -51,4 +51,12 @@ class Str
         }
     }
 
+    public function convertSex($sex){
+        return $sex == 1 ? '男' : '女';
+    }
+
+    public function convertIs($is){
+        return $is == 1 ? '是' : '否';
+    }
+
 }

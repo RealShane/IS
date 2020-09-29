@@ -17,6 +17,7 @@ use app\common\business\api\Synthesize as SynthesizeBusiness;
 use app\common\validate\api\Synthesize as SynthesizeValidate;
 use app\common\validate\lib\Upload as UploadValidate;
 use app\common\business\lib\Upload as UploadBusiness;
+use think\facade\View;
 
 class Synthesize extends BaseController
 {
@@ -55,6 +56,13 @@ class Synthesize extends BaseController
                 config("status.failed"),
                 config("message.failed"),
                 "贫困生报名处于关闭状态！"
+            );
+        }
+        if ($errCode == config("status.error")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "贫困生报名请先加入班级！"
             );
         }
         if ($errCode == config("status.update")){
@@ -123,6 +131,14 @@ class Synthesize extends BaseController
             config("message.success"),
             ['path' => $errCode]
         );
+    }
+
+    public function test(){
+        (new SynthesizeBusiness()) -> test(['id' => 1]);
+    }
+
+    public function testView(){
+        return View::fetch('synthesize/test');
     }
 
 }

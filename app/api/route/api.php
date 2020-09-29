@@ -19,6 +19,8 @@ Route::group(function () {
     Route::rule('sendRandom', '/api/User/sendRandom', 'POST');
     Route::rule('register', '/api/User/register', 'POST');
     Route::rule('login', '/api/User/login', 'POST');
+    Route::rule('test', '/api/Synthesize/test', 'GET');
+    Route::rule('testView', '/api/Synthesize/testView', 'GET');
 });
 /**
  * 有Token

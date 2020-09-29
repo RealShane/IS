@@ -29,6 +29,10 @@ class User extends Model
         return $result -> allowField(['last_login_ip', 'last_login_time', 'last_login_token']) -> save($data);
     }
 
+    public function findById($id){
+        return $this -> where('id', $id) -> where('status', 1) -> find();
+    }
+
     public function findByEmail($email){
         return $this -> where('email', $email) -> where('status', 1) -> find();
     }
