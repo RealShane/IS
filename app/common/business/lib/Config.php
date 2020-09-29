@@ -32,6 +32,10 @@ class Config
      * @return mixed
      */
 
+    public function getSynthesizePoorStatus(){
+        $temp = $this -> synthesizeConfig -> findByKey("POOR_SIGN_STATUS");
+        return $temp -> value;
+    }
     //贫困生报名选项
     public function getSynthesizePoorSignOption(){
         $temp = $this -> synthesizeConfig -> findByKey("POOR_SIGN_OPTION");
@@ -51,7 +55,6 @@ class Config
             'bytes' => $bytes
         ];
     }
-
     //上传文件类型
     public function getUploadTypeLimit(){
         $temp = $this -> appConfig -> findByKey("UPLOAD_TYPE_LIMIT");

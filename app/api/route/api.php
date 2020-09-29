@@ -29,6 +29,7 @@ Route::group(function () {
     Route::rule('viewMe', '/api/User/viewMe', 'POST');
     Route::rule('joinClass', '/api/User/joinClass', 'POST');
     //综测接口
+    Route::rule('poorSign', '/api/Synthesize/poorSign', 'POST');
     Route::rule('viewPoorOption', '/api/Synthesize/viewPoorOption', 'POST');
     Route::rule('uploadProve', '/api/Synthesize/uploadProve', 'POST');
 }) -> middleware(IsLogin::class);
