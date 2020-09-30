@@ -19,7 +19,72 @@ use app\common\validate\admin\User as UserValidate;
 class User extends BaseController
 {
 
+    public function getTargetAdmin(){
+        $errCode = (new UserBusiness()) -> getTargetAdmin($this -> request -> param("username", '', 'htmlspecialchars'));
+        if (empty($errCode)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
+    }
 
+    public function viewAllAdmin(){
+        $errCode = (new UserBusiness()) -> viewAllAdmin($this -> request -> param("num", '', 'htmlspecialchars'));
+        if (empty($errCode)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
+    }
+
+    public function updateAdmin(){
+        $data['target'] = $this -> request -> param("target", '', 'htmlspecialchars');
+        $data['username'] = $this -> request -> param("username", '', 'htmlspecialchars');
+        $data['status'] = $this -> request -> param("status", '', 'htmlspecialchars');
+        try {
+            validate(UserValidate::class) -> scene('updateAdmin') -> check($data);
+        }catch (\Exception $exception){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                $exception -> getMessage()
+            );
+        }
+        $errCode = (new UserBusiness()) -> updateAdmin($data);
+        if ($errCode == config("status.not_exist")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "管理员未找到！"
+            );
+        }
+        if ($errCode == config("status.failed")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            "更改成功！"
+        );
+    }
 
     public function changePassword(){
         $data['target'] = $this -> request -> param("target", '', 'htmlspecialchars');

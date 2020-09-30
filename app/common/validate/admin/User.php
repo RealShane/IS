@@ -21,6 +21,7 @@ class User extends Validate
         'username' => 'require',
         'target' => 'require',
         'password' => 'require',
+        'status' => 'require',
 //        'validate' => 'require|captcha'
     ];
 
@@ -30,9 +31,11 @@ class User extends Validate
         'validate.require' => '验证码不为空！',
         'validate.captcha' => '验证码不正确！',
         'target.require' => '目标不为空！',
+        'status.require' => '状态不为空！',
     ];
 
     protected $scene = [
+        'updateAdmin' => ['target', 'username', 'status'],
         'changePassword' => ['target', 'password'],
         'addAdmin' => ['username', 'password'],
         'login' => ['username', 'password', 'validate']

@@ -25,6 +25,35 @@ class User
         $this -> strLib = new Str();
     }
 
+    public function getTargetAdmin($username){
+        try {
+            return $this -> userModel -> getTargetAdmin($username);
+        }catch (\Exception $exception){
+            return NULL;
+        }
+    }
+
+    public function viewAllAdmin($num){
+        try {
+            return $this -> userModel -> findAll($num);
+        }catch (\Exception $exception){
+            return NULL;
+        }
+    }
+
+    public function updateAdmin($data){
+        try {
+            $isExist = $this -> userModel -> findById($data['target']);
+            if (empty($isExist)){
+                return config("status.not_exist");
+            }
+            $data['update_time'] = time();
+            return $this -> userModel -> updateAdmin($data) ? config("status.success") : config("status.failed");
+        }catch (\Exception $exception){
+            return config("status.failed");
+        }
+    }
+
     public function changePassword($data){
         try {
             $isExist = $this -> userModel -> findById($data['target']);

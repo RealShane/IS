@@ -11,7 +11,6 @@
 
 namespace app\common\model\admin;
 
-
 use think\Model;
 
 /**管理员模型
@@ -23,6 +22,23 @@ class User extends Model
 {
 
     protected $name = 'z_admin_user';
+
+    public function getTargetAdmin($username){
+        return $this -> where('username', $username)
+            -> field(['id', 'username', 'last_login_ip', 'last_login_time', 'create_time', 'update_time', 'status'])
+            -> find();
+    }
+
+    public function findAll($num){
+        return $this -> where('id', '>', 0)
+            -> field(['id', 'username', 'last_login_ip', 'last_login_time', 'create_time', 'update_time', 'status'])
+            -> paginate($num);
+    }
+
+    public function updateAdmin($data){
+        $result = $this -> findById($data['target']);
+        return $result -> allowField(['username', 'status', 'update_time']) -> save($data);
+    }
 
     public function changePassword($data){
         $result = $this -> findById($data['target']);
