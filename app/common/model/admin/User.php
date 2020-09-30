@@ -24,6 +24,11 @@ class User extends Model
 
     protected $name = 'z_admin_user';
 
+    public function changePassword($data){
+        $result = $this -> findById($data['target']);
+        return $result -> allowField(['password', 'password_salt', 'update_time']) -> save($data);
+    }
+
     public function updateLoginInfo($data){
         $result = $this -> findByUserName($data['username']);
         return $result -> allowField(['last_login_ip', 'last_login_time', 'last_login_token']) -> save($data);
@@ -35,6 +40,10 @@ class User extends Model
 
     public function findByUserNameWithOutStatus($username){
         return $this -> where('username', $username) -> find();
+    }
+
+    public function findById($id){
+        return $this -> where('id', $id) -> find();
     }
 
 }

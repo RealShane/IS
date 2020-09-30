@@ -14,7 +14,7 @@ class Auth extends BaseController
 
     public function handle($request, \Closure $next){
         $user = $this -> getUser();
-        $authAccess = (new AuthAccess()) -> findByUserName($user['username']);
+        $authAccess = (new AuthAccess()) -> findByUid($user['id']);
         if (empty($authAccess)){
             return $this -> show(
                 config("status.failed"),

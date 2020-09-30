@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2020-09-30 16:13:53
+-- 生成日期： 2020-09-30 16:51:52
 -- 服务器版本： 8.0.12
 -- PHP 版本： 7.4.3
 
@@ -240,7 +240,7 @@ INSERT INTO `api_user_class` (`id`, `uid`, `class_id`, `create_time`, `update_ti
 
 CREATE TABLE `z_admin_auth_access` (
   `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
-  `username` varchar(20) NOT NULL COMMENT '管理员名',
+  `uid` int(10) UNSIGNED NOT NULL COMMENT '管理员',
   `group` int(10) UNSIGNED NOT NULL COMMENT '权限组所属'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员权限分配';
 
@@ -248,8 +248,9 @@ CREATE TABLE `z_admin_auth_access` (
 -- 转存表中的数据 `z_admin_auth_access`
 --
 
-INSERT INTO `z_admin_auth_access` (`id`, `username`, `group`) VALUES
-(1, 'admin', 1);
+INSERT INTO `z_admin_auth_access` (`id`, `uid`, `group`) VALUES
+(1, 1, 1),
+(2, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -285,7 +286,8 @@ CREATE TABLE `z_admin_auth_group` (
 --
 
 INSERT INTO `z_admin_auth_group` (`id`, `name`, `rules`, `create_time`, `update_time`, `status`) VALUES
-(1, '超级权限组', '*', NULL, NULL, 1);
+(1, '超级权限组', '*', NULL, NULL, 1),
+(2, '二级权限组', '', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -323,7 +325,8 @@ CREATE TABLE `z_admin_user` (
 --
 
 INSERT INTO `z_admin_user` (`id`, `username`, `password`, `password_salt`, `last_login_ip`, `last_login_time`, `last_login_token`, `create_time`, `update_time`, `status`) VALUES
-(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '127.0.0.1', 1601449169, 'd701b56ea220d8a906112e45c8453aa0b8e03e20', 1579237406, 1601449169, 1);
+(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '127.0.0.1', 1601454155, 'a7bdd3f6c08e783187eed06a43a6e5727f20ec80', 1579237406, 1601454155, 1),
+(2, 'test', '76f9455752da1629ae9e17e1e2f4020e', 'B06GY', '127.0.0.1', 1601455341, '745899a175cd6f3c99f3d3d8de46ab22fed7a58e', 1601453691, 1601455341, 1);
 
 --
 -- 转储表的索引
@@ -475,7 +478,7 @@ ALTER TABLE `api_user_class`
 -- 使用表AUTO_INCREMENT `z_admin_auth_access`
 --
 ALTER TABLE `z_admin_auth_access`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=3;
 
 --
 -- 使用表AUTO_INCREMENT `z_admin_auth_api`
@@ -487,7 +490,7 @@ ALTER TABLE `z_admin_auth_api`
 -- 使用表AUTO_INCREMENT `z_admin_auth_group`
 --
 ALTER TABLE `z_admin_auth_group`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=3;
 
 --
 -- 使用表AUTO_INCREMENT `z_admin_catalogue`
@@ -499,7 +502,7 @@ ALTER TABLE `z_admin_catalogue`
 -- 使用表AUTO_INCREMENT `z_admin_user`
 --
 ALTER TABLE `z_admin_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

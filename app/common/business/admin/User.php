@@ -25,6 +25,21 @@ class User
         $this -> strLib = new Str();
     }
 
+    public function changePassword($data){
+        try {
+            $isExist = $this -> userModel -> findById($data['target']);
+            if (empty($isExist)){
+                return config("status.not_exist");
+            }
+            $data['password_salt'] = $this -> strLib -> salt(5);
+            $data['password'] = md5($data['password_salt'] . $data['password'] . $data['password_salt']);
+            $data['update_time'] = time();
+            return $this -> userModel -> changePassword($data) ? config("status.success") : config("status.failed");
+        }catch (\Exception $exception){
+            return config("status.failed");
+        }
+    }
+
     public function addAdmin($data){
         try {
             $isExist = $this -> userModel -> findByUserNameWithOutStatus($data['username']);

@@ -19,6 +19,42 @@ use app\common\validate\admin\User as UserValidate;
 class User extends BaseController
 {
 
+
+
+    public function changePassword(){
+        $data['target'] = $this -> request -> param("target", '', 'htmlspecialchars');
+        $data['password'] = $this -> request -> param("password", '', 'htmlspecialchars');
+        try {
+            validate(UserValidate::class) -> scene('changePassword') -> check($data);
+        }catch (\Exception $exception){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                $exception -> getMessage()
+            );
+        }
+        $errCode = (new UserBusiness()) -> changePassword($data);
+        if ($errCode == config("status.not_exist")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "管理员未找到！"
+            );
+        }
+        if ($errCode == config("status.failed")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            "更改密码成功！"
+        );
+    }
+
     public function addAdmin(){
         $data['username'] = $this -> request -> param("username", '', 'htmlspecialchars');
         $data['password'] = $this -> request -> param("password", '', 'htmlspecialchars');

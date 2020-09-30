@@ -24,8 +24,8 @@ class AuthAccess extends Model
 
     protected $name = 'z_admin_auth_access';
 
-    public function findByUserName($username){
-        return $this -> where('username', $username) -> find();
+    public function findByUid($uid){
+        return $this -> where('uid', $uid) -> find();
     }
 
 }

@@ -18,6 +18,7 @@ Route::group(function () {
     /**
      * 超级权限
      */
+    Route::rule('changePassword', '/admin/User/changePassword', 'POST');
     Route::rule('addAdmin', '/admin/User/addAdmin', 'POST');
 }) -> middleware(IsLogin::class) -> middleware(Auth::class);
 

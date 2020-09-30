@@ -19,6 +19,7 @@ class User extends Validate
 
     protected $rule = [
         'username' => 'require',
+        'target' => 'require',
         'password' => 'require',
 //        'validate' => 'require|captcha'
     ];
@@ -27,10 +28,12 @@ class User extends Validate
         'username.require' => '用户名不为空！',
         'password.require' => '密码不为空！',
         'validate.require' => '验证码不为空！',
-        'validate.captcha' => '验证码不正确！'
+        'validate.captcha' => '验证码不正确！',
+        'target.require' => '目标不为空！',
     ];
 
     protected $scene = [
+        'changePassword' => ['target', 'password'],
         'addAdmin' => ['username', 'password'],
         'login' => ['username', 'password', 'validate']
     ];

@@ -10,9 +10,3 @@ function show_res($status, $message, $data, $HttpStatus = 200){
     ];
     return json($result, $HttpStatus);
 }
-
-function back_admin_login(){
-    $temp = Env::get('ADMIN.FILE', '');
-    return redirect('/' . $temp . '/Login');
-}
-
