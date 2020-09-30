@@ -3,24 +3,38 @@ declare (strict_types = 1);
 
 namespace app\admin\middleware;
 
-class IsLogin
+use app\BaseController;
+use app\common\model\admin\User;
+
+class IsLogin extends BaseController
 {
-    /**
-     * 处理请求
-     *
-     * @param \think\Request $request
-     * @param \Closure       $next
-     * @return Response
-     */
+
     public function handle($request, \Closure $next){
-
-        $user = session(config('admin.session_user'));
-
-        if(empty($user)){
-            return back_admin_login();
+        $token = $this -> getToken();
+        if (empty($token)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "非法请求！"
+            );
         }
-
-
+        $user = $this -> getUser();
+        if (empty($user)){
+            return $this -> show(
+                config("status.goto"),
+                config("message.goto"),
+                "登录过期！"
+            );
+        }
+        $user = (new User()) -> findByUserName($user['username']);
+        if ($user['last_login_token'] != $token){
+            cache(config('redis.token_pre') . $token, NULL);
+            return $this -> show(
+                config("status.goto"),
+                config("message.goto"),
+                "账号异地登录，请重新登录！"
+            );
+        }
         return $next($request);
     }
 }

@@ -14,14 +14,18 @@ namespace app\common\model\admin;
 
 use think\Model;
 
-/**后台目录模型
+/**后台权限接口模型
  * Class AuthAccess
  * @package app\common\model\admin
  */
 
-class Catalogue extends Model
+class AuthApi extends Model
 {
 
-    protected $name = 'z_admin_catalogue';
+    protected $name = 'z_admin_auth_api';
+
+    public function findById($id){
+        return $this -> where('id', $id) -> where('status', 1) -> find();
+    }
 
 }

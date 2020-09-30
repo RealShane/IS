@@ -3,58 +3,50 @@ declare (strict_types = 1);
 
 namespace app\admin\middleware;
 
-use think\db\exception\DbException;
-use think\facade\Db;
+use app\BaseController;
+use app\common\model\admin\AuthAccess;
+use app\common\model\admin\AuthApi;
+use app\common\model\admin\AuthGroup;
 
 
-class Auth
+class Auth extends BaseController
 {
 
-
     public function handle($request, \Closure $next){
-        $user = session(config('admin.session_user'));
-        try {
-            $auth = Db::table('z_admin_auth_access') -> where('username', $user) -> find();
-            if($auth == NULL){
-                return show_res(
-                    config("status.failed"),
-                    config("message.failed"),
-                    "该管理员账号已被删除！"
-                );
-            }
-            $available = Db::table('z_admin_auth_group') -> where('id', $auth['group']) -> find();
-
-        }catch (DbException $exception){
-            return show_res(
-                config("status.success"),
-                config("message.success"),
-                $exception -> getMessage()
+        $user = $this -> getUser();
+        $authAccess = (new AuthAccess()) -> findByUserName($user['username']);
+        if (empty($authAccess)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "超级管理员未给此管理员分配权限，请联系超级管理员！"
             );
         }
-
-        if ($available['rules'] == '*'){
+        $authGroup = (new AuthGroup()) -> findById($authAccess['group']);
+        if (empty($authGroup)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "权限被禁用！"
+            );
+        }
+        if ($authGroup['rules'] == '*'){
             return $next($request);
         }
-        $rules = explode(',', $available['rules']);
-        $controllers = [];$tableNames = [];$i = 1;
-        foreach ($rules as $key){
-            if (($key == NULL) || ($key == 0)){
+        $rules = explode(',', $authGroup['rules']);
+        $authApi = new AuthApi();
+        foreach ($rules as $rule){
+            if (empty($rule)){
                 continue;
             }
-            $controllers[$key] = Db::table('z_admin_generator') -> where('id', $key) -> find();
-        }
-        foreach ($controllers as $key){
-            $tableNames[$i] = str_replace("_", "", $key['table_name']);
-            $tableNames[$i] = ucwords($tableNames[$i]);
-            $i++;
-        }
-        $identity = explode('/', $request -> pathinfo());
-        foreach ($tableNames as $key){
-            if ($key == $identity[0]){
+            $api = $authApi -> findById($rule);
+            if (empty($api)){
+                continue;
+            }
+            if (($request -> pathinfo()) == $api['path']){
                 return $next($request);
             }
         }
-
         return show_res(
             config("status.failed"),
             config("message.failed"),

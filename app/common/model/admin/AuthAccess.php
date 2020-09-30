@@ -14,14 +14,18 @@ namespace app\common\model\admin;
 
 use think\Model;
 
-/**后台目录模型
+/**管理员权限分配模型
  * Class AuthAccess
  * @package app\common\model\admin
  */
 
-class Catalogue extends Model
+class AuthAccess extends Model
 {
 
-    protected $name = 'z_admin_catalogue';
+    protected $name = 'z_admin_auth_access';
+
+    public function findByUserName($username){
+        return $this -> where('username', $username) -> find();
+    }
 
 }

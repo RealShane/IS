@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2020-09-29 21:16:07
+-- 生成日期： 2020-09-30 16:13:53
 -- 服务器版本： 8.0.12
 -- PHP 版本： 7.4.3
 
@@ -64,7 +64,7 @@ INSERT INTO `api_app_config` (`id`, `key`, `value`, `statement`, `type`, `type_n
 CREATE TABLE `api_class` (
   `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
   `grade` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '年级',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '班级',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '专业班级',
   `charge` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '辅导员',
   `depart_id` int(10) UNSIGNED NOT NULL COMMENT '学部',
   `invite_code` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '加入班级代码',
@@ -90,9 +90,9 @@ INSERT INTO `api_class` (`id`, `grade`, `name`, `charge`, `depart_id`, `invite_c
 
 CREATE TABLE `api_department` (
   `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '学部/系',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '学部',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='学部/系';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='学部';
 
 --
 -- 转存表中的数据 `api_department`
@@ -179,7 +179,7 @@ CREATE TABLE `api_synthesize_poor_sign` (
 --
 
 INSERT INTO `api_synthesize_poor_sign` (`id`, `uid`, `political_outlook`, `id_card_type`, `id_card_number`, `confirm_level`, `poor_type_one`, `poor_type_two`, `poor_type_three`, `poor_type_four`, `poor_type_five`, `poor_type_six`, `poor_type_seven`, `poor_type_eight`, `confirm_time`, `confirm_reason`, `confirm_reason_explain`, `address`, `home_phone`, `contact_phone`, `remark`, `supporting_document`, `create_time`, `status`) VALUES
-(1, 1, '共青团员', '居民身份证', '130503200001100639', NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL, '其他', 'test', 'test', '13363706632', '13315926692', '', '/uploads/synthesize/poor/Shane2018510500/2020/09/29/a9ff54ad438006184d41be5fce8151e81d95ca0a/timg.jpg', 1601380420, 1);
+(1, 1, '共青团员', '居民身份证', '130503200001100639', NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL, '其他', 'test', 'test', '13315926692', '13315926692', '', '/uploads/synthesize/poor/Shane2018510500/2020/09/29/a9ff54ad438006184d41be5fce8151e81d95ca0a/timg.jpg', 1601388754, 1);
 
 -- --------------------------------------------------------
 
@@ -225,6 +225,13 @@ CREATE TABLE `api_user_class` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='用户班级关系';
 
+--
+-- 转存表中的数据 `api_user_class`
+--
+
+INSERT INTO `api_user_class` (`id`, `uid`, `class_id`, `create_time`, `update_time`, `status`) VALUES
+(1, 1, 2, 1601388730, 1601388730, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -247,6 +254,20 @@ INSERT INTO `z_admin_auth_access` (`id`, `username`, `group`) VALUES
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `z_admin_auth_api`
+--
+
+CREATE TABLE `z_admin_auth_api` (
+  `id` int(10) NOT NULL COMMENT '自增id',
+  `api_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '接口名',
+  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '接口路径',
+  `catalogue_id` int(11) DEFAULT NULL COMMENT '二级目录所属',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台权限接口';
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `z_admin_auth_group`
 --
 
@@ -255,30 +276,28 @@ CREATE TABLE `z_admin_auth_group` (
   `name` varchar(100) NOT NULL DEFAULT '' COMMENT '组名',
   `rules` text NOT NULL COMMENT '规则ID',
   `create_time` int(10) DEFAULT NULL COMMENT '创建时间',
-  `update_time` int(10) DEFAULT NULL COMMENT '更新时间'
+  `update_time` int(10) DEFAULT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员权限组' ROW_FORMAT=COMPACT;
 
 --
 -- 转存表中的数据 `z_admin_auth_group`
 --
 
-INSERT INTO `z_admin_auth_group` (`id`, `name`, `rules`, `create_time`, `update_time`) VALUES
-(1, '超级权限组', '*', NULL, NULL);
+INSERT INTO `z_admin_auth_group` (`id`, `name`, `rules`, `create_time`, `update_time`, `status`) VALUES
+(1, '超级权限组', '*', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `z_admin_generator`
+-- 表的结构 `z_admin_catalogue`
 --
 
-CREATE TABLE `z_admin_generator` (
+CREATE TABLE `z_admin_catalogue` (
   `id` int(10) NOT NULL COMMENT '自增id',
-  `table_name` varchar(20) NOT NULL COMMENT '生成表名',
-  `table_comment` varchar(20) NOT NULL COMMENT '表注释',
-  `catalogue_bind` varchar(50) NOT NULL DEFAULT '' COMMENT '二级目录所属',
-  `executor` varchar(20) NOT NULL COMMENT '执行人',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='代码生成记录';
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '目录',
+  `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图标'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台目录';
 
 -- --------------------------------------------------------
 
@@ -293,30 +312,18 @@ CREATE TABLE `z_admin_user` (
   `password_salt` char(10) NOT NULL DEFAULT '' COMMENT '密码盐',
   `last_login_ip` varchar(30) NOT NULL DEFAULT '' COMMENT '上次登陆IP',
   `last_login_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '上次登陆时间',
+  `last_login_token` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '上次登录Token',
   `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `update_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
+  `update_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员用户表';
 
 --
 -- 转存表中的数据 `z_admin_user`
 --
 
-INSERT INTO `z_admin_user` (`id`, `username`, `password`, `password_salt`, `last_login_ip`, `last_login_time`, `create_time`, `update_time`) VALUES
-(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '127.0.0.1', 1593277926, 1579237406, 1593277926);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `z_catalogue`
---
-
-CREATE TABLE `z_catalogue` (
-  `id` int(10) NOT NULL COMMENT '自增id',
-  `catalogue_name` varchar(20) NOT NULL COMMENT '目录名',
-  `icon` varchar(10) NOT NULL COMMENT '图标',
-  `executor` varchar(20) NOT NULL DEFAULT 'admin' COMMENT '执行人',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='生成表目录';
+INSERT INTO `z_admin_user` (`id`, `username`, `password`, `password_salt`, `last_login_ip`, `last_login_time`, `last_login_token`, `create_time`, `update_time`, `status`) VALUES
+(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '127.0.0.1', 1601449169, 'd701b56ea220d8a906112e45c8453aa0b8e03e20', 1579237406, 1601449169, 1);
 
 --
 -- 转储表的索引
@@ -385,33 +392,32 @@ ALTER TABLE `z_admin_auth_access`
   ADD PRIMARY KEY (`id`);
 
 --
+-- 表的索引 `z_admin_auth_api`
+--
+ALTER TABLE `z_admin_auth_api`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `api_name` (`api_name`),
+  ADD KEY `path` (`path`);
+
+--
 -- 表的索引 `z_admin_auth_group`
 --
 ALTER TABLE `z_admin_auth_group`
   ADD PRIMARY KEY (`id`);
 
 --
--- 表的索引 `z_admin_generator`
+-- 表的索引 `z_admin_catalogue`
 --
-ALTER TABLE `z_admin_generator`
+ALTER TABLE `z_admin_catalogue`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `table_name` (`table_name`);
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- 表的索引 `z_admin_user`
 --
 ALTER TABLE `z_admin_user`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username_2` (`username`),
-  ADD KEY `username` (`username`),
-  ADD KEY `create_time` (`create_time`);
-
---
--- 表的索引 `z_catalogue`
---
-ALTER TABLE `z_catalogue`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `catalogue_name` (`catalogue_name`);
+  ADD KEY `username` (`username`);
 
 --
 -- 在导出的表使用AUTO_INCREMENT
@@ -463,7 +469,7 @@ ALTER TABLE `api_user`
 -- 使用表AUTO_INCREMENT `api_user_class`
 --
 ALTER TABLE `api_user_class`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id';
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
 
 --
 -- 使用表AUTO_INCREMENT `z_admin_auth_access`
@@ -472,15 +478,21 @@ ALTER TABLE `z_admin_auth_access`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
 
 --
+-- 使用表AUTO_INCREMENT `z_admin_auth_api`
+--
+ALTER TABLE `z_admin_auth_api`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '自增id';
+
+--
 -- 使用表AUTO_INCREMENT `z_admin_auth_group`
 --
 ALTER TABLE `z_admin_auth_group`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
 
 --
--- 使用表AUTO_INCREMENT `z_admin_generator`
+-- 使用表AUTO_INCREMENT `z_admin_catalogue`
 --
-ALTER TABLE `z_admin_generator`
+ALTER TABLE `z_admin_catalogue`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '自增id';
 
 --
@@ -488,12 +500,6 @@ ALTER TABLE `z_admin_generator`
 --
 ALTER TABLE `z_admin_user`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
-
---
--- 使用表AUTO_INCREMENT `z_catalogue`
---
-ALTER TABLE `z_catalogue`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '自增id';
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
