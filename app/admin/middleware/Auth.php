@@ -5,7 +5,7 @@ namespace app\admin\middleware;
 
 use app\BaseController;
 use app\common\model\admin\AuthAccess;
-use app\common\model\admin\AuthApi;
+use app\common\model\admin\AuthRule;
 use app\common\model\admin\AuthGroup;
 
 
@@ -34,12 +34,12 @@ class Auth extends BaseController
             return $next($request);
         }
         $rules = explode(',', $authGroup['rules']);
-        $authApi = new AuthApi();
+        $authRule = new AuthRule();
         foreach ($rules as $rule){
             if (empty($rule)){
                 continue;
             }
-            $api = $authApi -> findById($rule);
+            $api = $authRule -> findById($rule);
             if (empty($api)){
                 continue;
             }

@@ -19,6 +19,39 @@ use app\common\validate\admin\User as UserValidate;
 class User extends BaseController
 {
 
+    public function deleteAdmin(){
+        $data['target'] = $this -> request -> param("target", '', 'htmlspecialchars');
+        try {
+            validate(UserValidate::class) -> scene('deleteAdmin') -> check($data);
+        }catch (\Exception $exception){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                $exception -> getMessage()
+            );
+        }
+        $errCode = (new UserBusiness()) -> deleteAdmin($data['target']);
+        if ($errCode == config("status.not_exist")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "管理员未找到！"
+            );
+        }
+        if ($errCode == config("status.failed")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            "删除成功！"
+        );
+    }
+
     public function getTargetAdmin(){
         $errCode = (new UserBusiness()) -> getTargetAdmin($this -> request -> param("username", '', 'htmlspecialchars'));
         if (empty($errCode)){

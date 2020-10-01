@@ -35,6 +35,7 @@ class User extends Validate
     ];
 
     protected $scene = [
+        'deleteAdmin' => ['target'],
         'updateAdmin' => ['target', 'username', 'status'],
         'changePassword' => ['target', 'password'],
         'addAdmin' => ['username', 'password'],

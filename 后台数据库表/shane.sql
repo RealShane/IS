@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2020-09-30 16:51:52
+-- 生成日期： 2020-10-01 10:57:38
 -- 服务器版本： 8.0.12
 -- PHP 版本： 7.4.3
 
@@ -255,20 +255,6 @@ INSERT INTO `z_admin_auth_access` (`id`, `uid`, `group`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `z_admin_auth_api`
---
-
-CREATE TABLE `z_admin_auth_api` (
-  `id` int(10) NOT NULL COMMENT '自增id',
-  `api_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '接口名',
-  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '接口路径',
-  `catalogue_id` int(11) DEFAULT NULL COMMENT '二级目录所属',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台权限接口';
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `z_admin_auth_group`
 --
 
@@ -292,14 +278,35 @@ INSERT INTO `z_admin_auth_group` (`id`, `name`, `rules`, `create_time`, `update_
 -- --------------------------------------------------------
 
 --
--- 表的结构 `z_admin_catalogue`
+-- 表的结构 `z_admin_auth_rule`
 --
 
-CREATE TABLE `z_admin_catalogue` (
+CREATE TABLE `z_admin_auth_rule` (
   `id` int(10) NOT NULL COMMENT '自增id',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '目录',
-  `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图标'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台目录';
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '规则名',
+  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '接口路径',
+  `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图标',
+  `pid` int(11) DEFAULT NULL COMMENT '父ID',
+  `is_menu` tinyint(1) NOT NULL COMMENT '是否为目录',
+  `is_view` tinyint(1) NOT NULL COMMENT '是否为页面',
+  `weigh` int(10) UNSIGNED NOT NULL COMMENT '权重',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台权限规则';
+
+--
+-- 转存表中的数据 `z_admin_auth_rule`
+--
+
+INSERT INTO `z_admin_auth_rule` (`id`, `name`, `path`, `icon`, `pid`, `is_menu`, `is_view`, `weigh`, `status`) VALUES
+(1, '权限管理', NULL, NULL, NULL, 1, 0, 1, 1),
+(2, '管理员管理', NULL, NULL, 1, 0, 1, 1, 1),
+(3, '权限分配', NULL, NULL, 1, 0, 1, 2, 1),
+(4, '权限组', NULL, NULL, 1, 0, 1, 3, 1),
+(5, '添加管理员', 'addAdmin', NULL, NULL, 0, 0, 0, 1),
+(6, '更改管理员密码', 'changePassword', NULL, NULL, 0, 0, 0, 1),
+(7, '更新管理员', 'updateAdmin', NULL, NULL, 0, 0, 0, 1),
+(8, '查看全部管理员(分页)', 'viewAllAdmin', NULL, NULL, 0, 0, 0, 1),
+(9, '查询管理员(用户名)', 'getTargetAdmin', NULL, NULL, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -325,8 +332,8 @@ CREATE TABLE `z_admin_user` (
 --
 
 INSERT INTO `z_admin_user` (`id`, `username`, `password`, `password_salt`, `last_login_ip`, `last_login_time`, `last_login_token`, `create_time`, `update_time`, `status`) VALUES
-(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '127.0.0.1', 1601454155, 'a7bdd3f6c08e783187eed06a43a6e5727f20ec80', 1579237406, 1601454155, 1),
-(2, 'test', '76f9455752da1629ae9e17e1e2f4020e', 'B06GY', '127.0.0.1', 1601455341, '745899a175cd6f3c99f3d3d8de46ab22fed7a58e', 1601453691, 1601455341, 1);
+(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '127.0.0.1', 1601519964, 'f87d525bb53d2768ac9887672f55b22861284f92', 1579237406, 1601519964, 1),
+(2, 'test', '76f9455752da1629ae9e17e1e2f4020e', 'B06GY', '127.0.0.1', 1601519473, '2333e95c90b20a79462aa22691e95c2bb3ab7fc1', 1601453691, 1601519473, 1);
 
 --
 -- 转储表的索引
@@ -395,25 +402,20 @@ ALTER TABLE `z_admin_auth_access`
   ADD PRIMARY KEY (`id`);
 
 --
--- 表的索引 `z_admin_auth_api`
---
-ALTER TABLE `z_admin_auth_api`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `api_name` (`api_name`),
-  ADD KEY `path` (`path`);
-
---
 -- 表的索引 `z_admin_auth_group`
 --
 ALTER TABLE `z_admin_auth_group`
   ADD PRIMARY KEY (`id`);
 
 --
--- 表的索引 `z_admin_catalogue`
+-- 表的索引 `z_admin_auth_rule`
 --
-ALTER TABLE `z_admin_catalogue`
+ALTER TABLE `z_admin_auth_rule`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `path` (`path`),
+  ADD KEY `weigh` (`weigh`),
+  ADD KEY `pid` (`pid`);
 
 --
 -- 表的索引 `z_admin_user`
@@ -481,22 +483,16 @@ ALTER TABLE `z_admin_auth_access`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=3;
 
 --
--- 使用表AUTO_INCREMENT `z_admin_auth_api`
---
-ALTER TABLE `z_admin_auth_api`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '自增id';
-
---
 -- 使用表AUTO_INCREMENT `z_admin_auth_group`
 --
 ALTER TABLE `z_admin_auth_group`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=3;
 
 --
--- 使用表AUTO_INCREMENT `z_admin_catalogue`
+-- 使用表AUTO_INCREMENT `z_admin_auth_rule`
 --
-ALTER TABLE `z_admin_catalogue`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '自增id';
+ALTER TABLE `z_admin_auth_rule`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=10;
 
 --
 -- 使用表AUTO_INCREMENT `z_admin_user`

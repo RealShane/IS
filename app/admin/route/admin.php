@@ -18,6 +18,15 @@ Route::group(function () {
     /**
      * 超级权限
      */
+    /**
+     * -----------------------------权限-----------------------------
+     */
+    Route::rule('addAccess', '/admin/Auth/addAccess', 'POST');
+
+    /**
+     * -----------------------------管理员-----------------------------
+     */
+    Route::rule('deleteAdmin', '/admin/User/deleteAdmin', 'POST');
     Route::rule('getTargetAdmin', '/admin/User/getTargetAdmin', 'POST');
     Route::rule('viewAllAdmin', '/admin/User/viewAllAdmin', 'POST');
     Route::rule('updateAdmin', '/admin/User/updateAdmin', 'POST');

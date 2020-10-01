@@ -11,6 +11,8 @@
 
 namespace app\common\model\admin;
 
+use think\Exception;
+use think\facade\Db;
 use think\Model;
 
 /**管理员模型
@@ -22,6 +24,17 @@ class User extends Model
 {
 
     protected $name = 'z_admin_user';
+
+    public function deleteAdmin($target){
+        Db::startTrans();
+        try {
+            $this -> where('id', $target) -> delete();
+            (new AuthAccess()) -> where('uid', $target) -> delete();
+            Db::commit();
+        } catch (\Exception $exception) {
+            Db::rollback();
+        }
+    }
 
     public function getTargetAdmin($username){
         return $this -> where('username', $username)

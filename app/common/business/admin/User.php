@@ -25,6 +25,19 @@ class User
         $this -> strLib = new Str();
     }
 
+    public function deleteAdmin($target){
+        try {
+            $isExist = $this -> userModel -> findById($target);
+            if (empty($isExist)){
+                return config("status.not_exist");
+            }
+            $this -> userModel -> deleteAdmin($target);
+            return config("status.success");
+        }catch (\Exception $exception){
+            return config("status.failed");
+        }
+    }
+
     public function getTargetAdmin($username){
         try {
             return $this -> userModel -> getTargetAdmin($username);

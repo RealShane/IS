@@ -24,6 +24,11 @@ class AuthAccess extends Model
 
     protected $name = 'z_admin_auth_access';
 
+    public function updateByUid($data){
+        $result = $this -> findByUid($data['uid']);
+        return $result -> allowField(['uid', 'group']) -> save($data);
+    }
+
     public function findByUid($uid){
         return $this -> where('uid', $uid) -> find();
     }
