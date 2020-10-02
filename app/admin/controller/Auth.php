@@ -19,6 +19,138 @@ use app\common\validate\admin\Auth as AuthValidate;
 class Auth extends BaseController
 {
 
+    public function viewAllGroup(){
+        $errCode = (new AuthBusiness()) -> viewAllGroup($this -> request -> param("num", '', 'htmlspecialchars'));
+        if (empty($errCode)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
+    }
+
+    public function deleteGroup(){
+        $id = $this -> request -> param("id", '', 'htmlspecialchars');
+        try {
+            validate(AuthValidate::class) -> scene('deleteGroup') -> check(['id' => $id]);
+        }catch (\Exception $exception){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                $exception -> getMessage()
+            );
+        }
+        $errCode = (new AuthBusiness()) -> deleteGroup($id);
+        if ($errCode == config("status.not_exist")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "权限分配记录不存在！"
+            );
+        }
+        if ($errCode == config("status.failed")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            "操作成功！"
+        );
+    }
+
+    public function addGroup(){
+        $data['name'] = $this -> request -> param("name", '', 'htmlspecialchars');
+        $data['rules'] = $this -> request -> param("rules", '', 'htmlspecialchars');
+        try {
+            validate(AuthValidate::class) -> scene('addGroup') -> check($data);
+        }catch (\Exception $exception){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                $exception -> getMessage()
+            );
+        }
+        $errCode = (new AuthBusiness()) -> addGroup($data);
+        if ($errCode == config("status.not_exist")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "权限规则不存在！"
+            );
+        }
+        if ($errCode == config("status.failed")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            "操作成功！"
+        );
+    }
+
+    public function viewAllAccess(){
+        $errCode = (new AuthBusiness()) -> viewAllAccess($this -> request -> param("num", '', 'htmlspecialchars'));
+        if (empty($errCode)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
+    }
+
+    public function deleteAccess(){
+        $id = $this -> request -> param("id", '', 'htmlspecialchars');
+        try {
+            validate(AuthValidate::class) -> scene('deleteAccess') -> check(['id' => $id]);
+        }catch (\Exception $exception){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                $exception -> getMessage()
+            );
+        }
+        $errCode = (new AuthBusiness()) -> deleteAccess($id);
+        if ($errCode == config("status.not_exist")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "权限分配记录不存在！"
+            );
+        }
+        if ($errCode == config("status.failed")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            "操作成功！"
+        );
+    }
+
     public function addAccess(){
         $data['uid'] = $this -> request -> param("uid", '', 'htmlspecialchars');
         $data['group'] = $this -> request -> param("group", '', 'htmlspecialchars');

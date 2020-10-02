@@ -28,4 +28,8 @@ class AuthRule extends Model
         return $this -> where('id', $id) -> where('status', 1) -> find();
     }
 
+    public function findByIdWithOutStatus($id){
+        return $this -> where('id', $id) -> find();
+    }
+
 }

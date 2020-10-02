@@ -11,7 +11,6 @@
 
 namespace app\common\model\admin;
 
-use think\Exception;
 use think\facade\Db;
 use think\Model;
 

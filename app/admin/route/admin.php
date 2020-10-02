@@ -21,6 +21,11 @@ Route::group(function () {
     /**
      * -----------------------------权限-----------------------------
      */
+    Route::rule('viewAllGroup', '/admin/Auth/viewAllGroup', 'POST');
+    Route::rule('deleteGroup', '/admin/Auth/deleteGroup', 'POST');
+    Route::rule('addGroup', '/admin/Auth/addGroup', 'POST');
+    Route::rule('viewAllAccess', '/admin/Auth/viewAllAccess', 'POST');
+    Route::rule('deleteAccess', '/admin/Auth/deleteAccess', 'POST');
     Route::rule('addAccess', '/admin/Auth/addAccess', 'POST');
 
     /**

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2020-10-01 10:57:38
+-- 生成日期： 2020-10-02 10:05:39
 -- 服务器版本： 8.0.12
 -- PHP 版本： 7.4.3
 
@@ -250,7 +250,7 @@ CREATE TABLE `z_admin_auth_access` (
 
 INSERT INTO `z_admin_auth_access` (`id`, `uid`, `group`) VALUES
 (1, 1, 1),
-(2, 2, 2);
+(5, 5, 2);
 
 -- --------------------------------------------------------
 
@@ -273,7 +273,7 @@ CREATE TABLE `z_admin_auth_group` (
 
 INSERT INTO `z_admin_auth_group` (`id`, `name`, `rules`, `create_time`, `update_time`, `status`) VALUES
 (1, '超级权限组', '*', NULL, NULL, 1),
-(2, '二级权限组', '', NULL, NULL, 1);
+(2, '二级权限组', ',1,2,3,,', NULL, 1601601724, 1);
 
 -- --------------------------------------------------------
 
@@ -306,7 +306,14 @@ INSERT INTO `z_admin_auth_rule` (`id`, `name`, `path`, `icon`, `pid`, `is_menu`,
 (6, '更改管理员密码', 'changePassword', NULL, NULL, 0, 0, 0, 1),
 (7, '更新管理员', 'updateAdmin', NULL, NULL, 0, 0, 0, 1),
 (8, '查看全部管理员(分页)', 'viewAllAdmin', NULL, NULL, 0, 0, 0, 1),
-(9, '查询管理员(用户名)', 'getTargetAdmin', NULL, NULL, 0, 0, 0, 1);
+(9, '查询管理员(用户名)', 'getTargetAdmin', NULL, NULL, 0, 0, 0, 1),
+(10, '删除管理员(权限分配一同删除)', 'deleteAdmin', NULL, NULL, 0, 0, 0, 1),
+(11, '添加权限分配', 'addAccess', NULL, NULL, 0, 0, 0, 1),
+(12, '删除权限分配', 'deleteAccess', NULL, NULL, 0, 0, 0, 1),
+(13, '查看全部权限分配(分页)', 'viewAllAccess', NULL, NULL, 0, 0, 0, 1),
+(14, '添加权限组', 'addGroup', NULL, NULL, 0, 0, 0, 1),
+(15, '删除权限组', 'deleteGroup', NULL, NULL, 0, 0, 0, 1),
+(16, '查看全部权限组(分页)', 'viewAllGroup', NULL, NULL, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -332,8 +339,8 @@ CREATE TABLE `z_admin_user` (
 --
 
 INSERT INTO `z_admin_user` (`id`, `username`, `password`, `password_salt`, `last_login_ip`, `last_login_time`, `last_login_token`, `create_time`, `update_time`, `status`) VALUES
-(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '127.0.0.1', 1601519964, 'f87d525bb53d2768ac9887672f55b22861284f92', 1579237406, 1601519964, 1),
-(2, 'test', '76f9455752da1629ae9e17e1e2f4020e', 'B06GY', '127.0.0.1', 1601519473, '2333e95c90b20a79462aa22691e95c2bb3ab7fc1', 1601453691, 1601519473, 1);
+(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '127.0.0.1', 1601598257, '4e6e221e3064b5e150cada8e5a7845637ff3e6ee', 1579237406, 1601598257, 1),
+(5, 'test', 'd6ee1c9979e232834de377515553b816', 'thPQU', '127.0.0.1', 1601598241, '9018e65624d02101e1e72362264660cd9db8066e', 1601523170, 1601598241, 1);
 
 --
 -- 转储表的索引
@@ -399,13 +406,15 @@ ALTER TABLE `api_user_class`
 -- 表的索引 `z_admin_auth_access`
 --
 ALTER TABLE `z_admin_auth_access`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uid` (`uid`);
 
 --
 -- 表的索引 `z_admin_auth_group`
 --
 ALTER TABLE `z_admin_auth_group`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- 表的索引 `z_admin_auth_rule`
@@ -480,25 +489,25 @@ ALTER TABLE `api_user_class`
 -- 使用表AUTO_INCREMENT `z_admin_auth_access`
 --
 ALTER TABLE `z_admin_auth_access`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=6;
 
 --
 -- 使用表AUTO_INCREMENT `z_admin_auth_group`
 --
 ALTER TABLE `z_admin_auth_group`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=4;
 
 --
 -- 使用表AUTO_INCREMENT `z_admin_auth_rule`
 --
 ALTER TABLE `z_admin_auth_rule`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=10;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=17;
 
 --
 -- 使用表AUTO_INCREMENT `z_admin_user`
 --
 ALTER TABLE `z_admin_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

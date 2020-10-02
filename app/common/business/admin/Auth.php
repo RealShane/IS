@@ -12,6 +12,8 @@
 namespace app\common\business\admin;
 
 
+use app\common\business\lib\Str;
+use app\common\model\admin\AuthRule;
 use app\common\model\admin\User;
 use app\common\model\admin\AuthAccess;
 use app\common\model\admin\AuthGroup;
@@ -22,11 +24,89 @@ class Auth
     private $userModel = NULL;
     private $accessModel = NULL;
     private $groupModel = NULL;
+    private $ruleModel = NULL;
+    private $strLib = NULL;
 
     public function __construct(){
         $this -> userModel = new User();
         $this -> accessModel = new AuthAccess();
         $this -> groupModel = new AuthGroup();
+        $this -> ruleModel = new AuthRule();
+        $this -> strLib = new Str();
+    }
+
+    public function viewAllGroup($num){
+        try {
+            $groups = $this -> groupModel -> findAll($num);
+            foreach ($groups as $group){
+                if ($group['rules'] == '*'){
+                    $group['rules_name'] = '超级权限';
+                    continue;
+                }
+                $rules = explode(',', $group['rules']);
+                $str = NULL;
+                foreach ($rules as $rule){
+                    if (empty($rule)){
+                        continue;
+                    }
+                    $temp = $this -> ruleModel -> findByIdWithOutStatus($rule);
+                    $str .= $temp['name'] . ',';
+                }
+                $group['rules_name'] = rtrim($str, ',');
+            }
+            return $groups;
+        }catch (\Exception $exception){
+            return NULL;
+        }
+    }
+
+    public function deleteGroup($id){
+        $isExist = $this -> groupModel -> findByIdWithOutStatus($id);
+        if (empty($isExist)){
+            return config("status.not_exist");
+        }
+        return $this -> groupModel -> deleteById($id) ? config("status.success") : config("status.failed");
+    }
+
+    public function addGroup($data){
+        $rules = explode(',', $data['rules']);
+        foreach ($rules as $rule){
+            if (empty($rule)){
+                continue;
+            }
+            $temp = $this -> ruleModel -> findById($rule);
+            if (empty($temp)){
+                return config("status.not_exist");
+            }
+        }
+        $isExist = $this -> groupModel -> findByName($data['name']);
+        if (empty($isExist)){
+            return $this -> groupModel -> save($data) ? config("status.success") : config("status.failed");
+        }
+        return $this -> groupModel -> updateByName($data) ? config("status.success") : config("status.failed");
+    }
+
+    public function viewAllAccess($num){
+        try {
+            $accesses = $this -> accessModel -> findAll($num);
+            foreach ($accesses as $access){
+                $user = $this -> userModel -> findById($access['uid']);
+                $group = $this -> groupModel -> findByIdWithOutStatus($access['group']);
+                $access['username'] = $user['username'];
+                $access['group_name'] = $group['name'];
+            }
+            return $accesses;
+        }catch (\Exception $exception){
+            return NULL;
+        }
+    }
+
+    public function deleteAccess($id){
+        $isExist = $this -> accessModel -> findById($id);
+        if (empty($isExist)){
+            return config("status.not_exist");
+        }
+        return $this -> accessModel -> deleteById($id) ? config("status.success") : config("status.failed");
     }
 
     public function addAccess($data){
