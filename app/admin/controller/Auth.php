@@ -19,6 +19,59 @@ use app\common\validate\admin\Auth as AuthValidate;
 class Auth extends BaseController
 {
 
+    public function viewRule(){
+        $errCode = (new AuthBusiness()) -> viewRule($this -> request -> param("num", '', 'htmlspecialchars'));
+        if (empty($errCode)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
+    }
+
+    public function updateRule(){
+        $data['id'] = $this -> request -> param("id", '', 'htmlspecialchars');
+        $data['name'] = $this -> request -> param("name", '', 'htmlspecialchars');
+        $data['icon'] = $this -> request -> param("icon", '', 'htmlspecialchars');
+        $data['weigh'] = $this -> request -> param("weigh", '', 'htmlspecialchars');
+        $data['status'] = $this -> request -> param("status", '', 'htmlspecialchars');
+        try {
+            validate(AuthValidate::class) -> scene('updateRule') -> check($data);
+        }catch (\Exception $exception){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                $exception -> getMessage()
+            );
+        }
+        $errCode = (new AuthBusiness()) -> updateRule($data);
+        if ($errCode == config("status.not_exist")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "权限规则不存在！"
+            );
+        }
+        if ($errCode == config("status.failed")){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            "操作成功！"
+        );
+    }
+
     public function viewAllGroup(){
         $errCode = (new AuthBusiness()) -> viewAllGroup($this -> request -> param("num", '', 'htmlspecialchars'));
         if (empty($errCode)){

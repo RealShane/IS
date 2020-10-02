@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2020-10-02 10:05:39
+-- 生成日期： 2020-10-02 11:27:52
 -- 服务器版本： 8.0.12
 -- PHP 版本： 7.4.3
 
@@ -298,22 +298,22 @@ CREATE TABLE `z_admin_auth_rule` (
 --
 
 INSERT INTO `z_admin_auth_rule` (`id`, `name`, `path`, `icon`, `pid`, `is_menu`, `is_view`, `weigh`, `status`) VALUES
-(1, '权限管理', NULL, NULL, NULL, 1, 0, 1, 1),
+(1, '权限管理', NULL, NULL, NULL, 1, 0, 0, 1),
 (2, '管理员管理', NULL, NULL, 1, 0, 1, 1, 1),
 (3, '权限分配', NULL, NULL, 1, 0, 1, 2, 1),
 (4, '权限组', NULL, NULL, 1, 0, 1, 3, 1),
-(5, '添加管理员', 'addAdmin', NULL, NULL, 0, 0, 0, 1),
-(6, '更改管理员密码', 'changePassword', NULL, NULL, 0, 0, 0, 1),
-(7, '更新管理员', 'updateAdmin', NULL, NULL, 0, 0, 0, 1),
-(8, '查看全部管理员(分页)', 'viewAllAdmin', NULL, NULL, 0, 0, 0, 1),
-(9, '查询管理员(用户名)', 'getTargetAdmin', NULL, NULL, 0, 0, 0, 1),
-(10, '删除管理员(权限分配一同删除)', 'deleteAdmin', NULL, NULL, 0, 0, 0, 1),
-(11, '添加权限分配', 'addAccess', NULL, NULL, 0, 0, 0, 1),
-(12, '删除权限分配', 'deleteAccess', NULL, NULL, 0, 0, 0, 1),
-(13, '查看全部权限分配(分页)', 'viewAllAccess', NULL, NULL, 0, 0, 0, 1),
-(14, '添加权限组', 'addGroup', NULL, NULL, 0, 0, 0, 1),
-(15, '删除权限组', 'deleteGroup', NULL, NULL, 0, 0, 0, 1),
-(16, '查看全部权限组(分页)', 'viewAllGroup', NULL, NULL, 0, 0, 0, 1);
+(5, '添加管理员', 'addAdmin', NULL, 2, 0, 0, 0, 1),
+(6, '更改管理员密码', 'changePassword', NULL, 2, 0, 0, 0, 1),
+(7, '更新管理员', 'updateAdmin', NULL, 2, 0, 0, 0, 1),
+(8, '查看全部管理员(分页)', 'viewAllAdmin', NULL, 2, 0, 0, 0, 1),
+(9, '查询管理员(用户名)', 'getTargetAdmin', NULL, 2, 0, 0, 0, 1),
+(10, '删除管理员(权限分配一同删除)', 'deleteAdmin', NULL, 2, 0, 0, 0, 1),
+(11, '添加权限分配', 'addAccess', NULL, 3, 0, 0, 0, 1),
+(12, '删除权限分配', 'deleteAccess', NULL, 3, 0, 0, 0, 1),
+(13, '查看全部权限分配(分页)', 'viewAllAccess', NULL, 3, 0, 0, 0, 1),
+(14, '添加权限组', 'addGroup', NULL, 4, 0, 0, 0, 1),
+(15, '删除权限组', 'deleteGroup', NULL, 4, 0, 0, 0, 1),
+(16, '查看全部权限组(分页)', 'viewAllGroup', NULL, 4, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 

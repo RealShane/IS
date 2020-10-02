@@ -35,6 +35,31 @@ class Auth
         $this -> strLib = new Str();
     }
 
+    public function viewRule($num){
+        try {
+            $rules = $this -> ruleModel -> findMenuAndView($num);
+            foreach ($rules as $rule){
+                if (empty($rule['pid'])){
+                    $rule['pid'] = '无父级目录';
+                    continue;
+                }
+                $temp = $this -> ruleModel -> findByIdWithOutStatus($rule['pid']);
+                $rule['pid'] = $temp['name'];
+            }
+            return $rules;
+        }catch (\Exception $exception){
+            return NULL;
+        }
+    }
+
+    public function updateRule($data){
+        $rule = $this -> ruleModel -> findByIdWithOutStatus($data['id']);
+        if (empty($rule)){
+            return config("status.not_exist");
+        }
+        return $this -> ruleModel -> updateById($data) ? config("status.success") : config("status.failed");
+    }
+
     public function viewAllGroup($num){
         try {
             $groups = $this -> groupModel -> findAll($num);
