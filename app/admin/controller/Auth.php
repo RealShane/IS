@@ -137,6 +137,22 @@ class Auth extends BaseController
         );
     }
 
+    public function addGroupComment(){
+        $errCode = (new AuthBusiness()) -> addGroupComment();
+        if (empty($errCode)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
+    }
+
     public function addGroup(){
         $data['name'] = $this -> request -> param("name", '', 'htmlspecialchars');
         $data['rules'] = $this -> request -> param("rules", '', 'htmlspecialchars');
@@ -217,6 +233,22 @@ class Auth extends BaseController
             config("status.success"),
             config("message.success"),
             "操作成功！"
+        );
+    }
+
+    public function addAccessComment(){
+        $errCode = (new AuthBusiness()) -> addAccessComment();
+        if (empty($errCode)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
         );
     }
 

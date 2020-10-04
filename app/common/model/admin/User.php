@@ -74,4 +74,11 @@ class User extends Model
         return $this -> where('id', $id) -> find();
     }
 
+    public function findAllWithOutPaginate(){
+        return $this -> where('id', '>', 0)
+            -> where('status', 1)
+            -> field(['id', 'username'])
+            -> select();
+    }
+
 }

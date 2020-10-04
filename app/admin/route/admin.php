@@ -31,6 +31,8 @@ Route::group(function () {
      * -----------------------------权限-----------------------------
      */
 
+    Route::rule('addGroupComment', '/admin/Auth/addGroupComment', 'POST');
+    Route::rule('addAccessComment', '/admin/Auth/addAccessComment', 'POST');
     Route::rule('adminMenuAndView', '/admin/Auth/adminMenuAndView', 'POST');
     Route::rule('viewRule', '/admin/Auth/viewRule', 'POST');
     Route::rule('updateRule', '/admin/Auth/updateRule', 'POST');

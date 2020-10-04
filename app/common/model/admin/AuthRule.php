@@ -24,6 +24,29 @@ class AuthRule extends Model
 
     protected $name = 'z_admin_auth_rule';
 
+    public function ruleComment(){
+        $menus = $this -> where('is_menu', 1) -> where('status', 1) -> order('weigh') -> select();
+        $result = [];
+        foreach ($menus as $menu){
+            $views = $this -> where('pid', $menu['id']) -> where('is_view', 1) -> where('status', 1) -> order('weigh') -> select();
+            foreach ($views as $view){
+                $view['api'] = $this -> where('pid', $view['id']) -> where('is_menu', 0) -> where('is_view', 0) -> where('status', 1) -> order('weigh') -> select();
+            }
+            $result[] = [
+                'menu' => $menu,
+                'view' => $views
+            ];
+        }
+        $views = $this -> where('pid', NULL) -> where('is_view', 1)  -> where('status', 1) -> order('weigh') -> select();
+        foreach ($views as $view){
+            $view['api'] = $this -> where('pid', $view['id']) -> where('is_menu', 0) -> where('is_view', 0) -> where('status', 1) -> order('weigh') -> select();
+        }
+        return [
+            'view' => $views,
+            'viewWithMenu' => $result
+        ];
+    }
+
     public function otherAdminMenuAndView($rules){
         $menus = $this -> where('is_menu', 1) -> where('status', 1) -> order('weigh') -> select();
         $result = [];
@@ -43,14 +66,14 @@ class AuthRule extends Model
             }
         }
         $data = $this -> where('pid', NULL) -> where('is_view', 1) -> where('status', 1) -> order('weigh') -> select();
-        $viewWithOutMenu = [];
+        $view = [];
         foreach ($data as $key){
             if (in_array($key['id'], $rules)){
-                $viewWithOutMenu[] = $key;
+                $view[] = $key;
             }
         }
         return [
-            'viewWithOutMenu' => $viewWithOutMenu,
+            'view' => $view,
             'viewWithMenu' => $result
         ];
     }
@@ -65,9 +88,9 @@ class AuthRule extends Model
                 'view' => $views
             ];
         }
-        $viewWithOutMenu = $this -> where('pid', NULL) -> where('is_view', 1) -> order('weigh') -> select();
+        $view = $this -> where('pid', NULL) -> where('is_view', 1) -> order('weigh') -> select();
         return [
-            'viewWithOutMenu' => $viewWithOutMenu,
+            'view' => $view,
             'viewWithMenu' => $result
         ];
     }

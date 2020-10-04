@@ -112,6 +112,14 @@ class Auth
         return $this -> groupModel -> deleteById($id) ? config("status.success") : config("status.failed");
     }
 
+    public function addGroupComment(){
+        try {
+            return $this -> ruleModel -> ruleComment();
+        }catch (\Exception $exception){
+            return NULL;
+        }
+    }
+
     public function addGroup($data){
         $rules = explode(',', $data['rules']);
         foreach ($rules as $rule){
@@ -151,6 +159,17 @@ class Auth
             return config("status.not_exist");
         }
         return $this -> accessModel -> deleteById($id) ? config("status.success") : config("status.failed");
+    }
+
+    public function addAccessComment(){
+        try {
+            return [
+                'user' => $this -> userModel -> findAllWithOutPaginate(),
+                'group' => $this -> groupModel -> findAllWithOutPaginate()
+            ];
+        }catch (\Exception $exception){
+            return NULL;
+        }
     }
 
     public function addAccess($data){
