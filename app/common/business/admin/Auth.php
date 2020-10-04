@@ -35,6 +35,25 @@ class Auth
         $this -> strLib = new Str();
     }
 
+    public function adminMenuAndView($user){
+        try {
+            $access = $this -> accessModel -> findByUid($user['id']);
+            if (empty($access)){
+                return config("status.not_exist");
+            }
+            $group = $this -> groupModel -> findById($access['group']);
+            if (empty($group)){
+                return config("status.not_exist");
+            }
+            if ($group['rules'] == '*'){
+                return $this -> ruleModel -> superAdminMenuAndView();
+            }
+            return $this -> ruleModel -> otherAdminMenuAndView(explode(',', $group['rules']));
+        }catch (\Exception $exception){
+            return NULL;
+        }
+    }
+
     public function viewRule($num){
         try {
             $rules = $this -> ruleModel -> findMenuAndView($num);

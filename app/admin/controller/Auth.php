@@ -19,6 +19,22 @@ use app\common\validate\admin\Auth as AuthValidate;
 class Auth extends BaseController
 {
 
+    public function adminMenuAndView(){
+        $errCode = (new AuthBusiness()) -> adminMenuAndView($this -> getUser());
+        if (empty($errCode)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
+    }
+
     public function viewRule(){
         $errCode = (new AuthBusiness()) -> viewRule($this -> request -> param("num", '', 'htmlspecialchars'));
         if (empty($errCode)){

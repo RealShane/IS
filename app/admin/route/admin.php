@@ -16,6 +16,15 @@ Route::group(function () {
  */
 Route::group(function () {
     /**
+     * 目录
+     */
+    Route::rule('adminMenuAndView', '/admin/Auth/adminMenuAndView', 'POST');
+}) -> middleware(IsLogin::class);
+/**
+ * 有Token+鉴权
+ */
+Route::group(function () {
+    /**
      * 超级权限
      */
     /**

@@ -24,6 +24,54 @@ class AuthRule extends Model
 
     protected $name = 'z_admin_auth_rule';
 
+    public function otherAdminMenuAndView($rules){
+        $menus = $this -> where('is_menu', 1) -> where('status', 1) -> order('weigh') -> select();
+        $result = [];
+        foreach ($menus as $menu){
+            if (in_array($menu['id'], $rules)){
+                $views = $this -> where('pid', $menu['id']) -> where('is_view', 1) -> where('status', 1) -> order('weigh') -> select();
+                $temp = [];
+                foreach ($views as $view){
+                    if (in_array($view['id'], $rules)){
+                        $temp[] = $view;
+                    }
+                }
+                $result[] = [
+                    'menu' => $menu,
+                    'view' => $temp
+                ];
+            }
+        }
+        $data = $this -> where('pid', NULL) -> where('is_view', 1) -> where('status', 1) -> order('weigh') -> select();
+        $viewWithOutMenu = [];
+        foreach ($data as $key){
+            if (in_array($key['id'], $rules)){
+                $viewWithOutMenu[] = $key;
+            }
+        }
+        return [
+            'viewWithOutMenu' => $viewWithOutMenu,
+            'viewWithMenu' => $result
+        ];
+    }
+
+    public function superAdminMenuAndView(){
+        $menus = $this -> where('is_menu', 1) -> order('weigh') -> select();
+        $result = [];
+        foreach ($menus as $menu){
+            $views = $this -> where('pid', $menu['id']) -> where('is_view', 1) -> order('weigh') -> select();
+            $result[] = [
+                'menu' => $menu,
+                'view' => $views
+            ];
+        }
+        $viewWithOutMenu = $this -> where('pid', NULL) -> where('is_view', 1) -> order('weigh') -> select();
+        return [
+            'viewWithOutMenu' => $viewWithOutMenu,
+            'viewWithMenu' => $result
+        ];
+    }
+
     public function findMenuAndView($num){
         return $this -> where('id', '>', 0)
             -> where('is_menu', 1)
