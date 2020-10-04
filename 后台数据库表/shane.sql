@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2020-10-02 11:27:52
+-- 生成日期： 2020-10-04 17:00:13
 -- 服务器版本： 8.0.12
 -- PHP 版本： 7.4.3
 
@@ -273,7 +273,7 @@ CREATE TABLE `z_admin_auth_group` (
 
 INSERT INTO `z_admin_auth_group` (`id`, `name`, `rules`, `create_time`, `update_time`, `status`) VALUES
 (1, '超级权限组', '*', NULL, NULL, 1),
-(2, '二级权限组', ',1,2,3,,', NULL, 1601601724, 1);
+(2, '二级权限组', '1,2,6,8,9', NULL, 1601601724, 1);
 
 -- --------------------------------------------------------
 
@@ -313,7 +313,12 @@ INSERT INTO `z_admin_auth_rule` (`id`, `name`, `path`, `icon`, `pid`, `is_menu`,
 (13, '查看全部权限分配(分页)', 'viewAllAccess', NULL, 3, 0, 0, 0, 1),
 (14, '添加权限组', 'addGroup', NULL, 4, 0, 0, 0, 1),
 (15, '删除权限组', 'deleteGroup', NULL, 4, 0, 0, 0, 1),
-(16, '查看全部权限组(分页)', 'viewAllGroup', NULL, 4, 0, 0, 0, 1);
+(16, '查看全部权限组(分页)', 'viewAllGroup', NULL, 4, 0, 0, 0, 1),
+(17, '权限规则', NULL, NULL, 1, 0, 1, 4, 1),
+(18, '更新权限规则', 'updateRule', NULL, 17, 0, 0, 0, 1),
+(19, '查看权限规则(分页)', 'viewRule', NULL, 17, 0, 0, 0, 1),
+(20, '权限分配选择管理员和权限组', 'addAccessComment', NULL, 3, 0, 0, 0, 1),
+(21, '权限组选择规则', 'addGroupComment', NULL, 4, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -339,8 +344,8 @@ CREATE TABLE `z_admin_user` (
 --
 
 INSERT INTO `z_admin_user` (`id`, `username`, `password`, `password_salt`, `last_login_ip`, `last_login_time`, `last_login_token`, `create_time`, `update_time`, `status`) VALUES
-(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '127.0.0.1', 1601598257, '4e6e221e3064b5e150cada8e5a7845637ff3e6ee', 1579237406, 1601598257, 1),
-(5, 'test', 'd6ee1c9979e232834de377515553b816', 'thPQU', '127.0.0.1', 1601598241, '9018e65624d02101e1e72362264660cd9db8066e', 1601523170, 1601598241, 1);
+(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '127.0.0.1', 1601792331, '814e8c8272d008c0342b36b7b6c6cd255fba864c', 1579237406, 1601792331, 1),
+(5, 'test', 'd6ee1c9979e232834de377515553b816', 'thPQU', '127.0.0.1', 1601792922, 'cdbc0033d367e0ffb33475ae2b22dcca5e13d51d', 1601523170, 1601792922, 1);
 
 --
 -- 转储表的索引
@@ -501,7 +506,7 @@ ALTER TABLE `z_admin_auth_group`
 -- 使用表AUTO_INCREMENT `z_admin_auth_rule`
 --
 ALTER TABLE `z_admin_auth_rule`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=17;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=22;
 
 --
 -- 使用表AUTO_INCREMENT `z_admin_user`
