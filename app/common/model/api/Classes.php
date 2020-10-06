@@ -24,12 +24,12 @@ class Classes extends Model
 
     protected $name = "api_class";
 
-    public function findById($id){
-        return $this -> where('id', $id) -> find();
+    public function findByIdWithStatus($id){
+        return $this -> where('id', $id) -> where('status', 1) -> find();
     }
 
-    public function findAll(){
-        return $this -> where('id', '>', 0) -> where('status', 1) -> select();
+    public function findById($id){
+        return $this -> where('id', $id) -> find();
     }
 
     public function findByInviteCode($inviteCode){
