@@ -133,12 +133,4 @@ class Synthesize extends BaseController
         );
     }
 
-    public function test(){
-        (new SynthesizeBusiness()) -> test(['id' => 1]);
-    }
-
-    public function testView(){
-        return View::fetch('synthesize/test');
-    }
-
 }

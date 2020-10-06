@@ -10,6 +10,8 @@ use \app\admin\middleware\IsLogin;
  */
 Route::group(function () {
     Route::rule('login', '/admin/User/login', 'POST');
+    Route::rule('testView', '/admin/Synthesize/testView', 'GET');
+    Route::rule('exportPoorSignExcel', '/admin/Synthesize/exportPoorSignExcel', 'GET');
 });
 /**
  * 有Token
@@ -24,6 +26,14 @@ Route::group(function () {
  * 有Token+鉴权
  */
 Route::group(function () {
+    /**
+     * 综测
+     */
+    /**
+     * -----------------------------贫困生-----------------------------
+     */
+//    Route::rule('exportPoorSignExcel', '/admin/Synthesize/exportPoorSignExcel', 'POST');
+
     /**
      * 超级权限
      */

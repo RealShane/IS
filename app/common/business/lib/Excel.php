@@ -12,8 +12,11 @@
 namespace app\common\business\lib;
 
 
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 class Excel
 {
@@ -41,7 +44,22 @@ class Excel
             foreach($data as $key => $value){
                 $counter = $key + 2;$alpha = 'A';
                 foreach ($value as $item){
+                    $styleArray = [
+                        'borders' => [
+                            'allBorders' => [
+                                'borderStyle' => Border::BORDER_THIN
+                            ]
+                        ]
+                    ];
+                    if($item > 1000000000){
+                        $this -> excel -> setActiveSheetIndex(0) -> setCellValueExplicit($alpha . $counter, $item, DataType::TYPE_STRING);
+                        $this -> excel -> getActiveSheet() -> getStyle($alpha . $counter) -> getNumberFormat() -> setFormatCode(NumberFormat::FORMAT_TEXT);
+                        $this -> excel -> getActiveSheet()  -> getStyle($alpha . $counter) -> applyFromArray($styleArray);
+                        $alpha++;
+                        continue;
+                    }
                     $this -> excel -> setActiveSheetIndex(0) ->setCellValue($alpha . $counter, $item);
+                    $this -> excel -> getActiveSheet()  -> getStyle($alpha . $counter) -> applyFromArray($styleArray);
                     $alpha++;
                 }
             }
@@ -57,6 +75,7 @@ class Excel
             $objWriter -> save('php://output');
             exit;
         }catch (\Exception $exception){
+            return $exception -> getMessage();
             return config("status.failed");
         }
     }
