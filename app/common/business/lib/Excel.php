@@ -75,8 +75,7 @@ class Excel
             $objWriter -> save('php://output');
             exit;
         }catch (\Exception $exception){
-            return $exception -> getMessage();
-            return config("status.failed");
+            return NULL;
         }
     }
 

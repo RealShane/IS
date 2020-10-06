@@ -28,6 +28,10 @@ class Classes extends Model
         return $this -> where('id', $id) -> find();
     }
 
+    public function findAll(){
+        return $this -> where('id', '>', 0) -> where('status', 1) -> select();
+    }
+
     public function findByInviteCode($inviteCode){
         return $this -> where('invite_code', $inviteCode) -> where('join_status', 1) -> find();
     }

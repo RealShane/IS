@@ -23,4 +23,8 @@ class Synthesize extends Model
         return $this -> where('id', '>', 0) -> where('status', 1) -> select();
     }
 
+    public function findByUid($uid){
+        return $this -> where('uid', $uid) -> where('status', 1) -> find();
+    }
+
 }
