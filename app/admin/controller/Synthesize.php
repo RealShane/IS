@@ -37,8 +37,20 @@ class Synthesize extends BaseController
         );
     }
 
-    public function testView(){
-        return View::fetch('synthesize/test');
+    public function showClasses(){
+        $errCode = (new SynthesizeBusiness()) -> showClasses();
+        if (empty($errCode)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
     }
 
 }

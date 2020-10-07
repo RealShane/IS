@@ -128,6 +128,7 @@ class User extends BaseController
         $data['random'] = $this -> request -> param("random", '', 'htmlspecialchars');
         $data['validate'] = $this -> request -> param("validate", '', 'htmlspecialchars');
         $data['login_type'] = $this -> request -> param("login_type", '', 'htmlspecialchars');
+        $data['login_type'] = strtolower($data['login_type']);
         try {
             validate(UserValidate::class) -> scene($data['login_type']) -> check($data);
         } catch (\Exception $exception) {

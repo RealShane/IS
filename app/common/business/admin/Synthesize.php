@@ -14,7 +14,6 @@ namespace app\common\business\admin;
 use app\common\business\lib\Excel;
 use app\common\business\lib\Str;
 use app\common\model\admin\Synthesize as SynthesizeModel;
-use app\common\model\api\Classes;
 use think\facade\Db;
 
 class Synthesize
@@ -35,13 +34,21 @@ class Synthesize
             return $this -> exportAllPoorSignExcel();
         }
         if ($type == 'CLASS'){
-            $class = (new Classes()) -> findByIdWithStatus($class_id);
+            $class = (new \app\common\model\api\Classes()) -> findByIdWithStatus($class_id);
             if (empty($class)){
                 return NULL;
             }
             return $this -> exportPoorSignExcelByClass($class);
         }
         return NULL;
+    }
+
+    public function showClasses(){
+        try {
+            return (new \app\common\model\api\Classes()) -> findAll();
+        }catch (\Exception $exception){
+            return NULL;
+        }
     }
 
     private function exportPoorSignExcelByClass($class){
@@ -53,6 +60,9 @@ class Synthesize
             foreach ($temp as $key){
                 $user = (new \app\common\model\api\User()) -> findById($key['uid']);
                 $sign = $this -> synthesizeModel -> findByUid($key['uid']);
+                if (empty($sign) || empty($key) || empty($department) || empty($user)){
+                    continue;
+                }
                 $data[] = $this -> packPoorSignData($department, $user, $sign, $class);
             }
             $this -> excelLib -> push('贫困生报名-' . $class['name'], $indexes, $data);
@@ -70,6 +80,9 @@ class Synthesize
                 $class = (new \app\common\model\api\Classes()) -> findById($temp['class_id']);
                 $department = (new \app\common\model\api\Department()) -> findById($class['depart_id']);
                 $user = (new \app\common\model\api\User()) -> findById($sign['uid']);
+                if (empty($temp) || empty($class) || empty($department) || empty($user)){
+                    continue;
+                }
                 $data[] = $this -> packPoorSignData($department, $user, $sign, $class);
             }
             $indexes = $this -> getPoorSignIndexes();
