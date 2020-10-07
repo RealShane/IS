@@ -120,7 +120,7 @@ class Auth extends BaseController
             return $this -> show(
                 config("status.failed"),
                 config("message.failed"),
-                "权限分配记录不存在！"
+                "权限组不存在！"
             );
         }
         if ($errCode == config("status.failed")){
