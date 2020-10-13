@@ -22,6 +22,43 @@ use think\facade\View;
 class Synthesize extends BaseController
 {
 
+    public function showPoorSignDetail(){
+        $user = $this -> getUser();
+        $target = $this -> request -> param('target');
+        $errCode = (new SynthesizeBusiness()) -> showPoorSignDetail($user, $target);
+        if ($errCode == config('status.failed')){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                '内部异常，请稍候重试！'
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
+
+    }
+
+    public function showPoorSignList(){
+        $user = $this -> getUser();
+        $errCode = (new SynthesizeBusiness()) -> showPoorSignList($user);
+        if ($errCode == config('status.failed')){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                '内部异常，请稍候重试！'
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
+
+    }
+
     public function poorSign(){
         $user = $this -> getUser();
         $data['political_outlook'] = $this -> request -> param("political_outlook", '', 'htmlspecialchars');
