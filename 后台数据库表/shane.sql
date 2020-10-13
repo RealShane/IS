@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2020-10-04 17:00:13
+-- 生成日期： 2020-10-13 11:37:45
 -- 服务器版本： 8.0.12
 -- PHP 版本： 7.4.3
 
@@ -77,10 +77,10 @@ CREATE TABLE `api_class` (
 --
 
 INSERT INTO `api_class` (`id`, `grade`, `name`, `charge`, `depart_id`, `invite_code`, `join_status`, `status`) VALUES
-(1, '2018', '18级计算机科学与技术一班', NULL, 1, NULL, 0, 1),
+(1, '2018', '18级计算机科学与技术一班', '张洁', 1, 'admi', 1, 1),
 (2, '2018', '18级计算机科学与技术二班', '张洁', 1, 'admin', 1, 1),
-(3, '2018', '18级计算机科学与技术三班', NULL, 1, NULL, 0, 1),
-(4, '2018', '18级通信工程', NULL, 1, NULL, 0, 1);
+(3, '2018', '18级计算机科学与技术三班', '张洁', 1, NULL, 0, 1),
+(4, '2018', '18级通信工程', '张洁', 1, NULL, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -104,6 +104,92 @@ INSERT INTO `api_department` (`id`, `name`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `api_forum_article`
+--
+
+CREATE TABLE `api_forum_article` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
+  `name` varchar(255) NOT NULL COMMENT '文章名',
+  `modular_id` int(10) UNSIGNED NOT NULL COMMENT '模板id',
+  `content` text NOT NULL COMMENT '文章内容',
+  `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
+  `update_time` int(10) UNSIGNED NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `api_forum_article`
+--
+
+INSERT INTO `api_forum_article` (`id`, `name`, `modular_id`, `content`, `create_time`, `update_time`, `status`) VALUES
+(1, '文章', 1, '文章，1984年6月26日出生于陕西省西安市，中国内地男演员、导演，毕业于中央戏剧学院表演系。\r\n2004年，参演电视剧《与青春有关的日子》，开始在影视圈崭露头角 [1]  。2005年，拍摄古装剧《锦衣卫》。2007年，主演赵宝刚导演的青春剧《奋斗》； [2]  同年，主演首部电影《走着瞧》。2008年，主演滕华涛执导的电视剧《蜗居》，饰演80后城市青年小贝。 [1]  [3]  2009年，在电影《海洋天堂》中扮演自闭症患者王大福；同年参演抗战剧《雪豹》 [4]  。2011年，主演的电视剧《裸婚时代》播出； [5]  同年，连续2年获得北京大学生电影节 [6-7]  最受大学生欢迎男演员奖。2012年，凭借电影《失恋33天》获得第31届大众电影百花奖最佳男主角奖 [8]  ；同年，成立北京君竹影视文化有限公司，并导演第一部影视作品《小爸爸》。\r\n2013年2月，主演的电影《西游·降魔篇》在全国上映 [9]  。2014年3月28日，主演的文艺爱情片《我在路上最爱你》在全国上映。2014年12月18日，在姜文执导的动作喜剧片《一步之遥》中扮演武七一角 [10]  。2016年，主演电视剧《少帅》 [11]  和《剃刀边缘》 [12]  。2017年9月16日，凭借导演的电影《陆垚知马俐》获得第31届中国电影金鸡奖导演处女作奖 [13-14]  。2018年9月30日，主演的喜剧动作电影《胖子行动队》上映。', 123, 123, 1),
+(2, '电影节', 2, '文章，1984年6月26日出生于陕西省西安市，中国内地男演员、导演，毕业于中央戏剧学院表演系。\r\n2004年，参演电视剧《与青春有关的日子》，开始在影视圈崭露头角 [1]  。2005年，拍摄古装剧《锦衣卫》。2007年，主演赵宝刚导演的青春剧《奋斗》； [2]  同年，主演首部电影《走着瞧》。2008年，主演滕华涛执导的电视剧《蜗居》，饰演80后城市青年小贝。 [1]  [3]  2009年，在电影《海洋天堂》中扮演自闭症患者王大福；同年参演抗战剧《雪豹》 [4]  。2011年，主演的电视剧《裸婚时代》播出； [5]  同年，连续2年获得北京大学生电影节 [6-7]  最受大学生欢迎男演员奖。2012年，凭借电影《失恋33天》获得第31届大众电影百花奖最佳男主角奖 [8]  ；同年，成立北京君竹影视文化有限公司，并导演第一部影视作品《小爸爸》。\r\n2013年2月，主演的电影《西游·降魔篇》在全国上映 [9]  。2014年3月28日，主演的文艺爱情片《我在路上最爱你》在全国上映。2014年12月18日，在姜文执导的动作喜剧片《一步之遥》中扮演武七一角 [10]  。2016年，主演电视剧《少帅》 [11]  和《剃刀边缘》 [12]  。2017年9月16日，凭借导演的电影《陆垚知马俐》获得第31届中国电影金鸡奖导演处女作奖 [13-14]  。2018年9月30日，主演的喜剧动作电影《胖子行动队》上映。', 124, 124, 1),
+(3, '陕西省', 3, '文章，1984年6月26日出生于陕西省西安市，中国内地男演员、导演，毕业于中央戏剧学院表演系。\r\n2004年，参演电视剧《与青春有关的日子》，开始在影视圈崭露头角 [1]  。2005年，拍摄古装剧《锦衣卫》。2007年，主演赵宝刚导演的青春剧《奋斗》； [2]  同年，主演首部电影《走着瞧》。2008年，主演滕华涛执导的电视剧《蜗居》，饰演80后城市青年小贝。 [1]  [3]  2009年，在电影《海洋天堂》中扮演自闭症患者王大福；同年参演抗战剧《雪豹》 [4]  。2011年，主演的电视剧《裸婚时代》播出； [5]  同年，连续2年获得北京大学生电影节 [6-7]  最受大学生欢迎男演员奖。2012年，凭借电影《失恋33天》获得第31届大众电影百花奖最佳男主角奖 [8]  ；同年，成立北京君竹影视文化有限公司，并导演第一部影视作品《小爸爸》。\r\n2013年2月，主演的电影《西游·降魔篇》在全国上映 [9]  。2014年3月28日，主演的文艺爱情片《我在路上最爱你》在全国上映。2014年12月18日，在姜文执导的动作喜剧片《一步之遥》中扮演武七一角 [10]  。2016年，主演电视剧《少帅》 [11]  和《剃刀边缘》 [12]  。2017年9月16日，凭借导演的电影《陆垚知马俐》获得第31届中国电影金鸡奖导演处女作奖 [13-14]  。2018年9月30日，主演的喜剧动作电影《胖子行动队》上映。', 126, 126, 1),
+(4, '蝶恋花', 1, '文章，1984年6月26日出生于陕西省西安市，中国内地男演员、导演，毕业于中央戏剧学院表演系。\r\n2004年，参演电视剧《与青春有关的日子》，开始在影视圈崭露头角 [1]  。2005年，拍摄古装剧《锦衣卫》。2007年，主演赵宝刚导演的青春剧《奋斗》； [2]  同年，主演首部电影《走着瞧》。2008年，主演滕华涛执导的电视剧《蜗居》，饰演80后城市青年小贝。 [1]  [3]  2009年，在电影《海洋天堂》中扮演自闭症患者王大福；同年参演抗战剧《雪豹》 [4]  。2011年，主演的电视剧《裸婚时代》播出； [5]  同年，连续2年获得北京大学生电影节 [6-7]  最受大学生欢迎男演员奖。2012年，凭借电影《失恋33天》获得第31届大众电影百花奖最佳男主角奖 [8]  ；同年，成立北京君竹影视文化有限公司，并导演第一部影视作品《小爸爸》。\r\n2013年2月，主演的电影《西游·降魔篇》在全国上映 [9]  。2014年3月28日，主演的文艺爱情片《我在路上最爱你》在全国上映。2014年12月18日，在姜文执导的动作喜剧片《一步之遥》中扮演武七一角 [10]  。2016年，主演电视剧《少帅》 [11]  和《剃刀边缘》 [12]  。2017年9月16日，凭借导演的电影《陆垚知马俐》获得第31届中国电影金鸡奖导演处女作奖 [13-14]  。2018年9月30日，主演的喜剧动作电影《胖子行动队》上映。', 125, 125, 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `api_forum_comment`
+--
+
+CREATE TABLE `api_forum_comment` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
+  `article_id` int(10) UNSIGNED NOT NULL COMMENT '文章id',
+  `uid` int(10) UNSIGNED NOT NULL COMMENT '用户',
+  `pid` int(10) UNSIGNED DEFAULT NULL COMMENT '评论pid',
+  `comment` varchar(255) NOT NULL COMMENT '评论',
+  `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
+  `update_time` int(10) UNSIGNED NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
+
+--
+-- 转存表中的数据 `api_forum_comment`
+--
+
+INSERT INTO `api_forum_comment` (`id`, `article_id`, `uid`, `pid`, `comment`, `create_time`, `update_time`, `status`) VALUES
+(1, 1, 1, 0, '测试', 1602148573, 1602148573, 1),
+(2, 1, 1, 1, '测试2', 1602148631, 1602148631, 1),
+(3, 1, 1, 1, '测试3', 1602150781, 1602150781, 1),
+(4, 1, 1, 0, '测试4', 1602150873, 1602150873, 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `api_forum_modular`
+--
+
+CREATE TABLE `api_forum_modular` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
+  `name` varchar(25) NOT NULL COMMENT '板块',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='论坛板块';
+
+--
+-- 转存表中的数据 `api_forum_modular`
+--
+
+INSERT INTO `api_forum_modular` (`id`, `name`, `status`) VALUES
+(1, 'php板块', 1),
+(2, 'java板块', 1),
+(3, 'c板块', 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `api_synthesize_auth`
+--
+
+CREATE TABLE `api_synthesize_auth` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
+  `uid` int(10) UNSIGNED NOT NULL COMMENT '用户',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='综测权限表';
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `api_synthesize_config`
 --
 
@@ -122,7 +208,7 @@ CREATE TABLE `api_synthesize_config` (
 --
 
 INSERT INTO `api_synthesize_config` (`id`, `key`, `value`, `statement`, `type`, `type_name`, `status`) VALUES
-(1, 'POOR_SIGN_OPTION', '[\"家庭遭受家庭遭受自然灾害\", \"家庭遭受突发意外事件\", \"家庭成员因残疾\", \"年迈而劳动能力弱情况\", \"家庭适龄就学子女较多\", \"家庭成员失业\", \"家庭欠债\", \"其他\", \"建档立卡家庭\", \"低保\"]', '贫困生报名选项', 'POOR', '贫困生设置', 1),
+(1, 'POOR_SIGN_OPTION', '[\"家庭遭受家庭遭受自然灾害\", \"家庭遭受突发意外事件\", \"家庭成员因残疾\", \"年迈而劳动能力弱情况\", \"家庭适龄就学子女较多\", \"家庭成员失业\", \"家庭欠债\", \"其他\", \"建档立卡家庭\", \"低保\"]', '贫困生认定原因选项', 'POOR', '贫困生设置', 1),
 (2, 'POOR_SIGN_STATUS', '1', '贫困生报名开关', 'POOR', '贫困生设置', 1);
 
 -- --------------------------------------------------------
@@ -179,7 +265,9 @@ CREATE TABLE `api_synthesize_poor_sign` (
 --
 
 INSERT INTO `api_synthesize_poor_sign` (`id`, `uid`, `political_outlook`, `id_card_type`, `id_card_number`, `confirm_level`, `poor_type_one`, `poor_type_two`, `poor_type_three`, `poor_type_four`, `poor_type_five`, `poor_type_six`, `poor_type_seven`, `poor_type_eight`, `confirm_time`, `confirm_reason`, `confirm_reason_explain`, `address`, `home_phone`, `contact_phone`, `remark`, `supporting_document`, `create_time`, `status`) VALUES
-(1, 1, '共青团员', '居民身份证', '130503200001100639', NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL, '其他', 'test', 'test', '13315926692', '13315926692', '', '/uploads/synthesize/poor/Shane2018510500/2020/09/29/a9ff54ad438006184d41be5fce8151e81d95ca0a/timg.jpg', 1601388754, 1);
+(1, 1, '共青团员', '居民身份证', '130503200001100639', NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL, '其他', 'test', 'test', '13315926692', '13315926692', '', '/uploads/synthesize/poor/Shane2018510500/2020/09/29/a9ff54ad438006184d41be5fce8151e81d95ca0a/timg.jpg', 1601388754, 1),
+(2, 2, '共青团员', '居民身份证', '130503200001100638', NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL, '其他', 'test', 'test', '13363706633', '13315926693', '', '/uploads/synthesize/poor/Shane2018510500/2020/09/29/a9ff54ad438006184d41be5fce8151e81d95ca0a/timg.jpg', 1601946922, 1),
+(3, 3, '共青团员', '居民身份证', '130503200001100637', NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL, '其他', 'test', 'test', '13363706634', '13315926694', '', '/uploads/synthesize/poor/Shane2018510500/2020/09/29/a9ff54ad438006184d41be5fce8151e81d95ca0a/timg.jpg', 1602052247, 1);
 
 -- --------------------------------------------------------
 
@@ -208,7 +296,9 @@ CREATE TABLE `api_user` (
 --
 
 INSERT INTO `api_user` (`id`, `email`, `password`, `password_salt`, `name`, `sex`, `student_id`, `last_login_ip`, `last_login_time`, `last_login_token`, `create_time`, `update_time`, `status`) VALUES
-(1, '1109571639@qq.com', 'c7dff777ae9f431aa32791f205b20f91', 'oFzwX', 'Shane', 1, '2018510500', '127.0.0.1', 1601380412, '42af6a1995ef7494c0025425493cbd2d3728430a', 1601349819, 1601380412, 1);
+(1, '1109571639@qq.com', 'c7dff777ae9f431aa32791f205b20f91', 'oFzwX', 'Shane', 1, '2018510500', '127.0.0.1', 1601380412, '42af6a1995ef7494c0025425493cbd2d3728430a', 1601349819, 1601380412, 1),
+(2, '1109571638@qq.com', 'c7dff777ae9f431aa32791f205b20f91', 'oFzwX', '张三', 1, '2018510501', '127.0.0.1', 1601946821, 'b64d1ba9d329d87875f049c34582429ccbdd406f', 123, 1601946821, 1),
+(3, '1109571637@qq.com', 'c7dff777ae9f431aa32791f205b20f91', 'oFzwX', '李四', 1, '2018510502', '127.0.0.1', 1602051307, '65ad890221b1d2c1516959228a5538001f127174', 123, 1602051307, 1);
 
 -- --------------------------------------------------------
 
@@ -230,7 +320,9 @@ CREATE TABLE `api_user_class` (
 --
 
 INSERT INTO `api_user_class` (`id`, `uid`, `class_id`, `create_time`, `update_time`, `status`) VALUES
-(1, 1, 2, 1601388730, 1601388730, 1);
+(1, 1, 2, 1601388730, 1601388730, 1),
+(2, 2, 1, 1601946871, 1601946871, 1),
+(3, 3, 1, 1602051323, 1602051323, 1);
 
 -- --------------------------------------------------------
 
@@ -344,7 +436,7 @@ CREATE TABLE `z_admin_user` (
 --
 
 INSERT INTO `z_admin_user` (`id`, `username`, `password`, `password_salt`, `last_login_ip`, `last_login_time`, `last_login_token`, `create_time`, `update_time`, `status`) VALUES
-(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '127.0.0.1', 1601792331, '814e8c8272d008c0342b36b7b6c6cd255fba864c', 1579237406, 1601792331, 1),
+(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '127.0.0.1', 1602203893, '588c949fd704e45287f4e3e44da0dbef6091ff6e', 1579237406, 1602203893, 1),
 (5, 'test', 'd6ee1c9979e232834de377515553b816', 'thPQU', '127.0.0.1', 1601792922, 'cdbc0033d367e0ffb33475ae2b22dcca5e13d51d', 1601523170, 1601792922, 1);
 
 --
@@ -371,6 +463,31 @@ ALTER TABLE `api_class`
 ALTER TABLE `api_department`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
+
+--
+-- 表的索引 `api_forum_article`
+--
+ALTER TABLE `api_forum_article`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `api_forum_comment`
+--
+ALTER TABLE `api_forum_comment`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `api_forum_modular`
+--
+ALTER TABLE `api_forum_modular`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `api_synthesize_auth`
+--
+ALTER TABLE `api_synthesize_auth`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uid` (`uid`);
 
 --
 -- 表的索引 `api_synthesize_config`
@@ -461,6 +578,30 @@ ALTER TABLE `api_department`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
 
 --
+-- 使用表AUTO_INCREMENT `api_forum_article`
+--
+ALTER TABLE `api_forum_article`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=5;
+
+--
+-- 使用表AUTO_INCREMENT `api_forum_comment`
+--
+ALTER TABLE `api_forum_comment`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=5;
+
+--
+-- 使用表AUTO_INCREMENT `api_forum_modular`
+--
+ALTER TABLE `api_forum_modular`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=4;
+
+--
+-- 使用表AUTO_INCREMENT `api_synthesize_auth`
+--
+ALTER TABLE `api_synthesize_auth`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id';
+
+--
 -- 使用表AUTO_INCREMENT `api_synthesize_config`
 --
 ALTER TABLE `api_synthesize_config`
@@ -476,19 +617,19 @@ ALTER TABLE `api_synthesize_poor_score`
 -- 使用表AUTO_INCREMENT `api_synthesize_poor_sign`
 --
 ALTER TABLE `api_synthesize_poor_sign`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=4;
 
 --
 -- 使用表AUTO_INCREMENT `api_user`
 --
 ALTER TABLE `api_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=4;
 
 --
 -- 使用表AUTO_INCREMENT `api_user_class`
 --
 ALTER TABLE `api_user_class`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=4;
 
 --
 -- 使用表AUTO_INCREMENT `z_admin_auth_access`
