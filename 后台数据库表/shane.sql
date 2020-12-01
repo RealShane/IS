@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2020-10-13 11:37:45
+-- 生成日期： 2020-11-30 21:48:36
 -- 服务器版本： 8.0.12
--- PHP 版本： 7.4.3
+-- PHP 版本： 7.3.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -29,11 +30,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `api_app_config` (
   `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
-  `key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设置索引',
-  `value` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设置',
+  `key` varchar(255) NOT NULL COMMENT '设置索引',
+  `value` text NOT NULL COMMENT '设置',
   `statement` text COMMENT '注释',
-  `type` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设置类型',
-  `type_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设置分类名',
+  `type` text NOT NULL COMMENT '设置类型',
+  `type_name` varchar(255) NOT NULL COMMENT '设置分类名',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='全局设置';
 
@@ -63,11 +64,12 @@ INSERT INTO `api_app_config` (`id`, `key`, `value`, `statement`, `type`, `type_n
 
 CREATE TABLE `api_class` (
   `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
-  `grade` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '年级',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '专业班级',
-  `charge` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '辅导员',
+  `grade` varchar(255) NOT NULL COMMENT '年级',
+  `name` varchar(255) NOT NULL COMMENT '专业班级',
+  `major` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '专业',
+  `charge` varchar(255) DEFAULT NULL COMMENT '辅导员',
   `depart_id` int(10) UNSIGNED NOT NULL COMMENT '学部',
-  `invite_code` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '加入班级代码',
+  `invite_code` text COMMENT '加入班级代码',
   `join_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '加入班级状态',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='班级';
@@ -76,11 +78,11 @@ CREATE TABLE `api_class` (
 -- 转存表中的数据 `api_class`
 --
 
-INSERT INTO `api_class` (`id`, `grade`, `name`, `charge`, `depart_id`, `invite_code`, `join_status`, `status`) VALUES
-(1, '2018', '18级计算机科学与技术一班', '张洁', 1, 'admi', 1, 1),
-(2, '2018', '18级计算机科学与技术二班', '张洁', 1, 'admin', 1, 1),
-(3, '2018', '18级计算机科学与技术三班', '张洁', 1, NULL, 0, 1),
-(4, '2018', '18级通信工程', '张洁', 1, NULL, 0, 1);
+INSERT INTO `api_class` (`id`, `grade`, `name`, `major`, `charge`, `depart_id`, `invite_code`, `join_status`, `status`) VALUES
+(1, '2018', '18级计算机科学与技术一班', '计算机科学与技术', '张洁', 1, 'admi', 1, 1),
+(2, '2018', '18级计算机科学与技术二班', '计算机科学与技术', '张洁', 2, 'admin', 1, 1),
+(3, '2018', '18级计算机科学与技术三班', '计算机科学与技术', '张洁', 3, NULL, 0, 1),
+(4, '2018', '18级通信工程', '通信工程', '张洁', 1, NULL, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -99,7 +101,101 @@ CREATE TABLE `api_department` (
 --
 
 INSERT INTO `api_department` (`id`, `name`, `status`) VALUES
-(1, '工学部', 1);
+(1, '工学部', 1),
+(2, '理学部', 1),
+(3, '英语学部', 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `api_dormitory_floor`
+--
+
+CREATE TABLE `api_dormitory_floor` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
+  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '楼名',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='宿舍楼表';
+
+--
+-- 转存表中的数据 `api_dormitory_floor`
+--
+
+INSERT INTO `api_dormitory_floor` (`id`, `name`, `status`) VALUES
+(1, '1号楼', 1),
+(2, '2号楼', 1),
+(3, '3号楼', 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `api_dormitory_number`
+--
+
+CREATE TABLE `api_dormitory_number` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
+  `number` int(10) UNSIGNED NOT NULL COMMENT '宿舍号',
+  `class_id` int(10) UNSIGNED NOT NULL COMMENT '班级id',
+  `floor_id` int(11) NOT NULL COMMENT '宿舍楼id',
+  `status` tinyint(4) DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='宿舍表';
+
+--
+-- 转存表中的数据 `api_dormitory_number`
+--
+
+INSERT INTO `api_dormitory_number` (`id`, `number`, `class_id`, `floor_id`, `status`) VALUES
+(1, 100, 1, 1, 1),
+(2, 201, 1, 1, 1),
+(3, 102, 3, 2, 1),
+(4, 203, 4, 2, 1),
+(5, 204, 5, 3, 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `api_dormitory_score`
+--
+
+CREATE TABLE `api_dormitory_score` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
+  `number_id` int(10) UNSIGNED NOT NULL COMMENT '宿舍id',
+  `scorer_id` int(10) UNSIGNED NOT NULL COMMENT '打分人id',
+  `grade` int(11) NOT NULL COMMENT '成绩',
+  `image` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '图片',
+  `time_index` date NOT NULL COMMENT '时间索引',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `update_time` int(11) NOT NULL COMMENT '更新时间',
+  `status` tinyint(4) DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='打分表';
+
+--
+-- 转存表中的数据 `api_dormitory_score`
+--
+
+INSERT INTO `api_dormitory_score` (`id`, `number_id`, `scorer_id`, `grade`, `image`, `time_index`, `create_time`, `update_time`, `status`) VALUES
+(1, 2, 6, 9, '/uploads//dormitory/li-11343546/2020/11/18/30455bc917d80df09c02f3ed00e8ec33b6a148c1/QQ图片20200521075116.jpg', '2020-11-18', 1605661950, 1605662628, 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `api_dormitory_scorer`
+--
+
+CREATE TABLE `api_dormitory_scorer` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '打分人的名字',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='打分人';
+
+--
+-- 转存表中的数据 `api_dormitory_scorer`
+--
+
+INSERT INTO `api_dormitory_scorer` (`id`, `user_id`, `name`, `status`) VALUES
+(1, 1, 'li', 1),
+(2, 6, 'li', 1);
 
 -- --------------------------------------------------------
 
@@ -108,24 +204,20 @@ INSERT INTO `api_department` (`id`, `name`, `status`) VALUES
 --
 
 CREATE TABLE `api_forum_article` (
-  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
-  `name` varchar(255) NOT NULL COMMENT '文章名',
-  `modular_id` int(10) UNSIGNED NOT NULL COMMENT '模板id',
-  `content` text NOT NULL COMMENT '文章内容',
-  `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
-  `update_time` int(10) UNSIGNED NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(10) UNSIGNED NOT NULL COMMENT '文章id',
+  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文章名',
+  `modular_id` int(11) NOT NULL COMMENT '模块id',
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文章内容'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='论坛文章';
 
 --
 -- 转存表中的数据 `api_forum_article`
 --
 
-INSERT INTO `api_forum_article` (`id`, `name`, `modular_id`, `content`, `create_time`, `update_time`, `status`) VALUES
-(1, '文章', 1, '文章，1984年6月26日出生于陕西省西安市，中国内地男演员、导演，毕业于中央戏剧学院表演系。\r\n2004年，参演电视剧《与青春有关的日子》，开始在影视圈崭露头角 [1]  。2005年，拍摄古装剧《锦衣卫》。2007年，主演赵宝刚导演的青春剧《奋斗》； [2]  同年，主演首部电影《走着瞧》。2008年，主演滕华涛执导的电视剧《蜗居》，饰演80后城市青年小贝。 [1]  [3]  2009年，在电影《海洋天堂》中扮演自闭症患者王大福；同年参演抗战剧《雪豹》 [4]  。2011年，主演的电视剧《裸婚时代》播出； [5]  同年，连续2年获得北京大学生电影节 [6-7]  最受大学生欢迎男演员奖。2012年，凭借电影《失恋33天》获得第31届大众电影百花奖最佳男主角奖 [8]  ；同年，成立北京君竹影视文化有限公司，并导演第一部影视作品《小爸爸》。\r\n2013年2月，主演的电影《西游·降魔篇》在全国上映 [9]  。2014年3月28日，主演的文艺爱情片《我在路上最爱你》在全国上映。2014年12月18日，在姜文执导的动作喜剧片《一步之遥》中扮演武七一角 [10]  。2016年，主演电视剧《少帅》 [11]  和《剃刀边缘》 [12]  。2017年9月16日，凭借导演的电影《陆垚知马俐》获得第31届中国电影金鸡奖导演处女作奖 [13-14]  。2018年9月30日，主演的喜剧动作电影《胖子行动队》上映。', 123, 123, 1),
-(2, '电影节', 2, '文章，1984年6月26日出生于陕西省西安市，中国内地男演员、导演，毕业于中央戏剧学院表演系。\r\n2004年，参演电视剧《与青春有关的日子》，开始在影视圈崭露头角 [1]  。2005年，拍摄古装剧《锦衣卫》。2007年，主演赵宝刚导演的青春剧《奋斗》； [2]  同年，主演首部电影《走着瞧》。2008年，主演滕华涛执导的电视剧《蜗居》，饰演80后城市青年小贝。 [1]  [3]  2009年，在电影《海洋天堂》中扮演自闭症患者王大福；同年参演抗战剧《雪豹》 [4]  。2011年，主演的电视剧《裸婚时代》播出； [5]  同年，连续2年获得北京大学生电影节 [6-7]  最受大学生欢迎男演员奖。2012年，凭借电影《失恋33天》获得第31届大众电影百花奖最佳男主角奖 [8]  ；同年，成立北京君竹影视文化有限公司，并导演第一部影视作品《小爸爸》。\r\n2013年2月，主演的电影《西游·降魔篇》在全国上映 [9]  。2014年3月28日，主演的文艺爱情片《我在路上最爱你》在全国上映。2014年12月18日，在姜文执导的动作喜剧片《一步之遥》中扮演武七一角 [10]  。2016年，主演电视剧《少帅》 [11]  和《剃刀边缘》 [12]  。2017年9月16日，凭借导演的电影《陆垚知马俐》获得第31届中国电影金鸡奖导演处女作奖 [13-14]  。2018年9月30日，主演的喜剧动作电影《胖子行动队》上映。', 124, 124, 1),
-(3, '陕西省', 3, '文章，1984年6月26日出生于陕西省西安市，中国内地男演员、导演，毕业于中央戏剧学院表演系。\r\n2004年，参演电视剧《与青春有关的日子》，开始在影视圈崭露头角 [1]  。2005年，拍摄古装剧《锦衣卫》。2007年，主演赵宝刚导演的青春剧《奋斗》； [2]  同年，主演首部电影《走着瞧》。2008年，主演滕华涛执导的电视剧《蜗居》，饰演80后城市青年小贝。 [1]  [3]  2009年，在电影《海洋天堂》中扮演自闭症患者王大福；同年参演抗战剧《雪豹》 [4]  。2011年，主演的电视剧《裸婚时代》播出； [5]  同年，连续2年获得北京大学生电影节 [6-7]  最受大学生欢迎男演员奖。2012年，凭借电影《失恋33天》获得第31届大众电影百花奖最佳男主角奖 [8]  ；同年，成立北京君竹影视文化有限公司，并导演第一部影视作品《小爸爸》。\r\n2013年2月，主演的电影《西游·降魔篇》在全国上映 [9]  。2014年3月28日，主演的文艺爱情片《我在路上最爱你》在全国上映。2014年12月18日，在姜文执导的动作喜剧片《一步之遥》中扮演武七一角 [10]  。2016年，主演电视剧《少帅》 [11]  和《剃刀边缘》 [12]  。2017年9月16日，凭借导演的电影《陆垚知马俐》获得第31届中国电影金鸡奖导演处女作奖 [13-14]  。2018年9月30日，主演的喜剧动作电影《胖子行动队》上映。', 126, 126, 1),
-(4, '蝶恋花', 1, '文章，1984年6月26日出生于陕西省西安市，中国内地男演员、导演，毕业于中央戏剧学院表演系。\r\n2004年，参演电视剧《与青春有关的日子》，开始在影视圈崭露头角 [1]  。2005年，拍摄古装剧《锦衣卫》。2007年，主演赵宝刚导演的青春剧《奋斗》； [2]  同年，主演首部电影《走着瞧》。2008年，主演滕华涛执导的电视剧《蜗居》，饰演80后城市青年小贝。 [1]  [3]  2009年，在电影《海洋天堂》中扮演自闭症患者王大福；同年参演抗战剧《雪豹》 [4]  。2011年，主演的电视剧《裸婚时代》播出； [5]  同年，连续2年获得北京大学生电影节 [6-7]  最受大学生欢迎男演员奖。2012年，凭借电影《失恋33天》获得第31届大众电影百花奖最佳男主角奖 [8]  ；同年，成立北京君竹影视文化有限公司，并导演第一部影视作品《小爸爸》。\r\n2013年2月，主演的电影《西游·降魔篇》在全国上映 [9]  。2014年3月28日，主演的文艺爱情片《我在路上最爱你》在全国上映。2014年12月18日，在姜文执导的动作喜剧片《一步之遥》中扮演武七一角 [10]  。2016年，主演电视剧《少帅》 [11]  和《剃刀边缘》 [12]  。2017年9月16日，凭借导演的电影《陆垚知马俐》获得第31届中国电影金鸡奖导演处女作奖 [13-14]  。2018年9月30日，主演的喜剧动作电影《胖子行动队》上映。', 125, 125, 1);
+INSERT INTO `api_forum_article` (`id`, `name`, `modular_id`, `content`) VALUES
+(1, '诗', 1, '十大撒大双方的规定 广告广告公司能付款少年分开分开是技术开发和动画格式的回复好 ghdkjhkjhkjhgkj.skl过得好快决定环境的风格就是快到家空间房管局的疯狂攻击肯定 决定分开过就是快解放'),
+(2, '书', 1, '蜂王浆拉姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐福建文科快快快快快快'),
+(3, '礼记', 3, '阿尔姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐姐你才能和人口会恶化几点上课介绍客户尽快恢复快说上的伤口 费附加的空间看几点就是犯贱犯贱');
 
 -- --------------------------------------------------------
 
@@ -134,25 +226,19 @@ INSERT INTO `api_forum_article` (`id`, `name`, `modular_id`, `content`, `create_
 --
 
 CREATE TABLE `api_forum_comment` (
-  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
-  `article_id` int(10) UNSIGNED NOT NULL COMMENT '文章id',
-  `uid` int(10) UNSIGNED NOT NULL COMMENT '用户',
-  `pid` int(10) UNSIGNED DEFAULT NULL COMMENT '评论pid',
-  `comment` varchar(255) NOT NULL COMMENT '评论',
-  `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
-  `update_time` int(10) UNSIGNED NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) DEFAULT '1' COMMENT '状态'
+  `id` int(10) UNSIGNED NOT NULL COMMENT '评论id',
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论内容',
+  `article_id` int(11) NOT NULL COMMENT '文章id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
 
 --
 -- 转存表中的数据 `api_forum_comment`
 --
 
-INSERT INTO `api_forum_comment` (`id`, `article_id`, `uid`, `pid`, `comment`, `create_time`, `update_time`, `status`) VALUES
-(1, 1, 1, 0, '测试', 1602148573, 1602148573, 1),
-(2, 1, 1, 1, '测试2', 1602148631, 1602148631, 1),
-(3, 1, 1, 1, '测试3', 1602150781, 1602150781, 1),
-(4, 1, 1, 0, '测试4', 1602150873, 1602150873, 1);
+INSERT INTO `api_forum_comment` (`id`, `content`, `article_id`) VALUES
+(1, '共和国和结果', 1),
+(2, '回国后', 1),
+(3, '结果将黄瓜该好好干', 2);
 
 -- --------------------------------------------------------
 
@@ -161,9 +247,9 @@ INSERT INTO `api_forum_comment` (`id`, `article_id`, `uid`, `pid`, `comment`, `c
 --
 
 CREATE TABLE `api_forum_modular` (
-  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
-  `name` varchar(25) NOT NULL COMMENT '板块',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
+  `id` int(10) UNSIGNED NOT NULL COMMENT '模块id',
+  `name` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '模块名',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '模块状态'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='论坛板块';
 
 --
@@ -174,6 +260,118 @@ INSERT INTO `api_forum_modular` (`id`, `name`, `status`) VALUES
 (1, 'php板块', 1),
 (2, 'java板块', 1),
 (3, 'c板块', 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `api_graduation_config`
+--
+
+CREATE TABLE `api_graduation_config` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
+  `key` varchar(255) NOT NULL COMMENT '设置索引',
+  `value` text NOT NULL COMMENT '设置',
+  `statement` text COMMENT '注释',
+  `type` text NOT NULL COMMENT '设置类型',
+  `type_name` varchar(255) NOT NULL COMMENT '设置分类名',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='综合测评设置';
+
+--
+-- 转存表中的数据 `api_graduation_config`
+--
+
+INSERT INTO `api_graduation_config` (`id`, `key`, `value`, `statement`, `type`, `type_name`, `status`) VALUES
+(1, 'GRADUATION_SIGN_STATUS', '1', '毕业生去向填写开关', 'GRADUATION', '毕业生去向设置', 1),
+(2, 'GRADUATION_DESTINATION_CODE', '[10, 11, 12, 27, 50, 51, 46, 75, 80, 85]', '毕业去向代码', 'GRADUATION', '毕业生去向设置', 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `api_graduation_destination`
+--
+
+CREATE TABLE `api_graduation_destination` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
+  `uid` int(10) UNSIGNED NOT NULL COMMENT '用户id',
+  `examinee_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '考生号',
+  `destination_code` int(11) UNSIGNED DEFAULT NULL COMMENT '毕业去向代码',
+  `unit_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '单位组织机构代码',
+  `unit_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '单位名称',
+  `unit_property_code` int(11) UNSIGNED DEFAULT NULL COMMENT '单位性质代码',
+  `unit_location_code` int(11) UNSIGNED DEFAULT NULL COMMENT '单位所在地代码',
+  `job_category_code` int(11) UNSIGNED DEFAULT NULL COMMENT '工作职位类别代码',
+  `unit_contact` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '单位联系人',
+  `contact_phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '联系人电话',
+  `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
+  `update_time` int(10) UNSIGNED NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='毕业生毕业去向表';
+
+--
+-- 转存表中的数据 `api_graduation_destination`
+--
+
+INSERT INTO `api_graduation_destination` (`id`, `uid`, `examinee_number`, `destination_code`, `unit_code`, `unit_name`, `unit_property_code`, `unit_location_code`, `job_category_code`, `unit_contact`, `contact_phone`, `create_time`, `update_time`, `status`) VALUES
+(1, 6, '15131181151992', 46, '91130104MA08Y7FL6L', '河北念初网络科技有限公司', 39, 130104, 13, '邢世恩', '18732952000', 0, 1605491237, 1),
+(2, 1, '15131181151991', 2, '91130104MA08Y7FL6L', '河北念初网络科技有限公司', 39, 130104, 13, '邢世恩', '18732952000', 0, 0, 1),
+(3, 8, '15131181151992', 2, '91130104MA08Y7FL6L', '河北念初网络科技有限公司', 39, 130104, 13, '邢世恩', '18732952000', 0, 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `api_source`
+--
+
+CREATE TABLE `api_source` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
+  `uid` int(10) UNSIGNED NOT NULL COMMENT '用户id',
+  `id_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '身份证号',
+  `graduate_school` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '毕业中学',
+  `source` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '生源所在地',
+  `poor_code` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '困难生类别代码',
+  `mobile_phone` int(255) UNSIGNED NOT NULL COMMENT '移动电话',
+  `qq` int(255) UNSIGNED NOT NULL COMMENT 'qq',
+  `home_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '家庭地址',
+  `home_phone` int(255) UNSIGNED NOT NULL COMMENT '家庭电话',
+  `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
+  `update_time` int(10) UNSIGNED NOT NULL COMMENT '更新时间',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='生源库' ROW_FORMAT=COMPACT;
+
+--
+-- 转存表中的数据 `api_source`
+--
+
+INSERT INTO `api_source` (`id`, `uid`, `id_number`, `graduate_school`, `source`, `poor_code`, `mobile_phone`, `qq`, `home_address`, `home_phone`, `create_time`, `update_time`, `status`) VALUES
+(1, 6, '131025200001273046', '大城市', '河北省大城县', 'H', 1594968479, 2949794718, '河北省廊坊市大城县', 5783082, 1605842377, 1605842377, 1),
+(2, 1, '131025200001273046', '大城市', '河北省大城县', 'H', 1594968479, 2949794718, '河北省廊坊市大城县', 5783082, 1605842377, 1605842377, 1),
+(3, 8, '131025200001273046', '大城市', '河北省大城县', 'H', 1594968479, 2949794718, '河北省廊坊市大城县', 5783082, 1605842377, 1605842377, 1),
+(4, 3, '131025200001273046', '大城市', '河北省大城县', 'H', 1594968479, 2949794718, '河北省廊坊市大城县', 5783082, 1605842377, 1605842377, 1),
+(5, 2, '131025200001273046', '大城市', '河北省大城县', 'H', 1594968479, 2949794718, '河北省廊坊市大城县', 5783082, 1605842377, 1605842377, 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `api_source_config`
+--
+
+CREATE TABLE `api_source_config` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
+  `key` varchar(255) NOT NULL COMMENT '设置索引',
+  `value` text NOT NULL COMMENT '设置',
+  `statement` text COMMENT '注释',
+  `type` text NOT NULL COMMENT '设置类型',
+  `type_name` varchar(255) NOT NULL COMMENT '设置分类名',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='综合测评设置';
+
+--
+-- 转存表中的数据 `api_source_config`
+--
+
+INSERT INTO `api_source_config` (`id`, `key`, `value`, `statement`, `type`, `type_name`, `status`) VALUES
+(1, 'SOURCE_SIGN_STATUS', '0', '生源库开关', 'SOURCE', '生源库设置', 1);
 
 -- --------------------------------------------------------
 
@@ -195,11 +393,11 @@ CREATE TABLE `api_synthesize_auth` (
 
 CREATE TABLE `api_synthesize_config` (
   `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
-  `key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设置索引',
-  `value` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设置',
+  `key` varchar(255) NOT NULL COMMENT '设置索引',
+  `value` text NOT NULL COMMENT '设置',
   `statement` text COMMENT '注释',
-  `type` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设置类型',
-  `type_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设置分类名',
+  `type` text NOT NULL COMMENT '设置类型',
+  `type_name` varchar(255) NOT NULL COMMENT '设置分类名',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='综合测评设置';
 
@@ -236,10 +434,10 @@ CREATE TABLE `api_synthesize_poor_score` (
 CREATE TABLE `api_synthesize_poor_sign` (
   `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
   `uid` int(10) UNSIGNED NOT NULL COMMENT '用户',
-  `political_outlook` enum('群众','共青团员','中共党员') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '群众' COMMENT '政治面貌',
-  `id_card_type` enum('居民身份证') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '居民身份证' COMMENT '身份证件类型',
-  `id_card_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '身份证件号',
-  `confirm_level` enum('特殊困难','困难','一般困难') CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '认定困难级别',
+  `political_outlook` enum('群众','共青团员','中共党员') NOT NULL DEFAULT '群众' COMMENT '政治面貌',
+  `id_card_type` enum('居民身份证') NOT NULL DEFAULT '居民身份证' COMMENT '身份证件类型',
+  `id_card_number` varchar(255) NOT NULL COMMENT '身份证件号',
+  `confirm_level` enum('特殊困难','困难','一般困难') DEFAULT NULL COMMENT '认定困难级别',
   `poor_type_one` tinyint(1) NOT NULL COMMENT '是否建档立卡贫困家庭',
   `poor_type_two` tinyint(1) NOT NULL COMMENT '是否低保家庭',
   `poor_type_three` tinyint(1) NOT NULL COMMENT '是否特困供养学生',
@@ -249,13 +447,13 @@ CREATE TABLE `api_synthesize_poor_sign` (
   `poor_type_seven` tinyint(1) NOT NULL COMMENT '是否家庭经济困难残疾人子女',
   `poor_type_eight` tinyint(1) NOT NULL COMMENT '是否单亲家庭',
   `confirm_time` int(10) UNSIGNED DEFAULT NULL COMMENT '认定时间',
-  `confirm_reason` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '认定原因',
-  `confirm_reason_explain` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '认定原因补充说明',
-  `address` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '家庭住址',
-  `home_phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '家庭电话',
-  `contact_phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '联系方式',
-  `remark` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '备注',
-  `supporting_document` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '证明文件',
+  `confirm_reason` text NOT NULL COMMENT '认定原因',
+  `confirm_reason_explain` varchar(200) NOT NULL COMMENT '认定原因补充说明',
+  `address` text NOT NULL COMMENT '家庭住址',
+  `home_phone` varchar(255) NOT NULL COMMENT '家庭电话',
+  `contact_phone` varchar(255) NOT NULL COMMENT '联系方式',
+  `remark` text COMMENT '备注',
+  `supporting_document` text NOT NULL COMMENT '证明文件',
   `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='贫困生报名';
@@ -277,15 +475,15 @@ INSERT INTO `api_synthesize_poor_sign` (`id`, `uid`, `political_outlook`, `id_ca
 
 CREATE TABLE `api_user` (
   `id` int(10) UNSIGNED NOT NULL COMMENT '自增id',
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '邮箱',
-  `password` char(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
-  `password_salt` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码盐',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '姓名',
+  `email` varchar(255) NOT NULL COMMENT '邮箱',
+  `password` char(32) NOT NULL COMMENT '密码',
+  `password_salt` varchar(5) NOT NULL COMMENT '密码盐',
+  `name` varchar(255) NOT NULL COMMENT '姓名',
   `sex` tinyint(1) NOT NULL DEFAULT '-1' COMMENT '性别',
-  `student_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '学号',
-  `last_login_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '上次登录IP',
+  `student_id` varchar(255) NOT NULL COMMENT '学号',
+  `last_login_ip` varchar(255) NOT NULL COMMENT '上次登录IP',
   `last_login_time` int(10) UNSIGNED NOT NULL COMMENT '上次登录时间',
-  `last_login_token` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '上次登录Token',
+  `last_login_token` text COMMENT '上次登录Token',
   `create_time` int(10) UNSIGNED NOT NULL COMMENT '创建时间',
   `update_time` int(10) UNSIGNED NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
@@ -296,9 +494,11 @@ CREATE TABLE `api_user` (
 --
 
 INSERT INTO `api_user` (`id`, `email`, `password`, `password_salt`, `name`, `sex`, `student_id`, `last_login_ip`, `last_login_time`, `last_login_token`, `create_time`, `update_time`, `status`) VALUES
-(1, '1109571639@qq.com', 'c7dff777ae9f431aa32791f205b20f91', 'oFzwX', 'Shane', 1, '2018510500', '127.0.0.1', 1601380412, '42af6a1995ef7494c0025425493cbd2d3728430a', 1601349819, 1601380412, 1),
-(2, '1109571638@qq.com', 'c7dff777ae9f431aa32791f205b20f91', 'oFzwX', '张三', 1, '2018510501', '127.0.0.1', 1601946821, 'b64d1ba9d329d87875f049c34582429ccbdd406f', 123, 1601946821, 1),
-(3, '1109571637@qq.com', 'c7dff777ae9f431aa32791f205b20f91', 'oFzwX', '李四', 1, '2018510502', '127.0.0.1', 1602051307, '65ad890221b1d2c1516959228a5538001f127174', 123, 1602051307, 1);
+(1, '2949794718@qq.com', '7241404597008216fcb362fdf03fc05b', 'YBv5y', 'li-3', 1, '1343549', '127.0.0.1', 1604630703, '007c7e03c60b789b4d792ed5546cf93473c0137a', 1604626184, 1604630703, 1),
+(2, '2949794788@qq.com', '7241404597008216fcb362fdf03fc05b', 'YBv5y', 'li-3', 1, '1343548', '127.0.0.1', 1604630703, '007c7e03c60b789b4d792ed5546cf93473c0137a', 1604626184, 1604630703, 1),
+(3, '1109571630@qq.com', '7241404597008216fcb362fdf03fc05b', 'YBv5y', 'li-4', 1, '1343540', '127.0.0.1', 1605228789, 'bd71bd44e8b0f9e3363097c567a3353a8221a1f8', 1604635573, 1605228789, 1),
+(6, '1109571639@qq.com', '7241404597008216fcb362fdf03fc05b', 'YBv5y', 'li-1', 1, '1343546', '127.0.0.1', 1606033928, '39c55701edcc158f535da5ae0be9fe43afc762ea', 1604635573, 1606033928, 1),
+(8, '1109571637@qq.com', '7241404597008216fcb362fdf03fc05b', 'YBv5y', 'li-2', 1, '1343547', '127.0.0.1', 1605228789, 'bd71bd44e8b0f9e3363097c567a3353a8221a1f8', 1604635573, 1605228789, 1);
 
 -- --------------------------------------------------------
 
@@ -320,9 +520,11 @@ CREATE TABLE `api_user_class` (
 --
 
 INSERT INTO `api_user_class` (`id`, `uid`, `class_id`, `create_time`, `update_time`, `status`) VALUES
-(1, 1, 2, 1601388730, 1601388730, 1),
-(2, 2, 1, 1601946871, 1601946871, 1),
-(3, 3, 1, 1602051323, 1602051323, 1);
+(1, 6, 1, 1601388730, 1601388730, 1),
+(2, 1, 4, 1601946871, 1601946871, 1),
+(3, 8, 2, 1602051323, 1602051323, 1),
+(4, 3, 1, 1602051323, 1602051323, 1),
+(5, 2, 1, 1602051323, 1602051323, 1);
 
 -- --------------------------------------------------------
 
@@ -375,9 +577,9 @@ INSERT INTO `z_admin_auth_group` (`id`, `name`, `rules`, `create_time`, `update_
 
 CREATE TABLE `z_admin_auth_rule` (
   `id` int(10) NOT NULL COMMENT '自增id',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '规则名',
-  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '接口路径',
-  `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图标',
+  `name` varchar(255) NOT NULL COMMENT '规则名',
+  `path` varchar(255) DEFAULT NULL COMMENT '接口路径',
+  `icon` varchar(255) DEFAULT NULL COMMENT '图标',
   `pid` int(11) DEFAULT NULL COMMENT '父ID',
   `is_menu` tinyint(1) NOT NULL COMMENT '是否为目录',
   `is_view` tinyint(1) NOT NULL COMMENT '是否为页面',
@@ -425,7 +627,7 @@ CREATE TABLE `z_admin_user` (
   `password_salt` char(10) NOT NULL DEFAULT '' COMMENT '密码盐',
   `last_login_ip` varchar(30) NOT NULL DEFAULT '' COMMENT '上次登陆IP',
   `last_login_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '上次登陆时间',
-  `last_login_token` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '上次登录Token',
+  `last_login_token` text COMMENT '上次登录Token',
   `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
@@ -465,6 +667,33 @@ ALTER TABLE `api_department`
   ADD UNIQUE KEY `name` (`name`);
 
 --
+-- 表的索引 `api_dormitory_floor`
+--
+ALTER TABLE `api_dormitory_floor`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `api_dormitory_number`
+--
+ALTER TABLE `api_dormitory_number`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `api_dormitory_score`
+--
+ALTER TABLE `api_dormitory_score`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `time_index` (`time_index`),
+  ADD KEY `number_id` (`number_id`);
+
+--
+-- 表的索引 `api_dormitory_scorer`
+--
+ALTER TABLE `api_dormitory_scorer`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
 -- 表的索引 `api_forum_article`
 --
 ALTER TABLE `api_forum_article`
@@ -481,6 +710,33 @@ ALTER TABLE `api_forum_comment`
 --
 ALTER TABLE `api_forum_modular`
   ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `api_graduation_config`
+--
+ALTER TABLE `api_graduation_config`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `key` (`key`);
+
+--
+-- 表的索引 `api_graduation_destination`
+--
+ALTER TABLE `api_graduation_destination`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uid` (`uid`);
+
+--
+-- 表的索引 `api_source`
+--
+ALTER TABLE `api_source`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `api_source_config`
+--
+ALTER TABLE `api_source_config`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `key` (`key`);
 
 --
 -- 表的索引 `api_synthesize_auth`
@@ -569,31 +825,79 @@ ALTER TABLE `api_app_config`
 -- 使用表AUTO_INCREMENT `api_class`
 --
 ALTER TABLE `api_class`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=8;
 
 --
 -- 使用表AUTO_INCREMENT `api_department`
 --
 ALTER TABLE `api_department`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=4;
+
+--
+-- 使用表AUTO_INCREMENT `api_dormitory_floor`
+--
+ALTER TABLE `api_dormitory_floor`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=4;
+
+--
+-- 使用表AUTO_INCREMENT `api_dormitory_number`
+--
+ALTER TABLE `api_dormitory_number`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=6;
+
+--
+-- 使用表AUTO_INCREMENT `api_dormitory_score`
+--
+ALTER TABLE `api_dormitory_score`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
+
+--
+-- 使用表AUTO_INCREMENT `api_dormitory_scorer`
+--
+ALTER TABLE `api_dormitory_scorer`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=5;
 
 --
 -- 使用表AUTO_INCREMENT `api_forum_article`
 --
 ALTER TABLE `api_forum_article`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '文章id', AUTO_INCREMENT=4;
 
 --
 -- 使用表AUTO_INCREMENT `api_forum_comment`
 --
 ALTER TABLE `api_forum_comment`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '评论id', AUTO_INCREMENT=4;
 
 --
 -- 使用表AUTO_INCREMENT `api_forum_modular`
 --
 ALTER TABLE `api_forum_modular`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '模块id', AUTO_INCREMENT=4;
+
+--
+-- 使用表AUTO_INCREMENT `api_graduation_config`
+--
+ALTER TABLE `api_graduation_config`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=3;
+
+--
+-- 使用表AUTO_INCREMENT `api_graduation_destination`
+--
+ALTER TABLE `api_graduation_destination`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=4;
+
+--
+-- 使用表AUTO_INCREMENT `api_source`
+--
+ALTER TABLE `api_source`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=6;
+
+--
+-- 使用表AUTO_INCREMENT `api_source_config`
+--
+ALTER TABLE `api_source_config`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=2;
 
 --
 -- 使用表AUTO_INCREMENT `api_synthesize_auth`
@@ -623,13 +927,13 @@ ALTER TABLE `api_synthesize_poor_sign`
 -- 使用表AUTO_INCREMENT `api_user`
 --
 ALTER TABLE `api_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=14;
 
 --
 -- 使用表AUTO_INCREMENT `api_user_class`
 --
 ALTER TABLE `api_user_class`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=6;
 
 --
 -- 使用表AUTO_INCREMENT `z_admin_auth_access`
@@ -641,7 +945,7 @@ ALTER TABLE `z_admin_auth_access`
 -- 使用表AUTO_INCREMENT `z_admin_auth_group`
 --
 ALTER TABLE `z_admin_auth_group`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id', AUTO_INCREMENT=3;
 
 --
 -- 使用表AUTO_INCREMENT `z_admin_auth_rule`

@@ -14,18 +14,46 @@ namespace app\common\business\lib;
 
 use app\common\model\api\APPConfig;
 use app\common\model\api\SynthesizeConfig;
+use app\common\model\api\GraduationConfig;
+use app\common\model\api\SourceConfig;
 
 class Config
 {
 
     private $appConfig = NULL;
     private $synthesizeConfig = NULL;
+    private $graduationConfig = NULL;
+    private $sourceConfig = NULL;
     private $strLib = NULL;
 
     public function __construct(){
         $this -> appConfig = new APPConfig();
         $this -> synthesizeConfig = new SynthesizeConfig();
+        $this -> graduationConfig = new GraduationConfig();
+        $this -> sourceConfig = new SourceConfig();
         $this -> strLib = new Str();
+    }
+
+    /**生源库信息设置
+     * @return bool
+     */
+    public function getSourceSignStatus(){
+        $temp = $this -> sourceConfig -> findByKey("SOURCE_SIGN_STATUS");
+        return intval($temp -> value) != 1;
+    }
+
+    /**毕业生去向设置
+     * @return mixed
+     */
+
+    public function getGraduationDestinationCode(){
+        $temp = $this -> graduationConfig -> findByKey("GRADUATION_DESTINATION_CODE");
+        return json_decode($temp -> value);
+    }
+
+    public function getGraduationSignStatus(){
+        $temp = $this -> graduationConfig -> findByKey("GRADUATION_SIGN_STATUS");
+        return intval($temp -> value) != 1;
     }
 
     /**贫困生设置

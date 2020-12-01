@@ -24,6 +24,10 @@ class User extends Model
 
     protected $name = "api_user";
 
+    public function findByStudentId($studentId){
+        return $this -> where('student_id', $studentId) -> find();
+    }
+
     public function updateLoginInfo($data){
         $result = $this -> findByEmail($data['email']);
         return $result -> allowField(['last_login_ip', 'last_login_time', 'last_login_token']) -> save($data);
@@ -34,11 +38,11 @@ class User extends Model
     }
 
     public function findByEmail($email){
-        return $this -> where('email', $email) -> where('status', 1) -> find();
+        return $this -> where('email', $email) -> find();
     }
 
-    public function findByEmailWithOutStatus($email){
-        return $this -> where('email', $email) -> find();
+    public function findByEmailWithStatus($email){
+        return $this -> where('email', $email) -> where('status', 1) -> find();
     }
 
 }

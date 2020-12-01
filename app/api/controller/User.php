@@ -19,6 +19,10 @@ use app\common\business\api\User as UserBusiness;
 class User extends BaseController
 {
 
+    public function changePassword(){
+        
+    }
+
     public function viewMe(){
         $errCode = (new UserBusiness()) -> viewMe($this -> getUser());
         if ($errCode == config("status.failed")){

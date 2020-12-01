@@ -95,7 +95,7 @@ class User
 
     public function sendRandom($email){
         try {
-            $isExist = $this -> userModel -> findByEmail($email);
+            $isExist = $this -> userModel -> findByEmailWithStatus($email);
             if (empty($isExist)){
                 return config('status.not_exist');
             }
@@ -112,7 +112,11 @@ class User
         if (empty($data)){
             return config("status.not_exist");
         }
-        $isExist = $this -> userModel -> findByEmailWithOutStatus($data['email']);
+        $studentId = $this -> userModel -> findByStudentId($data['student_id']);
+        if (!empty($studentId)){
+            return config('status.exist');
+        }
+        $isExist = $this -> userModel -> findByEmail($data['email']);
         if (!empty($isExist)){
             return config("status.exist");
         }
@@ -121,9 +125,13 @@ class User
 
     public function register($data){
         try {
-            $isExist = $this -> userModel -> findByEmailWithOutStatus($data['email']);
+            $isExist = $this -> userModel -> findByEmail($data['email']);
             if (!empty($isExist)){
                 return config("status.exist");
+            }
+            $studentId = $this -> userModel -> findByStudentId($data['student_id']);
+            if (!empty($studentId)){
+                return config('status.exist');
             }
             $data['password_salt'] = $this -> strLib -> salt(5);
             $data['password'] = md5($data['password_salt'] . $data['password'] . $data['password_salt']);
@@ -137,7 +145,7 @@ class User
         }
     }
     private function loginByPassword($data){
-        $isExist = $this -> userModel -> findByEmail($data['email']);
+        $isExist = $this -> userModel -> findByEmailWithStatus($data['email']);
         if (empty($isExist)){
             return config('status.not_exist');
         }
@@ -152,7 +160,7 @@ class User
     }
 
     private function loginByEmail($data){
-        $isExist = $this -> userModel -> findByEmail($data['email']);
+        $isExist = $this -> userModel -> findByEmailWithStatus($data['email']);
         if (empty($isExist)){
             return config('status.not_exist');
         }

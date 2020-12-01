@@ -107,4 +107,8 @@ abstract class BaseController
     public function getUser(){
         return cache(config('redis.token_pre') . $this -> getToken());
     }
+
+    public function getUid(){
+        return $this -> getUser()['id'];
+    }
 }

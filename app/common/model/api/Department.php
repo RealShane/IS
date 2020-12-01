@@ -24,6 +24,10 @@ class Department extends Model
 
     protected $name = "api_department";
 
+    public function findAll(){
+        return $this -> where('id', '>', 0) -> where('status', 1) -> select();
+    }
+
     public function findById($id){
         return $this -> where('id', $id) -> find();
     }

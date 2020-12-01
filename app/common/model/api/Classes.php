@@ -24,6 +24,10 @@ class Classes extends Model
 
     protected $name = "api_class";
 
+    public function findByDepartId($depart_id){
+        return $this -> where('depart_id', $depart_id) -> select();
+    }
+
     public function findByIdWithStatus($id){
         return $this -> where('id', $id) -> where('status', 1) -> find();
     }

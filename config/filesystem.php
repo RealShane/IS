@@ -24,5 +24,15 @@ return [
             'url'        => '/uploads',
             'visibility' => 'public',
         ],
+        'dormitory' => [
+            // 磁盘类型
+            'type'       => 'local',
+            // 磁盘路径
+            'root'       => app()->getRootPath() . 'public/uploads/dormitory',
+            // 磁盘路径对应的外部URL路径
+            'url'        => '/uploads',
+            // 可见性
+            'visibility' => 'public',
+        ],
     ],
 ];
