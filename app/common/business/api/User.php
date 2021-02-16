@@ -84,10 +84,10 @@ class User
     }
 
     public function login($data){
-        if ($data['login_type'] == 'type_password'){
+        if (strtoupper($data['login_type']) == 'TYPE_PASSWORD'){
             return $this -> loginByPassword($data);
         }
-        if ($data['login_type'] == 'type_email'){
+        if (strtoupper($data['login_type']) == 'TYPE_EMAIL'){
             return $this -> loginByEmail($data);
         }
         return config("status.failed");

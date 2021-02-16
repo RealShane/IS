@@ -1,0 +1,12 @@
+{
+  "success" : 200,
+  "update" : 201,
+  "failed" : 100,
+  "goto" : 101,
+  "error" : 0,
+  "exist" : 1,
+  "not_exist" : 2,
+  "password_error" : 3,
+  "random_error" : 4,
+  "close" : 5
+}

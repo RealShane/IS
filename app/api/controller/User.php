@@ -19,8 +19,16 @@ use app\common\business\api\User as UserBusiness;
 class User extends BaseController
 {
 
+    public function isLogin(){
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            "合法登录"
+        );
+    }
+
     public function changePassword(){
-        
+
     }
 
     public function viewMe(){

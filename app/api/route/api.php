@@ -13,6 +13,14 @@ use \app\api\middleware\IsLogin;
 use app\api\middleware\DormitoryAuth;
 
 /**
+ * 前端页面路由
+ */
+Route::group(function () {
+    Route::rule('View/index', 'api/View/indexView', 'GET');
+    Route::rule('View/register', 'api/View/registerView', 'GET');
+    Route::rule('View/login', 'api/View/loginView', 'GET');
+});
+/**
  * 无Token
  */
 Route::group(function () {
@@ -33,6 +41,7 @@ Route::group(function () {
 Route::group(function () {
     //用户接口
     Route::rule('logoff', '/api/User/logoff', 'GET');
+    Route::rule('isLogin', '/api/User/isLogin', 'POST');
     Route::rule('viewMe', '/api/User/viewMe', 'POST');
     Route::rule('joinClass', '/api/User/joinClass', 'POST');
     //综测接口

@@ -29,22 +29,45 @@ class AuthRule extends Model
         $result = [];
         foreach ($menus as $menu){
             $views = $this -> where('pid', $menu['id']) -> where('is_view', 1) -> where('status', 1) -> order('weigh') -> select();
+            $viewRes = [];
             foreach ($views as $view){
-                $view['api'] = $this -> where('pid', $view['id']) -> where('is_menu', 0) -> where('is_view', 0) -> where('status', 1) -> order('weigh') -> select();
+                $apis = $this -> where('pid', $view['id']) -> where('is_menu', 0) -> where('is_view', 0) -> where('status', 1) -> order('weigh') -> select();
+                $apisRes = [];
+                foreach ($apis as $api){
+                    $apisRes[] = [
+                        'id' => $api['id'],
+                        'label' => $api['name'],
+                    ];
+                }
+                $viewRes[] = [
+                    'id' => $view['id'],
+                    'label' => $view['name'],
+                    'children' => $apisRes
+                ];
             }
             $result[] = [
-                'menu' => $menu,
-                'view' => $views
+                'id' => $menu['id'],
+                'label' => $menu['name'],
+                'children' => $viewRes
             ];
         }
         $views = $this -> where('pid', NULL) -> where('is_view', 1)  -> where('status', 1) -> order('weigh') -> select();
         foreach ($views as $view){
-            $view['api'] = $this -> where('pid', $view['id']) -> where('is_menu', 0) -> where('is_view', 0) -> where('status', 1) -> order('weigh') -> select();
+            $apis = $this -> where('pid', $view['id']) -> where('is_menu', 0) -> where('is_view', 0) -> where('status', 1) -> order('weigh') -> select();
+            $apisRes = [];
+            foreach ($apis as $api){
+                $apisRes[] = [
+                    'id' => $api['id'],
+                    'label' => $api['name'],
+                ];
+            }
+            $result[] = [
+                'id' => $view['id'],
+                'label' => $view['name'],
+                'children' => $apisRes
+            ];
         }
-        return [
-            'view' => $views,
-            'viewWithMenu' => $result
-        ];
+        return $result;
     }
 
     public function otherAdminMenuAndView($rules){
@@ -104,16 +127,16 @@ class AuthRule extends Model
     }
 
     public function updateById($data){
-        $result = $this -> findByIdWithOutStatus($data['id']);
+        $result = $this -> findById($data['id']);
         return $result -> allowField(['name', 'icon', 'weigh', 'status']) -> save($data);
     }
 
     public function findById($id){
-        return $this -> where('id', $id) -> where('status', 1) -> find();
+        return $this -> where('id', $id) -> find();
     }
 
-    public function findByIdWithOutStatus($id){
-        return $this -> where('id', $id) -> find();
+    public function findByIdWithStatus($id){
+        return $this -> where('id', $id) -> where('status', 1) -> find();
     }
 
 }

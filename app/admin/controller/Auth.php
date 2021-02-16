@@ -19,6 +19,22 @@ use app\common\validate\admin\Auth as AuthValidate;
 class Auth extends BaseController
 {
 
+    public function getRule(){
+        $errCode = (new AuthBusiness()) -> getRule($this -> request -> param("id", ''));
+        if (empty($errCode)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
+    }
+
     public function adminMenuAndView(){
         $errCode = (new AuthBusiness()) -> adminMenuAndView($this -> getUser());
         if (empty($errCode)){
@@ -36,7 +52,7 @@ class Auth extends BaseController
     }
 
     public function viewRule(){
-        $errCode = (new AuthBusiness()) -> viewRule($this -> request -> param("num", '', 'htmlspecialchars'));
+        $errCode = (new AuthBusiness()) -> viewRule($this -> request -> param("num", ''));
         if (empty($errCode)){
             return $this -> show(
                 config("status.failed"),
@@ -52,11 +68,11 @@ class Auth extends BaseController
     }
 
     public function updateRule(){
-        $data['id'] = $this -> request -> param("id", '', 'htmlspecialchars');
-        $data['name'] = $this -> request -> param("name", '', 'htmlspecialchars');
-        $data['icon'] = $this -> request -> param("icon", '', 'htmlspecialchars');
-        $data['weigh'] = $this -> request -> param("weigh", '', 'htmlspecialchars');
-        $data['status'] = $this -> request -> param("status", '', 'htmlspecialchars');
+        $data['id'] = $this -> request -> param("id", '');
+        $data['name'] = $this -> request -> param("name", '');
+        $data['icon'] = $this -> request -> param("icon", '');
+        $data['weigh'] = $this -> request -> param("weigh", '');
+        $data['status'] = $this -> request -> param("status", '');
         try {
             validate(AuthValidate::class) -> scene('updateRule') -> check($data);
         }catch (\Exception $exception){
@@ -89,7 +105,7 @@ class Auth extends BaseController
     }
 
     public function viewAllGroup(){
-        $errCode = (new AuthBusiness()) -> viewAllGroup($this -> request -> param("num", '', 'htmlspecialchars'));
+        $errCode = (new AuthBusiness()) -> viewAllGroup($this -> request -> param("num", ''));
         if (empty($errCode)){
             return $this -> show(
                 config("status.failed"),
@@ -105,7 +121,7 @@ class Auth extends BaseController
     }
 
     public function deleteGroup(){
-        $id = $this -> request -> param("id", '', 'htmlspecialchars');
+        $id = $this -> request -> param("id", '');
         try {
             validate(AuthValidate::class) -> scene('deleteGroup') -> check(['id' => $id]);
         }catch (\Exception $exception){
@@ -154,8 +170,8 @@ class Auth extends BaseController
     }
 
     public function addGroup(){
-        $data['name'] = $this -> request -> param("name", '', 'htmlspecialchars');
-        $data['rules'] = $this -> request -> param("rules", '', 'htmlspecialchars');
+        $data['name'] = $this -> request -> param("name", '');
+        $data['rules'] = $this -> request -> param("rules", '');
         try {
             validate(AuthValidate::class) -> scene('addGroup') -> check($data);
         }catch (\Exception $exception){
@@ -188,7 +204,7 @@ class Auth extends BaseController
     }
 
     public function viewAllAccess(){
-        $errCode = (new AuthBusiness()) -> viewAllAccess($this -> request -> param("num", '', 'htmlspecialchars'));
+        $errCode = (new AuthBusiness()) -> viewAllAccess($this -> request -> param("num", ''));
         if (empty($errCode)){
             return $this -> show(
                 config("status.failed"),
@@ -204,7 +220,7 @@ class Auth extends BaseController
     }
 
     public function deleteAccess(){
-        $id = $this -> request -> param("id", '', 'htmlspecialchars');
+        $id = $this -> request -> param("id", '');
         try {
             validate(AuthValidate::class) -> scene('deleteAccess') -> check(['id' => $id]);
         }catch (\Exception $exception){
@@ -253,8 +269,8 @@ class Auth extends BaseController
     }
 
     public function addAccess(){
-        $data['uid'] = $this -> request -> param("uid", '', 'htmlspecialchars');
-        $data['group'] = $this -> request -> param("group", '', 'htmlspecialchars');
+        $data['uid'] = $this -> request -> param("uid", '');
+        $data['group'] = $this -> request -> param("group", '');
         try {
             validate(AuthValidate::class) -> scene('addAccess') -> check($data);
         }catch (\Exception $exception){

@@ -19,6 +19,22 @@ use app\common\validate\admin\User as UserValidate;
 class User extends BaseController
 {
 
+    public function getAdmin(){
+        $errCode = (new UserBusiness()) -> getAdmin($this -> request -> param("id", '', 'htmlspecialchars'));
+        if (empty($errCode)){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
+    }
+
     public function deleteAdmin(){
         $data['target'] = $this -> request -> param("target", '', 'htmlspecialchars');
         try {
@@ -69,7 +85,7 @@ class User extends BaseController
     }
 
     public function viewAllAdmin(){
-        $errCode = (new UserBusiness()) -> viewAllAdmin($this -> request -> param("num", '', 'htmlspecialchars'));
+        $errCode = (new UserBusiness()) -> viewAllAdmin($this -> request -> param("num", 10, 'htmlspecialchars'));
         if (empty($errCode)){
             return $this -> show(
                 config("status.failed"),
@@ -187,10 +203,42 @@ class User extends BaseController
         );
     }
 
+    public function quit(){
+        $errCode = (new UserBusiness()) -> quit($this -> getToken());
+        if ($errCode == config('status.failed')){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "内部异常，请稍候重试！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            "退出成功！"
+        );
+    }
+
+    public function adminInfo(){
+        $errCode = (new UserBusiness()) -> adminInfo($this -> getToken());
+        if ($errCode == config('status.failed')){
+            return $this -> show(
+                config("status.failed"),
+                config("message.failed"),
+                "权限分配异常！"
+            );
+        }
+        return $this -> show(
+            config("status.success"),
+            config("message.success"),
+            $errCode
+        );
+    }
+
     public function login(){
         $data['username'] = $this -> request -> param("username", '', 'htmlspecialchars');
         $data['password'] = $this -> request -> param("password", '', 'htmlspecialchars');
-        $data['validate'] = $this -> request -> param("password", '', 'htmlspecialchars');
+        $data['validate'] = $this -> request -> param("validate", '', 'htmlspecialchars');
         try {
             validate(UserValidate::class) -> scene('login') -> check($data);
         }catch (\Exception $exception){

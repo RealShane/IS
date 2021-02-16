@@ -26,7 +26,7 @@ class User extends Validate
         'random' => 'require|max:20',
         'token' => 'require',
         'invite_code' => 'require',
-//        'validate' => 'require|captcha'
+        'validate' => 'require|captcha'
     ];
 
     protected $message = [

@@ -35,6 +35,14 @@ class Auth
         $this -> strLib = new Str();
     }
 
+    public function getRule($id){
+        try {
+            return $this -> ruleModel -> findById($id);
+        }catch (\Exception $exception){
+            return NULL;
+        }
+    }
+
     public function adminMenuAndView($user){
         try {
             $access = $this -> accessModel -> findByUid($user['id']);
@@ -62,7 +70,7 @@ class Auth
                     $rule['pid'] = '无父级目录';
                     continue;
                 }
-                $temp = $this -> ruleModel -> findByIdWithOutStatus($rule['pid']);
+                $temp = $this -> ruleModel -> findById($rule['pid']);
                 $rule['pid'] = $temp['name'];
             }
             return $rules;
@@ -72,7 +80,7 @@ class Auth
     }
 
     public function updateRule($data){
-        $rule = $this -> ruleModel -> findByIdWithOutStatus($data['id']);
+        $rule = $this -> ruleModel -> findById($data['id']);
         if (empty($rule)){
             return config("status.not_exist");
         }
@@ -93,7 +101,7 @@ class Auth
                     if (empty($rule)){
                         continue;
                     }
-                    $temp = $this -> ruleModel -> findByIdWithOutStatus($rule);
+                    $temp = $this -> ruleModel -> findById($rule);
                     $str .= $temp['name'] . ',';
                 }
                 $group['rules_name'] = rtrim($str, ',');
@@ -126,7 +134,7 @@ class Auth
             if (empty($rule)){
                 continue;
             }
-            $temp = $this -> ruleModel -> findById($rule);
+            $temp = $this -> ruleModel -> findByIdWithStatus($rule);
             if (empty($temp)){
                 return config("status.not_exist");
             }

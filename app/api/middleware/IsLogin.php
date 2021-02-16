@@ -13,8 +13,8 @@ class IsLogin extends BaseController
         $token = $this -> getToken();
         if (empty($token)){
             return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
+                config("status.goto"),
+                config("message.goto"),
                 "非法请求！"
             );
         }

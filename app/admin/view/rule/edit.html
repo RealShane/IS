@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    {include file="public/_meta" /}
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label">
+                    <span class="x-red">*</span>规则名
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label">
+                    图标
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="icon" name="icon" required="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label">
+                    <span class="x-red">*</span>权重
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="weigh" name="weigh" required="" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label">
+                    <span class="x-red">*</span>状态</label>
+                <div class="layui-input-inline">
+                    <select id="status" name="status">
+                        <option value=1>启用</option>
+                        <option value=0>停用</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <button  class="layui-btn" lay-filter="add" lay-submit="">
+                    提交
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    isLogin('{$secret}');
+    let param = getParams();
+    let id = param.id;
+    $(document).ready(function() {
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/getRule',
+            data : {
+                id : id
+            },
+            success : function(res) {
+                if(res.status === config('failed')){
+                    layer.msg(res.result);
+                }
+                $("#name").val(res.result['name']);
+                $("#icon").val(res.result['icon']);
+                $("#weigh").val(res.result['weigh']);
+                layui.use(['form'], function() {
+                    $ = layui.jquery;
+                    var form = layui.form;
+                    $("#status").find("option[value='" + res.result['status'] + "']").prop("selected",true);
+                    form.render();
+                });
+            }
+        });
+    });
+    layui.use(['form', 'layer'], function() {
+        $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer;
+        form.on('submit(add)', function(res) {
+            let status = $("select[name='status']").val();
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : '/{$secret}/updateRule',
+                data : {
+                    id : id,
+                    name : res.field.name,
+                    icon : res.field.icon,
+                    weigh : res.field.weigh,
+                    status : status
+                },
+                success : function(res) {
+                    if(res.status === config('failed')){
+                        layer.msg(res.result);
+                    }else if(res.status === config('success')){
+                        layer.alert(res.result, {icon: 6}, function() {
+                            xadmin.close();
+                            xadmin.father_reload();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

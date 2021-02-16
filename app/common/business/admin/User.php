@@ -11,7 +11,10 @@
 
 namespace app\common\business\admin;
 
+use app\common\business\lib\Redis;
 use app\common\business\lib\Str;
+use app\common\model\admin\AuthAccess;
+use app\common\model\admin\AuthGroup;
 use app\common\model\admin\User as UserModel;
 
 class User
@@ -19,10 +22,41 @@ class User
 
     private $strLib = NULL;
     private $userModel = NULL;
+    private $accessModel = NULL;
+    private $groupModel = NULL;
+    private $redis = NULL;
 
     public function __construct(){
-        $this -> userModel = new UserModel();
         $this -> strLib = new Str();
+        $this -> userModel = new UserModel();
+        $this -> accessModel = new AuthAccess();
+        $this -> groupModel = new AuthGroup();
+        $this -> redis = new Redis();
+    }
+
+    public function getAdmin($id){
+        try {
+            return $this -> userModel -> findById($id);
+        }catch (\Exception $exception){
+            return NULL;
+        }
+    }
+
+    public function quit($token){
+        return $this -> redis -> delete(config('redis.token_pre') . $token) ? config('status.success') : config('status.failed');
+    }
+
+    public function adminInfo($token){
+        $data = $this -> redis -> get(config('redis.token_pre') . $token);
+        $access = $this -> accessModel -> findByUid($data['id']);
+        if (empty($access)){
+            return config("status.failed");
+        }
+        $group = $this -> groupModel -> findById($access['group']);
+        if (empty($group)){
+            return config("status.failed");
+        }
+        return $group['name'] . ' -- ' . $data['username'];
     }
 
     public function deleteAdmin($target){

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    {include file="public/_meta" /}
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>管理员</label>
+                <div class="layui-input-inline">
+                    <select lay-filter="admin" id="admin" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>权限组</label>
+                <div class="layui-input-inline">
+                    <select lay-filter="group" id="group" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <button  class="layui-btn" lay-filter="add" lay-submit="">
+                    提交
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    isLogin('{$secret}');
+    $(document).ready(function() {
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/addAccessComment',
+            success : function(res) {
+                if(res.status === config('failed')){
+                    layer.msg(res.result);
+                }
+                renderAdminSelect(res.result['user']);
+                renderGroupSelect(res.result['group']);
+            }
+        });
+    });
+    layui.use(['form', 'layer'], function() {
+        $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer;
+        let uid = "", group = "";
+        form.on('select(admin)', function (data) {
+            uid = data.value;
+        });
+        form.on('select(group)', function (data) {
+            group = data.value;
+        });
+        form.on('submit(add)', function(res) {
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : '/{$secret}/addAccess',
+                data : {
+                    uid : uid,
+                    group : group
+                },
+                success : function(res) {
+                    if(res.status === config('failed')){
+                        layer.msg(res.result);
+                    }else if(res.status === config('success')){
+                        layer.alert(res.result, {icon: 6}, function() {
+                            xadmin.close();
+                            xadmin.father_reload();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+    function renderAdminSelect(data) {
+        for (let key of data){
+            $("#admin").append("<option value=" + key['id'] + ">" + key['username'] + "</option>");
+        }
+        renderForm()
+    }
+    function renderGroupSelect(data) {
+        for (let key of data){
+            $("#group").append("<option value=" + key['id'] + ">" + key['name'] + "</option>");
+        }
+        renderForm()
+    }
+    function renderForm(){
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
+        });
+    }
+</script>
+</body>
+</html>

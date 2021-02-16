@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    {include file="public/_meta" /}
+    <link rel="stylesheet" href="__ADMIN__/css/eleTree.css" media="all">
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label">
+                    <span class="x-red">*</span>组名
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label">
+                    <span class="x-red">*</span>权限规则
+                </label>
+                <div class="layui-input-inline">
+                    <div class="eleTree ele3" lay-filter="data3"></div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <button  class="layui-btn" lay-filter="add" lay-submit="">
+                    提交
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    isLogin('{$secret}');
+    let rule = "";
+    layui.config({
+        base: "__ADMIN__/lib/layui/lay/mymodules/"
+    }).use(['form', 'layer', 'jquery', 'table', 'eleTree', 'code'], function() {
+        $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer,
+            eleTree = layui.eleTree,
+            table = layui.table,
+            code = layui.code;
+        var data = "";
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/addGroupComment',
+            success : function(res) {
+                if(res.status === config('failed')){
+                    layer.msg(res.result);
+                }
+                data = res.result;
+            }
+        });
+        eleTree.render({
+            elem: '.ele3',
+            data: data,
+            showCheckbox: true,
+            defaultExpandAll: true,
+            draggable: true,
+            showLine: true,
+            contextmenuList: ["copy", "add.async", "edit", "remove", {eventName: "test", text: "测试"}]
+        });
+        eleTree.on("nodeChecked(data3)",function(d) {
+            if (d.isChecked){
+                addRule(d.data.currentData);
+            }else {
+                delRule(d.data.currentData);
+            }
+        });
+        form.on('submit(add)', function(res) {
+            rule = rule.substring(0, rule.lastIndexOf(','));
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : '/{$secret}/addGroup',
+                data : {
+                    name : res.field.name,
+                    rules : rule
+                },
+                success : function(res) {
+                    if(res.status === config('failed')){
+                        layer.msg(res.result);
+                    }else if(res.status === config('success')){
+                        layer.alert(res.result, {icon: 6}, function() {
+                            xadmin.close();
+                            xadmin.father_reload();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+    function addRule(data) {
+        let str = packRule(data);
+        rule += str;
+    }
+    function delRule(data) {
+        let del = packRule(data), str = rule.split(","), res = "";
+        del = del.split(",");
+        let array = arrayDuplicate(str, del);
+        for (let key of array){
+            res += key + ',';
+        }
+        rule = res;
+    }
+    function packRule(data) {
+        let str = "";
+        if (!empty(data['children'])){
+            for (let c of data['children']){
+                str += c['id'] + ',';
+                if (!empty(c['children'])){
+                    for (let cc of c['children']){
+                        str += cc['id'] + ',';
+                    }
+                }
+            }
+        }
+        str += data['id'] + ',';
+        return str;
+    }
+</script>
+</body>
+</html>
