@@ -121,7 +121,7 @@ class User
             'last_login_time' => time(),
             'last_login_token' => $token
         ]);
-        $this -> redis -> set($token, [
+        $this -> redis -> set(config('redis.token_pre') . $token, [
             'id' => $isExist['id'],
             'username' => $isExist['username']
         ]);
