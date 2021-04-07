@@ -13,7 +13,6 @@
     <script src="__ADMIN__/js//jquery.min.js" charset="utf-8"></script>
     <script src="__ADMIN__/js/jquery.cookie.js" charset="utf-8"></script>
     <script src="__ADMIN__/lib/layui/layui.js" charset="utf-8"></script>
-    <script src="__ADMIN__/lib/layer/3.1.1/layer.js" charset="utf-8"></script>
     <script src="__ADMIN__/js/common.js" charset="utf-8"></script>
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -50,7 +49,8 @@
         $("#captcha_a").click(function(){
             $("#captcha").attr('src',"/captcha?id=" + Math.random());
         });
-        layui.use('form', function(){
+        layui.use('form', 'layer', function(){
+            var layer = layui.layer;
             var form = layui.form;
             form.on('submit(login)', function(res){
                 $.ajax({
@@ -63,7 +63,6 @@
                         validate:res.field.validate
                     },
                     success : function(res) {
-                        console.log(res);
                         if(res.status === config('failed')){
                             layer.msg(res.result);
                             $("#captcha").attr('src',"/captcha?id=" + Math.random());
