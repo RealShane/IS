@@ -18,6 +18,8 @@ use app\common\model\api\Classes;
 use app\common\model\api\Department;
 use app\common\model\api\User as UserModel;
 use app\common\model\api\UserClass;
+use app\common\business\lib\Redis;
+use think\Exception;
 
 /**
  * Class User
@@ -34,188 +36,164 @@ use app\common\model\api\UserClass;
 class User
 {
 
-    private $strLib = NULL;
-    private $emailLib = NULL;
+    private $str = NULL;
+    private $email = NULL;
     private $userModel = NULL;
     private $userClassModel = NULL;
     private $classesModel = NULL;
     private $departmentModel = NULL;
     private $config = NULL;
+    private $redis = NULL;
 
     public function __construct(){
-        $this -> strLib = new Str();
-        $this -> emailLib = new Email();
+        $this -> str = new Str();
+        $this -> email = new Email();
         $this -> userModel = new UserModel();
         $this -> userClassModel = new UserClass();
         $this -> classesModel = new Classes();
         $this -> departmentModel = new Department();
         $this -> config = new Config();
+        $this -> redis = new Redis();
     }
 
     public function viewMe($user){
-        try {
-            $data = $this -> userClassModel -> findByUid($user['id']);
-            $classes = $this -> classesModel -> findById($data['class_id']);
-            $department = $this -> departmentModel -> findById($classes['depart_id']);
-            return [
-                'name' => $user['name'],
-                'student_id' => $user['student_id'],
-                'class' => $classes['name'],
-                'department' => $department['name'],
-            ];
-        }catch (\Exception $exception){
-            return config("status.failed");
-        }
+        $data = $this -> userClassModel -> findByUid($user['id']);
+        $classes = $this -> classesModel -> findById($data['class_id']);
+        $department = $this -> departmentModel -> findById($classes['depart_id']);
+        return [
+            'name' => $user['name'],
+            'student_id' => $user['student_id'],
+            'class' => $classes['name'],
+            'department' => $department['name'],
+        ];
     }
 
     public function joinClass($inviteCode, $user){
         $isExist = $this -> userClassModel -> findByUid($user['id']);
         if (!empty($isExist)){
-            return config("status.exist");
+            throw new Exception("已加入班级，加错班级请联系管理员！");
         }
         $classes = $this -> classesModel -> findByInviteCode($inviteCode);
         if (empty($classes)){
-            return config('status.not_exist');
+            throw new Exception("班级不存在或未开放加入！");
         }
-        return $this -> userClassModel -> save([
+        $this -> userClassModel -> save([
             'uid' => $user['id'],
             'class_id' => $classes['id']
-        ]) ? config("status.success") : config("status.failed");
+        ]);
     }
 
     public function login($data){
+        $isExist = $this -> userModel -> findByEmailWithStatus($data['email']);
+        if (empty($isExist)){
+            throw new Exception("用户不存在！");
+        }
         if (strtoupper($data['login_type']) == 'TYPE_PASSWORD'){
-            return $this -> loginByPassword($data);
+            return $this -> loginByPassword($isExist, $data);
         }
         if (strtoupper($data['login_type']) == 'TYPE_EMAIL'){
-            return $this -> loginByEmail($data);
+            return $this -> loginByEmail($isExist, $data);
         }
-        return config("status.failed");
+        throw new Exception("登陆类型异常！");
+    }
+
+    public function logoff($token){
+        $this -> redis -> delete(config('redis.token_pre') . $token);
     }
 
     public function sendRandom($email){
-        try {
-            $isExist = $this -> userModel -> findByEmailWithStatus($email);
-            if (empty($isExist)){
-                return config('status.not_exist');
-            }
-            $random = rand(100000, 999999);
-            cache(config("redis.code_pre") . $email, $random, config("redis.code_expire"));
-            return $this -> sendRandomEmail($email, $random) ? config("status.success") : config("status.failed");
-        }catch (\Exception $exception){
-            return config("status.failed");
+        $isExist = $this -> userModel -> findByEmailWithStatus($email);
+        if (empty($isExist)){
+            throw new Exception("用户不存在！");
         }
+        $random = rand(100000, 999999);
+        $this -> redis -> set(config("redis.code_pre") . $email, $random, config("redis.code_expire"));
+        $this -> sendRandomEmail($email, $random);
     }
 
     public function activeRegister($token){
-        $data = $this -> getDataFromRedis(config("redis.active_pre"), $token);
+        $data = $this -> redis -> get(config("redis.active_pre") . $token);
         if (empty($data)){
-            return config("status.not_exist");
+            throw new Exception("注册过期，请重新注册！");
         }
         $studentId = $this -> userModel -> findByStudentId($data['student_id']);
         if (!empty($studentId)){
-            return config('status.exist');
+            throw new Exception("该学号已激活，请勿重复激活！");
         }
         $isExist = $this -> userModel -> findByEmail($data['email']);
         if (!empty($isExist)){
-            return config("status.exist");
+            throw new Exception("该邮箱已激活，请勿重复激活！");
         }
-        return $this -> userModel -> save($data) ? config("status.success") : config("status.failed");
+        $this -> userModel -> save($data);
     }
 
     public function register($data){
-        try {
-            $isExist = $this -> userModel -> findByEmail($data['email']);
-            if (!empty($isExist)){
-                return config("status.exist");
-            }
-            $studentId = $this -> userModel -> findByStudentId($data['student_id']);
-            if (!empty($studentId)){
-                return config('status.exist');
-            }
-            $data['password_salt'] = $this -> strLib -> salt(5);
-            $data['password'] = md5($data['password_salt'] . $data['password'] . $data['password_salt']);
-            $data['last_login_ip'] = request() -> ip();
-            $data['last_login_time'] = time();
-            $token = $this -> strLib -> createToken($data['email']);
-            cache(config("redis.active_pre") . $token, $data, config("redis.token_expire"));
-            return $this -> sendActiveEmail($data['email'], $token) ? config("status.success") : config("status.failed");
-        }catch (\Exception $exception){
-            return config("status.failed");
+        $isExist = $this -> userModel -> findByEmail($data['email']);
+        if (!empty($isExist)){
+            throw new Exception("邮箱已被注册！");
         }
+        $studentId = $this -> userModel -> findByStudentId($data['student_id']);
+        if (!empty($studentId)){
+            throw new Exception("学号已被注册！");
+        }
+        $data['password_salt'] = $this -> str -> salt(5);
+        $data['password'] = md5($data['password_salt'] . $data['password'] . $data['password_salt']);
+        $data['last_login_ip'] = request() -> ip();
+        $data['last_login_time'] = time();
+        $token = $this -> str -> createToken($data['email']);
+        $this -> redis -> set(config("redis.active_pre") . $token, $data, config("redis.token_expire"));
+        $this -> sendActiveEmail($data['email'], $token);
     }
-    private function loginByPassword($data){
-        $isExist = $this -> userModel -> findByEmailWithStatus($data['email']);
-        if (empty($isExist)){
-            return config('status.not_exist');
-        }
+
+    private function loginByPassword($isExist, $data){
         if ($isExist['last_login_ip'] != request() -> ip()){
-            return $this -> sendRandom($data['email']) ? config("status.goto") : config("status.failed");
+            $this -> sendRandom($data['email']);
+            throw new Exception("goto_email");
         }
         $password = md5($isExist['password_salt'] . $data['password'] . $isExist['password_salt']);
         if ($password != $isExist['password']){
-            return config('status.password_error');
+            throw new Exception("密码填写错误！");
         }
         return $this -> handleLogin($isExist);
     }
 
-    private function loginByEmail($data){
-        $isExist = $this -> userModel -> findByEmailWithStatus($data['email']);
-        if (empty($isExist)){
-            return config('status.not_exist');
-        }
-        $random = cache(config("redis.code_pre") . $data['email']);
+    private function loginByEmail($isExist, $data){
+        $random = $this -> redis -> get(config("redis.code_pre") . $data['email']);
         if ($random != $data['random']){
-            return config("status.random_error");
+            throw new Exception("邮件验证码填写错误，请仔细查看邮件！");
         }
         return $this -> handleLogin($isExist);
     }
 
     private function handleLogin($data){
-        $token = $this -> strLib -> createToken($data['email']);
-        $this -> clearExpireToken($data['last_login_token']);
-        $this -> updateLoginInfo($data['email'], $token);
-        return $this -> keepToken($token, [
-            'id' => $data['id'],
+        $token = $this -> str -> createToken($data['email']);
+        $this -> redis -> delete(config('redis.token_pre') . $data['last_login_token']);
+        $this -> userModel -> updateLoginInfo([
             'email' => $data['email'],
-            'name' => $data['name'],
-            'student_id' => $data['student_id']
-        ]) ? $token : config('status.failed');
-    }
-
-    private function clearExpireToken($token){
-        return cache(config('redis.token_pre') . $token, NULL);
-    }
-
-    private function updateLoginInfo($email, $token){
-        $data = [
-            'email' => $email,
             'last_login_ip' => request() ->ip(),
             'last_login_time' => time(),
             'last_login_token' => $token
-        ];
-        return $this -> userModel -> updateLoginInfo($data);
-    }
-
-    private function keepToken($token, $data){
-        return cache(config('redis.token_pre') . $token, $data, config('redis.token_expire'));
+        ]);
+        $this -> redis -> set(config('redis.token_pre') . $token, [
+            'id' => $data['id'],
+            'email' => $data['email'],
+            'name' => $data['name']
+        ]);
+        return $token;
     }
 
     private function sendRandomEmail($target, $random){
         $title = $this -> config -> getRandomTitle();
         $body = $this -> config -> getRandomBody() . $random;
         $alt_body = $this -> config -> getRandomAltBody() . $random;
-        return $this -> emailLib -> sendEmail($target, $title, $body, $alt_body);
+        $this -> email -> sendEmail($target, $title, $body, $alt_body);
     }
 
     private function sendActiveEmail($target, $token){
         $title = $this -> config -> getActiveTitle();
         $body = $this -> config -> getActiveBody() . $token;
         $alt_body = $this -> config -> getActiveAltBody() . $token;
-        return $this -> emailLib -> sendEmail($target, $title, $body, $alt_body);
+        $this -> email -> sendEmail($target, $title, $body, $alt_body);
     }
 
-    private function getDataFromRedis($pre, $token){
-        return cache($pre . $token);
-    }
 }

@@ -35,31 +35,26 @@ class Email
     }
 
     public function sendEmail($target, $title, $body, $alt_body){
-        try {
-            $this -> mailer -> CharSet ="UTF-8";
-            $this -> mailer -> SMTPDebug = 0;
-            $this -> mailer -> isSMTP();
-            $this -> mailer -> Host = $this -> host;
-            $this -> mailer -> SMTPAuth = true;
-            $this -> mailer -> Username = $this -> username;
-            $this -> mailer -> Password = $this -> password;
-            $this -> mailer -> SMTPSecure = 'ssl';
-            $this -> mailer -> Port = 465;
+        $this -> mailer -> CharSet ="UTF-8";
+        $this -> mailer -> SMTPDebug = 0;
+        $this -> mailer -> isSMTP();
+        $this -> mailer -> Host = $this -> host;
+        $this -> mailer -> SMTPAuth = true;
+        $this -> mailer -> Username = $this -> username;
+        $this -> mailer -> Password = $this -> password;
+        $this -> mailer -> SMTPSecure = 'ssl';
+        $this -> mailer -> Port = 465;
 
-            $this -> mailer -> setFrom($this -> username, $this -> name);
-            $this -> mailer -> addAddress($target);
-            $this -> mailer -> addReplyTo($this -> username, $this -> name);
+        $this -> mailer -> setFrom($this -> username, $this -> name);
+        $this -> mailer -> addAddress($target);
+        $this -> mailer -> addReplyTo($this -> username, $this -> name);
 
-            $this -> mailer -> isHTML(true);
-            $this -> mailer -> Subject = "$title";
-            $this -> mailer -> Body    = "$body";
-            $this -> mailer -> AltBody = "$alt_body";
+        $this -> mailer -> isHTML(true);
+        $this -> mailer -> Subject = "$title";
+        $this -> mailer -> Body    = "$body";
+        $this -> mailer -> AltBody = "$alt_body";
 
-            $this -> mailer -> send();
-            return config("status.success");
-        } catch (Exception $exception) {
-            return $exception -> getMessage();
-        }
+        $this -> mailer -> send();
     }
 
 }

@@ -18,34 +18,15 @@ class User extends Validate
 {
 
     protected $rule = [
-        'email' => 'require|email',
-        'password' => 'require|max:20',
-        'name' => 'require|max:20',
-        'sex' => 'require|integer',
-        'student_id' => 'require|max:255',
-        'random' => 'require|max:20',
+        'email|邮箱' => 'require|email',
+        'password|密码' => 'require|max:20',
+        'name|姓名' => 'require|max:20',
+        'sex|性别' => 'require|integer',
+        'student_id|学号' => 'require|max:255',
+        'random|随机码' => 'require|max:20',
         'token' => 'require',
-        'invite_code' => 'require',
-        'validate' => 'require|captcha'
-    ];
-
-    protected $message = [
-        'email.require' => '邮箱不为空!',
-        'email.email' => '邮箱格式不正确!',
-        'password.require' => '密码不为空!',
-        'password.max' => '密码不超过20个字符!',
-        'name.require' => '姓名不为空!',
-        'name.max' => '姓名不超过20个字符!',
-        'sex.require' => '性别不为空!',
-        'sex.integer' => '性别数据格式不正确!',
-        'student_id.require' => '学号不为空!',
-        'student_id.max' => '学号不超过255个字符!',
-        'random.require' => '随机码不为空!',
-        'random.max' => '随机码不超过20个字符!',
-        'token.require' => '非法请求!',
-        'invite_code.require' => '班级邀请码不为空!',
-        'validate.require' => '验证码不为空!',
-        'validate.captcha' => '验证码错误!'
+        'invite_code|班级邀请码' => 'require',
+        'validate|验证码' => 'require|captcha'
     ];
 
     protected $scene = [

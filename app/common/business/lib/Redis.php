@@ -18,9 +18,15 @@ use think\facade\Cache;
 class Redis
 {
 
-    public function set($key, $value, $ttl = null){
+    private $store = NULL;
+
+    public function __construct($store = 'redis'){
+        $this -> setStore($store);
+    }
+
+    public function set($key, $value, $ttl = null) {
         try {
-            return Cache::store('redis') -> set($key, $value, $ttl);
+            return Cache::store($this -> store) -> set($key, $value, $ttl);
         } catch (InvalidArgumentException $e) {
             return NULL;
         }
@@ -28,18 +34,22 @@ class Redis
 
     public function get($key){
         try {
-            return Cache::store('redis') -> get($key);
+            return Cache::store($this -> store) -> get($key);
         } catch (InvalidArgumentException $e) {
             return NULL;
         }
     }
 
-    public function delete($key){
+    public function delete($key) {
         try {
-            return Cache::store('redis') -> delete($key);
+            return Cache::store($this -> store) -> delete($key);
         } catch (InvalidArgumentException $e) {
             return NULL;
         }
+    }
+
+    public function setStore($store){
+        $this -> store = $store;
     }
 
 }

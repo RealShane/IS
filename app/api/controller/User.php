@@ -13,18 +13,22 @@ namespace app\api\controller;
 
 
 use app\BaseController;
-use app\common\validate\api\User as UserValidate;
-use app\common\business\api\User as UserBusiness;
+use app\common\validate\api\User as Validate;
+use app\common\business\api\User as Business;
+use think\App;
 
 class User extends BaseController
 {
 
+    protected $business = NULL;
+
+    public function __construct(App $app, Business $business){
+        parent::__construct($app);
+        $this -> business = $business;
+    }
+
     public function isLogin(){
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "合法登录"
-        );
+        return $this -> success("合法登录");
     }
 
     public function changePassword(){
@@ -32,106 +36,36 @@ class User extends BaseController
     }
 
     public function viewMe(){
-        $errCode = (new UserBusiness()) -> viewMe($this -> getUser());
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        return $this -> success($this -> business -> viewMe($this -> getUser()));
     }
 
     public function joinClass(){
         $user = $this -> getUser();
         $inviteCode = $this -> request -> param("invite_code", '', 'htmlspecialchars');
         try {
-            validate(UserValidate::class) -> scene("invite_code") -> check(['invite_code' => $inviteCode]);
+            validate(Validate::class) -> scene("invite_code") -> check(['invite_code' => $inviteCode]);
         } catch (\Exception $exception) {
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new UserBusiness()) -> joinClass($inviteCode, $user);
-        if ($errCode == config('status.exist')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "已加入班级，请勿加入其他班级或重复加入！"
-            );
-        }
-        if ($errCode == config('status.not_exist')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "班级不存在或未开放加入！"
-            );
-        }
-        if ($errCode == config('status.failed')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "加入班级成功！"
-        );
+        $this -> business -> joinClass($inviteCode, $user);
+        return $this -> success("加入班级成功！");
     }
 
     public function logoff(){
-        return cache(config('redis.token_pre') . $this -> getToken(), NULL) ? $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "退出登录成功！"
-        ) : $this -> show(
-            config("status.failed"),
-            config("message.failed"),
-            "退出登录失败！"
-        );
+        $this -> business -> logoff($this -> getToken());
+        return $this -> success("退出登录成功！");
     }
 
     public function sendRandom(){
         $data['email'] = $this -> request -> param("email", '', 'htmlspecialchars');
         $data['validate'] = $this -> request -> param("validate", '', 'htmlspecialchars');
         try {
-            validate(UserValidate::class) -> scene("send_email") -> check($data);
+            validate(Validate::class) -> scene("send_email") -> check($data);
         } catch (\Exception $exception) {
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new UserBusiness()) -> sendRandom($data['email']);
-        if ($errCode == config('status.not_exist')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "用户不存在！"
-            );
-        }
-        if ($errCode == config('status.failed')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "发送成功，请查看邮箱！"
-        );
+        $this -> business -> sendRandom($data['email']);
+        return $this -> success("发送成功，请查看邮箱！");
     }
 
     public function login(){
@@ -142,95 +76,22 @@ class User extends BaseController
         $data['login_type'] = $this -> request -> param("login_type", '', 'htmlspecialchars');
         $data['login_type'] = strtolower($data['login_type']);
         try {
-            validate(UserValidate::class) -> scene($data['login_type']) -> check($data);
+            validate(Validate::class) -> scene($data['login_type']) -> check($data);
         } catch (\Exception $exception) {
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new UserBusiness()) -> login($data);
-        if ($errCode == config('status.failed')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        if ($errCode == config('status.not_exist')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "用户不存在！"
-            );
-        }
-        if ($errCode == config('status.goto')){
-            return $this -> show(
-                config("status.goto"),
-                config("message.goto"),
-                "检测到异地登录，已发送验证邮件！"
-            );
-        }
-        if ($errCode == config('status.password_error')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "密码填写错误！"
-            );
-        }
-        if ($errCode == config('status.random_error')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "邮件验证码填写错误，请仔细查看邮件！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            ['token' => $errCode]
-        );
+        return $this -> success(['token' => $this -> business -> login($data)]);
     }
 
     public function activeRegister(){
         $token = $this -> request -> param("token", '', 'htmlspecialchars');
         try {
-            validate(UserValidate::class) -> scene("active_register") -> check(['token' => $token]);
+            validate(Validate::class) -> scene("active_register") -> check(['token' => $token]);
         } catch (\Exception $exception) {
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new UserBusiness()) -> activeRegister($token);
-        if ($errCode == config("status.not_exist")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "注册过期，请重新注册！"
-            );
-        }
-        if ($errCode == config("status.exist")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "已激活，请勿重复激活！"
-            );
-        }
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "激活成功！"
-        );
+        $this -> business -> activeRegister($token);
+        return $this -> success("激活成功！");
     }
 
     public function register(){
@@ -241,34 +102,12 @@ class User extends BaseController
         $data['student_id'] = $this -> request -> param("student_id", '', 'htmlspecialchars');
         $data['validate'] = $this -> request -> param("validate", '', 'htmlspecialchars');
         try {
-            validate(UserValidate::class) -> scene("register") -> check($data);
+            validate(Validate::class) -> scene("register") -> check($data);
         } catch (\Exception $exception) {
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new UserBusiness()) -> register($data);
-        if ($errCode == config("status.exist")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "邮箱已被注册！"
-            );
-        }
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "注册成功，等待邮件激活！"
-        );
+        $this -> business -> register($data);
+        return $this -> success("注册成功，等待邮件激活！");
     }
 
 }
