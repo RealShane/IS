@@ -100,6 +100,22 @@ abstract class BaseController
         return show_res($status, $message, $data);
     }
 
+    public function success($result){
+        return $this -> show(
+            config('status.success'),
+            config('message.success'),
+            $result
+        );
+    }
+
+    public function fail($result){
+        return $this -> show(
+            config('status.failed'),
+            config('message.failed'),
+            $result
+        );
+    }
+
     public function getToken(){
         return $this -> request -> header('access-token');
     }
