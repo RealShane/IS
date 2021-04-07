@@ -49,7 +49,7 @@
         $("#captcha_a").click(function(){
             $("#captcha").attr('src',"/captcha?id=" + Math.random());
         });
-        layui.use('form', 'layer', function(){
+        layui.use(['form', 'layer'], function(){
             var layer = layui.layer;
             var form = layui.form;
             form.on('submit(login)', function(res){
