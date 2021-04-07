@@ -62,9 +62,8 @@
                         validate:res.field.validate
                     },
                     success : function(res) {
-                        console.log(res);
                         if(res.status === config('failed')){
-                            layer.msg(res.result);
+                            layer.msg(res.message);
                             $("#captcha").attr('src',"/captcha?id=" + Math.random());
                         }else if(res.status === config('success')){
                             layer.msg('登录成功!', function () {
