@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 namespace app;
 
+use app\common\business\lib\Redis;
 use think\App;
 use think\exception\ValidateException;
 use think\Validate;
@@ -36,6 +37,8 @@ abstract class BaseController
      */
     protected $middleware = [];
 
+    private $redis = NULL;
+
     /**
      * 构造方法
      * @access public
@@ -45,6 +48,7 @@ abstract class BaseController
     {
         $this->app     = $app;
         $this->request = $this->app->request;
+        $this -> redis = new Redis();
 
         // 控制器初始化
         $this->initialize();
@@ -91,9 +95,8 @@ abstract class BaseController
         return $v->failException(true)->check($data);
     }
 
-    public function __call($name, $arguments)
-    {
-        return show_res(config("status.error"), "找不到{$name}方法", config("message.error"), 0);
+    public function __call($name, $arguments){
+        return $this -> fail('找不到' . $name . '方法');
     }
 	
 	public function show($status, $message, $data){
@@ -121,7 +124,7 @@ abstract class BaseController
     }
 
     public function getUser(){
-        return cache(config('redis.token_pre') . $this -> getToken());
+        return $this -> redis -> get(config('redis.token_pre') . $this -> getToken());
     }
 
     public function getUid(){

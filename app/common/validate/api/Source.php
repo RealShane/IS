@@ -8,31 +8,20 @@ use think\Validate;
 
 class Source extends Validate
 {
-    protected $rule =   [
-        'id_number' => 'require',
-        'graduate_school'  => 'require',
-        'source' => 'require',
-        'poor_code' => 'require',
-        'mobile_phone' => 'require',
-        'qq' => 'require',
-        'home_address' => 'require',
-        'home_phone' => 'require',
-    ];
 
-    protected $message  =   [
-        'id_number.require' => '身份证号必须',
-        'graduate_school.require' => '毕业中学必须',
-        'source.require' => '生源所在地必须',
-        'poor_code.require' => '困难生类别代码必须',
-        'mobile_phone.require' => '移动电话必须',
-        'qq.require' => 'qq必须',
-        'home_address.require' => '家庭地址必须',
-        'home_phone.require' => '家庭电话必须'
+    protected $rule =   [
+        'id_number|身份证号' => 'require',
+        'graduate_school|毕业中学'  => 'require',
+        'source|生源所在地' => 'require',
+        'poor_code|困难生类别代码' => 'require',
+        'mobile_phone|移动电话' => 'require',
+        'qq' => 'require',
+        'home_address|家庭地址' => 'require',
+        'home_phone|家庭电话' => 'require',
     ];
 
     protected $scene = [
         'insertData'  =>  ['id_number', 'graduate_school', 'source', 'poor_code', 'mobile_phone', 'qq', 'home_address', 'home_phone'],
     ];
-
 
 }

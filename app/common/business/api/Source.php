@@ -10,9 +10,11 @@ use app\common\model\api\UserClass;
 use app\common\model\api\Classes;
 use app\common\model\api\Department;
 use app\common\model\api\Source as SourceModel;
+use think\Exception;
 
 class Source
 {
+
     private $userModel = NULL;
     private $userClassModel = NULL;
     private $classesModel = NULL;
@@ -33,41 +35,37 @@ class Source
 
     public function sourceRecord($data){
         if ($this -> config -> getSourceSignStatus()){
-            return config('status.close');
+            throw new Exception("功能已关闭！");
         }
         $isExist = $this -> sourceModel -> findByUid($data['uid']);
         if (empty($isExist)){
-            return $this -> sourceModel -> save($data) ? config('status.success') : config('status.failed');
+            $this -> sourceModel -> save($data);
         }
-        return $this -> sourceModel -> updateRecord($data) ? config('status.success') : config('status.failed');
+        $this -> sourceModel -> updateRecord($data);
     }
 
     public function getSourceRecord($uid){
-        try {
-            $isExist = $this -> sourceModel -> findByUid($uid);
-            if (empty($isExist)){
-                return config('status.not_exist');
-            }
-            $data = $this -> getInfo($uid);
-            return [
-                'id_number' => $isExist['id_number'],
-                'name' => $data['name'],
-                'sex' => $data['sex'],
-                'departName' => $data['departName'],
-                'major' => $data['major'],
-                'className' => $data['className'],
-                'graduate_school' => $isExist['graduate_school'],
-                'source' => $isExist['source'],
-                'poor_code' => $isExist['poor_code'],
-                'mobile_phone' => $isExist['mobile_phone'],
-                'email' => $data['email'],
-                'qq' => $isExist['qq'],
-                'home_address' => $isExist['home_address'],
-                'home_phone' => $isExist['home_phone']
-            ];
-        }catch (\Exception $exception){
-            return config('status.failed');
+        $isExist = $this -> sourceModel -> findByUid($uid);
+        if (empty($isExist)){
+            throw new Exception("记录不存在！");
         }
+        $data = $this -> getInfo($uid);
+        return [
+            'id_number' => $isExist['id_number'],
+            'name' => $data['name'],
+            'sex' => $data['sex'],
+            'departName' => $data['departName'],
+            'major' => $data['major'],
+            'className' => $data['className'],
+            'graduate_school' => $isExist['graduate_school'],
+            'source' => $isExist['source'],
+            'poor_code' => $isExist['poor_code'],
+            'mobile_phone' => $isExist['mobile_phone'],
+            'email' => $data['email'],
+            'qq' => $isExist['qq'],
+            'home_address' => $isExist['home_address'],
+            'home_phone' => $isExist['home_phone']
+        ];
     }
 
     public function pushExcel($depart_id, $major){
@@ -90,7 +88,7 @@ class Source
             
         }
 
-        return $this -> excelLib -> push($title, $this -> setIndex(), $res);
+        $this -> excelLib -> push($title, $this -> setIndex(), $res);
     }
 
     private function packInfo($depart_id){

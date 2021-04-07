@@ -26,7 +26,7 @@ class IsLogin extends BaseController
                 "登录过期！"
             );
         }
-        $user = (new User()) -> findByUserName($user['username']);
+        $user = (new User()) -> findByUserNameWithStatus($user['username']);
         if ($user['last_login_token'] != $token){
             cache(config('redis.token_pre') . $token, NULL);
             return $this -> show(

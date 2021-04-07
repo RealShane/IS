@@ -288,11 +288,7 @@ class View extends BaseController
     }
 
     public function isLogin(){
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            true
-        );
+        return $this -> success(true);
     }
 
 }

@@ -86,8 +86,8 @@ class Synthesize extends BaseController
             }
             return $this -> fail($message);
         }
-        $errCode = $this -> upload -> upload($user, $file, 'synthesize_poor', 'synthesize/poor/');
-        return $this -> success(['path' => $errCode]);
+        $saveName = $this -> upload -> upload($user, $file, 'synthesize_poor', 'synthesize/poor/');
+        return $this -> success(['path' => $saveName]);
     }
 
 }

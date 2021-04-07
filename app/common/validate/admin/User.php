@@ -18,20 +18,11 @@ class User extends Validate
 {
 
     protected $rule = [
-        'username' => 'require',
-        'target' => 'require',
-        'password' => 'require',
-        'status' => 'require',
-//        'validate' => 'require|captcha'
-    ];
-
-    protected $message = [
-        'username.require' => '用户名不为空！',
-        'password.require' => '密码不为空！',
-        'validate.require' => '验证码不为空！',
-        'validate.captcha' => '验证码不正确！',
-        'target.require' => '目标不为空！',
-        'status.require' => '状态不为空！',
+        'username|用户名' => 'require',
+        'target|目标' => 'require',
+        'password|密码' => 'require',
+        'status|状态' => 'require',
+        'validate|验证码' => 'require|captcha'
     ];
 
     protected $scene = [

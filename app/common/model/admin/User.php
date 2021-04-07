@@ -58,15 +58,15 @@ class User extends Model
     }
 
     public function updateLoginInfo($data){
-        $result = $this -> findByUserName($data['username']);
+        $result = $this -> findByUserNameWithStatus($data['username']);
         return $result -> allowField(['last_login_ip', 'last_login_time', 'last_login_token']) -> save($data);
     }
 
-    public function findByUserName($username){
+    public function findByUserNameWithStatus($username){
         return $this -> where('username', $username) -> where('status', 1) -> find();
     }
 
-    public function findByUserNameWithOutStatus($username){
+    public function findByUserName($username){
         return $this -> where('username', $username) -> find();
     }
 
@@ -75,8 +75,7 @@ class User extends Model
     }
 
     public function findAllWithOutPaginate(){
-        return $this -> where('id', '>', 0)
-            -> where('status', 1)
+        return $this -> where('status', 1)
             -> field(['id', 'username'])
             -> select();
     }

@@ -17,6 +17,7 @@ use app\common\model\admin\AuthRule;
 use app\common\model\admin\User;
 use app\common\model\admin\AuthAccess;
 use app\common\model\admin\AuthGroup;
+use think\Exception;
 
 class Auth
 {
@@ -36,96 +37,76 @@ class Auth
     }
 
     public function getRule($id){
-        try {
-            return $this -> ruleModel -> findById($id);
-        }catch (\Exception $exception){
-            return NULL;
-        }
+        return $this -> ruleModel -> findById($id);
     }
 
     public function adminMenuAndView($user){
-        try {
-            $access = $this -> accessModel -> findByUid($user['id']);
-            if (empty($access)){
-                return config("status.not_exist");
-            }
-            $group = $this -> groupModel -> findById($access['group']);
-            if (empty($group)){
-                return config("status.not_exist");
-            }
-            if ($group['rules'] == '*'){
-                return $this -> ruleModel -> superAdminMenuAndView();
-            }
-            return $this -> ruleModel -> otherAdminMenuAndView(explode(',', $group['rules']));
-        }catch (\Exception $exception){
-            return NULL;
+        $access = $this -> accessModel -> findByUid($user['id']);
+        if (empty($access)){
+            throw new Exception("该管理员账号未分配权限！");
         }
+        $group = $this -> groupModel -> findByIdWithStatus($access['group']);
+        if (empty($group)){
+            throw new Exception("该管理员所在权限组已失效！");
+        }
+        if ($group['rules'] == '*'){
+            return $this -> ruleModel -> superAdminMenuAndView();
+        }
+        return $this -> ruleModel -> otherAdminMenuAndView(explode(',', $group['rules']));
     }
 
     public function viewRule($num){
-        try {
-            $rules = $this -> ruleModel -> findMenuAndView($num);
-            foreach ($rules as $rule){
-                if (empty($rule['pid'])){
-                    $rule['pid'] = '无父级目录';
-                    continue;
-                }
-                $temp = $this -> ruleModel -> findById($rule['pid']);
-                $rule['pid'] = $temp['name'];
+        $rules = $this -> ruleModel -> findMenuAndView($num);
+        foreach ($rules as $rule){
+            if (empty($rule['pid'])){
+                $rule['pid'] = '无父级目录';
+                continue;
             }
-            return $rules;
-        }catch (\Exception $exception){
-            return NULL;
+            $temp = $this -> ruleModel -> findById($rule['pid']);
+            $rule['pid'] = $temp['name'];
         }
+        return $rules;
     }
 
     public function updateRule($data){
         $rule = $this -> ruleModel -> findById($data['id']);
         if (empty($rule)){
-            return config("status.not_exist");
+            throw new Exception("权限规则不存在！");
         }
-        return $this -> ruleModel -> updateById($data) ? config("status.success") : config("status.failed");
+        $this -> ruleModel -> updateById($data);
     }
 
     public function viewAllGroup($num){
-        try {
-            $groups = $this -> groupModel -> findAll($num);
-            foreach ($groups as $group){
-                if ($group['rules'] == '*'){
-                    $group['rules_name'] = '超级权限';
+        $groups = $this -> groupModel -> findAll($num);
+        foreach ($groups as $group){
+            if ($group['rules'] == '*'){
+                $group['rules_name'] = '超级权限';
+                continue;
+            }
+            $rules = explode(',', $group['rules']);
+            $str = NULL;
+            foreach ($rules as $rule){
+                if (empty($rule)){
                     continue;
                 }
-                $rules = explode(',', $group['rules']);
-                $str = NULL;
-                foreach ($rules as $rule){
-                    if (empty($rule)){
-                        continue;
-                    }
-                    $temp = $this -> ruleModel -> findById($rule);
-                    $str .= $temp['name'] . ',';
-                }
-                $group['rules_name'] = rtrim($str, ',');
+                $temp = $this -> ruleModel -> findById($rule);
+                $str .= $temp['name'] . ',';
             }
-            return $groups;
-        }catch (\Exception $exception){
-            return NULL;
+            $group['rules_name'] = rtrim($str, ',');
         }
+        return $groups;
     }
 
     public function deleteGroup($id){
-        $isExist = $this -> groupModel -> findByIdWithOutStatus($id);
+        $isExist = $this -> groupModel -> findById($id);
         if (empty($isExist)){
-            return config("status.not_exist");
+            throw new Exception("权限组不存在！");
         }
-        return $this -> groupModel -> deleteById($id) ? config("status.success") : config("status.failed");
+        $isExist -> delete();
     }
 
     public function addGroupComment(){
-        try {
-            return $this -> ruleModel -> ruleComment();
-        }catch (\Exception $exception){
-            return NULL;
-        }
+        return $this -> ruleModel -> ruleComment();
     }
 
     public function addGroup($data){
@@ -136,64 +117,56 @@ class Auth
             }
             $temp = $this -> ruleModel -> findByIdWithStatus($rule);
             if (empty($temp)){
-                return config("status.not_exist");
+                throw new Exception("部分权限规则不存在，请刷新页面！");
             }
         }
         $isExist = $this -> groupModel -> findByName($data['name']);
         if (empty($isExist)){
-            return $this -> groupModel -> save($data) ? config("status.success") : config("status.failed");
+            $this -> groupModel -> save($data);
         }
-        return $this -> groupModel -> updateByName($data) ? config("status.success") : config("status.failed");
+        $this -> groupModel -> updateByName($data);
     }
 
     public function viewAllAccess($num){
-        try {
-            $accesses = $this -> accessModel -> findAll($num);
-            foreach ($accesses as $access){
-                $user = $this -> userModel -> findById($access['uid']);
-                $group = $this -> groupModel -> findByIdWithOutStatus($access['group']);
-                $access['username'] = $user['username'];
-                $access['group_name'] = $group['name'];
-            }
-            return $accesses;
-        }catch (\Exception $exception){
-            return NULL;
+        $accesses = $this -> accessModel -> findAll($num);
+        foreach ($accesses as $access){
+            $user = $this -> userModel -> findById($access['uid']);
+            $group = $this -> groupModel -> findById($access['group']);
+            $access['username'] = $user['username'];
+            $access['group_name'] = $group['name'];
         }
+        return $accesses;
     }
 
     public function deleteAccess($id){
         $isExist = $this -> accessModel -> findById($id);
         if (empty($isExist)){
-            return config("status.not_exist");
+            throw new Exception("权限分配记录不存在！");
         }
-        return $this -> accessModel -> deleteById($id) ? config("status.success") : config("status.failed");
+        $isExist -> delete();
     }
 
     public function addAccessComment(){
-        try {
-            return [
-                'user' => $this -> userModel -> findAllWithOutPaginate(),
-                'group' => $this -> groupModel -> findAllWithOutPaginate()
-            ];
-        }catch (\Exception $exception){
-            return NULL;
-        }
+        return [
+            'user' => $this -> userModel -> findAllWithOutPaginate(),
+            'group' => $this -> groupModel -> findAllWithOutPaginate()
+        ];
     }
 
     public function addAccess($data){
         $userExist = $this -> userModel -> findById($data['uid']);
         if (empty($userExist)){
-            return config("status.not_exist");
+            throw new Exception("管理员不存在！");
         }
-        $groupExist = $this -> groupModel -> findById($data['group']);
+        $groupExist = $this -> groupModel -> findByIdWithStatus($data['group']);
         if (empty($groupExist)){
-            return config("status.not_exist");
+            throw new Exception("权限组不存在！");
         }
         $isExist = $this -> accessModel -> findByUid($data['uid']);
         if (empty($isExist)){
-            return $this -> accessModel -> save($data) ? config("status.success") : config("status.failed");
+            $this -> accessModel -> save($data);
         }
-        return $this -> accessModel -> updateByUid($data) ? config("status.success") : config("status.failed");
+        $this -> accessModel -> updateByUid($data);
     }
 
 }

@@ -13,58 +13,32 @@ namespace app\admin\controller;
 
 
 use app\BaseController;
-use app\common\business\admin\Auth as AuthBusiness;
-use app\common\validate\admin\Auth as AuthValidate;
+use app\common\business\admin\Auth as Business;
+use app\common\validate\admin\Auth as Validate;
+use think\App;
 
 class Auth extends BaseController
 {
 
+    protected $business = NULL;
+
+    public function __construct(App $app, Business $business){
+        parent::__construct($app);
+        $this -> business = $business;
+    }
+
     public function getRule(){
-        $errCode = (new AuthBusiness()) -> getRule($this -> request -> param("id", ''));
-        if (empty($errCode)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        $errCode = $this -> business -> getRule($this -> request -> param("id", ''));
+        return $this -> success($errCode);
     }
 
     public function adminMenuAndView(){
-        $errCode = (new AuthBusiness()) -> adminMenuAndView($this -> getUser());
-        if (empty($errCode)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        return $this -> success($this -> business -> adminMenuAndView($this -> getUser()));
     }
 
     public function viewRule(){
-        $errCode = (new AuthBusiness()) -> viewRule($this -> request -> param("num", ''));
-        if (empty($errCode)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        $errCode = $this -> business -> viewRule($this -> request -> param("num", ''));
+        return $this -> success($errCode);
     }
 
     public function updateRule(){
@@ -74,232 +48,76 @@ class Auth extends BaseController
         $data['weigh'] = $this -> request -> param("weigh", '');
         $data['status'] = $this -> request -> param("status", '');
         try {
-            validate(AuthValidate::class) -> scene('updateRule') -> check($data);
+            validate(Validate::class) -> scene('updateRule') -> check($data);
         }catch (\Exception $exception){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new AuthBusiness()) -> updateRule($data);
-        if ($errCode == config("status.not_exist")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "权限规则不存在！"
-            );
-        }
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "操作成功！"
-        );
+        $this -> business -> updateRule($data);
+        return $this -> success("操作成功！");
     }
 
     public function viewAllGroup(){
-        $errCode = (new AuthBusiness()) -> viewAllGroup($this -> request -> param("num", ''));
-        if (empty($errCode)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        $errCode = $this -> business -> viewAllGroup($this -> request -> param("num", ''));
+        return $this -> success($errCode);
     }
 
     public function deleteGroup(){
         $id = $this -> request -> param("id", '');
         try {
-            validate(AuthValidate::class) -> scene('deleteGroup') -> check(['id' => $id]);
+            validate(Validate::class) -> scene('deleteGroup') -> check(['id' => $id]);
         }catch (\Exception $exception){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new AuthBusiness()) -> deleteGroup($id);
-        if ($errCode == config("status.not_exist")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "权限组不存在！"
-            );
-        }
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "操作成功！"
-        );
+        $this -> business -> deleteGroup($id);
+        return $this -> success("操作成功！");
     }
 
     public function addGroupComment(){
-        $errCode = (new AuthBusiness()) -> addGroupComment();
-        if (empty($errCode)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        return $this -> success($this -> business -> addGroupComment());
     }
 
     public function addGroup(){
         $data['name'] = $this -> request -> param("name", '');
         $data['rules'] = $this -> request -> param("rules", '');
         try {
-            validate(AuthValidate::class) -> scene('addGroup') -> check($data);
+            validate(Validate::class) -> scene('addGroup') -> check($data);
         }catch (\Exception $exception){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new AuthBusiness()) -> addGroup($data);
-        if ($errCode == config("status.not_exist")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "权限规则不存在！"
-            );
-        }
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "操作成功！"
-        );
+        $this -> business -> addGroup($data);
+        return $this -> success("操作成功！");
     }
 
     public function viewAllAccess(){
-        $errCode = (new AuthBusiness()) -> viewAllAccess($this -> request -> param("num", ''));
-        if (empty($errCode)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        $errCode = $this -> business -> viewAllAccess($this -> request -> param("num", ''));
+        return $this -> success($errCode);
     }
 
     public function deleteAccess(){
         $id = $this -> request -> param("id", '');
         try {
-            validate(AuthValidate::class) -> scene('deleteAccess') -> check(['id' => $id]);
+            validate(Validate::class) -> scene('deleteAccess') -> check(['id' => $id]);
         }catch (\Exception $exception){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new AuthBusiness()) -> deleteAccess($id);
-        if ($errCode == config("status.not_exist")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "权限分配记录不存在！"
-            );
-        }
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "操作成功！"
-        );
+        $this -> business -> deleteAccess($id);
+        return $this -> success("操作成功！");
     }
 
     public function addAccessComment(){
-        $errCode = (new AuthBusiness()) -> addAccessComment();
-        if (empty($errCode)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        return $this -> success($this -> business -> addAccessComment());
     }
 
     public function addAccess(){
         $data['uid'] = $this -> request -> param("uid", '');
         $data['group'] = $this -> request -> param("group", '');
         try {
-            validate(AuthValidate::class) -> scene('addAccess') -> check($data);
+            validate(Validate::class) -> scene('addAccess') -> check($data);
         }catch (\Exception $exception){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new AuthBusiness()) -> addAccess($data);
-        if ($errCode == config("status.not_exist")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "管理员或权限组不存在！"
-            );
-        }
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "操作成功！"
-        );
+        $this -> business -> addAccess($data);
+        return $this -> success("操作成功！");
     }
 
 }

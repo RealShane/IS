@@ -18,21 +18,12 @@ class Auth extends Validate
 {
 
     protected $rule = [
-        'uid' => 'require',
-        'group' => 'require',
-        'name' => 'require',
-        'rules' => 'require',
+        'uid|管理员ID' => 'require',
+        'group|权限组ID' => 'require',
+        'name|权限组/规则名' => 'require',
+        'rules|规则' => 'require',
         'id' => 'require',
-        'status' => 'require'
-    ];
-
-    protected $message = [
-        'uid.require' => '管理员ID不为空！',
-        'group.require' => '权限组ID不为空！',
-        'name.require' => '权限组/规则名不为空！',
-        'rules.require' => '规则不为空！',
-        'id.require' => 'id不为空！',
-        'status.require' => '状态不为空！'
+        'status|状态' => 'require'
     ];
 
     protected $scene = [

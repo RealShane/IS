@@ -3,7 +3,6 @@
 
 namespace app\common\business\api;
 
-use app\BaseController;
 use app\common\model\api\DormitoryScore;
 use app\common\model\api\DormitoryNumber;
 use app\common\model\api\DormitoryScorer;
@@ -11,7 +10,8 @@ use app\common\model\api\DormitoryFloor;
 use app\common\model\api\User;
 use app\common\model\api\Classes;
 use app\common\business\lib\Excel;
-class Dormitory extends BaseController
+
+class Dormitory
 {
     private $scoreModel = NULL;
     private $numberModel = NULL;
@@ -36,35 +36,31 @@ class Dormitory extends BaseController
         $data['time_index'] = date('Y-m-d');
         $isExist = $this -> scoreModel -> findToday($data);
         if (empty($isExist)){
-            return $this -> scoreModel -> save($data) ? config('status.success') : config('status.failed');
+            $this -> scoreModel -> save($data);
         }
-        return $this -> scoreModel -> updateGrade($data) ? config('status.success') : config('status.failed');
+        $this -> scoreModel -> updateGrade($data);
     }
 
     public function getDormitoryRecord($data){
-        try {
-            $dorNums = $this -> numberModel -> findByClassId($data['class_id']);
-            $class = $this -> classModel -> findById($data['class_id']);
-            $res = [];
-            foreach ($dorNums as $dorNum){
-                $score = $this -> scoreModel -> findToday([
-                    'number_id' => $dorNum['id'],
-                    'time_index' => $data['time_index']
-                ]);
-                if (empty($score)){
-                    continue;
-                }
-                $res[] = [
-                    'class' => $class['name'],
-                    'time' => $data['time_index'],
-                    'dormitory' => $dorNum['number'],
-                    'grade' => $score['grade']
-                ];
+        $dorNums = $this -> numberModel -> findByClassId($data['class_id']);
+        $class = $this -> classModel -> findById($data['class_id']);
+        $res = [];
+        foreach ($dorNums as $dorNum){
+            $score = $this -> scoreModel -> findToday([
+                'number_id' => $dorNum['id'],
+                'time_index' => $data['time_index']
+            ]);
+            if (empty($score)){
+                continue;
             }
-            return $res;
-        }catch (\Exception $exception){
-            return NULL;
+            $res[] = [
+                'class' => $class['name'],
+                'time' => $data['time_index'],
+                'dormitory' => $dorNum['number'],
+                'grade' => $score['grade']
+            ];
         }
+        return $res;
     }
 
     public function pushExcel($data){
@@ -86,6 +82,7 @@ class Dormitory extends BaseController
         }
         $this -> excelLib -> push($title, $indexes, $res);
     }
+
     public function showAllFloorAndDormitory(){
         $floors = $this -> floorModel -> findAll();
         $data = [];
@@ -106,6 +103,5 @@ class Dormitory extends BaseController
         }
         return $data;
     }
-
 
 }

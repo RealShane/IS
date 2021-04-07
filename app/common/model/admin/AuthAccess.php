@@ -22,16 +22,12 @@ use think\Model;
 class AuthAccess extends Model
 {
 
-    protected $name = 'z_admin_auth_access';
+    protected $table = 'z_admin_auth_access';
 
     public function findAll($num){
         return $this -> where('id', '>', 0)
             -> field(['id', 'uid', 'group'])
             -> paginate($num);
-    }
-
-    public function deleteById($id){
-        return $this -> where('id', $id) -> delete();
     }
 
     public function updateByUid($data){

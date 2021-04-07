@@ -22,7 +22,7 @@ use think\Model;
 class AuthRule extends Model
 {
 
-    protected $name = 'z_admin_auth_rule';
+    protected $table = 'z_admin_auth_rule';
 
     public function ruleComment(){
         $menus = $this -> where('is_menu', 1) -> where('status', 1) -> order('weigh') -> select();

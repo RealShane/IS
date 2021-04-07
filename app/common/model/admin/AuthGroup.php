@@ -22,16 +22,12 @@ use think\Model;
 class AuthGroup extends Model
 {
 
-    protected $name = 'z_admin_auth_group';
+    protected $table = 'z_admin_auth_group';
 
     public function findAll($num){
         return $this -> where('id', '>', 0)
             -> field(['id', 'name', 'rules', 'create_time', 'update_time', 'status'])
             -> paginate($num);
-    }
-
-    public function deleteById($id){
-        return $this -> where('id', $id) -> delete();
     }
 
     public function updateByName($data){
@@ -43,17 +39,16 @@ class AuthGroup extends Model
         return $this -> where('name', $name) -> find();
     }
 
-    public function findById($id){
+    public function findByIdWithStatus($id){
         return $this -> where('id', $id) -> where('status', 1) -> find();
     }
 
-    public function findByIdWithOutStatus($id){
+    public function findById($id){
         return $this -> where('id', $id) -> find();
     }
 
     public function findAllWithOutPaginate(){
-        return $this -> where('id', '>', 0)
-            -> where('status', 1)
+        return $this -> where('status', 1)
             -> field(['id', 'name'])
             -> select();
     }

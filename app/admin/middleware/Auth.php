@@ -22,7 +22,7 @@ class Auth extends BaseController
                 "超级管理员未给此管理员分配权限，请联系超级管理员！"
             );
         }
-        $authGroup = (new AuthGroup()) -> findById($authAccess['group']);
+        $authGroup = (new AuthGroup()) -> findByIdWithStatus($authAccess['group']);
         if (empty($authGroup)){
             return $this -> show(
                 config("status.failed"),

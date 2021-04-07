@@ -8,19 +8,13 @@ use think\Validate;
 
 class Dormitory extends Validate
 {
+
     protected $rule =   [
-        'number_id' => 'require',
-        'grade' => 'require',
-        'class_id' => 'require',
-        'time_index' => 'require',
+        'number_id|宿舍id' => 'require',
+        'grade|成绩' => 'require',
+        'class_id|班级id' => 'require',
+        'time_index|日期' => 'require',
 
-    ];
-
-    protected $message  =   [
-        'number_id.require' => '宿舍id必须',
-        'grade.require' => '成绩必须',
-        'class_id.require' => '班级名必须',
-        'time_index.require' => '日期必须',
     ];
 
     protected $scene = [

@@ -13,91 +13,44 @@ namespace app\admin\controller;
 
 
 use app\BaseController;
-use app\common\business\admin\User as UserBusiness;
-use app\common\validate\admin\User as UserValidate;
+use app\common\business\admin\User as Business;
+use app\common\validate\admin\User as Validate;
+use think\App;
 
 class User extends BaseController
 {
 
+    protected $business = NULL;
+
+    public function __construct(App $app, Business $business){
+        parent::__construct($app);
+        $this -> business = $business;
+    }
+
     public function getAdmin(){
-        $errCode = (new UserBusiness()) -> getAdmin($this -> request -> param("id", '', 'htmlspecialchars'));
-        if (empty($errCode)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        $errCode = $this -> business -> getAdmin($this -> request -> param("id", '', 'htmlspecialchars'));
+        return $this -> success($errCode);
     }
 
     public function deleteAdmin(){
         $data['target'] = $this -> request -> param("target", '', 'htmlspecialchars');
         try {
-            validate(UserValidate::class) -> scene('deleteAdmin') -> check($data);
+            validate(Validate::class) -> scene('deleteAdmin') -> check($data);
         }catch (\Exception $exception){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new UserBusiness()) -> deleteAdmin($data['target']);
-        if ($errCode == config("status.not_exist")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "管理员未找到！"
-            );
-        }
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "删除成功！"
-        );
+        $this -> business -> deleteAdmin($data['target']);
+        return $this -> success("删除管理员成功！");
     }
 
     public function getTargetAdmin(){
-        $errCode = (new UserBusiness()) -> getTargetAdmin($this -> request -> param("username", '', 'htmlspecialchars'));
-        if (empty($errCode)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        $errCode = $this -> business -> getTargetAdmin($this -> request -> param("username", '', 'htmlspecialchars'));
+        return $this -> success($errCode);
     }
 
     public function viewAllAdmin(){
-        $errCode = (new UserBusiness()) -> viewAllAdmin($this -> request -> param("num", 10, 'htmlspecialchars'));
-        if (empty($errCode)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        $errCode = $this -> business -> viewAllAdmin($this -> request -> param("num", 10, 'htmlspecialchars'));
+        return $this -> success($errCode);
     }
 
     public function updateAdmin(){
@@ -105,134 +58,45 @@ class User extends BaseController
         $data['username'] = $this -> request -> param("username", '', 'htmlspecialchars');
         $data['status'] = $this -> request -> param("status", '', 'htmlspecialchars');
         try {
-            validate(UserValidate::class) -> scene('updateAdmin') -> check($data);
+            validate(Validate::class) -> scene('updateAdmin') -> check($data);
         }catch (\Exception $exception){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new UserBusiness()) -> updateAdmin($data);
-        if ($errCode == config("status.not_exist")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "管理员未找到！"
-            );
-        }
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "更改成功！"
-        );
+        $this -> business -> updateAdmin($data);
+        return $this -> success("修改成功！");
     }
 
     public function changePassword(){
         $data['target'] = $this -> request -> param("target", '', 'htmlspecialchars');
         $data['password'] = $this -> request -> param("password", '', 'htmlspecialchars');
         try {
-            validate(UserValidate::class) -> scene('changePassword') -> check($data);
+            validate(Validate::class) -> scene('changePassword') -> check($data);
         }catch (\Exception $exception){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new UserBusiness()) -> changePassword($data);
-        if ($errCode == config("status.not_exist")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "管理员未找到！"
-            );
-        }
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "更改密码成功！"
-        );
+        $this -> business -> changePassword($data);
+        return $this -> success("修改密码成功！");
     }
 
     public function addAdmin(){
         $data['username'] = $this -> request -> param("username", '', 'htmlspecialchars');
         $data['password'] = $this -> request -> param("password", '', 'htmlspecialchars');
         try {
-            validate(UserValidate::class) -> scene('addAdmin') -> check($data);
+            validate(Validate::class) -> scene('addAdmin') -> check($data);
         }catch (\Exception $exception){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new UserBusiness()) -> addAdmin($data);
-        if ($errCode == config("status.exist")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "用户名已有！"
-            );
-        }
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "添加管理员成功！"
-        );
+        $this -> business -> addAdmin($data);
+        return $this -> success("添加管理员成功！");
     }
 
     public function quit(){
-        $errCode = (new UserBusiness()) -> quit($this -> getToken());
-        if ($errCode == config('status.failed')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "退出成功！"
-        );
+        $this -> business -> quit($this -> getToken());
+        return $this -> success("退出成功！");
     }
 
     public function adminInfo(){
-        $errCode = (new UserBusiness()) -> adminInfo($this -> getToken());
-        if ($errCode == config('status.failed')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "权限分配异常！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        return $this -> success($this -> business -> adminInfo($this -> getToken()));
     }
 
     public function login(){
@@ -240,41 +104,11 @@ class User extends BaseController
         $data['password'] = $this -> request -> param("password", '', 'htmlspecialchars');
         $data['validate'] = $this -> request -> param("validate", '', 'htmlspecialchars');
         try {
-            validate(UserValidate::class) -> scene('login') -> check($data);
+            validate(Validate::class) -> scene('login') -> check($data);
         }catch (\Exception $exception){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new UserBusiness()) -> login($data);
-        if ($errCode == config('status.failed')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        if ($errCode == config('status.not_exist')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "用户不存在！"
-            );
-        }
-        if ($errCode == config('status.password_error')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "密码填写错误！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            ['token' => $errCode]
-        );
+        return $this -> success(['token' => $this -> business -> login($data)]);
     }
 
 }
