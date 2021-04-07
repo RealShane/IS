@@ -13,26 +13,23 @@ use Throwable;
 
 class Http extends Handle
 {
-    public function render($request, Throwable $e): Response
-    {
+
+    private $msg = NULL;
+    private $status = NULL;
+
+    public function render($request, Throwable $e): Response{
+        $this -> msg = $e -> getMessage();
+        $this -> status = config('status.failed');
+
+        if ($this -> msg == config('status.goto')){
+            $this -> msg = config('message.goto');
+            $this -> status = config('status.goto');
+        }
         return json([
-            'status' => config('status.failed'),
-            'message' => $e -> getMessage(),
+            'status' => $this -> status,
+            'message' => $this -> msg,
             'result' => NULL
         ]);
-//        echo json_encode($e instanceof HttpException );exit();
-//        // 参数验证错误
-//        if ($e instanceof ValidateException) {
-//            return json($e->getError(), 422);
-//        }
-//
-//        // 请求异常
-//        if ($e instanceof HttpException && $request->isAjax()) {
-//            return response($e->getMessage(), $e->getStatusCode());
-//        }
-//
-//        // 其他错误交给系统处理
-//        return parent::render($request, $e);
     }
 
 }

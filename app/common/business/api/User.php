@@ -148,7 +148,7 @@ class User
     private function loginByPassword($isExist, $data){
         if ($isExist['last_login_ip'] != request() -> ip()){
             $this -> sendRandom($data['email']);
-            throw new Exception("goto_email");
+            throw new Exception(config('status.goto'));
         }
         $password = md5($isExist['password_salt'] . $data['password'] . $isExist['password_salt']);
         if ($password != $isExist['password']){
