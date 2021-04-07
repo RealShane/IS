@@ -12,7 +12,6 @@
 namespace app\common\business\lib;
 
 
-use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Email

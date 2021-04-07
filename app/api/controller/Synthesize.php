@@ -13,49 +13,32 @@ namespace app\api\controller;
 
 
 use app\BaseController;
-use app\common\business\api\Synthesize as SynthesizeBusiness;
-use app\common\validate\api\Synthesize as SynthesizeValidate;
+use app\common\business\api\Synthesize as Business;
+use app\common\validate\api\Synthesize as Validate;
 use app\common\validate\lib\Upload as UploadValidate;
 use app\common\business\lib\Upload as UploadBusiness;
-use think\facade\View;
+use think\App;
 
 class Synthesize extends BaseController
 {
 
+    protected $business = NULL;
+    protected $upload = NULL;
+
+    public function __construct(App $app, Business $business, UploadBusiness $upload){
+        parent::__construct($app);
+        $this -> business = $business;
+        $this -> upload = $upload;
+    }
+
     public function showPoorSignDetail(){
-        $user = $this -> getUser();
-        $target = $this -> request -> param('target');
-        $errCode = (new SynthesizeBusiness()) -> showPoorSignDetail($user, $target);
-        if ($errCode == config('status.failed')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                '内部异常，请稍候重试！'
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        $target = $this -> request -> param('target', '', 'htmlspecialchars');
+        return $this -> success($this -> business -> showPoorSignDetail($this -> getUser(), $target));
 
     }
 
     public function showPoorSignList(){
-        $user = $this -> getUser();
-        $errCode = (new SynthesizeBusiness()) -> showPoorSignList($user);
-        if ($errCode == config('status.failed')){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                '内部异常，请稍候重试！'
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        return $this -> success($this -> business -> showPoorSignList($this -> getUser()));
 
     }
 
@@ -79,95 +62,32 @@ class Synthesize extends BaseController
         $data['remark'] = $this -> request -> param("remark", '', 'htmlspecialchars');
         $data['supporting_document'] = $this -> request -> param("supporting_document", '', 'htmlspecialchars');
         try {
-            validate(SynthesizeValidate::class) -> scene('poor_sign') -> check($data);
+            validate(Validate::class) -> scene('poor_sign') -> check($data);
         }catch (\Exception $exception){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $exception -> getMessage()
-            );
+            return $this -> fail($exception -> getMessage());
         }
-        $errCode = (new SynthesizeBusiness()) -> poorSign($data, $user);
-        if ($errCode == config("status.close")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "贫困生报名处于关闭状态！"
-            );
-        }
-        if ($errCode == config("status.error")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "贫困生报名请先加入班级！"
-            );
-        }
-        if ($errCode == config("status.update")){
-            return $this -> show(
-                config("status.success"),
-                config("message.success"),
-                "更改成功！"
-            );
-        }
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            "报名成功！"
-        );
+        $this -> business -> poorSign($data, $user);
+        return $this -> success("弄好了！");
     }
 
     public function viewPoorOption(){
-        $errCode = (new SynthesizeBusiness()) -> viewPoorOption();
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        return $this -> success($this -> business -> viewPoorOption());
     }
 
     public function uploadProve(){
+        $user = $this -> getUser();
+        $file = $this -> request -> file("file");
         try {
-            $user = $this -> getUser();
-            $file = $this -> request -> file("file");
             validate(UploadValidate::class) -> checkRule(['file' => $file], 'checkFile');
         } catch (\Exception $exception) {
             $message = $exception -> getMessage();
             if ($exception -> getCode() == 4){
                 $message = '未上传文件！';
             }
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                $message
-            );
+            return $this -> fail($message);
         }
-        $errCode = (new UploadBusiness()) -> upload($user, $file, 'synthesize_poor', 'synthesize/poor/');
-        if ($errCode == config("status.failed")){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "内部异常，请稍候重试！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            ['path' => $errCode]
-        );
+        $errCode = $this -> upload -> upload($user, $file, 'synthesize_poor', 'synthesize/poor/');
+        return $this -> success(['path' => $errCode]);
     }
 
 }

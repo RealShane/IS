@@ -28,55 +28,51 @@ class Excel
     }
 
     public function push($title, $indexes, $data){
-        try {
-            $this -> excel -> getProperties() -> setCreator('Shane')
-                ->setLastModifiedBy('Shane')
-                ->setTitle($title)
-                ->setSubject($title)
-                ->setDescription($title)
-                ->setKeywords("excel")
-                ->setCategory("result file");
-            $alpha = 'A';
-            foreach ($indexes as $index){
-                $this -> excel -> setActiveSheetIndex(0) -> setCellValue($alpha . '1', $index);
-                $alpha++;
-            }
-            foreach($data as $key => $value){
-                $counter = $key + 2;$alpha = 'A';
-                foreach ($value as $item){
-                    $styleArray = [
-                        'borders' => [
-                            'allBorders' => [
-                                'borderStyle' => Border::BORDER_THIN
-                            ]
+        $this -> excel -> getProperties() -> setCreator('Shane')
+            ->setLastModifiedBy('Shane')
+            ->setTitle($title)
+            ->setSubject($title)
+            ->setDescription($title)
+            ->setKeywords("excel")
+            ->setCategory("result file");
+        $alpha = 'A';
+        foreach ($indexes as $index){
+            $this -> excel -> setActiveSheetIndex(0) -> setCellValue($alpha . '1', $index);
+            $alpha++;
+        }
+        foreach($data as $key => $value){
+            $counter = $key + 2;$alpha = 'A';
+            foreach ($value as $item){
+                $styleArray = [
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => Border::BORDER_THIN
                         ]
-                    ];
-                    if($item > 1000000000){
-                        $this -> excel -> setActiveSheetIndex(0) -> setCellValueExplicit($alpha . $counter, $item, DataType::TYPE_STRING);
-                        $this -> excel -> getActiveSheet() -> getStyle($alpha . $counter) -> getNumberFormat() -> setFormatCode(NumberFormat::FORMAT_TEXT);
-                        $this -> excel -> getActiveSheet()  -> getStyle($alpha . $counter) -> applyFromArray($styleArray);
-                        $alpha++;
-                        continue;
-                    }
-                    $this -> excel -> setActiveSheetIndex(0) ->setCellValue($alpha . $counter, $item);
+                    ]
+                ];
+                if($item > 1000000000){
+                    $this -> excel -> setActiveSheetIndex(0) -> setCellValueExplicit($alpha . $counter, $item, DataType::TYPE_STRING);
+                    $this -> excel -> getActiveSheet() -> getStyle($alpha . $counter) -> getNumberFormat() -> setFormatCode(NumberFormat::FORMAT_TEXT);
                     $this -> excel -> getActiveSheet()  -> getStyle($alpha . $counter) -> applyFromArray($styleArray);
                     $alpha++;
+                    continue;
                 }
+                $this -> excel -> setActiveSheetIndex(0) ->setCellValue($alpha . $counter, $item);
+                $this -> excel -> getActiveSheet()  -> getStyle($alpha . $counter) -> applyFromArray($styleArray);
+                $alpha++;
             }
-            $this -> excel  -> getActiveSheet() -> setTitle('Sheet1');
-            $this -> excel  -> setActiveSheetIndex(0);
-
-            header('Content-Type: application.ms-excel');
-            header('Content-Disposition: attachment;filename="' . $title . '.xls"');
-            header('Cache-Control: max-age=0');
-            header('Cache-Control: cache, must-revalidate');
-            header('Pragma: public');
-            $objWriter = IOFactory::createWriter($this -> excel, 'Xls');
-            $objWriter -> save('php://output');
-            exit;
-        }catch (\Exception $exception){
-            return NULL;
         }
+        $this -> excel  -> getActiveSheet() -> setTitle('Sheet1');
+        $this -> excel  -> setActiveSheetIndex(0);
+
+        header('Content-Type: application.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $title . '.xls"');
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+        $objWriter = IOFactory::createWriter($this -> excel, 'Xls');
+        $objWriter -> save('php://output');
+        exit;
     }
 
 }

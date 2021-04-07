@@ -22,7 +22,7 @@ use think\Model;
 class Department extends Model
 {
 
-    protected $name = "api_department";
+    protected $table = "api_department";
 
     public function findAll(){
         return $this -> where('id', '>', 0) -> where('status', 1) -> select();

@@ -18,20 +18,16 @@ class Upload
 {
 
     private $config = NULL;
-    private $strLib = NULL;
+    private $str = NULL;
 
     public function __construct(){
         $this -> config = new Config();
-        $this -> strLib = new Str();
+        $this -> str = new Str();
     }
 
     public function upload($user, $file, $type, $path){
-        try {
-            $saveName = Filesystem::disk($type) -> putFileAs($user['name'] . $user['student_id'] . '/' . date("Y/m/d") . '/' . $this -> strLib -> createToken($user['email']), $file, $file -> getOriginalName());
-            return str_replace('\\', '', '/uploads/' . $path . $saveName);
-        }catch (\Exception $exception){
-            return config("status.failed");
-        }
+        $saveName = Filesystem::disk($type) -> putFileAs($user['name'] . $user['student_id'] . '/' . date("Y/m/d") . '/' . $this -> str -> createToken($user['email']), $file, $file -> getOriginalName());
+        return str_replace('\\', '', '/uploads/' . $path . $saveName);
     }
 
 }

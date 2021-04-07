@@ -22,7 +22,7 @@ use think\Model;
 class User extends Model
 {
 
-    protected $name = "api_user";
+    protected $table = "api_user";
 
     public function findByStudentId($studentId){
         return $this -> where('student_id', $studentId) -> find();
@@ -33,7 +33,7 @@ class User extends Model
         return $result -> allowField(['last_login_ip', 'last_login_time', 'last_login_token']) -> save($data);
     }
 
-    public function findById($id){
+    public function findByIdWithStatus($id){
         return $this -> where('id', $id) -> where('status', 1) -> find();
     }
 

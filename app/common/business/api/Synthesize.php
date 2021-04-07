@@ -16,7 +16,7 @@ use app\common\business\lib\Config;
 use app\common\business\lib\Str;
 use app\common\model\api\SynthesizePoorSign;
 use app\common\model\api\UserClass;
-use think\facade\App;
+use think\Exception;
 use app\common\model\api\User;
 
 class Synthesize
@@ -26,89 +26,68 @@ class Synthesize
     private $synthesizePoorSignModel = NULL;
     private $userClassModel = NULL;
     private $userModel = NULL;
-    private $strLib = NULL;
+    private $str = NULL;
 
     public function __construct(){
         $this -> config = new Config();
         $this -> synthesizePoorSignModel = new SynthesizePoorSign();
         $this -> userClassModel = new UserClass();
         $this -> userModel = new User();
-        $this -> strLib = new Str();
+        $this -> str = new Str();
     }
 
     public function showPoorSignDetail($user, $target){
-        try {
-            $myClass =  $this -> userClassModel -> findByUid($user['id']);
-            $targetClass = $this -> userClassModel -> findByUid($target);
-            if ($myClass['class_id'] != $targetClass['class_id'] || $user['id'] == $target){
-                return config('status.failed');
-            }
-            $sign = $this -> synthesizePoorSignModel -> findByUid($target);
-            $target = $this -> userModel -> findById($target);
-            return [
-                'name' => $target['name'],
-                'sex' => $this -> strLib -> convertSex($target['sex']),
-                'student_id' => $target['student_id'],
-                'confirm_reason_explain' => $sign['confirm_reason_explain']
-            ];
-
-        }catch (\Exception $exception){
-            return config('status.failed');
+        $myClass =  $this -> userClassModel -> findByUid($user['id']);
+        $targetClass = $this -> userClassModel -> findByUid($target);
+        if ($myClass['class_id'] != $targetClass['class_id'] || $user['id'] == $target){
+            throw new Exception("禁止查看自己及以外的班级！");
         }
+        $sign = $this -> synthesizePoorSignModel -> findByUid($target);
+        $target = $this -> userModel -> findByIdWithStatus($target);
+        return [
+            'name' => $target['name'],
+            'sex' => $this -> str -> convertSex($target['sex']),
+            'student_id' => $target['student_id'],
+            'confirm_reason_explain' => $sign['confirm_reason_explain']
+        ];
     }
 
     public function showPoorSignList($user){
-        try {
-            $temp =  $this -> userClassModel -> findByUid($user['id']);
-            if (empty($temp)){
-                return config('status.not_exist');
-            }
-            $ids = $this -> userClassModel -> findAllByClassId($temp['class_id']);
-            $result = [];
-            foreach ($ids as $id){
-                $sign = $this -> synthesizePoorSignModel -> findByUid($id['uid']);
-                if (empty($sign) || $sign['uid'] == $user['id']){
-                    continue;
-                }
-                $name = $this -> userModel -> findById($id['uid']);
-                $result[] = [
-                    'id' => $name['id'],
-                    'name' => $name['name']
-                ];
-            }
-            return $result;
-        }catch (\Exception $exception){
-            return config('status.failed');
+        $temp =  $this -> userClassModel -> findByUid($user['id']);
+        if (empty($temp)){
+            throw new Exception("未加入班级！");
         }
-
+        $ids = $this -> userClassModel -> findAllByClassId($temp['class_id']);
+        $result = [];
+        foreach ($ids as $id){
+            $sign = $this -> synthesizePoorSignModel -> findByUid($id['uid']);
+            if (empty($sign) || $sign['uid'] == $user['id']){
+                continue;
+            }
+            $result[] = $sign;
+        }
+        return $result;
     }
 
     public function poorSign($data, $user){
         if (!($this -> config -> getSynthesizePoorStatus())){
-            return config("status.close");
+            throw new Exception("贫困生报名处于关闭状态！");
         }
         $isJoin = $this -> userClassModel -> findByUid($user['id']);
         if (empty($isJoin)){
-            return config("status.error");
+            throw new Exception("贫困生报名请先加入班级！");
         }
         $isExist = $this -> synthesizePoorSignModel -> findByUid($user['id']);
         if (empty($isExist)){
             $data['uid'] = $user['id'];
             $data['create_time'] = time();
-            return $this -> synthesizePoorSignModel -> save($data) ? config("status.success") : config("status.failed");
+            $this -> synthesizePoorSignModel -> save($data);
         }
-        if (file_exists(App::getRootPath() . 'public' . $isExist['supporting_document']) && !($data['supporting_document'] == $isExist['supporting_document'])){
-            unlink(App::getRootPath() . 'public' . $isExist['supporting_document']);
-        }
-        return $this -> synthesizePoorSignModel -> updatePoorSign($data, $user['id']) ? config("status.update") : config("status.failed");
+        $this -> synthesizePoorSignModel -> updatePoorSign($data, $user['id']);
     }
 
     public function viewPoorOption(){
-        try {
-            return json_decode($this -> config -> getSynthesizePoorSignOption());
-        }catch (\Exception $exception){
-            return config("status.failed");
-        }
+        return json_decode($this -> config -> getSynthesizePoorSignOption());
     }
 
 }

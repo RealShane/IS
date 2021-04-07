@@ -45,7 +45,7 @@ class Graduation
             if (empty($data)){
                 return config('status.not_exist');
             }
-            $user = $this -> userModel -> findById($user['id']);
+            $user = $this -> userModel -> findByIdWithStatus($user['id']);
             return [
                 'examinee_number' => $data['examinee_number'],
                 'name' => $user['name'],
@@ -92,10 +92,13 @@ class Graduation
     }
 
     private function packAll(){
-        $infos = $this -> graduationDestinationModel -> findAll();
+        $infos = $this -> graduationDestinationModel -> select();
         $id = 1;$res = [];
         foreach ($infos as $info){
-            $userInfo = $this -> userModel -> findById($info['uid']);//姓名和性别
+            $userInfo = $this -> userModel -> findByIdWithStatus($info['uid']);//姓名和性别
+            if (empty($userInfo)){
+                continue;
+            }
             $classId = $this -> userClassModel -> findByUid($info['uid']);
             $major = $this -> classesModel -> findById($classId['class_id']);//专业
             $res[] = $this -> setData($id, $info, $userInfo, $major);
@@ -112,7 +115,7 @@ class Graduation
         }
         $id = 1;$res = [];
         foreach ($userIds as $userId){
-            $userInfo = $this -> userModel -> findById($userId['uid']);//姓名和性别
+            $userInfo = $this -> userModel -> findByIdWithStatus($userId['uid']);//姓名和性别
             $info = $this -> graduationDestinationModel -> findByUid($userInfo['id']);
             if (empty($info)){
                 return config('status.failed');

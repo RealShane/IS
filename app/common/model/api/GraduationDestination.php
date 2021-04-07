@@ -8,10 +8,13 @@ use think\Model;
 
 class GraduationDestination extends Model
 {
-    protected $name = 'api_graduation_destination';
+
+    protected $table = 'api_graduation_destination';
+
     public function findByUid($uid){
         return $this -> where('uid', $uid) -> find();
     }
+
     public function updateRecord($data){
         $result = $this -> findByUid($data['uid']);
         return $result -> allowField([
@@ -26,10 +29,5 @@ class GraduationDestination extends Model
             'contact_phone'
         ]) -> save($data);
     }
-
-    public function findAll(){
-        return $this -> where('id', '>', 0) -> select();
-    }
-
 
 }

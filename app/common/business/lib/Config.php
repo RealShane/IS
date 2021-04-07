@@ -24,21 +24,21 @@ class Config
     private $synthesizeConfig = NULL;
     private $graduationConfig = NULL;
     private $sourceConfig = NULL;
-    private $strLib = NULL;
+    private $str = NULL;
 
     public function __construct(){
         $this -> appConfig = new APPConfig();
         $this -> synthesizeConfig = new SynthesizeConfig();
         $this -> graduationConfig = new GraduationConfig();
         $this -> sourceConfig = new SourceConfig();
-        $this -> strLib = new Str();
+        $this -> str = new Str();
     }
 
     /**生源库信息设置
      * @return bool
      */
     public function getSourceSignStatus(){
-        $temp = $this -> sourceConfig -> findByKey("SOURCE_SIGN_STATUS");
+        $temp = $this -> sourceConfig -> keyValue("SOURCE_SIGN_STATUS");
         return intval($temp -> value) != 1;
     }
 
@@ -47,12 +47,12 @@ class Config
      */
 
     public function getGraduationDestinationCode(){
-        $temp = $this -> graduationConfig -> findByKey("GRADUATION_DESTINATION_CODE");
+        $temp = $this -> graduationConfig -> keyValue("GRADUATION_DESTINATION_CODE");
         return json_decode($temp -> value);
     }
 
     public function getGraduationSignStatus(){
-        $temp = $this -> graduationConfig -> findByKey("GRADUATION_SIGN_STATUS");
+        $temp = $this -> graduationConfig -> keyValue("GRADUATION_SIGN_STATUS");
         return intval($temp -> value) != 1;
     }
 
@@ -61,12 +61,12 @@ class Config
      */
 
     public function getSynthesizePoorStatus(){
-        $temp = $this -> synthesizeConfig -> findByKey("POOR_SIGN_STATUS");
+        $temp = $this -> synthesizeConfig -> keyValue("POOR_SIGN_STATUS");
         return $temp -> value;
     }
     //贫困生报名选项
     public function getSynthesizePoorSignOption(){
-        $temp = $this -> synthesizeConfig -> findByKey("POOR_SIGN_OPTION");
+        $temp = $this -> synthesizeConfig -> keyValue("POOR_SIGN_OPTION");
         return $temp -> value;
     }
 
@@ -76,8 +76,8 @@ class Config
 
     //上传文件大小
     public function getUploadSizeLimit(){
-        $temp = $this -> appConfig -> findByKey("UPLOAD_SIZE_LIMIT");
-        $bytes = $this -> strLib -> convertToBytes($temp -> value);
+        $temp = $this -> appConfig -> keyValue("UPLOAD_SIZE_LIMIT");
+        $bytes = $this -> str -> convertToBytes($temp -> value);
         return [
             'default' => $temp -> value,
             'bytes' => $bytes
@@ -85,7 +85,7 @@ class Config
     }
     //上传文件类型
     public function getUploadTypeLimit(){
-        $temp = $this -> appConfig -> findByKey("UPLOAD_TYPE_LIMIT");
+        $temp = $this -> appConfig -> keyValue("UPLOAD_TYPE_LIMIT");
         $str = NULL;
         foreach (json_decode($temp -> value) as $key){
             $str .= $key . ",";
@@ -100,32 +100,32 @@ class Config
 
     //验证码邮件标题
     public function getRandomTitle(){
-        $temp = $this -> appConfig -> findByKey("EMAIL_RANDOM_TITLE");
+        $temp = $this -> appConfig -> keyValue("EMAIL_RANDOM_TITLE");
         return $temp -> value;
     }
     //验证码邮件内容HTML版
     public function getRandomBody(){
-        $temp = $this -> appConfig -> findByKey("EMAIL_RANDOM_BODY");
+        $temp = $this -> appConfig -> keyValue("EMAIL_RANDOM_BODY");
         return $temp -> value;
     }
     //验证码邮件内容纯文字版
     public function getRandomAltBody(){
-        $temp = $this -> appConfig -> findByKey("EMAIL_RANDOM_ALT_BODY");
+        $temp = $this -> appConfig -> keyValue("EMAIL_RANDOM_ALT_BODY");
         return $temp -> value;
     }
     //注册激活邮件标题
     public function getActiveTitle(){
-        $temp = $this -> appConfig -> findByKey("EMAIL_ACTIVE_TITLE");
+        $temp = $this -> appConfig -> keyValue("EMAIL_ACTIVE_TITLE");
         return $temp -> value;
     }
     //注册激活邮件内容HTML版
     public function getActiveBody(){
-        $temp = $this -> appConfig -> findByKey("EMAIL_ACTIVE_BODY");
+        $temp = $this -> appConfig -> keyValue("EMAIL_ACTIVE_BODY");
         return $temp -> value;
     }
     //注册激活邮件内容纯文字版
     public function getActiveAltBody(){
-        $temp = $this -> appConfig -> findByKey("EMAIL_ACTIVE_ALT_BODY");
+        $temp = $this -> appConfig -> keyValue("EMAIL_ACTIVE_ALT_BODY");
         return $temp -> value;
     }
 
@@ -135,22 +135,22 @@ class Config
 
     //邮箱地址
     public function getHost(){
-        $temp = $this -> appConfig -> findByKey("EMAIL_HOST");
+        $temp = $this -> appConfig -> keyValue("EMAIL_HOST");
         return $temp -> value;
     }
     //邮箱用户名
     public function getUserName(){
-        $temp = $this -> appConfig -> findByKey("EMAIL_USERNAME");
+        $temp = $this -> appConfig -> keyValue("EMAIL_USERNAME");
         return $temp -> value;
     }
     //邮箱密码
     public function getPassword(){
-        $temp = $this -> appConfig -> findByKey("EMAIL_PASSWORD");
+        $temp = $this -> appConfig -> keyValue("EMAIL_PASSWORD");
         return $temp -> value;
     }
     //邮件发送人姓名
     public function getName(){
-        $temp = $this -> appConfig -> findByKey("EMAIL_NAME");
+        $temp = $this -> appConfig -> keyValue("EMAIL_NAME");
         return $temp -> value;
     }
 

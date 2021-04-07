@@ -8,7 +8,9 @@ use think\Model;
 
 class Source extends Model
 {
-    protected $name = 'api_source';
+
+    protected $table = 'api_source';
+
     public function findByUid($uid){
         return $this -> where('uid', $uid) -> find();
     }
@@ -27,7 +29,7 @@ class Source extends Model
         ]) -> save($data);
     }
 
-    public function findUid($uid){
+    public function selectByUid($uid){
         return $this -> where('uid', $uid) -> select();
     }
 

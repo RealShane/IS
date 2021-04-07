@@ -22,6 +22,6 @@ use think\Model;
 class SynthesizePoorScore extends Model
 {
 
-    protected $name = 'api_synthesize_poor_score';
+    protected $table = 'api_synthesize_poor_score';
 
 }

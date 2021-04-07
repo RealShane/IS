@@ -22,7 +22,7 @@ use think\Model;
 class Classes extends Model
 {
 
-    protected $name = "api_class";
+    protected $table = "api_class";
 
     public function findByDepartId($depart_id){
         return $this -> where('depart_id', $depart_id) -> select();
@@ -41,7 +41,7 @@ class Classes extends Model
     }
 
     public function findAll(){
-        return $this -> where('id', '>', 0) -> where('status', 1) -> select();
+        return $this -> where('status', 1) -> select();
     }
 
 }

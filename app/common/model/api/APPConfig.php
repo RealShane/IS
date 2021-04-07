@@ -22,9 +22,9 @@ use think\Model;
 class APPConfig extends Model
 {
 
-    protected $name = "api_app_config";
+    protected $table = "api_app_config";
 
-    public function findByKey($key){
+    public function keyValue($key){
         return $this -> field('value') -> where('key', $key) -> where('status', 1) -> find();
     }
 

@@ -11,8 +11,6 @@
 
 namespace app\common\business\lib;
 
-
-use Psr\SimpleCache\InvalidArgumentException;
 use think\facade\Cache;
 
 class Redis
@@ -25,27 +23,15 @@ class Redis
     }
 
     public function set($key, $value, $ttl = null) {
-        try {
-            return Cache::store($this -> store) -> set($key, $value, $ttl);
-        } catch (InvalidArgumentException $e) {
-            return NULL;
-        }
+        return Cache::store($this -> store) -> set($key, $value, $ttl);
     }
 
     public function get($key){
-        try {
-            return Cache::store($this -> store) -> get($key);
-        } catch (InvalidArgumentException $e) {
-            return NULL;
-        }
+        return Cache::store($this -> store) -> get($key);
     }
 
     public function delete($key) {
-        try {
-            return Cache::store($this -> store) -> delete($key);
-        } catch (InvalidArgumentException $e) {
-            return NULL;
-        }
+        return Cache::store($this -> store) -> delete($key);
     }
 
     public function setStore($store){

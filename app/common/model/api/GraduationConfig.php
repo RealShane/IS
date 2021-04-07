@@ -8,9 +8,10 @@ use think\Model;
 
 class GraduationConfig extends Model
 {
-    protected $name = "api_graduation_config";
 
-    public function findByKey($key){
+    protected $table = "api_graduation_config";
+
+    public function keyValue($key){
         return $this -> field('value') -> where('key', $key) -> where('status', 1) -> find();
     }
 
