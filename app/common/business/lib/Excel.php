@@ -30,21 +30,18 @@ class Excel
     public function read($file){
         $io = IOFactory::load($file);
         $sheetCount = $io -> getSheetCount();
-        echo json_encode($sheetCount);exit();
         $sheetSelected = 0;
         $io -> setActiveSheetIndex($sheetSelected);
-        $rowCount = $objPHPExcel->getActiveSheet()->getHighestRow(); //获取表格行数
-        $columnCount = $objPHPExcel->getActiveSheet()->getHighestColumn();//获取表格列数
-        $dataArr = array();
-        /* 循环读取每个单元格的数据 */
+        $rowCount = $io -> getActiveSheet() -> getHighestRow();
+        $columnCount = $io -> getActiveSheet() -> getHighestColumn();
+        $array = [];
         for ($row = 1; $row <= $rowCount; $row++) {
-            //列数循环 , 列数是以A列开始
             $n = 0;
             for ($column = 'A'; $column <= $columnCount; $column++) {
-                $dataArr[$row][$column] = $objPHPExcel->getActiveSheet()->getCell($column . $row)->getValue();
+                $array[$row][$column] = $io -> getActiveSheet() -> getCell($column . $row) -> getValue();
             }
         }
-        print_r($dataArr);exit;
+        echo json_encode($array);exit;
         $data = array();
         foreach ($dataArr as $k => $v) {
             $data[$k]['uid']  = $dataArr[$k]['A'];
