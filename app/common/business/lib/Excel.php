@@ -36,10 +36,12 @@ class Excel
         $columnCount = $io -> getActiveSheet() -> getHighestColumn();
         $array = [];
         for ($row = 1; $row <= $rowCount; $row++) {
+            $question = [];
             $n = 0;
             for ($column = 'A'; $column <= $columnCount; $column++) {
-                $array[][$column] = $io -> getActiveSheet() -> getCell($column . $row) -> getValue();
+                $question[$column] = $io -> getActiveSheet() -> getCell($column . $row) -> getValue();
             }
+            $array[] = $question;
         }
         echo json_encode($array);exit;
         $data = array();
