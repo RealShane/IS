@@ -64,7 +64,7 @@
             },
             success : function(res) {
                 if(res.status === config('failed')){
-                    layer.msg(res.result);
+                    layer.msg(res.message);
                 }
                 $("#name").val(res.result['name']);
                 $("#icon").val(res.result['icon']);
@@ -97,7 +97,7 @@
                 },
                 success : function(res) {
                     if(res.status === config('failed')){
-                        layer.msg(res.result);
+                        layer.msg(res.message);
                     }else if(res.status === config('success')){
                         layer.alert(res.result, {icon: 6}, function() {
                             xadmin.close();

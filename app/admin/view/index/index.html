@@ -78,7 +78,7 @@
             url : '/{$secret}/adminMenuAndView',
             success : function(res) {
                 if (res.status === config('failed')){
-                    layer.msg(res.result);
+                    layer.msg(res.message);
                 }
                 renderMenu(res.result['viewWithMenu']);
                 renderView(res.result['view']);
@@ -91,7 +91,7 @@
                 url : '/{$secret}/quit',
                 success : function(res) {
                     if (res.status === config('failed')){
-                        layer.msg(res.result);
+                        layer.msg(res.message);
                     }
                     if (res.status === config('success')){
                         layer.msg(res.result, function () {

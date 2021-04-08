@@ -97,7 +97,7 @@
                 },
                 success : function(res) {
                     if(res.status === config('failed')){
-                        layer.msg(res.result);
+                        layer.msg(res.message);
                     }
                     renderSingle(res.result);
                 }
@@ -225,7 +225,7 @@
             },
             success : function(res) {
                 if (res.status === config('failed')){
-                    layer.msg(res.result);
+                    layer.msg(res.message);
                 }
                 renderData(res.result, num, page);
             }
@@ -242,7 +242,7 @@
                 },
                 success : function(res) {
                     if (res.status === config('failed')){
-                        layer.msg(res.result);
+                        layer.msg(res.message);
                     }
                 }
             });

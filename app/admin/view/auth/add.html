@@ -9,7 +9,8 @@
         <form class="layui-form">
             <div class="layui-form-item">
                 <label class="layui-form-label">
-                    <span class="x-red">*</span>管理员</label>
+                    <span class="x-red">*</span>管理员
+                </label>
                 <div class="layui-input-inline">
                     <select lay-filter="admin" id="admin" lay-verify="required">
                         <option value="">请选择</option>
@@ -18,7 +19,8 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
-                    <span class="x-red">*</span>权限组</label>
+                    <span class="x-red">*</span>权限组
+                </label>
                 <div class="layui-input-inline">
                     <select lay-filter="group" id="group" lay-verify="required">
                         <option value="">请选择</option>
@@ -43,7 +45,7 @@
             url : '/{$secret}/addAccessComment',
             success : function(res) {
                 if(res.status === config('failed')){
-                    layer.msg(res.result);
+                    layer.msg(res.message);
                 }
                 renderAdminSelect(res.result['user']);
                 renderGroupSelect(res.result['group']);
@@ -72,7 +74,7 @@
                 },
                 success : function(res) {
                     if(res.status === config('failed')){
-                        layer.msg(res.result);
+                        layer.msg(res.message);
                     }else if(res.status === config('success')){
                         layer.alert(res.result, {icon: 6}, function() {
                             xadmin.close();
