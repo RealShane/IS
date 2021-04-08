@@ -38,11 +38,13 @@ class Excel
         for ($row = 1; $row <= $rowCount; $row++) {
             $question = [];
             for ($column = 'A'; $column <= $columnCount; $column++) {
+                $temp = $io -> getActiveSheet() -> getCell($column . $row) -> getValue();
                 $key = NULL;
                 if ($column == 'A'){
                     $key = 'subject';
                 }
                 if ($column == 'B'){
+                    $temp = explode(PHP_EOL, $temp);
                     $key = 'option';
                 }
                 if ($column == 'C'){
@@ -51,7 +53,7 @@ class Excel
                 if ($column == 'D'){
                     $key = 'analysis';
                 }
-                $question[$key] = $io -> getActiveSheet() -> getCell($column . $row) -> getValue();
+                $question[$key] = $temp;
             }
             $array[] = $question;
         }
