@@ -62,7 +62,6 @@
 </div>
 <script>
     isLogin('{$secret}');
-    let link = "";
     layui.use(['form', 'layer', 'upload', 'laydate'], function() {
         $ = layui.jquery;
         var form = layui.form,
@@ -77,20 +76,14 @@
             auto: false,
             bindAction: '#commit',
             drag:true,
-            choose: function (obj) {
-                obj.preview(function(index, file, result){
-                    console.log(result);
-                });
+            choose: function () {
+                $("#link_remove").remove();
+                $("#link_show").append(
+                    "<div id='link_remove' class=\"layui-input-inline\">已选择，等待提交读取数据</div>"
+                );
             },
             done: function(res){
                 console.log(res)
-                link = res.result;
-                $("#link_remove").remove();
-                $("#link_show").append(
-                    "<div id='link_remove' class=\"layui-input-inline\">" +
-                    link +
-                    "</div>"
-                );
             }
         });
         laydate.render({
