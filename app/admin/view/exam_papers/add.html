@@ -29,7 +29,28 @@
                     试卷以Excel文件读取数据
                 </div>
             </div>
-
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    开始时间
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="begin_time" name="begin_time">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>选择该试卷的开始时间，为空则无开始时间限制
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    结束时间
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="close_time" name="close_time">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>选择该试卷的结束时间，为空则无结束时间限制
+                </div>
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
                 <button id="commit" class="layui-btn" lay-filter="add" lay-submit="">
@@ -41,11 +62,11 @@
 </div>
 <script>
     isLogin('{$secret}');
-    let link = "";
-    layui.use(['form', 'layer', 'upload'], function() {
+    layui.use(['form', 'layer', 'upload', 'laydate'], function() {
         $ = layui.jquery;
         var form = layui.form,
             upload  = layui.upload,
+            laydate = layui.laydate,
             layer = layui.layer;
         upload.render({
             elem: '#test1',
@@ -54,49 +75,50 @@
             size: 99999999999,
             auto: false,
             bindAction: '#commit',
-            //上传前的回调
-            before: function () {
-                this.data = {
-                    class_id : $('input[name="class_id"]').val()
-                }
-            },
-            //选择文件后的回调
-            choose: function (obj) {
-
+            drag:true,
+            choose: function () {
+                $("#link_remove").remove();
+                $("#link_show").append(
+                    "<div id='link_remove' class=\"layui-input-inline\">已选择，等待提交读取数据</div>"
+                );
             },
             done: function(res){
                 console.log(res)
-                link = res.result;
-                $("#link_remove").remove();
-                $("#link_show").append(
-                    "<div id='link_remove' class=\"layui-input-inline\">" +
-                    link +
-                    "</div>"
-                );
             }
         });
-        // form.on('submit(add)', function(res) {
-        //     $.ajax({
-        //         type : "POST",
-        //         contentType : "application/x-www-form-urlencoded",
-        //         url : '/{$secret}/',
-        //         data : {
-        //             username : res.field.username,
-        //             password : res.field.pass,
-        //         },
-        //         success : function(res) {
-        //             if(res.status === config('failed')){
-        //                 layer.msg(res.result);
-        //             }else if(res.status === config('success')){
-        //                 layer.alert(res.result, {icon: 6}, function() {
-        //                     xadmin.close();
-        //                     xadmin.father_reload();
-        //                 });
-        //             }
-        //         }
-        //     });
-        //     return false;
-        // });
+        laydate.render({
+            elem: '#begin_time',
+            type: 'datetime'
+        });
+        laydate.render({
+            elem: '#close_time',
+            type: 'datetime'
+        });
+        form.on('submit(add)', function(res) {
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : '/{$secret}/Exam/commitPaper',
+                data : {
+                    class_id : res.field.class_id,
+                    begin_time : timeToTimeStamp(res.field.begin_time),
+                    close_time : timeToTimeStamp(res.field.close_time)
+                },
+                success : function(res) {
+                    console.log(res);
+                    return false;
+                    if(res.status === config('failed')){
+                        layer.msg(res.result);
+                    }else if(res.status === config('success')){
+                        layer.alert(res.result, {icon: 6}, function() {
+                            xadmin.close();
+                            xadmin.father_reload();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
 
     });
 </script>
