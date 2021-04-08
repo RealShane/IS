@@ -18,17 +18,18 @@ class Exam
     }
 
     public function commitPaper($data){
-        $datas = [
+        $this -> examModel -> save([
             'class_id' => $data['class_id'],
-            'title' => $data['file']->getOriginalName(),
-            'paper_answer' => $this->excel->read($data['file']),
+            'title' => explode(".", $data['file'] -> getOriginalName())[0],
+            'paper_answer' => $this -> excel -> read($data['file']),
             'close_time' => [
-                'beginTime' => $data['beginTime'],
-                'closeTime' => $data['closeTime']
-            ],
-            'create_time' => time(),
-            'update_time' => time()
-        ];
-        $this -> examModel -> save($datas);
+                'begin_time' => $data['begin_time'],
+                'close_time' => $data['close_time']
+            ]
+        ]);
+    }
+
+    public function selectInfo(){
+
     }
 }
