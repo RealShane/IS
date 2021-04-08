@@ -27,6 +27,35 @@ class Excel
         $this -> excel = new Spreadsheet();
     }
 
+    public function read($file){
+        if (!file_exists($file)) {//判断文件是否存在
+            exit("文件" . $file . "不存在");
+        }
+        $objPHPExcel = IOFactory::load($file); //获取sheet表格数目
+        $sheetCount = $objPHPExcel->getSheetCount(); //默认选中sheet0表
+        $sheetSelected = 0;
+        $objPHPExcel->setActiveSheetIndex($sheetSelected);
+        $rowCount = $objPHPExcel->getActiveSheet()->getHighestRow(); //获取表格行数
+        $columnCount = $objPHPExcel->getActiveSheet()->getHighestColumn();//获取表格列数
+        $dataArr = array();
+        /* 循环读取每个单元格的数据 */
+        for ($row = 1; $row <= $rowCount; $row++) {
+            //列数循环 , 列数是以A列开始
+            $n = 0;
+            for ($column = 'A'; $column <= $columnCount; $column++) {
+                $dataArr[$row][$column] = $objPHPExcel->getActiveSheet()->getCell($column . $row)->getValue();
+            }
+        }
+        print_r($dataArr);exit;
+        $data = array();
+        foreach ($dataArr as $k => $v) {
+            $data[$k]['uid']  = $dataArr[$k]['A'];
+            $data[$k]['paper_answer'] = Db::name('api_exam_papers')->insert($data[$k]);
+            $data[$k]['sql'] = Db::getLastSql();
+        }
+        print_r($data);exit;
+    }
+
     public function push($title, $indexes, $data){
         $this -> excel -> getProperties() -> setCreator('Shane')
             ->setLastModifiedBy('Shane')

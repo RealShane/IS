@@ -22,7 +22,7 @@ class User extends Validate
         'target|目标' => 'require',
         'password|密码' => 'require',
         'status|状态' => 'require',
-        'validate|验证码' => 'require|captcha'
+//        'validate|验证码' => 'require|captcha'
     ];
 
     protected $scene = [
