@@ -41,6 +41,11 @@ function getParams() {
     return theRequest;
 }
 
+function timeToTimeStamp($time){
+    let date = new Date($time);
+    return Date.parse(date);
+}
+
 function timestampToTime(timestamp) {
     if (timestamp === null || timestamp === ""){
         return "缺失时间";

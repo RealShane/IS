@@ -101,8 +101,8 @@
                 url : '/{$secret}/Exam/commitPaper',
                 data : {
                     class_id : res.field.class_id,
-                    begin_time : res.field.begin_time,
-                    close_time : res.field.close_time
+                    begin_time : timeToTimeStamp(res.field.begin_time),
+                    close_time : timeToTimeStamp(res.field.close_time)
                 },
                 success : function(res) {
                     console.log(res);
