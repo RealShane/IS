@@ -35,7 +35,7 @@ class Exam extends BaseController
     }
 
     public function selectAllClass(){
-        return $this -> success(json($this -> business -> selectAllClass()));
+        return $this -> success(json_encode($this -> business -> selectAllClass()));
     }
 
 }
