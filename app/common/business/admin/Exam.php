@@ -19,7 +19,7 @@ class Exam
 
     public function commitPaper($file){
         $data = $this -> excel -> read($file);
-        echo json_encode( $this -> excel -> getCell('filename'));
+        echo json_encode($file -> getOriginalName());
         echo json_encode($data);exit;
 
 
