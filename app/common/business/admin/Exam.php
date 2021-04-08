@@ -33,15 +33,8 @@ class Exam
     }
 
     public function selectAllClass(){
-        $classes = $this -> crud -> setStore('api_class') -> all(['id', 'name']);
-        foreach ($classes as $class){
-            $data[] = [
-                'id' => $class['id'],
-                'name' => $class['name']
-            ];
-        }
-        return $data;
 
+        return $this -> crud -> setStore('api_class') -> all(['id', 'name']);
     }
 
     public function selectInfo(){
