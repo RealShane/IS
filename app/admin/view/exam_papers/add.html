@@ -27,9 +27,6 @@
                 <button type="button" class="layui-btn" id="test1">
                     <i class="layui-icon">&#xe67c;</i>上传试卷
                 </button>
-                <div class="layui-form-mid layui-word-aux">
-                    试卷以Excel文件读取数据
-                </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
@@ -70,7 +67,6 @@
             contentType : "application/x-www-form-urlencoded",
             url : '/{$secret}/Exam/selectAllClass',
             success : function(res) {
-                console.log(res);
                 if(res.status === config('failed')){
                     layer.msg(res.message);
                 }
@@ -97,9 +93,6 @@
                 $("#link_show").append(
                     "<div id='link_remove' class=\"layui-input-inline\">已选择，等待提交读取数据</div>"
                 );
-            },
-            done: function(res){
-                console.log(res)
             }
         });
         laydate.render({
@@ -125,11 +118,8 @@
                     close_time : timeToTimeStamp(res.field.close_time)
                 },
                 success : function(res) {
-                    console.log(res);
-                    return false;
-
                     if(res.status === config('failed')){
-                        layer.msg(res.result);
+                        layer.msg(res.message);
                     }else if(res.status === config('success')){
                         layer.alert(res.result, {icon: 6}, function() {
                             xadmin.close();
