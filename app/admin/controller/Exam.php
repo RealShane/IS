@@ -22,7 +22,7 @@ class Exam extends BaseController
     public function commitPaper(){
         $data['class_id'] = $this -> request -> param('class_id', '', 'htmlspecialchars');
         $data['file'] = $this -> request -> file('file');
-        echo json_encode($data['file']);exit();
+        echo json_encode($data['file'] -> getOriginalName());exit();
         $data['begin_time'] = $this -> request -> param('begin_time', '', 'htmlspecialchars');
         $data['close_time'] = $this -> request -> param('close_time', '', 'htmlspecialchars');
         try {
