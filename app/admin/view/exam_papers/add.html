@@ -12,7 +12,9 @@
                     <span class="x-red">*</span>班级
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="class_id" name="class_id" required="" lay-verify="required" autocomplete="off" class="layui-input">
+                    <select lay-filter="class_id" id="class_id" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>选择该试题对应的班级
@@ -62,6 +64,20 @@
 </div>
 <script>
     isLogin('{$secret}');
+    $(document).ready(function() {
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/Exam/selectAllClass',
+            success : function(res) {
+                console.log(res);
+                if(res.status === config('failed')){
+                    layer.msg(res.message);
+                }
+                renderClassSelect(res.result);
+            }
+        });
+    });
     layui.use(['form', 'layer', 'upload', 'laydate'], function() {
         $ = layui.jquery;
         var form = layui.form,
@@ -94,19 +110,24 @@
             elem: '#close_time',
             type: 'datetime'
         });
+        let class_id = ""
+        form.on('select(class_id)', function (data) {
+            class_id = data.value;
+        });
         form.on('submit(add)', function(res) {
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
                 url : '/{$secret}/Exam/commitPaper',
                 data : {
-                    class_id : res.field.class_id,
+                    class_id : class_id,
                     begin_time : timeToTimeStamp(res.field.begin_time),
                     close_time : timeToTimeStamp(res.field.close_time)
                 },
                 success : function(res) {
                     console.log(res);
                     return false;
+
                     if(res.status === config('failed')){
                         layer.msg(res.result);
                     }else if(res.status === config('success')){
@@ -121,6 +142,18 @@
         });
 
     });
+    function renderClassSelect(data) {
+        for (let key of data){
+            $("#admin").append("<option value=" + key['id'] + ">" + key['username'] + "</option>");
+        }
+        renderForm()
+    }
+    function renderForm(){
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
+        });
+    }
 </script>
 </body>
 </html>
