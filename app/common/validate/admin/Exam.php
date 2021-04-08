@@ -20,12 +20,10 @@ class Exam extends Validate
     protected $rule = [
         'class_id|班级id' => 'require',
         'file|文件' => 'require',
-        'begin_time|开始时间' => 'require',
-        'close_time|结束时间' => 'require',
     ];
 
     protected $scene = [
-        'commitPaper' => ['class_id', 'file', 'begin_time', 'close_time'],
+        'commitPaper' => ['class_id', 'file'],
     ];
 
 }

@@ -18,7 +18,7 @@ class CRUD
 
     private $table = null;
 
-    public function __construct($table){
+    public function __construct($table = NULL){
         $this -> table = $table;
     }
 
@@ -43,11 +43,20 @@ class CRUD
     }
 
     public function show($num){
-        return Db::name($this -> table) -> where('id', '>', 0) -> order('id', 'desc') -> paginate($num);
+        return Db::table($this -> table) -> where('id', '>', 0) -> order('id', 'desc') -> paginate($num);
+    }
+
+    public function all($field, $status = 1){
+        return Db::table($this -> table) -> where('status', $status) -> field($field) -> select();
     }
 
     public function createAll($data){
-        Db::name($this -> table) -> insertAll($data);
+        Db::table($this -> table) -> insertAll($data);
+    }
+
+    public function setStore($table){
+        $this -> table = $table;
+        return $this;
     }
 
 }

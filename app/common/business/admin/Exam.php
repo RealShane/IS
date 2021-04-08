@@ -6,15 +6,18 @@ namespace app\common\business\admin;
 
 use app\common\business\lib\Excel;
 use app\common\model\admin\Exam as examModel;
+use app\common\business\admin\CRUD;
 class Exam
 {
 
     private $excel = NULL;
     private $examModel = NULL;
+    private $crud = NULL;
 
     public function __construct(){
         $this -> excel = new Excel();
         $this -> examModel = new examModel();
+        $this -> crud = new CRUD();
     }
 
     public function commitPaper($data){
@@ -29,7 +32,20 @@ class Exam
         ]);
     }
 
+    public function selectAllClass(){
+        $classes = $this -> crud -> setStore('api_class') -> all(['id', 'name']);
+        foreach ($classes as $class){
+            $data[] = [
+                'id' => $class['id'],
+                'name' => $class['name']
+            ];
+        }
+        return json($data);
+
+    }
+
     public function selectInfo(){
+
 
     }
 }

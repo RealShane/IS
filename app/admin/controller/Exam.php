@@ -34,4 +34,8 @@ class Exam extends BaseController
         return $this -> success("添加试卷成功！");
     }
 
+    public function selectAllClass(){
+        return $this -> success($this -> business -> selectAllClass());
+    }
+
 }

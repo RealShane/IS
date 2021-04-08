@@ -15,4 +15,5 @@ class Exam extends Model
         'close_time'     =>  'json',
     ];
 
+
 }
