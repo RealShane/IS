@@ -37,9 +37,8 @@ class Excel
         $array = [];
         for ($row = 1; $row <= $rowCount; $row++) {
             $question = [];
-            $n = 0;
             for ($column = 'A'; $column <= $columnCount; $column++) {
-                $question[$column] = $io -> getActiveSheet() -> getCell($column . $row) -> getValue();
+                $question[] = $io -> getActiveSheet() -> getCell($column . $row) -> getValue();
             }
             $array[] = $question;
         }
