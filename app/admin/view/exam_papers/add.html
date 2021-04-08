@@ -54,15 +54,11 @@
             size: 99999999999,
             auto: false,
             bindAction: '#commit',
-            //上传前的回调
-            before: function () {
-                this.data = {
-                    class_id : $('input[name="class_id"]').val()
-                }
-            },
-            //选择文件后的回调
+            drag:true,
             choose: function (obj) {
-
+                obj.preview(function(index, file, result){
+                    console.log(result);
+                });
             },
             done: function(res){
                 console.log(res)
@@ -75,28 +71,29 @@
                 );
             }
         });
-        // form.on('submit(add)', function(res) {
-        //     $.ajax({
-        //         type : "POST",
-        //         contentType : "application/x-www-form-urlencoded",
-        //         url : '/{$secret}/',
-        //         data : {
-        //             username : res.field.username,
-        //             password : res.field.pass,
-        //         },
-        //         success : function(res) {
-        //             if(res.status === config('failed')){
-        //                 layer.msg(res.result);
-        //             }else if(res.status === config('success')){
-        //                 layer.alert(res.result, {icon: 6}, function() {
-        //                     xadmin.close();
-        //                     xadmin.father_reload();
-        //                 });
-        //             }
-        //         }
-        //     });
-        //     return false;
-        // });
+        form.on('submit(add)', function(res) {
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : '/{$secret}/Exam/commitPaper',
+                data : {
+                    class_id : res.field.class_id
+                },
+                success : function(res) {
+                    console.log(res);
+                    return false;
+                    if(res.status === config('failed')){
+                        layer.msg(res.result);
+                    }else if(res.status === config('success')){
+                        layer.alert(res.result, {icon: 6}, function() {
+                            xadmin.close();
+                            xadmin.father_reload();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
 
     });
 </script>
