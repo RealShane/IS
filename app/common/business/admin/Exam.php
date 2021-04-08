@@ -8,14 +8,17 @@ use app\common\business\lib\Excel;
 use app\common\model\admin\Exam as examModel;
 class Exam
 {
-    private $excelLib = NULL;
+
+    private $excel = NULL;
     private $examModel = NULL;
+
     public function __construct(){
-        $this -> excelLib = new Excel();
+        $this -> excel = new Excel();
         $this -> examModel = new examModel();
     }
-    public function pushPaper($file){
-//        $data = $this -> excelLib -> read($file);
+
+    public function commitPaper($file){
+        $data = $this -> excel -> read($file);
 
     }
 }

@@ -28,13 +28,11 @@ class Excel
     }
 
     public function read($file){
-        if (!file_exists($file)) {//判断文件是否存在
-            exit("文件" . $file . "不存在");
-        }
-        $objPHPExcel = IOFactory::load($file); //获取sheet表格数目
-        $sheetCount = $objPHPExcel->getSheetCount(); //默认选中sheet0表
+        $io = IOFactory::load($file);
+        $sheetCount = $io -> getSheetCount();
+        echo json_encode($sheetCount);exit();
         $sheetSelected = 0;
-        $objPHPExcel->setActiveSheetIndex($sheetSelected);
+        $io -> setActiveSheetIndex($sheetSelected);
         $rowCount = $objPHPExcel->getActiveSheet()->getHighestRow(); //获取表格行数
         $columnCount = $objPHPExcel->getActiveSheet()->getHighestColumn();//获取表格列数
         $dataArr = array();
