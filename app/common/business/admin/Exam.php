@@ -39,6 +39,5 @@ class Exam
 
     public function selectInfo(){
 
-
     }
 }
