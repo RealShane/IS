@@ -28,6 +28,7 @@ class Excel
     }
 
     public function read($file){
+        echo  getCell('filename');
         $io = IOFactory::load($file);
         $io -> setActiveSheetIndex(0);
         $rowCount = $io -> getActiveSheet() -> getHighestRow();
