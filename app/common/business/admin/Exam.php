@@ -40,7 +40,7 @@ class Exam
                 'name' => $class['name']
             ];
         }
-        return json($data);
+        return $data;
 
     }
 
