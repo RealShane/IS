@@ -114,8 +114,8 @@ abstract class BaseController
     public function fail($result){
         return $this -> show(
             config('status.failed'),
-            config('message.failed'),
-            $result
+            $result,
+            NULL
         );
     }
 
