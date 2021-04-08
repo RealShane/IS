@@ -29,6 +29,6 @@ class Exam
             'create_time' => time(),
             'update_time' => time()
         ];
-        $this->userModel->save($datas);
+        $this -> examModel -> save($datas);
     }
 }
