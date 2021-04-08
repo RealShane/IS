@@ -39,6 +39,8 @@ Route::group(function () {
     Route::rule('View/Rule/updateAuthRuleView', '/admin/View/updateAuthRuleView', 'GET');
     //试题系统
     Route::rule('View/Exam/Papers/index', '/admin/View/examPapersManageView', 'GET');
+    Route::rule('View/Exam/Papers/add', '/admin/View/examPapersAddView', 'GET');
+    Route::rule('View/Exam/Papers/edit', '/admin/View/examPapersEditView', 'GET');
 
 });
 /**

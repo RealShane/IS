@@ -30,14 +30,14 @@ class View extends BaseController
         ]);
     }
 
-    public function audioAddView(){
-        return V::fetch('audio/add', [
+    public function examPapersAddView(){
+        return V::fetch('exam_papers/add', [
             'secret' => Env::get('ADMIN.FILE', '')
         ]);
     }
 
-    public function audioEditView(){
-        return V::fetch('audio/edit', [
+    public function examPapersEditView(){
+        return V::fetch('exam_papers/edit', [
             'secret' => Env::get('ADMIN.FILE', '')
         ]);
     }
