@@ -43,7 +43,7 @@ function getParams() {
 
 function timeToTimeStamp($time){
     let date = new Date($time);
-    return Date.parse(date);
+    return Date.parse(date) / 1000;
 }
 
 function timestampToTime(timestamp) {
