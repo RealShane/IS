@@ -17,19 +17,18 @@ class Exam
         $this -> examModel = new examModel();
     }
 
-    public function commitPaper($file){
-        $data = $this -> excel -> read($file);
-        echo json_encode($data);exit;
-
-
-
-
-        foreach ($data as $k => $v) {
-            $data[$k]['uid']  = $data[$k]['A'];
-            $data[$k]['res'] = Db::name('wechat_user')->insert($data[$k]);
-            $data[$k]['sql'] = Db::getLastSql();
-        }
-        print_r($data);exit;
-
+    public function commitPaper($data){
+        $datas = [
+            'class_id' => $data['class_id'],
+            'title' => $data['file']->getOriginalName(),
+            'paper_answer' => $this->excel->read($data['file']),
+            'close_time' => [
+                'beginTime' => $data['beginTime'],
+                'closeTime' => $data['closeTime']
+            ],
+            'create_time' => time(),
+            'update_time' => time()
+        ];
+        $this -> examModel -> save($datas);
     }
 }
