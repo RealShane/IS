@@ -29,9 +29,7 @@ class Excel
 
     public function read($file){
         $io = IOFactory::load($file);
-        $sheetCount = $io -> getSheetCount();
-        $sheetSelected = 0;
-        $io -> setActiveSheetIndex($sheetSelected);
+        $io -> setActiveSheetIndex(0);
         $rowCount = $io -> getActiveSheet() -> getHighestRow();
         $columnCount = $io -> getActiveSheet() -> getHighestColumn();
         $array = [];
@@ -57,14 +55,7 @@ class Excel
             }
             $array[] = $question;
         }
-        echo json_encode($array);exit;
-        $data = array();
-        foreach ($dataArr as $k => $v) {
-            $data[$k]['uid']  = $dataArr[$k]['A'];
-            $data[$k]['res'] = Db::name('wechat_user')->insert($data[$k]);
-            $data[$k]['sql'] = Db::getLastSql();
-        }
-        print_r($data);exit;
+        return $array;
     }
 
     public function push($title, $indexes, $data){

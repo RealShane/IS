@@ -19,6 +19,17 @@ class Exam
 
     public function commitPaper($file){
         $data = $this -> excel -> read($file);
+        echo json_encode($data);exit;
+
+
+
+
+        foreach ($data as $k => $v) {
+            $data[$k]['uid']  = $data[$k]['A'];
+            $data[$k]['res'] = Db::name('wechat_user')->insert($data[$k]);
+            $data[$k]['sql'] = Db::getLastSql();
+        }
+        print_r($data);exit;
 
     }
 }
