@@ -24,6 +24,7 @@ class Exam extends BaseController
         $data['file'] = $this -> request -> file('file');
         $data['begin_time'] = $this -> request -> param('begin_time', '', 'htmlspecialchars');
         $data['close_time'] = $this -> request -> param('close_time', '', 'htmlspecialchars');
+        return $this -> success($data);
         try {
             validate(Validate::class) -> scene('commitPaper') -> check($data);
         }catch (\Exception $exception){
