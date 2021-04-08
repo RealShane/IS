@@ -52,7 +52,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button id="commit" class="layui-btn" lay-filter="add" lay-submit="">
+                <button class="layui-btn" lay-filter="add" lay-submit="">
                     提交
                 </button>
             </div>
@@ -80,31 +80,19 @@
             upload  = layui.upload,
             laydate = layui.laydate,
             layer = layui.layer;
-        let class_id = null;
+        let file = null, class_id = null;
         upload.render({
             elem: '#test1',
-            url: '/{$secret}/Exam/commitPaper',
+            url: '/{$secret}/Exam/readPaper',
             accept: 'file',
             size: 99999999999,
-            auto: false,
-            bindAction: '#commit',
             drag:true,
-            choose: function (res) {
+            done: function (res){
+                file = res.result;
                 $("#link_remove").remove();
                 $("#link_show").append(
-                    "<div id='link_remove' class=\"layui-input-inline\">已选择，等待提交读取数据</div>"
+                    "<div id='link_remove' class=\"layui-input-inline\">已读入数据</div>"
                 );
-            },
-            before: function (){
-                this.data = {
-                    class_id : class_id,
-                    begin_time : timeToTimeStamp($('#begin_time').val()),
-                    close_time : timeToTimeStamp($('#close_time').val())
-                }
-            },
-            done: function (res){
-                console.log(res);
-                return false;
             }
         });
         laydate.render({
@@ -118,32 +106,32 @@
         form.on('select(class_id)', function (data) {
             class_id = data.value;
         });
-        // form.on('submit(add)', function(res) {
-        //     $.ajax({
-        //         type : "POST",
-        //         contentType : "application/x-www-form-urlencoded",
-        //         processData: false,
-        //         url : '/{$secret}/Exam/commitPaper',
-        //         data : {
-        //             class_id : class_id,
-        //             file : file,
-        //             begin_time : timeToTimeStamp(res.field.begin_time),
-        //             close_time : timeToTimeStamp(res.field.close_time)
-        //         },
-        //         success : function(res) {
-        //             console.log(res);
-        //             if(res.status === config('failed')){
-        //                 layer.msg(res.message);
-        //             }else if(res.status === config('success')){
-        //                 layer.alert(res.result, {icon: 6}, function() {
-        //                     xadmin.close();
-        //                     xadmin.father_reload();
-        //                 });
-        //             }
-        //         }
-        //     });
-        //     return false;
-        // });
+        form.on('submit(add)', function(res) {
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                processData: false,
+                url : '/{$secret}/Exam/commitPaper',
+                data : {
+                    class_id : class_id,
+                    file : file,
+                    begin_time : timeToTimeStamp(res.field.begin_time),
+                    close_time : timeToTimeStamp(res.field.close_time)
+                },
+                success : function(res) {
+                    console.log(res);
+                    if(res.status === config('failed')){
+                        layer.msg(res.message);
+                    }else if(res.status === config('success')){
+                        layer.alert(res.result, {icon: 6}, function() {
+                            xadmin.close();
+                            xadmin.father_reload();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
 
     });
     function renderClassSelect(data) {
