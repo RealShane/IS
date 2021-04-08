@@ -10,9 +10,8 @@ class Exam extends BaseController
 {
     public function commitPaper(){
         $file = $this -> request -> file('file');
-//        echo json_encode( $file->getFilename());exit;
-//        $errCode = (new examBusiness()) -> commitPaper($file);
-
+        echo json_encode( $file -> getFilename());
+        $errCode = (new examBusiness()) -> commitPaper($file);
     }
 
 }
