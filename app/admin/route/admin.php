@@ -62,6 +62,8 @@ Route::group(function () {
      * -----------------------------试题系统-----------------------------
      */
     Route::rule('Exam/getTarget', '/admin/Exam/getTarget', 'POST');
+    Route::rule('Exam/pushPaper', '/admin/Exam/pushPaper', 'POST');
+
 
 
     /**
