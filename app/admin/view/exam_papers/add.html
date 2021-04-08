@@ -29,7 +29,28 @@
                     试卷以Excel文件读取数据
                 </div>
             </div>
-
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    开始时间
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="begin_time">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>选择该试卷的开始时间，为空则无开始时间限制
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    结束时间
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="close_time">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>选择该试卷的结束时间，为空则无结束时间限制
+                </div>
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
                 <button id="commit" class="layui-btn" lay-filter="add" lay-submit="">
@@ -42,10 +63,11 @@
 <script>
     isLogin('{$secret}');
     let link = "";
-    layui.use(['form', 'layer', 'upload'], function() {
+    layui.use(['form', 'layer', 'upload', 'laydate'], function() {
         $ = layui.jquery;
         var form = layui.form,
             upload  = layui.upload,
+            laydate = layui.laydate,
             layer = layui.layer;
         upload.render({
             elem: '#test1',
@@ -71,13 +93,23 @@
                 );
             }
         });
+        laydate.render({
+            elem: '#begin_time',
+            type: 'datetime'
+        });
+        laydate.render({
+            elem: '#close_time',
+            type: 'datetime'
+        });
         form.on('submit(add)', function(res) {
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
                 url : '/{$secret}/Exam/commitPaper',
                 data : {
-                    class_id : res.field.class_id
+                    class_id : res.field.class_id,
+                    begin_time : res.field.begin_time,
+                    close_time : res.field.close_time
                 },
                 success : function(res) {
                     console.log(res);
