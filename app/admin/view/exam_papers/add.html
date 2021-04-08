@@ -144,7 +144,7 @@
     });
     function renderClassSelect(data) {
         for (let key of data){
-            $("#admin").append("<option value=" + key['id'] + ">" + key['username'] + "</option>");
+            $("#class_id").append("<option value=" + key['id'] + ">" + key['name'] + "</option>");
         }
         renderForm()
     }
