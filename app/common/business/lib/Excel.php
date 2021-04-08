@@ -38,7 +38,20 @@ class Excel
         for ($row = 1; $row <= $rowCount; $row++) {
             $question = [];
             for ($column = 'A'; $column <= $columnCount; $column++) {
-                $question[] = $io -> getActiveSheet() -> getCell($column . $row) -> getValue();
+                $key = NULL;
+                if ($column == 'A'){
+                    $key = 'subject';
+                }
+                if ($column == 'B'){
+                    $key = 'option';
+                }
+                if ($column == 'C'){
+                    $key = 'answer';
+                }
+                if ($column == 'D'){
+                    $key = 'analysis';
+                }
+                $question[$key] = $io -> getActiveSheet() -> getCell($column . $row) -> getValue();
             }
             $array[] = $question;
         }
