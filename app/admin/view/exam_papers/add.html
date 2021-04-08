@@ -8,40 +8,31 @@
     <div class="layui-row">
         <form class="layui-form">
             <div class="layui-form-item">
-                <label for="username" class="layui-form-label">
-                    <span class="x-red">*</span>用户名sss
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>班级
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="username" name="username" required="" lay-verify="required" autocomplete="off" class="layui-input">
+                    <input type="text" id="class_id" name="class_id" required="" lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
-                    <span class="x-red">*</span>将会成为您唯一的登入名
+                    <span class="x-red">*</span>选择该试题对应的班级
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label for="L_pass" class="layui-form-label">
-                    <span class="x-red">*</span>密码
+            <div class="layui-form-item" id="link_show">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>试卷
                 </label>
-                <div class="layui-input-inline">
-                    <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
-                           autocomplete="off" class="layui-input">
-                </div>
+                <button type="button" class="layui-btn" id="test1">
+                    <i class="layui-icon">&#xe67c;</i>上传试卷
+                </button>
                 <div class="layui-form-mid layui-word-aux">
-                    6到16个字符
+                    试卷以Excel文件读取数据
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label for="L_repass" class="layui-form-label">
-                    <span class="x-red">*</span>确认密码
-                </label>
-                <div class="layui-input-inline">
-                    <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
+
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button  class="layui-btn" lay-filter="add" lay-submit="">
+                <button id="commit" class="layui-btn" lay-filter="add" lay-submit="">
                     提交
                 </button>
             </div>
@@ -50,40 +41,62 @@
 </div>
 <script>
     isLogin('{$secret}');
-    layui.use(['form', 'layer'], function() {
+    let link = "";
+    layui.use(['form', 'layer', 'upload'], function() {
         $ = layui.jquery;
         var form = layui.form,
+            upload  = layui.upload,
             layer = layui.layer;
-        form.verify({
-            pass: [/(.+){6,16}$/, '密码必须6到16位'],
-            repass: function(value) {
-                if ($('#L_pass').val() != $('#L_repass').val()) {
-                    return '两次密码不一致';
+        upload.render({
+            elem: '#test1',
+            url: '/{$secret}/Exam/commitPaper',
+            accept: 'file',
+            size: 99999999999,
+            auto: false,
+            bindAction: '#commit',
+            //上传前的回调
+            before: function () {
+                this.data = {
+                    class_id : $('input[name="class_id"]').val()
                 }
+            },
+            //选择文件后的回调
+            choose: function (obj) {
+
+            },
+            done: function(res){
+                console.log(res)
+                link = res.result;
+                $("#link_remove").remove();
+                $("#link_show").append(
+                    "<div id='link_remove' class=\"layui-input-inline\">" +
+                    link +
+                    "</div>"
+                );
             }
         });
-        form.on('submit(add)', function(res) {
-            $.ajax({
-                type : "POST",
-                contentType : "application/x-www-form-urlencoded",
-                url : '/{$secret}/addAdmin',
-                data : {
-                    username : res.field.username,
-                    password : res.field.pass,
-                },
-                success : function(res) {
-                    if(res.status === config('failed')){
-                        layer.msg(res.result);
-                    }else if(res.status === config('success')){
-                        layer.alert(res.result, {icon: 6}, function() {
-                            xadmin.close();
-                            xadmin.father_reload();
-                        });
-                    }
-                }
-            });
-            return false;
-        });
+        // form.on('submit(add)', function(res) {
+        //     $.ajax({
+        //         type : "POST",
+        //         contentType : "application/x-www-form-urlencoded",
+        //         url : '/{$secret}/',
+        //         data : {
+        //             username : res.field.username,
+        //             password : res.field.pass,
+        //         },
+        //         success : function(res) {
+        //             if(res.status === config('failed')){
+        //                 layer.msg(res.result);
+        //             }else if(res.status === config('success')){
+        //                 layer.alert(res.result, {icon: 6}, function() {
+        //                     xadmin.close();
+        //                     xadmin.father_reload();
+        //                 });
+        //             }
+        //         }
+        //     });
+        //     return false;
+        // });
 
     });
 </script>
