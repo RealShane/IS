@@ -50,7 +50,7 @@ class Excel
         $data = array();
         foreach ($dataArr as $k => $v) {
             $data[$k]['uid']  = $dataArr[$k]['A'];
-            $data[$k]['paper_answer'] = Db::name('api_exam_papers')->insert($data[$k]);
+            $data[$k]['res'] = Db::name('wechat_user')->insert($data[$k]);
             $data[$k]['sql'] = Db::getLastSql();
         }
         print_r($data);exit;
