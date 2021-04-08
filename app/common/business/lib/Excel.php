@@ -38,7 +38,7 @@ class Excel
         for ($row = 1; $row <= $rowCount; $row++) {
             $n = 0;
             for ($column = 'A'; $column <= $columnCount; $column++) {
-                $array[$row][$column] = $io -> getActiveSheet() -> getCell($column . $row) -> getValue();
+                $array[][$column] = $io -> getActiveSheet() -> getCell($column . $row) -> getValue();
             }
         }
         echo json_encode($array);exit;
