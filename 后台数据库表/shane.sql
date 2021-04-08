@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2021-02-04 18:49:11
+-- 生成日期： 2021-04-08 09:23:49
 -- 服务器版本： 5.7.26-log
 -- PHP 版本： 7.3.0
 
@@ -44,7 +44,7 @@ CREATE TABLE `api_app_config` (
 INSERT INTO `api_app_config` (`id`, `key`, `value`, `statement`, `type`, `type_name`, `status`) VALUES
 (1, 'EMAIL_HOST', 'smtp.163.com', '邮箱地址', 'EMAIL', '邮箱设置', 1),
 (2, 'EMAIL_USERNAME', 'redleafshane@163.com', '邮箱用户名', 'EMAIL', '邮箱设置', 1),
-(3, 'EMAIL_PASSWORD', 'SJWZyHHf3sYxcSGN', '邮箱密码', 'EMAIL', '邮箱设置', 1),
+(3, 'EMAIL_PASSWORD', 'XGLEKTLMMDFEAPAF', '邮箱密码', 'EMAIL', '邮箱设置', 1),
 (4, 'EMAIL_NAME', 'Shane_noreply', '邮件发送人姓名', 'EMAIL', '邮箱设置', 1),
 (5, 'EMAIL_ACTIVE_TITLE', '工学部综合系统--注册激活', '注册激活邮件标题', 'EMAIL', '邮箱设置', 1),
 (6, 'EMAIL_ACTIVE_BODY', '<h1>汇华的同学你好：</h1><br>&nbsp;&nbsp;Shane帮你想好了你应该去哪里激活你的账号(尽快激活，24小时有效时间)：https://serv.huihuagongxue.top/api/activeRegister?token=', '注册激活邮件内容HTML版', 'EMAIL', '邮箱设置', 1),
@@ -1357,7 +1357,7 @@ CREATE TABLE `z_admin_user` (
 --
 
 INSERT INTO `z_admin_user` (`id`, `username`, `password`, `password_salt`, `last_login_ip`, `last_login_time`, `last_login_token`, `create_time`, `update_time`, `status`) VALUES
-(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '', 0, NULL, 0, 0, 1);
+(1, 'admin', '7a06543f83b717722d79d60aa3800aad', 'ETSLP', '36.98.133.232', 1617844964, 'b99a1f617cad91030eb53b05e5339d6f610d4922', 0, 1617844964, 1);
 
 --
 -- 转储表的索引
