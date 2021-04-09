@@ -19,6 +19,24 @@ class Exam extends BaseController
         $this -> business = $business;
     }
 
+    public function updatePaper(){
+        $data['id'] = $this -> request -> param('id', '', 'htmlspecialchars');
+        $data['title'] = $this -> request -> param('title', '', 'htmlspecialchars');
+        $data['class_id'] = $this -> request -> param('class_id', '', 'htmlspecialchars');
+        $data['token'] = $this -> request -> param('token', '', 'htmlspecialchars');
+        $data['begin_time'] = $this -> request -> param('begin_time', NULL, 'htmlspecialchars');
+        $data['close_time'] = $this -> request -> param('close_time', NULL, 'htmlspecialchars');
+        $data['status'] = $this -> request -> param('status', '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('updatePaper') -> check($data);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        $this -> business -> updatePaper($data);
+        return $this -> success("更改试卷成功！");
+
+    }
+
     public function getPaper(){
         $id = $this -> request -> param('id', '', 'htmlspecialchars');
         try {

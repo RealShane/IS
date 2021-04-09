@@ -28,8 +28,33 @@ class Exam
         $this -> str = new Str();
     }
 
+    public function updatePaper($data){
+        $paper = $this -> redis -> get($data['token']);
+        if (empty($paper)){
+            return $this -> examPapersModel -> updatePaper($data, [
+                'title',
+                'class_id',
+                'begin_time',
+                'close_time',
+                'update_time',
+                'status'
+            ]);
+        }
+        $data['paper_answer'] = $paper['data'];
+        return $this -> examPapersModel -> updatePaper($data, [
+            'title',
+            'class_id',
+            'paper_answer',
+            'begin_time',
+            'close_time',
+            'update_time',
+            'status'
+        ]);
+
+    }
+
     public function getPaper($id){
-        return $this -> examPapersModel -> getPaper($id);
+        return $this -> examPapersModel -> findById($id);
     }
 
     public function deletePaper($id){

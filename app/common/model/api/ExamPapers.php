@@ -15,11 +15,12 @@ class ExamPapers extends Model
         'close_time'     =>  'json',
     ];
 
-    public function updatePaper(){
-
+    public function updatePaper($data, $field){
+        $paper = $this -> findById($data['id']);
+        $paper -> allowField($field) -> save($data);
     }
 
-    public function getPaper($id){
+    public function findById($id){
         return $this -> where('id', $id) -> find();
     }
 

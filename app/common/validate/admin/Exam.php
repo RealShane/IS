@@ -18,11 +18,12 @@ class Exam extends Validate
 {
 
     protected $rule = [
-        'class_id|班级id' => 'require',
-        'file|文件' => 'file',
-        'token' => 'require',
-        'title|试卷名称' => 'require',
-        'id' => 'require'
+        'class_id|班级id' => ['require'],
+        'file|文件' => ['file'],
+        'token' => ['require'],
+        'title|试卷名称' => ['require'],
+        'id' => ['require'],
+        'status|状态' => ['require']
     ];
 
     protected $scene = [
@@ -30,7 +31,8 @@ class Exam extends Validate
         'readPaper' => ['file'],
         'getTargetPapers' => ['title'],
         'deletePaper' => ['id'],
-        'getPaper' => ['id']
+        'getPaper' => ['id'],
+        'updatePaper' => ['id', 'class_id', 'title', 'status']
     ];
 
 }
