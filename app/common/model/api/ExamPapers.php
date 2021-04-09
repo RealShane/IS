@@ -16,7 +16,7 @@ class ExamPapers extends Model
     ];
 
     public function selectTitle($title, $num){
-        return $this -> where('title', 'LIKE', '%' . $title . '%') -> paginate($num);
+        return self::with('classes') -> where('title', 'LIKE', '%' . $title . '%') -> paginate($num);
     }
 
     public function findAll($num){
