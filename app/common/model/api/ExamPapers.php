@@ -16,8 +16,9 @@ class ExamPapers extends Model
     ];
 
     public function findAll($num){
+        $classes = Classes::find();
         return $this -> where('id', '>', 0)
-            -> field(['id', ($this -> classes())['name'], 'title', 'close_time', 'create_time', 'update_time', 'status'])
+            -> field(['id', $classes['name'], 'title', 'close_time', 'create_time', 'update_time', 'status'])
             -> paginate($num);
     }
 
