@@ -57,9 +57,9 @@
                         if(res.status === config('failed')){
                             layer.msg(res.message);
                         }else if(res.status === config('success')){
-                            layer.alert(res.result, {icon: 6}, function() {
-                                xadmin.close();
-                                xadmin.father_reload();
+                            layer.msg(res.result, function() {
+                                $("#playground").remove();
+                                base();
                             });
                         }
                     }
