@@ -19,6 +19,11 @@ class Exam extends BaseController
         $this -> business = $business;
     }
 
+    public function showPaperTitle(){
+        $data['uid'] = $this -> getUser();
+
+    }
+
     public function calculateScore(){
         $data['uid'] = $this -> getUser();
         $data['answer'] = $this -> request -> param('answer', '', 'htmlspecialchars');
