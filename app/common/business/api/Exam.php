@@ -10,6 +10,7 @@ use app\common\business\lib\Redis;
 use app\common\business\lib\Str;
 use app\common\model\api\ExamAnswers;
 use app\common\model\api\ExamPapers;
+use think\Exception;
 
 class Exam
 {
@@ -32,7 +33,13 @@ class Exam
 
     public function showPaper($paper_id){
         $paper = $this -> examPapersModel -> findById($paper_id);
-        return $paper;
+        if (time() < $paper['close_time']['begin_time'] || time() > $paper['close_time']['close_time']){
+            throw new Exception("未到答题时间或答题时间已过");
+        }
+        foreach ($paper['paper_answer'] as $key){
+            $data[] = [$key['subject'], $key['option']];
+        }
+        return $data;
     }
 
 
