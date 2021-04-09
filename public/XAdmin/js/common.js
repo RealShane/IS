@@ -1,7 +1,5 @@
 $(document).ready(function() {
-    let url = window.location.href;
-    console.log(url.search("api") !== -1);
-    let token = null;
+    let url = window.location.href, token = null;
     if (url.search("api") !== -1){
         token = getApiToken();
     }else {
