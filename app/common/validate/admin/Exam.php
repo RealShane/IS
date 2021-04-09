@@ -20,12 +20,14 @@ class Exam extends Validate
     protected $rule = [
         'class_id|班级id' => 'require',
         'file|文件' => 'file',
-        'token' => 'require'
+        'token' => 'require',
+        'title|试卷名称' => 'require'
     ];
 
     protected $scene = [
         'commitPaper' => ['class_id', 'token'],
-        'readPaper' => ['file']
+        'readPaper' => ['file'],
+        'getTargetPapers' => ['title']
     ];
 
 }

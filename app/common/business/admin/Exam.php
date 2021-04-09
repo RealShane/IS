@@ -28,11 +28,8 @@ class Exam
         $this -> str = new Str();
     }
 
-    public function getTargetPapers($data){
-        if (empty($data)){
-            throw new Exception("试卷名称为空！");
-        }
-        return $this -> examPapersModel -> select($data);
+    public function getTargetPapers($title){
+        return $this -> examPapersModel -> selectTitle($title);
 
     }
 
