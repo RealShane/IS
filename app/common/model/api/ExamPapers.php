@@ -15,7 +15,7 @@ class ExamPapers extends Model
         'close_time'     =>  'json',
     ];
 
-    public function deletePaper($id){
+    public function delPaper($id){
         return $this -> where('id', $id) -> delete();
     }
 
