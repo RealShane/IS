@@ -17,6 +17,8 @@ Route::group('View/Exam', function () {
 
 Route::group('Exam', function () {
     Route::rule('showPaper', '/api/Exam/showPaper', 'POST');
+    Route::rule('showPaperTitle', '/api/Exam/showPaperTitle', 'POST');
+    Route::rule('getAnswer', '/api/Exam/getAnswer', 'POST');
 }) -> middleware(IsLogin::class);
 
 //----------------------------------------------------------------------------------

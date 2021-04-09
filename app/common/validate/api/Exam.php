@@ -16,7 +16,7 @@ class Exam extends Validate
 
     protected $scene = [
         'showPaper' => ['paper_id'],
-        'calculateScore' => ['answer']
+        'getAnswer' => ['paper_id']
     ];
 
 }

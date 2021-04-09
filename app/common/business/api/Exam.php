@@ -34,22 +34,49 @@ class Exam
         $this -> str = new Str();
     }
 
-    public function showPaperTitle(){
-
+    public function showPaperTitle($uid){
+        $uid = $this -> userClassModel -> findByUid($uid);
+        $papers = $this -> examPapersModel -> findByClassId($uid['class_id']);
+        foreach ($papers as $paper){
+            $data[] = [
+                'title' => $paper['paper']
+            ];
+        }
+        return $data;
     }
 
-    public function showPaper($paper_id){
-        $paper = $this -> examPapersModel -> findById($paper_id);
-        if (time() < $paper['close_time']['begin_time']){
+    public function showPaper($data){
+        $paper = $this -> examPapersModel -> findById($data['paper_id']);
+        $time = time();
+        if ($time < $paper['close_time']['begin_time']){
             throw new Exception("未到答题时间");
         }
-        if(time() > $paper['close_time']['close_time']){
-            return $paper['paper_answer'];
+        if ($time > $paper['close_time']['close_time']){
+            $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
+            return [
+                'paper_answer' => $paper['paper_answer'],
+                'answer' => $user['answer'],
+                'score' => $user['score']
+            ];
         }
         foreach ($paper['paper_answer'] as $key){
             $data[] = [$key['subject'], $key['option']];
         }
         return $data;
+    }
+
+    public function getAnswer($data){
+        $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
+        $info = [
+            'uid' => $data['uid'],
+            'paper_id' => $data['paper_id'],
+            'answer' => $data['answer'],
+            'score' => NULL
+        ];
+        if (empty($user)){
+            $this -> examAnswersModel -> save($info);
+        }
+        $user -> save($info);
     }
 
     public function calculateScore($data){
