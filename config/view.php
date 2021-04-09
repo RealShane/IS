@@ -25,6 +25,6 @@ return [
 
     'tpl_replace_string' => [
         '__ADMIN__' => '/XAdmin',
-        '__API__' => '/gongxue'
+        '__API__' => '/XAdmin'
     ],
 ];
