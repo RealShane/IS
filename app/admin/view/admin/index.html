@@ -184,7 +184,7 @@
             if (key['status'] === 0){
                 status = "<span class=\"layui-btn layui-btn-disabled layui-btn-mini\">已停用</span></td>";
             }
-            console.log(empty(key['create_time']));
+            console.log(empty(key['create_time']) ? "时间缺失" : key['create_time']);
             str +=
                 "<tr>" +
                 "<td>" + key['id'] + "</td>" +
