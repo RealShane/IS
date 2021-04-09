@@ -15,6 +15,10 @@ class ExamPapers extends Model
         'close_time'     =>  'json',
     ];
 
+    public function editPaper($id){
+        return $this -> where('id', $id) -> find();
+    }
+
     public function delPaper($id){
         return $this -> where('id', $id) -> delete();
     }

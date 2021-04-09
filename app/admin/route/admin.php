@@ -70,6 +70,7 @@ Route::group(function () {
     Route::rule('Exam/selectAllClass', '/admin/Exam/selectAllClass', 'POST');
     Route::rule('Exam/getTargetPapers', '/admin/Exam/getTargetPapers', 'POST');
     Route::rule('Exam/deletePaper', '/admin/Exam/deletePaper', 'POST');
+    Route::rule('Exam/editPaper', '/admin/Exam/editPaper', 'POST');
 
 
 

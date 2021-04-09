@@ -29,7 +29,8 @@ class Exam extends Validate
         'commitPaper' => ['class_id', 'token'],
         'readPaper' => ['file'],
         'getTargetPapers' => ['title'],
-        'deletePaper' => ['id']
+        'deletePaper' => ['id'],
+        'editPaper' => ['id']
     ];
 
 }
