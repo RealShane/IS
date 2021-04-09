@@ -21,7 +21,7 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                            <input type="text" name="title"  placeholder="请输入试卷名" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
@@ -52,9 +52,9 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>用户名</th>
-                            <th>上次登陆IP</th>
-                            <th>上次登陆时间</th>
+                            <th>试卷所属班级</th>
+                            <th>试卷标题</th>
+                            <th>答题时间</th>
                             <th>创建时间</th>
                             <th>更新时间</th>
                             <th>状态</th>
@@ -91,13 +91,13 @@
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
-                url : '/{$secret}/getTargetAdmin',
+                url : '/{$secret}/Exam/getTargetPapers',
                 data : {
-                    username : res.field.username
+                    title : res.field.title
                 },
                 success : function(res) {
                     if(res.status === config('failed')){
-                        layer.msg(res.result);
+                        layer.msg(res.message);
                     }
                     renderSingle(res.result);
                 }
@@ -190,8 +190,8 @@
                 "<td>" + key['username'] + "</td>" +
                 "<td>" + key['last_login_ip'] + "</td>" +
                 "<td>" + timestampToTime(key['last_login_time']) + "</td>" +
-                "<td>" + key['create_time'] + "</td>" +
-                "<td>" + key['update_time'] + "</td>" +
+                "<td>" + empty(key['create_time']) ? "时间缺失" : key['create_time'] + "</td>" +
+                "<td>" + empty(key['update_time']) ? "时间缺失" : key['update_time'] + "</td>" +
                 "<td>" + status + "</td>" +
                 "<td class=\"td-manage\">" +
                     "<a title=\"修改密码\" onclick=\"xadmin.open('修改密码', '/{$secret}/View/Admin/changePasswordView?id=" + key['id'] + "')\" href=\"javascript:;\">" +
@@ -218,14 +218,14 @@
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/{$secret}/viewAllAdmin',
+            url : '/{$secret}/Exam/viewAllPapers',
             data : {
                 num : num,
                 page : page
             },
             success : function(res) {
                 if (res.status === config('failed')){
-                    layer.msg(res.result);
+                    layer.msg(res.message);
                 }
                 renderData(res.result, num, page);
             }
@@ -242,7 +242,7 @@
                 },
                 success : function(res) {
                     if (res.status === config('failed')){
-                        layer.msg(res.result);
+                        layer.msg(res.message);
                     }
                 }
             });

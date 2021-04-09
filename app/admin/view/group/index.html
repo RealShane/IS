@@ -124,8 +124,8 @@
                 "<td>" + key['id'] + "</td>" +
                 "<td>" + key['name'] + "</td>" +
                 "<td>" + key['rules_name'] + "</td>" +
-                "<td>" + key['create_time'] + "</td>" +
-                "<td>" + key['update_time'] + "</td>" +
+                "<td>" + empty(key['create_time']) ? "时间缺失" : key['create_time'] + "</td>" +
+                "<td>" + empty(key['update_time']) ? "时间缺失" : key['update_time'] + "</td>" +
                 "<td>" + status + "</td>" +
                 "<td class=\"td-manage\">" +
                     "<a title=\"删除\" onclick=\"member_del(this, " + key['id'] + ")\" href=\"javascript:;\">" +

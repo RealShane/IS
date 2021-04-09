@@ -124,8 +124,8 @@
                     "<td>" + data['username'] + "</td>" +
                     "<td>" + data['last_login_ip'] + "</td>" +
                     "<td>" + timestampToTime(data['last_login_time']) + "</td>" +
-                    "<td>" + data['create_time'] + "</td>" +
-                    "<td>" + data['update_time'] + "</td>" +
+                    "<td>" + empty(data['create_time']) ? "时间缺失" : data['create_time'] + "</td>" +
+                    "<td>" + empty(data['update_time']) ? "时间缺失" : data['update_time'] + "</td>" +
                     "<td>" + status + "</td>" +
                     "<td class=\"td-manage\">" +
                         "<a title=\"修改密码\" onclick=\"xadmin.open('修改密码', '/{$secret}/View/Admin/changePasswordView?id=" + data['id'] + "')\" href=\"javascript:;\">" +
@@ -190,8 +190,8 @@
                 "<td>" + key['username'] + "</td>" +
                 "<td>" + key['last_login_ip'] + "</td>" +
                 "<td>" + timestampToTime(key['last_login_time']) + "</td>" +
-                "<td>" + key['create_time'] + "</td>" +
-                "<td>" + key['update_time'] + "</td>" +
+                "<td>" + empty(key['create_time']) ? "时间缺失" : key['create_time'] + "</td>" +
+                "<td>" + empty(key['update_time']) ? "时间缺失" : key['update_time'] + "</td>" +
                 "<td>" + status + "</td>" +
                 "<td class=\"td-manage\">" +
                     "<a title=\"修改密码\" onclick=\"xadmin.open('修改密码', '/{$secret}/View/Admin/changePasswordView?id=" + key['id'] + "')\" href=\"javascript:;\">" +
