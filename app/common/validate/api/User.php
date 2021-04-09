@@ -18,15 +18,15 @@ class User extends Validate
 {
 
     protected $rule = [
-        'email|邮箱' => 'require|email',
-        'password|密码' => 'require|max:20',
-        'name|姓名' => 'require|max:20',
-        'sex|性别' => 'require|integer',
-        'student_id|学号' => 'require|max:255',
-        'random|随机码' => 'require|max:20',
-        'token' => 'require',
-        'invite_code|班级邀请码' => 'require',
-        'validate|验证码' => 'require|captcha'
+        'email|邮箱' => ['require', 'email'],
+        'password|密码' => ['require', 'max:20'],
+        'name|姓名' => ['require', 'max:20'],
+        'sex|性别' => ['require', 'integer'],
+        'student_id|学号' => ['require', 'max:255'],
+        'random|随机码' => ['require', 'max:20'],
+        'token' => ['require'],
+        'invite_code|班级邀请码' => ['require'],
+        'validate|验证码' => ['require', 'captcha']
     ];
 
     protected $scene = [

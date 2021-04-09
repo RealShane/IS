@@ -18,11 +18,11 @@ class User extends Validate
 {
 
     protected $rule = [
-        'username|用户名' => 'require',
-        'target|目标' => 'require',
-        'password|密码' => 'require',
-        'status|状态' => 'require',
-//        'validate|验证码' => 'require|captcha'
+        'username|用户名' => ['require'],
+        'target|目标' => ['require'],
+        'password|密码' => ['require'],
+        'status|状态' => ['require'],
+//        'validate|验证码' => ['require', 'captcha']
     ];
 
     protected $scene = [

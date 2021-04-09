@@ -19,7 +19,7 @@ class Upload extends Validate
 {
 
     protected $rule = [
-        'file'  =>  'checkFile',
+        'file'  =>  ['checkFile'],
     ];
 
     protected function checkFile($file){

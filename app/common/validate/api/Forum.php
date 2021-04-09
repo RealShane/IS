@@ -10,8 +10,8 @@ class Forum extends Validate
 {
 
     protected $rule = [
-        'article_id|文章id' => 'require',
-        'comment|评论' => 'require|max:80'
+        'article_id|文章id' => ['require'],
+        'comment|评论' => ['require', 'max:80']
     ];
 
 }

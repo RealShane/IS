@@ -10,10 +10,10 @@ class Dormitory extends Validate
 {
 
     protected $rule =   [
-        'number_id|宿舍id' => 'require',
-        'grade|成绩' => 'require',
-        'class_id|班级id' => 'require',
-        'time_index|日期' => 'require',
+        'number_id|宿舍id' => ['require'],
+        'grade|成绩' => ['require'],
+        'class_id|班级id' => ['require'],
+        'time_index|日期' => ['require'],
 
     ];
 

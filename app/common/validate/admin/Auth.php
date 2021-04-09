@@ -18,12 +18,12 @@ class Auth extends Validate
 {
 
     protected $rule = [
-        'uid|管理员ID' => 'require',
-        'group|权限组ID' => 'require',
-        'name|权限组/规则名' => 'require',
-        'rules|规则' => 'require',
-        'id' => 'require',
-        'status|状态' => 'require'
+        'uid|管理员ID' => ['require'],
+        'group|权限组ID' => ['require'],
+        'name|权限组/规则名' => ['require'],
+        'rules|规则' => ['require'],
+        'id' => ['require'],
+        'status|状态' => ['require']
     ];
 
     protected $scene = [
