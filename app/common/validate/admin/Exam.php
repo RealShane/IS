@@ -30,7 +30,7 @@ class Exam extends Validate
         'readPaper' => ['file'],
         'getTargetPapers' => ['title'],
         'deletePaper' => ['id'],
-        'editPaper' => ['id']
+        'getPaper' => ['id']
     ];
 
 }

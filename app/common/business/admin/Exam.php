@@ -28,8 +28,8 @@ class Exam
         $this -> str = new Str();
     }
 
-    public function editPaper($id){
-        return $this -> examPapersModel -> editPaper($id);
+    public function getPaper($id){
+        return $this -> examPapersModel -> getPaper($id);
     }
 
     public function deletePaper($id){
