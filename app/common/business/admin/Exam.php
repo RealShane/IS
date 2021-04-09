@@ -28,7 +28,7 @@ class Exam
     }
 
     public function viewAllPapers($num){
-        return json_encode($this -> examPapersModel -> findAll($num));
+        return $this -> examPapersModel -> findAll($num);
     }
 
     public function readPaper($file){
