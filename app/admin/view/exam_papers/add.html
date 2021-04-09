@@ -25,7 +25,7 @@
                     <span class="x-red">*</span>试卷
                 </label>
                 <button type="button" class="layui-btn" id="test1">
-                    <i class="layui-icon">&#xe67c;</i>上传试卷
+                    <i class="layui-icon">&#xe67c;</i>上传试卷（可拖动文件）
                 </button>
             </div>
             <div class="layui-form-item">
@@ -80,7 +80,7 @@
             upload  = layui.upload,
             laydate = layui.laydate,
             layer = layui.layer;
-        let file = null, class_id = null;
+        let file_token = null, class_id = null;
         upload.render({
             elem: '#test1',
             url: '/{$secret}/Exam/readPaper',
@@ -88,7 +88,7 @@
             size: 99999999999,
             drag:true,
             done: function (res){
-                file = res.result;
+                file_token = res.result;
                 $("#link_remove").remove();
                 $("#link_show").append(
                     "<div id='link_remove' class=\"layui-input-inline\">已读入数据</div>"
@@ -114,7 +114,7 @@
                 url : '/{$secret}/Exam/commitPaper',
                 data : {
                     class_id : class_id,
-                    file : file,
+                    token : file_token,
                     begin_time : timeToTimeStamp(res.field.begin_time),
                     close_time : timeToTimeStamp(res.field.close_time)
                 },
