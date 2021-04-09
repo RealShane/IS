@@ -9,6 +9,7 @@ use app\common\model\api\ExamPapers;
 use app\common\business\admin\CRUD;
 use app\common\business\lib\Redis;
 use app\common\business\lib\Str;
+use think\Exception;
 
 class Exam
 {
@@ -25,6 +26,14 @@ class Exam
         $this -> crud = new CRUD();
         $this -> redis = new Redis();
         $this -> str = new Str();
+    }
+
+    public function getTargetPapers($data){
+        if (empty($data)){
+            throw new Exception("试卷名称为空！");
+        }
+        return $this -> examPapersModel -> select($data);
+
     }
 
     public function viewAllPapers($num){
@@ -58,7 +67,5 @@ class Exam
         return $this -> crud -> setStore('api_class') -> all(['id', 'name']);
     }
 
-    public function selectInfo(){
 
-    }
 }

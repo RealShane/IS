@@ -19,6 +19,11 @@ class Exam extends BaseController
         $this -> business = $business;
     }
 
+    public function getTargetPapers(){
+        $data = $this -> request -> param('data');
+        return $this -> success($this -> business -> getTargetPapers($data));
+    }
+
     public function viewAllPapers(){
         $errCode = $this -> business -> viewAllPapers($this -> request -> param("num", 10, 'htmlspecialchars'));
         return $this -> success($errCode);

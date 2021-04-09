@@ -68,6 +68,7 @@ Route::group(function () {
     Route::rule('Exam/readPaper', '/admin/Exam/readPaper', 'POST');
     Route::rule('Exam/viewAllPapers', '/admin/Exam/viewAllPapers', 'POST');
     Route::rule('Exam/selectAllClass', '/admin/Exam/selectAllClass', 'POST');
+    Route::rule('Exam/getTargetPapers', '/admin/Exam/getTargetPapers', 'POST');
 
 
 

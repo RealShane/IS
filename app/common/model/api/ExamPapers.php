@@ -15,6 +15,10 @@ class ExamPapers extends Model
         'close_time'     =>  'json',
     ];
 
+    public function selectTitle($data){
+        return $this -> where('title', 'LIKE', '%' . $data . '%') -> select();
+    }
+
     public function findAll($num){
         return self::with('classes')
             -> field(['id', 'class_id', 'title', 'close_time', 'create_time', 'update_time', 'status'])
