@@ -6,7 +6,7 @@ namespace app\api\controller;
 
 use app\BaseController;
 use app\common\business\api\Exam as Business;
-use app\common\validate\admin\Exam as Validate;
+use app\common\validate\api\Exam as Validate;
 use think\App;
 
 class Exam extends BaseController
