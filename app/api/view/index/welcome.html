@@ -16,6 +16,12 @@
 </div>
 <script>
     $(document).ready(function() {
+        base();
+        $("#join").click(function() {
+            console.log("我是join");
+        });
+    });
+    function base(){
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -25,17 +31,18 @@
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }
-                let cla = res.result['class'], department = res.result['department'];
+                let cla = res.result['class'], department = res.result['department'], join_class = null;
                 if (empty(cla)){
                     cla = "暂未加入班级";
                     department = "暂无学部";
+                    join_class = "<p class=\"layuiadmin-big-font\" id='join'>点我加入班级</p>";
                 }
                 $("#playground").append(
                     "<div class=\"layui-card-header\">学号：" + res.result['student_id'] +
                         "<span class=\"layui-badge layui-bg-cyan layuiadmin-badge\">  " + res.result['name'] + "</span>" +
                     "</div>" +
                     "<div class=\"layui-card-body\">" +
-                        "<p class=\"layuiadmin-big-font\">点我加入班级</p>" +
+                        join_class +
                         "<p>" +
                             "所在班级：" + cla + "<br>所在学部：" + department +
                         "</p>" +
@@ -43,7 +50,7 @@
                 );
             }
         });
-    });
+    }
 </script>
 </body>
 </html>
