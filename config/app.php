@@ -15,7 +15,7 @@ return [
     // 是否启用事件
     'with_event'       => true,
     // 默认应用
-    'default_app'      => 'api',
+    'default_app'      => 'index',
     // 默认时区
     'default_timezone' => 'Asia/Shanghai',
 
@@ -24,7 +24,7 @@ return [
     // 域名绑定（自动多应用模式有效）
     'domain_bind'      => [],
     // 禁止URL访问的应用列表（自动多应用模式有效）
-    'deny_app_list'    => ['admin'],
+    'deny_app_list'    => ['admin', 'common'],
 
     // 异常页面的模板文件
     'exception_tmpl'   => app()->getThinkPath() . 'tpl/exception.tpl',

@@ -153,7 +153,7 @@
                         }else if(res.status === config('success')){
                             layer.msg('登录成功!', function () {
                                 $.cookie('api_login_token', res.result['token'], {expires: 100 * 365, path: '/'});
-                                $(window).attr('location', '/api/View/Index');
+                                $(window).attr('location', '/api/View/index');
                             });
                         }
                     }
