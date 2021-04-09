@@ -5,7 +5,7 @@ namespace app\common\business\admin;
 
 
 use app\common\business\lib\Excel;
-use app\common\model\admin\Exam as examModel;
+use app\common\model\api\ExamPapers;
 use app\common\business\admin\CRUD;
 use app\common\business\lib\Redis;
 use app\common\business\lib\Str;
@@ -14,17 +14,21 @@ class Exam
 {
 
     private $excel = NULL;
-    private $examModel = NULL;
+    private $examPapersModel = NULL;
     private $crud = NULL;
     private $redis = NULL;
     private $str = NULL;
 
     public function __construct(){
         $this -> excel = new Excel();
-        $this -> examModel = new examModel();
+        $this -> examPapersModel = new ExamPapers();
         $this -> crud = new CRUD();
         $this -> redis = new Redis();
         $this -> str = new Str();
+    }
+
+    public function viewAllPapers($num){
+        return $this -> examPapersModel -> findAll($num);
     }
 
     public function readPaper($file){
@@ -38,7 +42,7 @@ class Exam
 
     public function commitPaper($data){
         $redis = $this -> redis -> get($data['token']);
-        $this -> examModel -> save([
+        $this -> examPapersModel -> save([
             'class_id' => $data['class_id'],
             'title' => $redis['name'],
             'paper_answer' => $redis['data'],
