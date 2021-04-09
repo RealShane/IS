@@ -1,4 +1,12 @@
 <?php
+/**
+ *
+ * @description: 永远爱颍
+ *
+ * @author: Shane
+ *
+ * @time: 2021/4/9 15:29
+ */
 use think\facade\Route;
 use \app\admin\middleware\Auth;
 use \app\admin\middleware\IsLogin;
@@ -37,11 +45,6 @@ Route::group(function () {
     //权限规则
     Route::rule('View/Rule/authRuleManageView', '/admin/View/authRuleManageView', 'GET');
     Route::rule('View/Rule/updateAuthRuleView', '/admin/View/updateAuthRuleView', 'GET');
-    //试题系统
-    Route::rule('View/Exam/Papers/index', '/admin/View/examPapersManageView', 'GET');
-    Route::rule('View/Exam/Papers/add', '/admin/View/examPapersAddView', 'GET');
-    Route::rule('View/Exam/Papers/edit', '/admin/View/examPapersEditView', 'GET');
-
 });
 /**
  * 有Token
@@ -59,21 +62,6 @@ Route::group(function () {
  * 有Token+鉴权
  */
 Route::group(function () {
-
-    /**
-     * -----------------------------试题系统-----------------------------
-     */
-    Route::rule('Exam/getTarget', '/admin/Exam/getTarget', 'POST');
-    Route::rule('Exam/commitPaper', '/admin/Exam/commitPaper', 'POST');
-    Route::rule('Exam/readPaper', '/admin/Exam/readPaper', 'POST');
-    Route::rule('Exam/viewAllPapers', '/admin/Exam/viewAllPapers', 'POST');
-    Route::rule('Exam/selectAllClass', '/admin/Exam/selectAllClass', 'POST');
-    Route::rule('Exam/getTargetPapers', '/admin/Exam/getTargetPapers', 'POST');
-    Route::rule('Exam/deletePaper', '/admin/Exam/deletePaper', 'POST');
-    Route::rule('Exam/getPaper', '/admin/Exam/getPaper', 'POST');
-    Route::rule('Exam/updatePaper', '/admin/Exam/updatePaper', 'POST');
-
-
 
     /**
      * 超级权限
