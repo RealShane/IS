@@ -104,6 +104,7 @@
                         validate:res.field.validate
                     },
                     success : function(res) {
+                        console.log(res);
                         $("#captcha").attr('src',"/captcha?id=" + Math.random());
                         if(res.status === config('failed')){
                             layer.msg(res.message);
@@ -134,6 +135,7 @@
                         login_type:login_type
                     },
                     success : function(res) {
+                        console.log(res);
                         if(res.status === config('failed')){
                             layer.msg(res.message);
                             $("#captcha").attr('src',"/captcha?id=" + Math.random());
