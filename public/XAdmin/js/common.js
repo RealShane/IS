@@ -72,6 +72,10 @@ function config(status) {
     return res;
 }
 
+function getApiToken() {
+    return $.cookie('api_login_token');
+}
+
 function getToken() {
     return $.cookie('admin_login_token');
 }
@@ -101,7 +105,7 @@ function isApiLogin() {
         contentType : "application/x-www-form-urlencoded",
         url : '/api/User/isLogin',
         beforeSend : function(request) {
-            request.setRequestHeader("access-token", getToken());
+            request.setRequestHeader("access-token", getApiToken());
         },
         success : function(res) {
             if(res.status === config('goto')){

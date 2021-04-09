@@ -50,7 +50,7 @@
 </div>
 
 <script>
-    let token = getToken();
+    let token = getApiToken();
     layui.use('layer', function(){
         var layer = layui.layer;
         if (!empty(token)){
@@ -139,7 +139,7 @@
                             $("#captcha").attr('src',"/captcha?id=" + Math.random());
                         }else if(res.status === config('success')){
                             layer.msg('登录成功!', function () {
-                                $.cookie('bill_login_token', res.result['token'], {expires: 100 * 365, path: '/'});
+                                $.cookie('api_login_token', res.result['token'], {expires: 100 * 365, path: '/'});
                                 $(window).attr('location', '/api/View/Index');
                             });
                         }
