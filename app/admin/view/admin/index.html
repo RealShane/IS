@@ -184,6 +184,7 @@
             if (key['status'] === 0){
                 status = "<span class=\"layui-btn layui-btn-disabled layui-btn-mini\">已停用</span></td>";
             }
+            console.log(empty(key['create_time']));
             str +=
                 "<tr>" +
                 "<td>" + key['id'] + "</td>" +
@@ -224,7 +225,6 @@
                 page : page
             },
             success : function(res) {
-                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }
