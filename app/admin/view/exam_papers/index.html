@@ -154,7 +154,7 @@
                 "<td>" + key['id'] + "</td>" +
                 "<td>" + key['classes']['name'] + "</td>" +
                 "<td>" + key['title'] + "</td>" +
-                "<td>开始时间：" + key['close_time']['begin_time'] + " 结束时间：" + key['close_time']['close_time'] + "</td>" +
+                "<td>开始时间：" + timestampToTime(key['close_time']['begin_time']) + " 结束时间：" + timestampToTime(key['close_time']['close_time']) + "</td>" +
                 "<td>" + create_time + "</td>" +
                 "<td>" + update_time + "</td>" +
                 "<td>" + status + "</td>" +
