@@ -1,14 +1,11 @@
 $(document).ready(function() {
     let url = window.location.href;
-    console.log(url);
-    let api_token = getApiToken();
-    let admin_token = getToken();
+    console.log(url.search("api") !== -1);
     let token = null;
-    if (empty(api_token) && !empty(admin_token)){
-        token = admin_token;
-    }
-    if (!empty(api_token) && empty(admin_token)){
-        token = api_token;
+    if (url.search("api") !== -1){
+        token = getApiToken();
+    }else {
+        token = getToken();
     }
     $.ajaxSetup({
         async : false,
