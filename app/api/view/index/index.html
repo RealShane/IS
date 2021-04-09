@@ -91,8 +91,9 @@
                 contentType : "application/x-www-form-urlencoded",
                 url : '/api/User/logoff',
                 success : function(res) {
+                    console.log(res);
                     if (res.status === config('failed')){
-                        layer.msg(res.result);
+                        layer.msg(res.message);
                     }
                     if (res.status === config('success')){
                         layer.msg(res.result, function () {

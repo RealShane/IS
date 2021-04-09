@@ -110,7 +110,7 @@ function isApiLogin() {
         success : function(res) {
             if(res.status === config('goto')){
                 layer.msg('登录失效!', function () {
-                    $.removeCookie('admin_login_token', {path: '/'});
+                    $.removeCookie('api_login_token', {path: '/'});
                     $(window).attr('location', '/api/View/login');
                 });
             }
