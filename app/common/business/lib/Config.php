@@ -61,13 +61,11 @@ class Config
      */
 
     public function getSynthesizePoorStatus(){
-        $temp = $this -> synthesizeConfig -> keyValue("POOR_SIGN_STATUS");
-        return $temp -> value;
+        return $this -> synthesizeConfig -> keyValue("POOR_SIGN_STATUS") -> value;
     }
     //贫困生报名选项
     public function getSynthesizePoorSignOption(){
-        $temp = $this -> synthesizeConfig -> keyValue("POOR_SIGN_OPTION");
-        return $temp -> value;
+        return $this -> synthesizeConfig -> keyValue("POOR_SIGN_OPTION") -> value;
     }
 
     /**上传设置
@@ -100,33 +98,27 @@ class Config
 
     //验证码邮件标题
     public function getRandomTitle(){
-        $temp = $this -> appConfig -> keyValue("EMAIL_RANDOM_TITLE");
-        return $temp -> value;
+        return $this -> appConfig -> keyValue("EMAIL_RANDOM_TITLE") -> value;
     }
     //验证码邮件内容HTML版
     public function getRandomBody(){
-        $temp = $this -> appConfig -> keyValue("EMAIL_RANDOM_BODY");
-        return $temp -> value;
+        return $this -> appConfig -> keyValue("EMAIL_RANDOM_BODY") -> value;
     }
     //验证码邮件内容纯文字版
     public function getRandomAltBody(){
-        $temp = $this -> appConfig -> keyValue("EMAIL_RANDOM_ALT_BODY");
-        return $temp -> value;
+        return $this -> appConfig -> keyValue("EMAIL_RANDOM_ALT_BODY") -> value;
     }
     //注册激活邮件标题
     public function getActiveTitle(){
-        $temp = $this -> appConfig -> keyValue("EMAIL_ACTIVE_TITLE");
-        return $temp -> value;
+        return $this -> appConfig -> keyValue("EMAIL_ACTIVE_TITLE") -> value;
     }
     //注册激活邮件内容HTML版
     public function getActiveBody(){
-        $temp = $this -> appConfig -> keyValue("EMAIL_ACTIVE_BODY");
-        return $temp -> value;
+        return $this -> appConfig -> keyValue("EMAIL_ACTIVE_BODY") -> value;
     }
     //注册激活邮件内容纯文字版
     public function getActiveAltBody(){
-        $temp = $this -> appConfig -> keyValue("EMAIL_ACTIVE_ALT_BODY");
-        return $temp -> value;
+        return $this -> appConfig -> keyValue("EMAIL_ACTIVE_ALT_BODY") -> value;
     }
 
     /**邮箱设置
@@ -135,23 +127,19 @@ class Config
 
     //邮箱地址
     public function getHost(){
-        $temp = $this -> appConfig -> keyValue("EMAIL_HOST");
-        return $temp -> value;
+        return $this -> appConfig -> keyValue("EMAIL_HOST") -> value;
     }
     //邮箱用户名
     public function getUserName(){
-        $temp = $this -> appConfig -> keyValue("EMAIL_USERNAME");
-        return $temp -> value;
+        return $this -> appConfig -> keyValue("EMAIL_USERNAME") -> value;
     }
     //邮箱密码
     public function getPassword(){
-        $temp = $this -> appConfig -> keyValue("EMAIL_PASSWORD");
-        return $temp -> value;
+        return $this -> appConfig -> keyValue("EMAIL_PASSWORD") -> value;
     }
     //邮件发送人姓名
     public function getName(){
-        $temp = $this -> appConfig -> keyValue("EMAIL_NAME");
-        return $temp -> value;
+        return $this -> appConfig -> keyValue("EMAIL_NAME") -> value;
     }
 
 }

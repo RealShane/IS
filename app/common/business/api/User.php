@@ -16,6 +16,7 @@ use app\common\business\lib\Email;
 use app\common\business\lib\Str;
 use app\common\model\api\Classes;
 use app\common\model\api\Department;
+use app\common\model\api\Rule;
 use app\common\model\api\User as UserModel;
 use app\common\model\api\UserClass;
 use app\common\business\lib\Redis;
@@ -42,6 +43,7 @@ class User
     private $userClassModel = NULL;
     private $classesModel = NULL;
     private $departmentModel = NULL;
+    private $ruleModel = NULL;
     private $config = NULL;
     private $redis = NULL;
 
@@ -52,11 +54,12 @@ class User
         $this -> userClassModel = new UserClass();
         $this -> classesModel = new Classes();
         $this -> departmentModel = new Department();
+        $this -> ruleModel = new Rule();
         $this -> config = new Config();
         $this -> redis = new Redis();
     }
 
-    public function viewMe($user){
+    public function userInfo($user){
         $data = $this -> userClassModel -> findByUid($user['id']);
         $classes = $this -> classesModel -> findById($data['class_id']);
         $department = $this -> departmentModel -> findById($classes['depart_id']);
@@ -145,6 +148,10 @@ class User
         $this -> sendActiveEmail($data['email'], $token);
     }
 
+    public function menuAndView(){
+        return $this -> ruleModel -> menuAndView();
+    }
+
     private function loginByPassword($isExist, $data){
         if ($isExist['last_login_ip'] != request() -> ip()){
             $this -> sendRandom($data['email']);
@@ -184,16 +191,14 @@ class User
 
     private function sendRandomEmail($target, $random){
         $title = $this -> config -> getRandomTitle();
-        $body = $this -> config -> getRandomBody() . $random;
-        $alt_body = $this -> config -> getRandomAltBody() . $random;
-        $this -> email -> sendEmail($target, $title, $body, $alt_body);
+        $body = ($this -> config -> getRandomBody()) . $random . ($this -> config -> getRandomAltBody());
+        $this -> email -> sendEmail($target, $title, $body, $body);
     }
 
     private function sendActiveEmail($target, $token){
         $title = $this -> config -> getActiveTitle();
-        $body = $this -> config -> getActiveBody() . $token;
-        $alt_body = $this -> config -> getActiveAltBody() . $token;
-        $this -> email -> sendEmail($target, $title, $body, $alt_body);
+        $body = ($this -> config -> getActiveBody()) . $token . ($this -> config -> getActiveAltBody());
+        $this -> email -> sendEmail($target, $title, $body, $body);
     }
 
 }

@@ -1,8 +1,16 @@
 $(document).ready(function() {
+    let url = window.location.href;
+    console.log(url.search("api") !== -1);
+    let token = null;
+    if (url.search("api") !== -1){
+        token = getApiToken();
+    }else {
+        token = getToken();
+    }
     $.ajaxSetup({
         async : false,
         beforeSend : function(request) {
-            request.setRequestHeader("access-token", getToken());
+            request.setRequestHeader("access-token", token);
         },
     });
 });
@@ -72,6 +80,10 @@ function config(status) {
     return res;
 }
 
+function getApiToken() {
+    return $.cookie('api_login_token');
+}
+
 function getToken() {
     return $.cookie('admin_login_token');
 }
@@ -89,6 +101,25 @@ function isLogin(secret) {
                 layer.msg('登录失效!', function () {
                     $.removeCookie('admin_login_token', {path: '/'});
                     $(window).attr('location', '/' + secret + '/loginView');
+                });
+            }
+        }
+    });
+}
+
+function isApiLogin() {
+    $.ajax({
+        type : "POST",
+        contentType : "application/x-www-form-urlencoded",
+        url : '/api/User/isLogin',
+        beforeSend : function(request) {
+            request.setRequestHeader("access-token", getApiToken());
+        },
+        success : function(res) {
+            if(res.status === config('goto')){
+                layer.msg('登录失效!', function () {
+                    $.removeCookie('api_login_token', {path: '/'});
+                    $(window).attr('location', '/api/View/login');
                 });
             }
         }

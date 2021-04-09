@@ -1,0 +1,167 @@
+<!doctype html>
+<html  class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>综合系统</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="stylesheet" href="__API__/css/font.css">
+    <link rel="stylesheet" href="__API__/css/login.css">
+    <link rel="stylesheet" href="__API__/css/xadmin.css">
+    <script src="__API__/js//jquery.min.js" charset="utf-8"></script>
+    <script src="__API__/js/jquery.cookie.js" charset="utf-8"></script>
+    <script src="__API__/lib/layui/layui.js" charset="utf-8"></script>
+    <script src="__API__/js/common.js" charset="utf-8"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="login-bg">
+
+<div class="login layui-anim layui-anim-up">
+    <div class="message">综合系统</div>
+    <div id="darkbannerwrap"></div>
+
+    <form method="post" class="layui-form" >
+        <input id="email" name="email" placeholder="邮箱"  type="text" lay-verify="required" class="layui-input" >
+        <hr class="hr15">
+        <input id="password" style="display: none" name="password" placeholder="密码"  type="password" class="layui-input">
+        <input id="random" style="display: none" name="random" placeholder="6位验证码"  type="text" class="layui-input">
+        <hr class="hr15">
+        <input id="validate" name="validate" lay-verify="required" placeholder="图片验证码"  type="text" class="layui-input">
+        <hr class="hr15">
+        <img id="captcha" src="{:captcha_src()}" alt="点击更新验证码" />
+        <hr class="hr15">
+        <a href="#" id="captcha_a"><small>看不清?点图片或者点我</small></a>
+        <hr class="hr15">
+        <input id="send_random" value="发送6位验证码" lay-submit lay-filter="send_random" style="width:100%;" type="submit">
+        <hr class="hr15">
+        <input id="login" value="登录" lay-submit lay-filter="login" style="width:100%;display: none" type="submit">
+        <hr class="hr20" >
+        <input id="type_password" value="切换到密码登录" style="width:100%;" type="button">
+        <input id="type_email" value="切换到验证码登录" style="width:100%;display: none" type="button">
+        <hr class="hr15">
+        <input value="注册" id="register_view" style="width:100%;" type="button">
+        <hr class="hr20" >
+    </form>
+</div>
+
+<script>
+    let token = getApiToken();
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        if (!empty(token)){
+            layer.msg('已登录，无需重复登陆!', function () {
+                $(window).attr('location', '/api/View/index');
+            });
+        }
+    });
+    let login_type = "type_email";
+    $(document).ready(function() {
+        $("#captcha").click(function(){
+            $("#captcha").attr('src',"/captcha?id=" + Math.random());
+        });
+        $("#captcha_a").click(function(){
+            $("#captcha").attr('src',"/captcha?id=" + Math.random());
+        });
+        $("#type_password").click(function(){
+            $("#random").hide();
+            $("#send_random").hide();
+            $("#type_password").hide();
+            $("#email").show();
+            $("#password").show();
+            $("#type_email").show();
+            $("#login").show();
+            $("#register_view").show();
+            login_type = "type_password";
+        })
+        $("#type_email").click(function(){
+            $("#password").hide();
+            $("#random").hide();
+            $("#login").hide();
+            $("#type_email").hide();
+            $("#email").show();
+            $("#send_random").show();
+            $("#type_password").show();
+            $("#register_view").show();
+            login_type = "type_email";
+        })
+        $("#register_view").click(function(){
+            $(window).attr('location', '/api/View/register');
+        });
+        layui.use('form', function(){
+            var form = layui.form;
+            form.on('submit(send_random)', function(res){
+                $.ajax({
+                    type : "POST",
+                    contentType : "application/x-www-form-urlencoded",
+                    url : '/api/User/sendRandom',
+                    data : {
+                        email:res.field.email,
+                        validate:res.field.validate
+                    },
+                    success : function(res) {
+                        $("#captcha").attr('src',"/captcha?id=" + Math.random());
+                        if(res.status === config('failed')){
+                            layer.msg(res.message);
+                            $("#captcha").attr('src',"/captcha?id=" + Math.random());
+                        }else if(res.status === config('success')){
+                            layer.msg(res.result, function () {
+                                $("#random").show();
+                                $("#login").show();
+                                $("#register_view").hide();
+                                $("#send_random").hide();
+                                $("#email").hide();
+                                $("#validate").val("");
+                            });
+                        }
+                    }
+                });
+                return false;
+            });
+            form.on('submit(login)', function(res){
+                $.ajax({
+                    type : "POST",
+                    contentType : "application/x-www-form-urlencoded",
+                    url : '/api/User/login',
+                    data : {
+                        email:res.field.email,
+                        password:res.field.password,
+                        random:res.field.random,
+                        validate:res.field.validate,
+                        login_type:login_type
+                    },
+                    success : function(res) {
+                        if(res.status === config('failed')){
+                            layer.msg(res.message);
+                            $("#captcha").attr('src',"/captcha?id=" + Math.random());
+                        }else if(res.status === config('goto')){
+                            layer.msg(res.message, function () {
+                                $("#random").show();
+                                $("#login").show();
+                                $("#password").hide();
+                                $("#register_view").hide();
+                                $("#send_random").hide();
+                                $("#email").hide();
+                                $("#validate").val("");
+                                login_type = "type_email";
+                                $("#captcha").attr('src',"/captcha?id=" + Math.random());
+                            });
+                        }else if(res.status === config('success')){
+                            layer.msg('登录成功!', function () {
+                                $.cookie('api_login_token', res.result['token'], {expires: 100 * 365, path: '/'});
+                                $(window).attr('location', '/api/View/Index');
+                            });
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+    });
+</script>
+</body>
+</html>

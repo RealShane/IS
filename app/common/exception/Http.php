@@ -22,7 +22,7 @@ class Http extends Handle
         $this -> status = config('status.failed');
 
         if ($this -> msg == config('status.goto')){
-            $this -> msg = config('message.goto');
+            $this -> msg = "检测到IP变化！";
             $this -> status = config('status.goto');
         }
         return json([
