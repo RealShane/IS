@@ -184,16 +184,14 @@ class User
 
     private function sendRandomEmail($target, $random){
         $title = $this -> config -> getRandomTitle();
-        $body = $this -> config -> getRandomBody() . $random;
-        $alt_body = $this -> config -> getRandomAltBody() . $random;
-        $this -> email -> sendEmail($target, $title, $body, $alt_body);
+        $body = ($this -> config -> getRandomBody()) . $random . ($this -> config -> getRandomAltBody());
+        $this -> email -> sendEmail($target, $title, $body, $body);
     }
 
     private function sendActiveEmail($target, $token){
         $title = $this -> config -> getActiveTitle();
-        $body = $this -> config -> getActiveBody() . $token;
-        $alt_body = $this -> config -> getActiveAltBody() . $token;
-        $this -> email -> sendEmail($target, $title, $body, $alt_body);
+        $body = ($this -> config -> getActiveBody()) . $token . ($this -> config -> getActiveAltBody());
+        $this -> email -> sendEmail($target, $title, $body, $body);
     }
 
 }

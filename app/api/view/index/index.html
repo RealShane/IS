@@ -1,0 +1,158 @@
+<!doctype html>
+<html class="x-admin-sm">
+<head>
+    {include file="public/_meta" /}
+</head>
+<body class="index">
+<!-- 顶部开始 -->
+<div class="container">
+    <div class="logo">
+        <a href="/api/View/index">综合系统</a>
+    </div>
+    <div class="left_open">
+        <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
+    </div>
+    <ul class="layui-nav right">
+        <li class="layui-nav-item">
+            <a id="admin_name"></a>
+        </li>
+        <li class="layui-nav-item to-index">
+            <a id="quit">退出</a>
+        </li>
+    </ul>
+</div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+<!-- 左侧菜单开始 -->
+<div class="left-nav">
+    <div id="side-nav">
+        <ul id="nav">
+            
+        </ul>
+    </div>
+</div>
+<!-- 左侧菜单结束 -->
+<!-- 右侧主体开始 -->
+<div class="page-content">
+    <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
+        <ul class="layui-tab-title">
+            <li class="home">
+                <i class="layui-icon">&#xe68e;</i>概览
+            </li>
+        </ul>
+        <div class="layui-unselect layui-form-select layui-form-selected" id="tab_right">
+            <dl>
+                <dd data-type="this">关闭当前</dd>
+                <dd data-type="other">关闭其它</dd>
+                <dd data-type="all">关闭全部</dd>
+            </dl>
+        </div>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <iframe src='/api/View/welcome' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+            </div>
+        </div>
+        <div id="tab_show"></div>
+    </div>
+</div>
+<div class="page-content-bg"></div>
+<style id="theme_style"></style>
+<!-- 右侧主体结束 -->
+<!-- 中部结束 -->
+<script>
+    isLogin();
+    $(document).ready(function() {
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/userInfo',
+            success : function(res) {
+                $("#admin_name").append(
+                    "<span>你好：" + res.result['nick_name'] + "</span>"
+                );
+            }
+        });
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/menuAndView',
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.result);
+                }
+                renderMenu(res.result['viewWithMenu']);
+                renderView(res.result['view']);
+            }
+        });
+        $("#quit").click(function() {
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : '/api/User/logoff',
+                success : function(res) {
+                    if (res.status === config('failed')){
+                        layer.msg(res.result);
+                    }
+                    if (res.status === config('success')){
+                        layer.msg(res.result, function () {
+                            $.removeCookie('bill_login_token', {path: '/'});
+                            $(window).attr('location', '/api/View/login');
+                        });
+                    }
+                }
+            });
+        });
+    });
+    function renderView(data) {
+        for (let view of data){
+            let icon = "&#xe6a7;";
+            if (view['icon'] !== null){
+                icon = view['icon']
+            }
+            $("#nav").append(
+                "<li>" +
+                    "<a onclick=\"xadmin.add_tab('" + view['name'] + "', '/api/" + view['path'] + "')\">" +
+                        "<i class=\"iconfont\">" + icon + "</i>" +
+                        "<cite>" + view['name'] + "</cite>" +
+                    "</a>" +
+                "</li>"
+            );
+        }
+    }
+    function renderMenu(data) {
+        for (let menu of data){
+            let str = "";
+            for (let view of menu['view']){
+                let icon = "&#xe6a7;";
+                if (view['icon'] !== null){
+                    icon = view['icon']
+                }
+                str +=
+                    "<li>" +
+                        "<a onclick=\"xadmin.add_tab('" + view['name'] + "', '/api/" + view['path'] + "')\">" +
+                            "<i class=\"iconfont\">" + icon + "</i>" +
+                            "<cite>" + view['name'] + "</cite>" +
+                        "</a>" +
+                    "</li>";
+            }
+            let icon = "&#xe6a7;";
+            if (menu['menu']['icon'] !== null){
+                icon = menu['menu']['icon']
+            }
+            $("#nav").append(
+                "<li>" +
+                    "<a href=\"javascript:;\">" +
+                        "<i class=\"iconfont left-nav-li\" lay-tips=\"" + menu['menu']['name'] + "\">" + icon + "</i>" +
+                        "<cite>" + menu['menu']['name'] + "</cite>" +
+                        "<i class=\"iconfont nav_right\">&#xe697;</i>" +
+                    "</a>" +
+                    "<ul class=\"sub-menu\">" +
+                        str +
+                    "</ul>" +
+                "</li>"
+            );
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html  class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>综合系统</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="stylesheet" href="__API__/css/font.css">
+    <link rel="stylesheet" href="__API__/css/login.css">
+    <link rel="stylesheet" href="__API__/css/xadmin.css">
+    <script src="__API__/js//jquery.min.js" charset="utf-8"></script>
+    <script src="__API__/js/jquery.cookie.js" charset="utf-8"></script>
+    <script src="__API__/lib/layui/layui.js" charset="utf-8"></script>
+    <script src="__API__/js/common.js" charset="utf-8"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="login-bg">
+
+<div class="login layui-anim layui-anim-up">
+    <div class="message">填个表</div>
+    <div id="darkbannerwrap"></div>
+
+    <form method="post" class="layui-form" >
+        <input name="email" placeholder="邮箱"  type="text" lay-verify="required" class="layui-input" >
+        <hr class="hr15">
+        <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+        <hr class="hr15">
+        <input name="name" lay-verify="required" placeholder="大名"  type="text" class="layui-input">
+        <hr class="hr15">
+        <input name="validate" lay-verify="required" placeholder="验证码"  type="text" class="layui-input">
+        <hr class="hr15">
+        <img id="captcha" src="{:captcha_src()}" alt="点击更新验证码" />
+        <hr class="hr15">
+        <a href="#" id="captcha_a"><small>看不清?点图片或者点我</small></a>
+        <hr class="hr15">
+        <input value="注册" lay-submit lay-filter="register" style="width:100%;" type="submit">
+        <hr class="hr20" >
+        <input value="已有账号了？去登录" id="login_view" style="width:100%;" type="button">
+        <hr class="hr20" >
+    </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#captcha").click(function(){
+            $("#captcha").attr('src',"/captcha?id=" + Math.random());
+        });
+        $("#captcha_a").click(function(){
+            $("#captcha").attr('src',"/captcha?id=" + Math.random());
+        });
+        $("#login_view").click(function(){
+            $(window).attr('location', '/api/View/login');
+        });
+        layui.use('form', function(){
+            var form = layui.form;
+            form.on('submit(register)', function(res){
+                $.ajax({
+                    type : "POST",
+                    contentType : "application/x-www-form-urlencoded",
+                    url : '/api/User/register',
+                    data : {
+                        email:res.field.email,
+                        password:res.field.password,
+                        name:res.field.name,
+                        validate:res.field.validate
+                    },
+                    success : function(res) {
+                        console.log(res);return;
+                        if(res.status === config('failed')){
+                            layer.msg(res.message);
+                            $("#captcha").attr('src',"/captcha?id=" + Math.random());
+                        }else if(res.status === config('success')){
+                            layer.msg(res.result, function () {
+                                $(window).attr('location', '/api/View/login');
+                            });
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+    });
+</script>
+</body>
+</html>

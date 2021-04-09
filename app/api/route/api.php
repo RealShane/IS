@@ -15,19 +15,15 @@ use app\api\middleware\DormitoryAuth;
 /**
  * 前端页面路由
  */
-Route::group(function () {
-    Route::rule('View/index', 'api/View/indexView', 'GET');
-    Route::rule('View/register', 'api/View/registerView', 'GET');
-    Route::rule('View/login', 'api/View/loginView', 'GET');
+Route::group('View', function () {
+    Route::rule('index', 'api/View/indexView', 'GET');
+    Route::rule('register', 'api/View/registerView', 'GET');
+    Route::rule('login', 'api/View/loginView', 'GET');
 });
 /**
  * 无Token
  */
 Route::group(function () {
-    Route::rule('activeRegister', '/api/User/activeRegister', 'GET');
-    Route::rule('sendRandom', '/api/User/sendRandom', 'POST');
-    Route::rule('register', '/api/User/register', 'POST');
-    Route::rule('login', '/api/User/login', 'POST');
     //论坛
     Route::rule('forumModular', '/api/Forum/modular', 'POST');
     Route::rule('articleList', '/api/Forum/articleList', 'POST');
@@ -39,11 +35,6 @@ Route::group(function () {
  * 有Token
  */
 Route::group(function () {
-    //用户接口
-    Route::rule('logoff', '/api/User/logoff', 'GET');
-    Route::rule('isLogin', '/api/User/isLogin', 'POST');
-    Route::rule('viewMe', '/api/User/viewMe', 'POST');
-    Route::rule('joinClass', '/api/User/joinClass', 'POST');
     //综测接口
     Route::rule('showPoorSignDetail', '/api/Synthesize/showPoorSignDetail', 'POST');
     Route::rule('showPoorSignList', '/api/Synthesize/showPoorSignList', 'POST');

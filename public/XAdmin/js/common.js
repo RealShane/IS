@@ -94,3 +94,22 @@ function isLogin(secret) {
         }
     });
 }
+
+function isApiLogin() {
+    $.ajax({
+        type : "POST",
+        contentType : "application/x-www-form-urlencoded",
+        url : '/api/User/isLogin',
+        beforeSend : function(request) {
+            request.setRequestHeader("access-token", getToken());
+        },
+        success : function(res) {
+            if(res.status === config('goto')){
+                layer.msg('登录失效!', function () {
+                    $.removeCookie('admin_login_token', {path: '/'});
+                    $(window).attr('location', '/api/View/login');
+                });
+            }
+        }
+    });
+}
