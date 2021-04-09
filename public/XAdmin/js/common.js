@@ -14,7 +14,7 @@ function time() {
 }
 
 function empty(str) {
-    return typeof (str) == "undefined" || str == null || str === "";
+    return typeof (str) === "undefined" || str === null || str === "" || str === "NaN";
 }
 
 function arrayDuplicate(a, b) {
@@ -50,7 +50,7 @@ function timeToTimeStamp($time){
 }
 
 function timestampToTime(timestamp) {
-    if (timestamp === null || timestamp === ""){
+    if (empty(timestamp)){
         return "缺失时间";
     }
     let date = new Date(timestamp * 1000);

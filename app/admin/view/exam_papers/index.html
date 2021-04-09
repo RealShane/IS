@@ -99,49 +99,12 @@
                     if(res.status === config('failed')){
                         layer.msg(res.message);
                     }
-                    renderSingle(res.result);
+                    renderData(res.result, 10, 1);
                 }
             });
             return false;
         });
     });
-    function renderSingle(data) {
-        $("#page_remove").remove();
-        $("#page").append(
-            "<div id=\"page_remove\">" +
-                "<span class=\"current\">1</span>" +
-            "</div>"
-        );
-        let status = "<span class=\"layui-btn layui-btn-normal layui-btn-mini\">已启用</span></td>";
-        if (data['status'] === 0){
-            status = "<span class=\"layui-btn layui-btn-disabled layui-btn-mini\">已停用</span></td>";
-        }
-        $("#data_remove").remove();
-        $("#data").append(
-            "<tbody id=\"data_remove\">" +
-                "<tr>" +
-                    "<td>" + data['id'] + "</td>" +
-                    "<td>" + data['username'] + "</td>" +
-                    "<td>" + data['last_login_ip'] + "</td>" +
-                    "<td>" + timestampToTime(data['last_login_time']) + "</td>" +
-                    "<td>" + data['create_time'] + "</td>" +
-                    "<td>" + data['update_time'] + "</td>" +
-                    "<td>" + status + "</td>" +
-                    "<td class=\"td-manage\">" +
-                        "<a title=\"修改密码\" onclick=\"xadmin.open('修改密码', '/{$secret}/View/Admin/changePasswordView?id=" + data['id'] + "')\" href=\"javascript:;\">" +
-                            "<i class=\"layui-icon\">&#xe601;</i>" +
-                        "</a>" +
-                        "<a title=\"编辑\"  onclick=\"xadmin.open('编辑', '/{$secret}/View/Admin/updateAdminView?id=" + data['id'] + "')\" href=\"javascript:;\">" +
-                            "<i class=\"layui-icon\">&#xe642;</i>" +
-                        "</a>" +
-                        "<a title=\"删除\" onclick=\"member_del(this, " + data['id'] + ")\" href=\"javascript:;\">" +
-                            "<i class=\"layui-icon\">&#xe640;</i>" +
-                        "</a>" +
-                    "</td>" +
-                "</tr>" +
-            "</tbody>"
-        );
-    }
     function renderData(data, num, page) {
         /**
          * 分页
@@ -189,17 +152,14 @@
             str +=
                 "<tr>" +
                 "<td>" + key['id'] + "</td>" +
-                "<td>" + key['username'] + "</td>" +
-                "<td>" + key['last_login_ip'] + "</td>" +
-                "<td>" + timestampToTime(key['last_login_time']) + "</td>" +
+                "<td>" + key['classes']['name'] + "</td>" +
+                "<td>" + key['title'] + "</td>" +
+                "<td>开始时间：" + timestampToTime(key['close_time']['begin_time']) + " 结束时间：" + timestampToTime(key['close_time']['close_time']) + "</td>" +
                 "<td>" + create_time + "</td>" +
                 "<td>" + update_time + "</td>" +
                 "<td>" + status + "</td>" +
                 "<td class=\"td-manage\">" +
-                    "<a title=\"修改密码\" onclick=\"xadmin.open('修改密码', '/{$secret}/View/Admin/changePasswordView?id=" + key['id'] + "')\" href=\"javascript:;\">" +
-                        "<i class=\"layui-icon\">&#xe601;</i>" +
-                    "</a>" +
-                    "<a title=\"编辑\"  onclick=\"xadmin.open('编辑', '/{$secret}/View/Admin/updateAdminView?id=" + key['id'] + "')\" href=\"javascript:;\">" +
+                    "<a title=\"编辑\"  onclick=\"xadmin.open('编辑', '/{$secret}/View/Exam/Papers/edit?id=" + key['id'] + "')\" href=\"javascript:;\">" +
                         "<i class=\"layui-icon\">&#xe642;</i>" +
                     "</a>" +
                     "<a title=\"删除\" onclick=\"member_del(this, " + key['id'] + ")\" href=\"javascript:;\">" +
@@ -239,7 +199,7 @@
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
-                url : '/{$secret}/deleteAdmin',
+                url : '/{$secret}/Exam/deletePaper',
                 data : {
                     target : id
                 },
