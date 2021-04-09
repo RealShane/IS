@@ -71,6 +71,7 @@ Route::group(function () {
     Route::rule('Exam/getTargetPapers', '/admin/Exam/getTargetPapers', 'POST');
     Route::rule('Exam/deletePaper', '/admin/Exam/deletePaper', 'POST');
     Route::rule('Exam/getPaper', '/admin/Exam/getPaper', 'POST');
+    Route::rule('Exam/updatePaper', '/admin/Exam/updatePaper', 'POST');
 
 
 
