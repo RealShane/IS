@@ -108,6 +108,7 @@
                         $("#captcha").attr('src',"/captcha?id=" + Math.random());
                         if(res.status === config('failed')){
                             layer.msg(res.message);
+                            $("#captcha").attr('src',"/captcha?id=" + Math.random());
                         }else if(res.status === config('success')){
                             layer.msg(res.result, function () {
                                 $("#random").show();
@@ -148,6 +149,8 @@
                                 $("#send_random").hide();
                                 $("#email").hide();
                                 $("#validate").val("");
+                                login_type = "type_email";
+                                $("#captcha").attr('src',"/captcha?id=" + Math.random());
                             });
                         }else if(res.status === config('success')){
                             layer.msg('登录成功!', function () {
