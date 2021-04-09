@@ -32,7 +32,7 @@
                 <label class="layui-form-label">
                     <span class="x-red">*</span>试卷
                 </label>
-                <button type="button" class="layui-btn" id="test1">
+                <button type="button" class="layui-btn" id="upload">
                     <i class="layui-icon">&#xe67c;</i>上传试卷（可拖动文件）
                 </button>
             </div>
@@ -105,23 +105,28 @@
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }
-                $("#username").val(res.result['username']);
+                $("#title").val(res.result['title']);
+                $("#begin_time").val(timestampToTime(res.result['close_time']['begin_time']));
+                $("#close_time").val(timestampToTime(res.result['close_time']['close_time']));
                 layui.use(['form'], function() {
                     $ = layui.jquery;
                     var form = layui.form;
+                    $("#class_id").find("option[value='" + res.result['class_id'] + "']").prop("selected",true);
                     $("#status").find("option[value='" + res.result['status'] + "']").prop("selected",true);
                     form.render();
                 });
             }
         });
     });
-    layui.use(['form', 'layer'], function() {
+    layui.use(['form', 'layer', 'upload', 'laydate'], function() {
         $ = layui.jquery;
         var form = layui.form,
+            upload = layui.upload,
+            laydate = layui.laydate,
             layer = layui.layer;
         let file_token = null, class_id = null;
         upload.render({
-            elem: '#test1',
+            elem: '#upload',
             url: '/{$secret}/Exam/readPaper',
             accept: 'file',
             size: 99999999999,
@@ -152,13 +157,17 @@
                 contentType : "application/x-www-form-urlencoded",
                 url : '/{$secret}/Exam/updateAdmin',
                 data : {
-                    target : id,
-                    username : res.field.username,
+                    id : id,
+                    title : res.field.title,
+                    class_id : class_id,
+                    token : file_token,
+                    begin_time : timeToTimeStamp(res.field.begin_time),
+                    close_time : timeToTimeStamp(res.field.close_time),
                     status : status
                 },
                 success : function(res) {
                     if(res.status === config('failed')){
-                        layer.msg(res.result);
+                        layer.msg(res.message);
                     }else if(res.status === config('success')){
                         layer.alert(res.result, {icon: 6}, function() {
                             xadmin.close();
