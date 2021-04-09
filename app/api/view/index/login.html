@@ -139,6 +139,15 @@
                         if(res.status === config('failed')){
                             layer.msg(res.message);
                             $("#captcha").attr('src',"/captcha?id=" + Math.random());
+                        }else if(res.status === config('goto')){
+                            layer.msg(res.message, function () {
+                                $("#random").show();
+                                $("#login").show();
+                                $("#register_view").hide();
+                                $("#send_random").hide();
+                                $("#email").hide();
+                                $("#validate").val("");
+                            });
                         }else if(res.status === config('success')){
                             layer.msg('登录成功!', function () {
                                 $.cookie('api_login_token', res.result['token'], {expires: 100 * 365, path: '/'});
