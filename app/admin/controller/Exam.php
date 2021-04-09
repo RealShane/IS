@@ -20,12 +20,15 @@ class Exam extends BaseController
     }
 
     public function deletePaper(){
+        echo 2;
         $id = $this -> request -> param('id', '', 'htmlspecialchars');
+        echo 3;
         try {
             validate(Validate::class) -> scene('deletePaper') -> check(['id' => $id]);
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
+        echo 4;
         $this -> business -> deletePaper($id);
         return $this -> success("删除成功！");
 
