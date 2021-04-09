@@ -33,13 +33,18 @@ class Exam
 
     public function showPaper($paper_id){
         $paper = $this -> examPapersModel -> findById($paper_id);
-        if (time() < $paper['close_time']['begin_time'] || time() > $paper['close_time']['close_time']){
+        if (time() > $paper['close_time']['begin_time'] && time() < $paper['close_time']['close_time']){
+            foreach ($paper['paper_answer'] as $key){
+                $data[] = [$key['subject'], $key['option']];
+            }
+            return $data;
+        }else{
             throw new Exception("未到答题时间或答题时间已过");
         }
-        foreach ($paper['paper_answer'] as $key){
-            $data[] = [$key['subject'], $key['option']];
-        }
-        return $data;
+    }
+
+    public function calculateScore($data){
+
     }
 
 

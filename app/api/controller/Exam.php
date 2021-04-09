@@ -19,6 +19,17 @@ class Exam extends BaseController
         $this -> business = $business;
     }
 
+    public function calculateScore(){
+        $data['uid'] = $this -> getUser();
+        $data['answer'] = $this -> request -> param('answer', '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('calculateScore') -> check(['answer' => $data['answer']]);
+        } catch (\Exception $exception) {
+            return $this -> fail($exception -> getMessage());
+        }
+        return $this -> success($this -> business -> calculateScore($data));
+    }
+
     public function showPaper(){
         $paper_id = $this -> request -> param('paper_id', '', 'htmlspecialchars');
         try {
@@ -27,6 +38,10 @@ class Exam extends BaseController
             return $this -> fail($exception -> getMessage());
         }
         return $this -> success($this -> business -> showPaper($paper_id));
+    }
+
+    public function returnGradeExcel(){
+
     }
 
 
