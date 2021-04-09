@@ -13,7 +13,7 @@ use \app\api\middleware\IsLogin;
 
 Route::group('View/Exam', function () {
     Route::rule('Papers/index', '/api/View/examPapersManageView', 'GET');
-}) -> middleware(IsLogin::class);
+});
 
 Route::group('Exam', function () {
     Route::rule('showPaper', '/api/Exam/showPaper', 'POST');
