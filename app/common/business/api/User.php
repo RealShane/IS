@@ -60,6 +60,7 @@ class User
     }
 
     public function userInfo($user){
+        $user = $this -> userModel -> findByIdWithStatus($user['id']);
         $data = $this -> userClassModel -> findByUid($user['id']);
         $classes = $this -> classesModel -> findById($data['class_id']);
         $department = $this -> departmentModel -> findById($classes['depart_id']);
