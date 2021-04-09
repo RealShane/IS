@@ -29,4 +29,6 @@ class Exam extends BaseController
         return $this -> success($this -> business -> showPaper($paper_id));
     }
 
+
+
 }
