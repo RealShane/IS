@@ -79,6 +79,7 @@
             contentType : "application/x-www-form-urlencoded",
             url : '/api/User/menuAndView',
             success : function(res) {
+                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.result);
                 }
