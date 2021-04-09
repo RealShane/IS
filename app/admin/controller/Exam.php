@@ -24,8 +24,8 @@ class Exam extends BaseController
         $data['title'] = $this -> request -> param('title', '', 'htmlspecialchars');
         $data['class_id'] = $this -> request -> param('class_id', '', 'htmlspecialchars');
         $data['token'] = $this -> request -> param('token', '', 'htmlspecialchars');
-        $data[]['begin_time'] = $this -> request -> param('begin_time', NULL, 'htmlspecialchars');
-        $data[]['close_time'] = $this -> request -> param('close_time', NULL, 'htmlspecialchars');
+        $data['close_time']['begin_time'] = $this -> request -> param('begin_time', NULL, 'htmlspecialchars');
+        $data['close_time']['close_time'] = $this -> request -> param('close_time', NULL, 'htmlspecialchars');
         $data['status'] = $this -> request -> param('status', '', 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('updatePaper') -> check($data);
