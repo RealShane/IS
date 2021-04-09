@@ -108,7 +108,6 @@
             class_id = data.value;
         });
         form.on('submit(add)', function(res) {
-            console.log(class_id);return false;
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
