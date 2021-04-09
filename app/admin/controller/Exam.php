@@ -32,8 +32,8 @@ class Exam extends BaseController
     public function commitPaper(){
         $data['class_id'] = $this -> request -> param('class_id', '', 'htmlspecialchars');
         $data['token'] = $this -> request -> param('token', '', 'htmlspecialchars');
-        $data['begin_time'] = $this -> request -> param('begin_time', '', 'htmlspecialchars');
-        $data['close_time'] = $this -> request -> param('close_time', '', 'htmlspecialchars');
+        $data['begin_time'] = $this -> request -> param('begin_time', NULL, 'htmlspecialchars');
+        $data['close_time'] = $this -> request -> param('close_time', NULL, 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('commitPaper') -> check($data);
         }catch (\Exception $exception){
