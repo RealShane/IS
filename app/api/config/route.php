@@ -35,7 +35,7 @@ return [
     // 默认控制器名
     'default_controller'    => 'View',
     // 默认操作名
-    'default_action'        => 'loginView',
+    'default_action'        => 'login',
     // 操作方法后缀
     'action_suffix'         => '',
     // 默认JSONP格式返回的处理方法
