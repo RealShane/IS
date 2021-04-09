@@ -11,16 +11,12 @@ use think\facade\Route;
 use \app\api\middleware\IsLogin;
 
 
-Route::group(function () {
-    Route::rule('View/Exam/Papers/index', '/admin/View/examPapersManageView', 'GET');
-    Route::rule('View/Exam/Papers/add', '/admin/View/examPapersAddView', 'GET');
-    Route::rule('View/Exam/Papers/edit', '/admin/View/examPapersEditView', 'GET');
-    Route::rule('Exam/showPaper', '/api/Exam/showPaper', 'POST');
+Route::group('View/Exam', function () {
+    Route::rule('Papers/index', '/api/View/examPapersManageView', 'GET');
 });
 
 Route::group('Exam', function () {
-//    Route::rule('showPaper', '/api/Exam/showPaper', 'POST');
-
+    Route::rule('showPaper', '/api/Exam/showPaper', 'POST');
 }) -> middleware(IsLogin::class);
 
 //----------------------------------------------------------------------------------

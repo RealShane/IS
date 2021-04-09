@@ -6,16 +6,69 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-sm6 layui-col-md3">
-            <div class="layui-card" id="playground">
-
-            </div>
+        <div class="layui-col-sm6 layui-col-md3" id="base">
+            <br>
         </div>
         <style id="welcome_style"></style>
     </div>
 </div>
 <script>
     $(document).ready(function() {
+        base();
+        $("#join").click(function() {
+            $("#playground").remove();
+            $("#base").append(
+                "<div class=\"layui-row\" id=\"playground\">" +
+                    "<form class=\"layui-form\">" +
+                        "<div class=\"layui-form-item\">" +
+                            "<label for=\"username\" class=\"layui-form-label\">" +
+                                "邀请码" +
+                            "</label>" +
+                            "<div class=\"layui-input-inline\">" +
+                                "<input type=\"text\" id=\"invite_code\" name=\"invite_code\" required=\"\" lay-verify=\"required\" autocomplete=\"off\" class=\"layui-input\">" +
+                            "</div>" +
+                            "<div class=\"layui-form-mid layui-word-aux\">" +
+                                "<span class=\"x-red\">*</span>班级邀请码由班级辅导员告知，一旦激活，无法更改班级！" +
+                            "</div>" +
+                        "</div>" +
+                        "<div class=\"layui-form-item\">" +
+                            "<label class=\"layui-form-label\"></label>" +
+                            "<button  class=\"layui-btn\" lay-filter=\"join\" lay-submit=\"\">" +
+                                "加入班级" +
+                            "</button>" +
+                        "</div>" +
+                    "</form>" +
+                "</div>"
+            );
+        });
+        layui.use(['form', 'layer'], function() {
+            $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer;
+            form.on('submit(join)', function(res) {
+                $.ajax({
+                    type : "POST",
+                    contentType : "application/x-www-form-urlencoded",
+                    url : '/api/User/joinClass',
+                    data : {
+                        invite_code : res.field.invite_code
+                    },
+                    success : function(res) {
+                        if(res.status === config('failed')){
+                            layer.msg(res.message);
+                        }else if(res.status === config('success')){
+                            layer.msg(res.result, function() {
+                                $("#playground").remove();
+                                base();
+                            });
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+    });
+    function base(){
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -25,25 +78,29 @@
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }
-                let cla = res.result['class'], department = res.result['department'];
+                let cla = res.result['class'], department = res.result['department'], join_class = "";
                 if (empty(cla)){
                     cla = "暂未加入班级";
                     department = "暂无学部";
+                    join_class = "<p class=\"layuiadmin-big-font\" id='join'><span class=\"layui-badge layui-bg-red layuiadmin-badge\">点我加入班级</span></p>";
                 }
-                $("#playground").append(
-                    "<div class=\"layui-card-header\">学号：" + res.result['student_id'] +
-                        "<span class=\"layui-badge layui-bg-cyan layuiadmin-badge\">  " + res.result['name'] + "</span>" +
-                    "</div>" +
-                    "<div class=\"layui-card-body\">" +
-                        "<p class=\"layuiadmin-big-font\">点我加入班级</p>" +
-                        "<p>" +
-                            "所在班级：" + cla + "<br>所在学部：" + department +
-                        "</p>" +
+                $("#base").append(
+                    "<div class=\"layui-card\" id=\"playground\">" +
+                        "<div class=\"layui-card-header\">学号：" + res.result['student_id'] +
+                            "<span class=\"layui-badge layui-bg-green layuiadmin-badge\">  " + res.result['name'] + "</span> ♂/♀：" +
+                            "<span class=\"layui-badge layui-bg-red layuiadmin-badge\">  " + res.result['sex'] + "</span>" +
+                        "</div>" +
+                        "<div class=\"layui-card-body\">" +
+                            join_class +
+                            "<p>" +
+                                "所在班级：<span class=\"layui-badge layui-bg-cyan layuiadmin-badge\"> " + cla + "</span><br>所在学部：<span class=\"layui-badge layui-bg-cyan layuiadmin-badge\"> " + department + "</span>" +
+                            "</p>" +
+                        "</div>" +
                     "</div>"
                 );
             }
         });
-    });
+    }
 </script>
 </body>
 </html>

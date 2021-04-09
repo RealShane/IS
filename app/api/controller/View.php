@@ -15,6 +15,10 @@ use think\facade\View as V;
 class View
 {
 
+    public function examPapersManageView(){
+        return V::fetch('exam_papers/index');
+    }
+
     public function welcomeView(){
         return V::fetch('index/welcome');
     }
