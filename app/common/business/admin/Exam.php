@@ -28,9 +28,12 @@ class Exam
         $this -> str = new Str();
     }
 
+    public function deletePaper($id){
+        return $this -> examPapersModel -> deletePaper($id);
+    }
+
     public function getTargetPapers($title, $num){
         return $this -> examPapersModel -> selectTitle($title, $num);
-
     }
 
     public function viewAllPapers($num){

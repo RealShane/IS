@@ -19,8 +19,20 @@ class Exam extends BaseController
         $this -> business = $business;
     }
 
+    public function deletePaper(){
+        $id = $this -> request -> param('id', '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('deletePaper') -> check(['id' => $id]);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        $this -> business -> deletePaper($id);
+        return $this -> success("删除成功！");
+
+    }
+
     public function getTargetPapers(){
-        $title = $this -> request -> param('title', 'htmlspecialchars');
+        $title = $this -> request -> param('title', '', 'htmlspecialchars');
         $num = $this -> request -> param("num", 10, 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('getTargetPapers') -> check(['title' => $title]);

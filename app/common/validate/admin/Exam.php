@@ -21,13 +21,15 @@ class Exam extends Validate
         'class_id|班级id' => 'require',
         'file|文件' => 'file',
         'token' => 'require',
-        'title|试卷名称' => 'require'
+        'title|试卷名称' => 'require',
+        'id' => 'require'
     ];
 
     protected $scene = [
         'commitPaper' => ['class_id', 'token'],
         'readPaper' => ['file'],
-        'getTargetPapers' => ['title']
+        'getTargetPapers' => ['title'],
+        'deletePaper' => ['id']
     ];
 
 }

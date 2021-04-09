@@ -15,6 +15,10 @@ class ExamPapers extends Model
         'close_time'     =>  'json',
     ];
 
+    public function deletePaper($id){
+        return $this -> where('id', $id) -> delete();
+    }
+
     public function selectTitle($title, $num){
         return self::with('classes') -> where('title', 'LIKE', '%' . $title . '%') -> paginate($num);
     }
