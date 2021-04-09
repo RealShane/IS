@@ -15,7 +15,7 @@ class ExamPapers extends Model
         'close_time'     =>  'json',
     ];
 
-    public function editPaper($id){
+    public function getPaper($id){
         return $this -> where('id', $id) -> find();
     }
 
