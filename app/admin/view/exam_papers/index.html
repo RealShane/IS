@@ -189,9 +189,9 @@
             str +=
                 "<tr>" +
                 "<td>" + key['id'] + "</td>" +
-                "<td>" + key['username'] + "</td>" +
-                "<td>" + key['last_login_ip'] + "</td>" +
-                "<td>" + timestampToTime(key['last_login_time']) + "</td>" +
+                "<td>" + key['classes']['name'] + "</td>" +
+                "<td>" + key['title'] + "</td>" +
+                "<td>开始时间：" + key['close_time']['begin_time'] + " 结束时间：" + key['close_time']['close_time'] + "</td>" +
                 "<td>" + create_time + "</td>" +
                 "<td>" + update_time + "</td>" +
                 "<td>" + status + "</td>" +
