@@ -106,9 +106,12 @@
                     layer.msg(res.message);
                 }
                 $("#title").val(res.result['title']);
+                $("#begin_time").val(timestampToTime(res.result['close_time']['begin_time']));
+                $("#close_time").val(timestampToTime(res.result['close_time']['close_time']));
                 layui.use(['form'], function() {
                     $ = layui.jquery;
                     var form = layui.form;
+                    $("#class_id").find("option[value='" + res.result['class_id'] + "']").prop("selected",true);
                     $("#status").find("option[value='" + res.result['status'] + "']").prop("selected",true);
                     form.render();
                 });
