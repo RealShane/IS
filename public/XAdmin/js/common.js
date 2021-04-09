@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    let url = url();
+    let url = window.location.href;
     console.log(url);
     let api_token = getApiToken();
     let admin_token = getToken();
@@ -17,10 +17,6 @@ $(document).ready(function() {
         },
     });
 });
-
-function url(){
-    return window.location.href;
-}
 
 function time() {
     let tmp = Date.parse(new Date()).toString();
