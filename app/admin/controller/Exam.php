@@ -26,8 +26,7 @@ class Exam extends BaseController
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
-        $this -> business -> readPaper($file);
-
+        return $this -> success($this -> business -> readPaper($file));
     }
 
     public function commitPaper(){
