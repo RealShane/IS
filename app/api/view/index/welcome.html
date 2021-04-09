@@ -58,6 +58,7 @@
                             layer.msg(res.message);
                         }else if(res.status === config('success')){
                             layer.alert(res.result, {icon: 6}, function() {
+                                xadmin.close();
                                 $("#playground").remove();
                                 base();
                             });
@@ -78,7 +79,7 @@
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }
-                let cla = res.result['class'], department = res.result['department'], join_class = null;
+                let cla = res.result['class'], department = res.result['department'], join_class = "";
                 if (empty(cla)){
                     cla = "暂未加入班级";
                     department = "暂无学部";
