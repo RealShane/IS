@@ -158,12 +158,16 @@
                 url : '/{$secret}/Exam/updateAdmin',
                 data : {
                     target : id,
-                    username : res.field.username,
+                    title : res.field.title,
+                    class_id : class_id,
+                    token : file_token,
+                    begin_time : timeToTimeStamp(res.field.begin_time),
+                    close_time : timeToTimeStamp(res.field.close_time),
                     status : status
                 },
                 success : function(res) {
                     if(res.status === config('failed')){
-                        layer.msg(res.result);
+                        layer.msg(res.message);
                     }else if(res.status === config('success')){
                         layer.alert(res.result, {icon: 6}, function() {
                             xadmin.close();
