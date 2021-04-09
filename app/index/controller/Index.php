@@ -18,7 +18,7 @@ class Index extends BaseController
 {
 
     public function index(){
-        return $this -> success("ssssindex");
+        return redirect('/api/View/login');
     }
 
 }
