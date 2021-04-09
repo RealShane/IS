@@ -35,8 +35,8 @@ class User extends BaseController
 
     }
 
-    public function viewMe(){
-        return $this -> success($this -> business -> viewMe($this -> getUser()));
+    public function userInfo(){
+        return $this -> success($this -> business -> userInfo($this -> getUser()));
     }
 
     public function joinClass(){
@@ -108,6 +108,10 @@ class User extends BaseController
         }
         $this -> business -> register($data);
         return $this -> success("注册成功，等待邮件激活！");
+    }
+
+    public function menuAndView(){
+        return $this -> success($this -> business -> menuAndView());
     }
 
 }

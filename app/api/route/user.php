@@ -19,9 +19,10 @@ Route::group('User', function () {
 });
 
 Route::group('User', function () {
-    Route::rule('logoff', '/api/User/logoff', 'GET');
+    Route::rule('menuAndView', '/api/User/menuAndView', 'POST');
+    Route::rule('logoff', '/api/User/logoff', 'POST');
     Route::rule('isLogin', '/api/User/isLogin', 'POST');
-    Route::rule('viewMe', '/api/User/viewMe', 'POST');
+    Route::rule('userInfo', '/api/User/userInfo', 'POST');
     Route::rule('joinClass', '/api/User/joinClass', 'POST');
 }) -> middleware(IsLogin::class);
 //----------------------------------------------------------------------------------

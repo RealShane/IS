@@ -15,12 +15,20 @@ use think\facade\View as V;
 class View
 {
 
+    public function welcomeView(){
+        return V::fetch('index/welcome');
+    }
+
     public function indexView(){
         return V::fetch("index/index");
     }
 
     public function registerView(){
         return V::fetch("index/register");
+    }
+
+    public function activeRegisterView(){
+        return V::fetch('index/active-register');
     }
 
     public function loginView(){

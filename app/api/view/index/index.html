@@ -14,7 +14,7 @@
     </div>
     <ul class="layui-nav right">
         <li class="layui-nav-item">
-            <a id="admin_name"></a>
+            <a id="name"></a>
         </li>
         <li class="layui-nav-item to-index">
             <a id="quit">退出</a>
@@ -65,9 +65,10 @@
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/userInfo',
+            url : '/api/User/userInfo',
             success : function(res) {
-                $("#admin_name").append(
+                console.log(res);
+                $("#name").append(
                     "<span>你好：" + res.result['nick_name'] + "</span>"
                 );
             }
@@ -76,7 +77,7 @@
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/menuAndView',
+            url : '/api/User/menuAndView',
             success : function(res) {
                 if (res.status === config('failed')){
                     layer.msg(res.result);
@@ -91,7 +92,6 @@
                 contentType : "application/x-www-form-urlencoded",
                 url : '/api/User/logoff',
                 success : function(res) {
-                    console.log(res);
                     if (res.status === config('failed')){
                         layer.msg(res.message);
                     }

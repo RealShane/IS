@@ -16,8 +16,10 @@ use app\api\middleware\DormitoryAuth;
  * 前端页面路由
  */
 Route::group('View', function () {
+    Route::rule('welcome', 'api/View/welcomeView', 'GET');
     Route::rule('index', 'api/View/indexView', 'GET');
     Route::rule('register', 'api/View/registerView', 'GET');
+    Route::rule('activeRegister', 'api/View/activeRegisterView', 'GET');
     Route::rule('login', 'api/View/loginView', 'GET');
 });
 /**
