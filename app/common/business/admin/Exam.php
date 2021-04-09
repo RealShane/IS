@@ -33,7 +33,7 @@ class Exam
     }
 
     public function deletePaper($id){
-        $this -> examPapersModel -> delPaper($id);
+        $this -> examPapersModel -> deletePaper($id);
     }
 
     public function getTargetPapers($title, $num){
