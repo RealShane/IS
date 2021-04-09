@@ -159,10 +159,7 @@
                 "<td>" + update_time + "</td>" +
                 "<td>" + status + "</td>" +
                 "<td class=\"td-manage\">" +
-                    "<a title=\"修改密码\" onclick=\"xadmin.open('修改密码', '/{$secret}/View/Admin/changePasswordView?id=" + key['id'] + "')\" href=\"javascript:;\">" +
-                        "<i class=\"layui-icon\">&#xe601;</i>" +
-                    "</a>" +
-                    "<a title=\"编辑\"  onclick=\"xadmin.open('编辑', '/{$secret}/View/Admin/updateAdminView?id=" + key['id'] + "')\" href=\"javascript:;\">" +
+                    "<a title=\"编辑\"  onclick=\"xadmin.open('编辑', '/{$secret}/View/Exam/Papers/edit?id=" + key['id'] + "')\" href=\"javascript:;\">" +
                         "<i class=\"layui-icon\">&#xe642;</i>" +
                     "</a>" +
                     "<a title=\"删除\" onclick=\"member_del(this, " + key['id'] + ")\" href=\"javascript:;\">" +
@@ -202,7 +199,7 @@
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
-                url : '/{$secret}/deleteAdmin',
+                url : '/{$secret}/Exam/deletePaper',
                 data : {
                     target : id
                 },
