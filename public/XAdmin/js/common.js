@@ -1,11 +1,26 @@
 $(document).ready(function() {
+    let url = url();
+    console.log(url);
+    let api_token = getApiToken();
+    let admin_token = getToken();
+    let token = null;
+    if (empty(api_token) && !empty(admin_token)){
+        token = admin_token;
+    }
+    if (!empty(api_token) && empty(admin_token)){
+        token = api_token;
+    }
     $.ajaxSetup({
         async : false,
         beforeSend : function(request) {
-            request.setRequestHeader("access-token", getToken());
+            request.setRequestHeader("access-token", token);
         },
     });
 });
+
+function url(){
+    return window.location.href;
+}
 
 function time() {
     let tmp = Date.parse(new Date()).toString();
