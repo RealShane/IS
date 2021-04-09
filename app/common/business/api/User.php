@@ -66,6 +66,7 @@ class User
         $department = $this -> departmentModel -> findById($classes['depart_id']);
         return [
             'name' => $user['name'],
+            'sex' => $user['sex'] == -1 ? "保密" : $this -> str -> convertSex($user['sex']),
             'student_id' => $user['student_id'],
             'class' => $classes['name'],
             'department' => $department['name'],
