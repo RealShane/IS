@@ -29,15 +29,19 @@ class Exam
 
     public function readPaper($file){
         $token = $this -> str -> createToken($file -> getOriginalName());
-        $this -> redis -> set($token, $this -> excel -> read($file), config('redis.file_expire'));
+        $this -> redis -> set($token, [
+            'name' => explode(".", $file -> getOriginalName())[0],
+            'data' => $this -> excel -> read($file)
+        ], config('redis.file_expire'));
         return $token;
     }
 
     public function commitPaper($data){
+        $redis = $this -> redis -> get($data['token']);
         $this -> examModel -> save([
             'class_id' => $data['class_id'],
-            'title' => explode(".", $data['file'] -> getOriginalName())[0],
-            'paper_answer' => $this -> redis -> get($data['token']),
+            'title' => $redis['name'],
+            'paper_answer' => $redis['data'],
             'close_time' => [
                 'begin_time' => $data['begin_time'],
                 'close_time' => $data['close_time']
