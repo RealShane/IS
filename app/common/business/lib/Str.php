@@ -18,7 +18,7 @@ class Str
     //生成token
     public function createToken($str){
         $tokenSalt = md5(uniqid(md5(microtime(true)), true));
-        return sha1($tokenSalt.$str);
+        return sha1($tokenSalt . $str);
     }
 
     //生成盐

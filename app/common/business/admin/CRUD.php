@@ -19,7 +19,7 @@ class CRUD
     private $table = null;
 
     public function __construct($table = NULL){
-        $this -> table = $table;
+        $this -> setStore($table);
     }
 
     public function findById($id){
