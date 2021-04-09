@@ -19,10 +19,20 @@ class Exam extends BaseController
         $this -> business = $business;
     }
 
+    public function readPaper(){
+        $file = $this -> request -> file('file');
+        try {
+            validate(Validate::class) -> scene('readPaper') -> check(['file' => $file]);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        $this -> business -> readPaper($file);
+
+    }
+
     public function commitPaper(){
         $data['class_id'] = $this -> request -> param('class_id', '', 'htmlspecialchars');
-        $data['file'] = $this -> request -> file('file');
-        echo json_encode($data['file'] -> getOriginalName());exit();
+        $data['token'] = $this -> request -> param('token', '', 'htmlspecialchars');
         $data['begin_time'] = $this -> request -> param('begin_time', '', 'htmlspecialchars');
         $data['close_time'] = $this -> request -> param('close_time', '', 'htmlspecialchars');
         try {

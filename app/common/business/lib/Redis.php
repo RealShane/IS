@@ -36,6 +36,7 @@ class Redis
 
     public function setStore($store){
         $this -> store = $store;
+        return $this;
     }
 
 }
