@@ -201,7 +201,7 @@
                 contentType : "application/x-www-form-urlencoded",
                 url : '/{$secret}/Exam/deletePaper',
                 data : {
-                    target : id
+                    id : id
                 },
                 success : function(res) {
                     if (res.status === config('failed')){
