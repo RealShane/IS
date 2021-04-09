@@ -24,7 +24,7 @@
                 <label class="layui-form-label">
                     <span class="x-red">*</span>试卷
                 </label>
-                <button type="button" class="layui-btn" id="test1">
+                <button type="button" class="layui-btn" id="upload">
                     <i class="layui-icon">&#xe67c;</i>上传试卷（可拖动文件）
                 </button>
             </div>
@@ -82,7 +82,7 @@
             layer = layui.layer;
         let file_token = null, class_id = null;
         upload.render({
-            elem: '#test1',
+            elem: '#upload',
             url: '/{$secret}/Exam/readPaper',
             accept: 'file',
             size: 99999999999,
