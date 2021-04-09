@@ -6,43 +6,44 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">请选择记账方式：</div>
-                <div class="layui-card-body ">
-                    <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
-                        <li class="layui-col-md2 layui-col-xs6">
-                            <a onclick="xadmin.open('记账', '/api/View/Bill/bill')" href="javascript:;" class="x-admin-backlog-body">
-                                <h3>记录单次出入账：</h3>
-                                <p>
-                                    <cite>记账</cite>
-                                </p>
-                            </a>
-                        </li>
-                        <li class="layui-col-md2 layui-col-xs6">
-                            <a onclick="xadmin.open('明细', '/api/View/Bill/detail')" href="javascript:;" class="x-admin-backlog-body">
-                                <h3>查看本月账单：</h3>
-                                <p>
-                                    <cite>明细</cite>
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
         <div class="layui-col-sm6 layui-col-md3">
-            <div class="layui-card" id="last_bill">
-
-            </div>
-        </div>
-        <div class="layui-col-sm6 layui-col-md3">
-            <div class="layui-card" id="budget">
+            <div class="layui-card" id="playground">
 
             </div>
         </div>
         <style id="welcome_style"></style>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/User/userInfo',
+            success : function(res) {
+                console.log(res);
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                }
+                let cla = res.result['class'], department = res.result['department'];
+                if (empty(cla)){
+                    cla = "暂未加入班级";
+                    department = "暂无学部";
+                }
+                $("#playground").append(
+                    "<div class=\"layui-card-header\">学号：" + res.result['student_id'] +
+                        "<span class=\"layui-badge layui-bg-cyan layuiadmin-badge\">  " + res.result['name'] + "</span>" +
+                    "</div>" +
+                    "<div class=\"layui-card-body\">" +
+                        "<p class=\"layuiadmin-big-font\">点我加入班级</p>" +
+                        "<p>" +
+                            "所在班级：" + cla + "<br>所在学部：" + department +
+                        "</p>" +
+                    "</div>"
+                );
+            }
+        });
+    });
+</script>
 </body>
 </html>
