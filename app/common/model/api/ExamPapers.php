@@ -15,8 +15,8 @@ class ExamPapers extends Model
         'close_time'     =>  'json',
     ];
 
-    public function selectTitle($title){
-        return $this -> where('title', 'LIKE', '%' . $title . '%') -> paginate(5);
+    public function selectTitle($title, $num){
+        return $this -> where('title', 'LIKE', '%' . $title . '%') -> paginate($num);
     }
 
     public function findAll($num){

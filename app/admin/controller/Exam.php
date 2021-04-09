@@ -20,13 +20,14 @@ class Exam extends BaseController
     }
 
     public function getTargetPapers(){
-        $title = $this -> request -> param('title');
+        $title = $this -> request -> param('title', 'htmlspecialchars');
+        $num = $this -> request -> param("num", 10, 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('getTargetPapers') -> check(['title' => $title]);
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
-        return $this -> success($this -> business -> getTargetPapers($title));
+        return $this -> success($this -> business -> getTargetPapers($title, $num));
     }
 
     public function viewAllPapers(){

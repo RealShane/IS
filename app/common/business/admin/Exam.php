@@ -28,8 +28,8 @@ class Exam
         $this -> str = new Str();
     }
 
-    public function getTargetPapers($title){
-        return $this -> examPapersModel -> selectTitle($title);
+    public function getTargetPapers($title, $num){
+        return $this -> examPapersModel -> selectTitle($title, $num);
 
     }
 
