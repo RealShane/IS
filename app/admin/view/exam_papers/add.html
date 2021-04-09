@@ -88,7 +88,6 @@
             size: 99999999999,
             drag:true,
             done: function (res){
-                console.log(res);
                 file_token = res.result;
                 $("#link_remove").remove();
                 $("#link_show").append(
@@ -119,7 +118,6 @@
                     close_time : timeToTimeStamp(res.field.close_time)
                 },
                 success : function(res) {
-                    console.log(res);
                     if(res.status === config('failed')){
                         layer.msg(res.message);
                     }else if(res.status === config('success')){
