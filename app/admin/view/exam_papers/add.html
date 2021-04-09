@@ -25,7 +25,7 @@
                     <span class="x-red">*</span>试卷
                 </label>
                 <button type="button" class="layui-btn" id="test1">
-                    <i class="layui-icon">&#xe67c;</i>上传试卷
+                    <i class="layui-icon">&#xe67c;</i>上传试卷（可拖动文件）
                 </button>
             </div>
             <div class="layui-form-item">
@@ -52,7 +52,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button id="commit" class="layui-btn" lay-filter="add" lay-submit="">
+                <button class="layui-btn" lay-filter="add" lay-submit="">
                     提交
                 </button>
             </div>
@@ -80,18 +80,18 @@
             upload  = layui.upload,
             laydate = layui.laydate,
             layer = layui.layer;
+        let file_token = null, class_id = null;
         upload.render({
             elem: '#test1',
-            url: '/{$secret}/Exam/commitPaper',
+            url: '/{$secret}/Exam/readPaper',
             accept: 'file',
             size: 99999999999,
-            auto: false,
-            bindAction: '#commit',
             drag:true,
-            choose: function () {
+            done: function (res){
+                file_token = res.result;
                 $("#link_remove").remove();
                 $("#link_show").append(
-                    "<div id='link_remove' class=\"layui-input-inline\">已选择，等待提交读取数据</div>"
+                    "<div id='link_remove' class=\"layui-input-inline\">已读入数据</div>"
                 );
             }
         });
@@ -103,7 +103,6 @@
             elem: '#close_time',
             type: 'datetime'
         });
-        let class_id = ""
         form.on('select(class_id)', function (data) {
             class_id = data.value;
         });
@@ -111,9 +110,11 @@
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
+                processData: false,
                 url : '/{$secret}/Exam/commitPaper',
                 data : {
                     class_id : class_id,
+                    token : file_token,
                     begin_time : timeToTimeStamp(res.field.begin_time),
                     close_time : timeToTimeStamp(res.field.close_time)
                 },
