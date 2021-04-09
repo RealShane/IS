@@ -18,6 +18,7 @@
         $("#join").click(function() {
             $("#playground").remove();
             $("#base").append(
+                "<div class=\"layui-fluid\">" +
                 "<div class=\"layui-row\" id=\"playground\">" +
                     "<form class=\"layui-form\">" +
                         "<div class=\"layui-form-item\">" +
@@ -38,6 +39,7 @@
                             "</button>" +
                         "</div>" +
                     "</form>" +
+                "</div>" +
                 "</div>"
             );
         });
