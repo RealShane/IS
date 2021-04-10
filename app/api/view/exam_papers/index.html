@@ -148,7 +148,7 @@
             }
             str +=
                 "<div class='layui-form-item' pane>" +
-                    "<blockquote class='layui-elem-quote'>"+key[0]+"</blockquote>" +
+                    "<blockquote class='layui-elem-quote'>"+key['subject']+"</blockquote>" +
                     "<select name='single_answer'>" +
                         "<option value=''>请选择</option>" +
                         options +
@@ -160,8 +160,10 @@
         $("#data_remove").remove();
         $("#data").append(
             "<div id=\"data_remove\">" +
-            back +
-            str +
+                "<form class=\"layui-form\">" +
+                    back +
+                    str +
+                "</form>" +
             "</div>"
         );
     }
