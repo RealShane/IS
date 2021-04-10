@@ -24,8 +24,8 @@ class ExamPapers extends Model
         return $this -> where('id', $id) -> find();
     }
 
-    public function findByClassId($id){
-        return $this -> where('id', $id) -> select();
+    public function findByClassId($class_id){
+        return $this -> where('class_id', $class_id) -> select();
     }
 
     public function deletePaper($id){
