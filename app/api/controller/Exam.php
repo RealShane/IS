@@ -47,7 +47,7 @@ class Exam extends BaseController
         $data['uid'] = $this -> getUser();
         $data['paper_id'] = $this -> request -> param('paper_id', '', 'htmlspecialchars');
         try {
-            validate(Validate::class) -> scene('showPaper') -> check(['paper_id' => $paper_id]);
+            validate(Validate::class) -> scene('showPaper') -> check(['paper_id' => $data['paper_id']]);
         } catch (\Exception $exception) {
             return $this -> fail($exception -> getMessage());
         }
