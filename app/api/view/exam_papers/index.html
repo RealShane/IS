@@ -28,7 +28,13 @@
                         </div>
                     </form>
                 </div>
-                <div class="layui-card-body ">
+                <div class="layui-card-body" id="data">
+                    <blockquote class='layui-elem-quote'>
+                        <a>试卷标题</a>
+                    </blockquote>
+                    <blockquote class='layui-elem-quote'>
+                        <a>试卷标题</a>
+                    </blockquote>
                     <blockquote class='layui-elem-quote'>
                         <a>试卷标题</a>
                     </blockquote>
@@ -59,7 +65,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="layui-card-body ">
+                <div class="layui-card-body">
                     <div class="page" id="page">
                         <div id="page_remove">
 
@@ -146,6 +152,9 @@
             str +
             "</tbody>"
         );
+    }
+    function paper(id){
+        console.log(id);
     }
     function getData(num, page) {
         $.ajax({
