@@ -141,6 +141,19 @@
         back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
         for (let key of data['paper_answer']){
             console.log(key);
+            let options = "", alpha = 'A';
+            for (let option of key['option']){
+                options += "<option value='" + alpha + "'>" + option + "</option>";
+                alpha++;
+            }
+            str +=
+                "<div class='layui-form-item' pane>" +
+                    "<blockquote class='layui-elem-quote'>"+key[0]+"</blockquote>" +
+                    "<select name='single_answer'>" +
+                        "<option value=''>请选择</option>" +
+                        options +
+                    "</select>" +
+                "</div>";
         }
         $("#search").hide();
         $("#page_remove").remove();
