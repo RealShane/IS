@@ -36,6 +36,7 @@ class Exam
 
     public function showPaperTitle($uid){
         $classId = $this -> userClassModel -> findByUid($uid);
+        echo $classId;
         $papers = $this -> examPapersModel -> findByClassId($classId['class_id']);
         echo json_encode($papers);exit();
         foreach ($papers as $paper){
