@@ -19,25 +19,39 @@ class Exam extends BaseController
         $this -> business = $business;
     }
 
-    public function calculateScore(){
+    public function showPaperTitle(){
+        $uid = $this -> getUser();
+        return $this -> success($this -> business -> showPaperTitle($uid));
+    }
+
+    public function getAnswer(){
+        $data['paper_id'] = $this -> request -> param('paper_id', '', 'htmlspecialchars');
         $data['uid'] = $this -> getUser();
         $data['answer'] = $this -> request -> param('answer', '', 'htmlspecialchars');
         try {
-            validate(Validate::class) -> scene('calculateScore') -> check(['answer' => $data['answer']]);
+            validate(Validate::class) -> scene('getAnswer') -> check(['paper_id' => $data['paper_id']]);
         } catch (\Exception $exception) {
             return $this -> fail($exception -> getMessage());
         }
+        $this -> business -> getAnswer($data);
+        return $this -> success('保存成功！');
+    }
+
+    public function calculateScore(){
+        $data['uid'] = $this -> getUser();
+        $data['answer'] = $this -> request -> param('answer', '', 'htmlspecialchars');
         return $this -> success($this -> business -> calculateScore($data));
     }
 
     public function showPaper(){
-        $paper_id = $this -> request -> param('paper_id', '', 'htmlspecialchars');
+        $data['uid'] = $this -> getUser();
+        $data['paper_id'] = $this -> request -> param('paper_id', '', 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('showPaper') -> check(['paper_id' => $paper_id]);
         } catch (\Exception $exception) {
             return $this -> fail($exception -> getMessage());
         }
-        return $this -> success($this -> business -> showPaper($paper_id));
+        return $this -> success($this -> business -> showPaper($data));
     }
 
     public function returnGradeExcel(){

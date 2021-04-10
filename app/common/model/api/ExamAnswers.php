@@ -15,6 +15,10 @@ class ExamAnswers extends Model
         'answer'    =>  'json',
     ];
 
+    public function findByUidAndPaperId($data){
+        return $this -> where('uid', $data['uid']) -> where('paper_id', $data['paper_id']) -> find();
+    }
+
 
 
 }
