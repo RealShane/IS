@@ -43,7 +43,7 @@
 <script>
     isApiLogin();
     $(document).ready(function() {
-        getData(1, 1);
+        getData(10, 1);
     });
 
     layui.use(['form'], function(){
@@ -139,6 +139,9 @@
         console.log(data);
         let back = '', str = '';
         back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
+        for (let key of data['paper_answer']){
+            console.log(key);
+        }
         $("#search").hide();
         $("#page_remove").remove();
         $("#data_remove").remove();
