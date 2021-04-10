@@ -137,8 +137,16 @@
     }
     function renderPaper(data){
         console.log(data);
-        let back = '', str = '';
+        let back = '', commit = '', str = '', count = 0;
         back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
+        commit =
+            "<div style=\"width: 370px; margin: 0;\">" +
+                "<button onclick='commit(\"save\")' type=\"button\" class=\"layui-btn layui-btn-fluid\">保存</button>" +
+            "</div>" +
+            "<div style=\"width: 370px; margin: 0;\">" +
+                "<button onclick='commit(\"judge\")' type=\"button\" class=\"layui-btn layui-btn-fluid\">判题</button>" +
+            "</div>";
+        console.log("题的个数:" + data['paper_answer'].length);
         for (let key of data['paper_answer']){
             console.log(key);
             let options = "", alpha = 65;
@@ -157,10 +165,10 @@
                         "</select>" +
                     "</div>";
             }
-            if (false){
+            if (true){
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
-                    options += "<input type='checkbox' value='" + char + "' title=" + option + ">";
+                    options += "<input name='answer_'" + count + " type='checkbox' value='" + char + "' title=" + option + ">";
                     alpha++;
                 }
                 str +=
@@ -169,7 +177,7 @@
                         options +
                     "</div>";
             }
-            if (true){
+            if (false){
                 str +=
                     "<div class=\"layui-form-item layui-form-text\">" +
                         "<label class=\"layui-form-label\">" + key['subject'] + "</label>" +
@@ -178,6 +186,7 @@
                         "</div>" +
                     "</div>"
             }
+            count++;
         }
         $("#search").hide();
         $("#page_remove").remove();
@@ -187,6 +196,7 @@
                 "<form class=\"layui-form layui-form-pane\">" +
                     back +
                     str +
+                    commit +
                 "</form>" +
             "</div>"
         );
@@ -212,6 +222,12 @@
                 renderData(res.result, num, page);
             }
         });
+    }
+    function commit(type){
+        console.log(type);
+        let answer = [];
+
+        console.log(answer);
     }
 </script>
 </html>
