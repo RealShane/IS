@@ -138,12 +138,12 @@
     function renderPaper(data){
         console.log(data);
         let back = '', str = '';
-        back = "<button class=\"layui-btn\"><i class=\"layui-icon\">&#xe697;</i></button>";
+        back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
         $("#search").hide();
         $("#page_remove").remove();
         $("#data_remove").remove();
         $("#data").append(
-            "<div class=\"layui-form layui-col-space5\" id=\"data_remove\">" +
+            "<div id=\"data_remove\">" +
             back +
             str +
             "</div>"
