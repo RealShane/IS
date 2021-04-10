@@ -2,7 +2,7 @@
 
 
 namespace app\api\controller;
-
+error_reporting( E_ALL&~E_NOTICE );
 
 use app\BaseController;
 use app\common\business\api\Exam as Business;
