@@ -29,13 +29,9 @@
                     </form>
                 </div>
                 <div class="layui-card-body" id="data">
-
                 </div>
                 <div class="layui-card-body">
                     <div class="page" id="page">
-                        <div id="page_remove">
-
-                        </div>
                     </div>
                 </div>
             </div>
@@ -123,6 +119,8 @@
         );
     }
     function paper(id){
+        $("#page_remove").remove();
+        $("#data_remove").remove();
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -131,12 +129,15 @@
                 paper_id : id
             },
             success : function(res) {
-                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }
+                renderPaper(res.result);
             }
         });
+    }
+    function renderPaper(data){
+        console.log(data);
     }
     function getData(num, page) {
         $.ajax({
