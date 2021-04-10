@@ -39,7 +39,7 @@ class Exam
         $papers = $this -> examPapersModel -> findByClassId($uid['class_id']);
         foreach ($papers as $paper){
             $data[] = [
-                'title' => $paper['paper']
+                'title' => $paper['title']
             ];
         }
         return $data;
