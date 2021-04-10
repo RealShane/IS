@@ -25,7 +25,11 @@ class Exam extends BaseController
         return $this -> success($this -> business -> showPaperTitle($uid, $num));
     }
 
-    public function getAnswer(){
+    public function getAnswers(){
+
+    }
+
+    public function saveAnswer(){
         $data['paper_id'] = $this -> request -> param('paper_id', '', 'htmlspecialchars');
         $data['uid'] = $this -> getUid();
         $data['answer'] = $this -> request -> param('answer', '', 'htmlspecialchars');
@@ -34,7 +38,7 @@ class Exam extends BaseController
         } catch (\Exception $exception) {
             return $this -> fail($exception -> getMessage());
         }
-        $this -> business -> getAnswer($data);
+        $this -> business -> saveAnswer($data);
         return $this -> success('保存成功！');
     }
 
