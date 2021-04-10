@@ -64,6 +64,7 @@ class Exam
             foreach ($paper['paper_answer'] as $key) {
                 $data[] = [$key['subject'], $key['option']];
             }
+            $data['type'] = true;
             return $data;
         }
     }
