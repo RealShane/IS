@@ -141,9 +141,10 @@
         back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
         for (let key of data['paper_answer']){
             console.log(key);
-            let options = "", alpha = 'A';
+            let options = "", alpha = 65;
             for (let option of key['option']){
-                options += "<option value='" + alpha + "'>" + option + "</option>";
+                let char = tring.fromCharCode((alpha))
+                options += "<option value='" + char + "'>" + option + "</option>";
                 alpha++;
             }
             str +=
