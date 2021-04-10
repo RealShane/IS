@@ -167,6 +167,10 @@
                 "</form>" +
             "</div>"
         );
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
+        });
     }
     function getData(num, page) {
         $("#search").show();
