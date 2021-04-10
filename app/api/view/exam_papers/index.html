@@ -110,17 +110,17 @@
          */
         str = "";
         for (let key of data['data']){
-            console.log(key['title']);
             str +=
                 "<blockquote onclick='paper(" + key['id'] + ")' class='layui-elem-quote'>" +
                     "<a>" + key['title'] + "</a>" +
                 "</blockquote>";
         }
+        console.log(str);
         $("#data_remove").remove();
         $("#data").append(
-            "<tbody id=\"data_remove\">" +
+            "<div id=\"data_remove\">" +
             str +
-            "</tbody>"
+            "</div>"
         );
     }
     function paper(id){
