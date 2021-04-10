@@ -34,9 +34,9 @@ class Exam
         $this -> str = new Str();
     }
 
-    public function showPaperTitle($uid){
+    public function showPaperTitle($uid, $num){
         $classId = $this -> userClassModel -> findByUid($uid);
-        $papers = $this -> examPapersModel -> findByClassId($classId['class_id']);
+        $papers = $this -> examPapersModel -> findByClassId($classId['class_id'], $num);
         foreach ($papers as $paper){
             $data[] = [
                 'title' => $paper['title']

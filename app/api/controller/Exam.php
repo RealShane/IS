@@ -21,7 +21,8 @@ class Exam extends BaseController
 
     public function showPaperTitle(){
         $uid = $this -> getUid();
-        return $this -> success($this -> business -> showPaperTitle($uid));
+        $num = $this -> request -> param("num", 10, 'htmlspecialchars');
+        return $this -> success($this -> business -> showPaperTitle($uid, $num));
     }
 
     public function getAnswer(){
