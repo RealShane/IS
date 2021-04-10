@@ -39,27 +39,36 @@ class Exam
         return $this -> examPapersModel -> pageList($classId['class_id'], $num);
     }
 
-    public function showPaper($data){
-        $paper = $this -> examPapersModel -> findById($data['paper_id']);
+    public function showPaper($data)
+    {
+        $paper = $this->examPapersModel->findById($data['paper_id']);
+        $user = $this->examAnswersModel->findByUidAndPaperId($data);
         $time = time();
-        if ($time < $paper['close_time']['begin_time']){
+        if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
         }
-        if ($time > $paper['close_time']['close_time']){
-            $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
+        if ($time > $paper['close_time']['close_time']) {
             return [
                 'paper_answer' => $paper['paper_answer'],
                 'answer' => $user['answer'],
-                'score' => $user['score']
+                'score' => $user['score'],
+                'type' => false
             ];
         }
-        foreach ($paper['paper_answer'] as $key){
-            $data[] = [$key['subject'], $key['option']];
+        if ($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time']) {
+            if (!empty($user['answer'])) {
+                foreach ($paper['paper_answer'] as $key) {
+                    $data[] = [$key['subject'], $key['option'], $user['answer']];
+                }
+            }
+            foreach ($paper['paper_answer'] as $key) {
+                $data[] = [$key['subject'], $key['option']];
+            }
+            return $data;
         }
-        return $data;
     }
 
-    public function getAnswer($data){
+    public function saveAnswer($data){
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
         $info = [
             'uid' => $data['uid'],
@@ -71,6 +80,10 @@ class Exam
             $this -> examAnswersModel -> save($info);
         }
         $user -> save($info);
+    }
+
+    public function getAnswers(){
+
     }
 
     public function calculateScore($data){
