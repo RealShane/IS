@@ -142,19 +142,33 @@
         for (let key of data['paper_answer']){
             console.log(key);
             let options = "", alpha = 65;
-            for (let option of key['option']){
-                let char = String.fromCharCode((alpha))
-                options += "<option value='" + char + "'>" + option + "</option>";
-                alpha++;
+            if (false){
+                for (let option of key['option']){
+                    let char = String.fromCharCode((alpha))
+                    options += "<option value='" + char + "'>" + option + "</option>";
+                    alpha++;
+                }
+                str +=
+                    "<div class='layui-form-item' pane>" +
+                        "<blockquote class='layui-elem-quote'>"+key['subject']+"</blockquote>" +
+                        "<select>" +
+                            "<option value=''>请选择</option>" +
+                            options +
+                        "</select>" +
+                    "</div>";
             }
-            str +=
-                "<div class='layui-form-item' pane>" +
-                    "<blockquote class='layui-elem-quote'>"+key['subject']+"</blockquote>" +
-                    "<select name='single_answer'>" +
-                        "<option value=''>请选择</option>" +
+            if (true){
+                for (let option of key['option']){
+                    let char = String.fromCharCode((alpha))
+                    options += "<input type='checkbox' value='" + char + "' title=" + option + ">";
+                    alpha++;
+                }
+                str +=
+                    "<div class='layui-form-item' pane>" +
+                        "<blockquote class='layui-elem-quote'>" + key['subject'] + "</blockquote>" +
                         options +
-                    "</select>" +
-                "</div>";
+                    "</div>";
+            }
         }
         $("#search").hide();
         $("#page_remove").remove();
