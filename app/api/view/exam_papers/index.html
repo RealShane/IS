@@ -119,8 +119,6 @@
         );
     }
     function paper(id){
-        $("#page_remove").remove();
-        $("#data_remove").remove();
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -138,6 +136,16 @@
     }
     function renderPaper(data){
         console.log(data);
+        let back = '', str = '';
+        back = "<button class=\"layui-btn\"><i class=\"layui-icon\">&#xe697;</i></button>";
+        $("#page_remove").remove();
+        $("#data_remove").remove();
+        $("#data").append(
+            "<div id=\"data_remove\">" +
+            back +
+            str +
+            "</div>"
+        );
     }
     function getData(num, page) {
         $.ajax({
