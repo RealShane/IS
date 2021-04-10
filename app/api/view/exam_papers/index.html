@@ -115,7 +115,6 @@
                     "<a>" + key['title'] + "</a>" +
                 "</blockquote>";
         }
-        console.log(str);
         $("#data_remove").remove();
         $("#data").append(
             "<div id=\"data_remove\">" +
@@ -124,7 +123,20 @@
         );
     }
     function paper(id){
-        console.log(id);
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Exam/showPaper',
+            data : {
+                paper_id : id
+            },
+            success : function(res) {
+                console.log(res);
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                }
+            }
+        });
     }
     function getData(num, page) {
         $.ajax({
@@ -136,7 +148,6 @@
                 page : page
             },
             success : function(res) {
-                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }
