@@ -157,7 +157,7 @@
                         "</select>" +
                     "</div>";
             }
-            if (true){
+            if (false){
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
                     options += "<input type='checkbox' value='" + char + "' title=" + option + ">";
@@ -168,6 +168,15 @@
                         "<blockquote class='layui-elem-quote'>" + key['subject'] + "</blockquote>" +
                         options +
                     "</div>";
+            }
+            if (true){
+                str +=
+                    "<div class=\"layui-form-item layui-form-text\">" +
+                        "<label class=\"layui-form-label\">" + key['subject'] + "</label>" +
+                        "<div class=\"layui-input-block\">" +
+                            "<textarea placeholder=\"请输入你的答案\" class=\"layui-textarea\"></textarea>" +
+                        "</div>" +
+                    "</div>"
             }
         }
         $("#search").hide();
