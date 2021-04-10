@@ -116,34 +116,7 @@
          */
         str = "";
         for (let key of data['data']){
-            let status = "<span class=\"layui-btn layui-btn-normal layui-btn-mini\">已启用</span></td>";
-            if (key['status'] === 0){
-                status = "<span class=\"layui-btn layui-btn-disabled layui-btn-mini\">已停用</span></td>";
-            }
-            let create_time = empty(key['create_time']) ? "时间缺失" : key['create_time'];
-            let update_time = empty(key['update_time']) ? "时间缺失" : key['update_time'];
-            str +=
-                "<tr>" +
-                "<td>" + key['id'] + "</td>" +
-                "<td>" + key['username'] + "</td>" +
-                "<td>" + key['last_login_ip'] + "</td>" +
-                "<td>" + timestampToTime(key['last_login_time']) + "</td>" +
-                "<td>" + create_time + "</td>" +
-                "<td>" + update_time + "</td>" +
-                "<td>" + status + "</td>" +
-                "<td class=\"td-manage\">" +
-                "<a title=\"修改密码\" onclick=\"xadmin.open('修改密码', '/{$secret}/View/Admin/changePasswordView?id=" + key['id'] + "')\" href=\"javascript:;\">" +
-                "<i class=\"layui-icon\">&#xe601;</i>" +
-                "</a>" +
-                "<a title=\"编辑\"  onclick=\"xadmin.open('编辑', '/{$secret}/View/Admin/updateAdminView?id=" + key['id'] + "')\" href=\"javascript:;\">" +
-                "<i class=\"layui-icon\">&#xe642;</i>" +
-                "</a>" +
-                "<a title=\"删除\" onclick=\"member_del(this, " + key['id'] + ")\" href=\"javascript:;\">" +
-                "<i class=\"layui-icon\">&#xe640;</i>" +
-                "</a>" +
-                "</td>" +
-                "</tr>"
-            ;
+            str += "";
         }
         $("#data_remove").remove();
         $("#data").append(
