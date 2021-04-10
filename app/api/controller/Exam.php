@@ -20,13 +20,13 @@ class Exam extends BaseController
     }
 
     public function showPaperTitle(){
-        $uid = $this -> getUser();
+        $uid = $this -> getUid();
         return $this -> success($this -> business -> showPaperTitle($uid));
     }
 
     public function getAnswer(){
         $data['paper_id'] = $this -> request -> param('paper_id', '', 'htmlspecialchars');
-        $data['uid'] = $this -> getUser();
+        $data['uid'] = $this -> getUid();
         $data['answer'] = $this -> request -> param('answer', '', 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('getAnswer') -> check(['paper_id' => $data['paper_id']]);
@@ -38,13 +38,13 @@ class Exam extends BaseController
     }
 
     public function calculateScore(){
-        $data['uid'] = $this -> getUser();
+        $data['uid'] = $this -> getUid();
         $data['answer'] = $this -> request -> param('answer', '', 'htmlspecialchars');
         return $this -> success($this -> business -> calculateScore($data));
     }
 
     public function showPaper(){
-        $data['uid'] = $this -> getUser();
+        $data['uid'] = $this -> getUid();
         $data['paper_id'] = $this -> request -> param('paper_id', '', 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('showPaper') -> check(['paper_id' => $data['paper_id']]);
