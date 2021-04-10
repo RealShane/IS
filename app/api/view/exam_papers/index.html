@@ -18,7 +18,7 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-body ">
+                <div class="layui-card-body" id="search">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-inline layui-show-xs-block">
                             <input type="text" name="title"  placeholder="请输入试卷名" autocomplete="off" class="layui-input">
@@ -137,7 +137,8 @@
     function renderPaper(data){
         console.log(data);
         let back = '', str = '';
-        back = "<button class=\"layui-btn\"><i class=\"layui-icon\">&#xe697;</i></button>";
+        back = "<div class=\"layui-inline layui-show-xs-block\"><button class=\"layui-btn\"><i class=\"layui-icon\">&#xe697;</i></button></div>";
+        $("#search").hide();
         $("#page_remove").remove();
         $("#data_remove").remove();
         $("#data").append(
