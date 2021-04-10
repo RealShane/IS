@@ -29,15 +29,7 @@
                     </form>
                 </div>
                 <div class="layui-card-body" id="data">
-                    <blockquote class='layui-elem-quote'>
-                        <a>试卷标题</a>
-                    </blockquote>
-                    <blockquote class='layui-elem-quote'>
-                        <a>试卷标题</a>
-                    </blockquote>
-                    <blockquote class='layui-elem-quote'>
-                        <a>试卷标题</a>
-                    </blockquote>
+
                 </div>
                 <div class="layui-card-body">
                     <div class="page" id="page">
@@ -118,7 +110,10 @@
          */
         str = "";
         for (let key of data['data']){
-            str += "";
+            str +=
+                "<blockquote onclick='paper(" + key['id'] + ")' class='layui-elem-quote'>" +
+                    "<a>" + key['title'] + "</a>" +
+                "</blockquote>";
         }
         $("#data_remove").remove();
         $("#data").append(
