@@ -36,13 +36,7 @@ class Exam
 
     public function showPaperTitle($uid, $num){
         $classId = $this -> userClassModel -> findByUid($uid);
-        $papers = $this -> examPapersModel -> findByClassId($classId['class_id'], $num);
-        foreach ($papers as $paper){
-            $data[] = [
-                'title' => $paper['title']
-            ];
-        }
-        return $data;
+        return $this -> examPapersModel -> pageList($classId['class_id'], $num);
     }
 
     public function showPaper($data){
