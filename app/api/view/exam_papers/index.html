@@ -110,6 +110,7 @@
          */
         str = "";
         for (let key of data['data']){
+            console.log(key['title']);
             str +=
                 "<blockquote onclick='paper(" + key['id'] + ")' class='layui-elem-quote'>" +
                     "<a>" + key['title'] + "</a>" +
