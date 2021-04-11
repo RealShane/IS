@@ -109,6 +109,7 @@ class Exam
                 'type' => true
             ];
         }
+        $type = true;
         for ($i = 0; $i < count($answer['answer']); $i++){
             if ((int)$answer['status']){
                 $temp[] = [
@@ -127,11 +128,12 @@ class Exam
                 'subjectType' => $this -> subjectType($paper['paper_answer'][$i]['answer']),
                 'my_answer' => $answer['answer'][$i]
             ];
+            $type = false;
         }
         return [
             'id' => $paper['id'],
             'paper_answer' => $temp,
-            'type' => true
+            'type' => $type
         ];
     }
 
