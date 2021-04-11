@@ -82,16 +82,18 @@ class Exam
                     'subjectType' => '单选'
                 ];
             }
-            if (empty($keys['answer'])){
+            else if (empty($keys['answer'])){
                 $res[] = [
                     $keys['subject'],
                     'subjectType' => '填空'
                 ];
             }
-            $res[] = [
-                $keys['subject'],
-                'subjectType' => '多选'
-            ];
+            else{
+                $res[] = [
+                    $keys['subject'],
+                    'subjectType' => '多选'
+                ];
+            }
         }
 
         echo json_encode($res);exit();
