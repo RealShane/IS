@@ -94,12 +94,13 @@ class Exam
     }
 
     private function myAnswer($paper, $answer){
+        $temp = [];
         if (empty($answer)){
-            $temp = [];
             foreach ($paper['paper_answer'] as $value){
                 $temp[] = [
                     'subject' => $value['subject'],
                     'option' => $value['option'],
+                    'subjectType' => $this -> subjectType($value['answer'])
                 ];
             }
             return [
@@ -108,15 +109,12 @@ class Exam
                 'type' => true
             ];
         }
-        $temp = [];
         for ($i = 0; $i < count($answer['answer']); $i++){
-            echo "我的：" . $answer['answer'][$i] . "--实体：" . $paper['paper_answer'][$i]['subject'];
-        }
-        exit();
-        foreach ($paper['paper_answer'] as $value){
             $temp[] = [
-                'subject' => $value['subject'],
-                'option' => $value['option'],
+                'subject' => $paper['paper_answer'][$i]['subject'],
+                'option' => $paper['paper_answer'][$i]['option'],
+                'subjectType' => $this -> subjectType($paper['paper_answer'][$i]['answer']),
+                'my_answer' => $answer['answer'][$i]
             ];
         }
         return [
@@ -126,18 +124,14 @@ class Exam
         ];
     }
 
-    public function judgeSubjectType($key) {
-        if (strlen($key['answer']) == 1) {
-            $key['subjectType'] = "single";
-            $key['myAnswer'] = NULL;
-        } else if (empty($key['answer'])) {
-            $key['subjectType'] = "input";
-            $key['myAnswer'] = NULL;
+    public function subjectType($answer) {
+        if (strlen($answer) == 1) {
+            return "single";
+        } else if (empty($answer)) {
+            return "input";
         } else {
-            $key['subjectType'] = "multiple";
-            $key['myAnswer'] = NULL;
+            return "multiple";
         }
-        return $key;
     }
 
 
