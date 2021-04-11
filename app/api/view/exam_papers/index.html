@@ -161,7 +161,7 @@
                         "</select>" +
                     "</div>";
             }
-            if (true){
+            if (false){
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
                     options += "<input name='answer_" + count + "' type='checkbox' value='" + char + "' title=" + option + ">";
@@ -173,12 +173,12 @@
                         options +
                     "</div>";
             }
-            if (false){
+            if (true){
                 str +=
                     "<div class=\"layui-form-item layui-form-text\">" +
                         "<label class=\"layui-form-label\">" + key['subject'] + "</label>" +
                         "<div class=\"layui-input-block\">" +
-                            "<textarea name='answer_" + count + "' placeholder=\"请输入你的答案\" class=\"layui-textarea\"></textarea>" +
+                            "<textarea id='answer_" + count + "' placeholder=\"请输入你的答案\" class=\"layui-textarea\"></textarea>" +
                         "</div>" +
                     "</div>"
             }
@@ -226,12 +226,15 @@
             if (false){
                 answer.push($("#answer_" + count).val());
             }
-            if (true){
+            if (false){
                 let temp = '';
                 $("[name=answer_" + count + "]:checked").each(function(index,value){
                     temp += $(value).val();
                 });
                 answer.push(temp);
+            }
+            if (true){
+                answer.push($("#answer_" + count).val());
             }
             count++;
         }
