@@ -142,7 +142,6 @@ class Exam
         if (!empty($user['answer'])) {
             foreach ($papers as $key) {
                 $res['paper_answer'][] = [
-                    'id' => $paper['id'],
                     'subject' => $key['subject'],
                     'option' => $key['option'],
                     'myAnswer' => $key['myAnswer'],
@@ -152,13 +151,13 @@ class Exam
         } else {
             foreach ($papers as $key) {
                 $res['paper_answer'][] = [
-                    'id' => $paper['id'],
                     'subject' => $key['subject'],
                     'option' => $key['option'],
                     'subjectType' => $key['subjectType']
                 ];
             }
             $res['type'] = true;
+            $res['id'] = $paper['id'];
             return $res;
         }
 
