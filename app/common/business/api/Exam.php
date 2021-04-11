@@ -104,7 +104,8 @@ class Exam
                 'paper_answer' => $paper['paper_answer'],
                 'answer' => $user['answer'],
                 'score' => $user['score'],
-                'type' => false
+                'type' => false,
+                $res
             ];
         }
         if (($time >= $paper['close_time']['begin_time'] && empty($paper['close_time']['close_time'])) || (empty($paper['close_time']['begin_time']) && empty($paper['close_time']['close_time']))){
