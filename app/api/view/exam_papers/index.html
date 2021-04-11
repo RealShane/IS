@@ -176,19 +176,19 @@
                     "</div>";
             }
             if (key['subjectType'] === "multiple"){
+                let myAnswer = null, i = 0;
                 if (!empty(key['myAnswer'])){
-                    let myAnswer = key['myAnswer'].split("");
-                    console.log(key['myAnswer'].length);
-                    console.log(key['myAnswer']);
-                    console.log(myAnswer);
+                    myAnswer = key['myAnswer'].split("");
                 }
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
-                    // if (!empty(key['myAnswer'])){
-                    //     options += "<input checked name='answer_" + count + "' type='checkbox' value='" + char + "' title=" + option + ">";
-                    //     alpha++;
-                    //     continue;
-                    // }
+                    if (!empty(key['myAnswer'])){
+                        console.log(myAnswer[i]);
+                        options += "<input checked name='answer_" + count + "' type='checkbox' value='" + char + "' title=" + option + ">";
+                        alpha++;
+                        i++;
+                        continue;
+                    }
                     options += "<input name='answer_" + count + "' type='checkbox' value='" + char + "' title=" + option + ">";
                     alpha++;
                 }
