@@ -157,7 +157,7 @@
             if (key['subjectType'] === "single"){
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
-                    if (!empty(key['myAnswer']) && key['myAnswer'] === alpha){
+                    if (!empty(key['myAnswer']) && key['myAnswer'] === char){
                         options += "<option selected value='" + char + "'>" + option + "</option>";
                         alpha++;
                         continue;
@@ -182,11 +182,7 @@
                 }
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
-                    console.log(!empty(key['myAnswer']));
-                    console.log(myAnswer[i] === alpha);
-                    console.log(myAnswer[i] + "--" + alpha);
-
-                    if (!empty(key['myAnswer']) && myAnswer[i] === alpha){
+                    if (!empty(key['myAnswer']) && myAnswer[i] === char){
                         console.log(myAnswer[i]);
                         options += "<input checked name='answer_" + count + "' type='checkbox' value='" + char + "' title=" + option + ">";
                         alpha++;
