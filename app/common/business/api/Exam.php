@@ -121,6 +121,7 @@ class Exam
 
         }
         if ((empty($paper['close_time']['begin_time']) && $time <= $paper['close_time']['close_time']) || ($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time'])) {
+            $res = [];
             if (!empty($user['answer'])) {
                 foreach ($papers as $key) {
                     $res[] = [
@@ -131,7 +132,7 @@ class Exam
                 }
             }
             foreach ($papers as $key) {
-                $res = [
+                $res[] = [
                     'subject' => $key['subject'],
                     'option' => $key['option']
                 ];
