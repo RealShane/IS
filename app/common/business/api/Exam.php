@@ -132,10 +132,10 @@ class Exam
                 }
             } else{
                 $i=0;
-                while (!empty($data)){
-                    $data[] = [$papers[$i++]['subject']];
+                while (!empty($papers[$i++]['subject'])){
+                    [$papers[$i++]['subject']];
                 }
-                return $data;
+                return  [$papers[$i++]['subject']];
 
 //                foreach ($papers as $key) {
 //                    $res[] = [
