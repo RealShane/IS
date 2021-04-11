@@ -73,15 +73,15 @@ class Exam
 
     public function showPaper($data)
     {
-        $paper = $this -> examPapersModel -> findById($data['paper_id']) -> toArray();
+        $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
         foreach ($paper['paper_answer'] as $key) {
             if (strlen($key['answer']) == 1){
-                $key['subjectType'] = "single";
+                $key -> subjectType = "single";
             } else if (empty($key['answer'])){
-                $key['subjectType'] = "input";
+                $key -> subjectType = "input";
             } else{
-                $key['subjectType'] = "multiple";
+                $key -> subjectType = "multiple";
             }
         }
         $time = time();
