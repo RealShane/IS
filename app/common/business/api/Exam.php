@@ -86,14 +86,18 @@ class Exam
             throw new Exception("未到答题时间");
         }
         if (($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time']) || empty($paper['close_time']['close_time'])) {
-            if ((int)$answer['status']){
-                echo json_encode("是我");exit();
-                return $this -> rebackAnswer($papers, $paper);
-            }
-            return $this -> rebackQuitAnswer($paper, $papers, $user);
+            return $this -> myAnswer($paper, $answer);
         }
         if ((empty($paper['close_time']['begin_time']) && $time <= $paper['close_time']['close_time']) || ($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time'])) {
             return $this -> rebackAnswer($papers, $paper);
+        }
+    }
+
+    private function myAnswer($paper, $answer){
+        echo json_encode($paper);
+        exit();
+        if (empty($answer)){
+            return [];
         }
     }
 
