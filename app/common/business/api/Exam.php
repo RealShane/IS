@@ -85,6 +85,7 @@ class Exam
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
         }
+        echo json_encode($time >= $paper['close_time']['begin_time']);exit();
         if (($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time']) || empty($paper['close_time']['close_time'])) {
             return $this -> myAnswer($paper, $answer);
         }
