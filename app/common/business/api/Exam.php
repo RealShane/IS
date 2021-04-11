@@ -79,6 +79,7 @@ class Exam
     }
 
     public function showPaper($data) {
+        echo json_encode($data);exit();
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
         $papers = [];
