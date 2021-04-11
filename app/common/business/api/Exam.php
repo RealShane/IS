@@ -84,11 +84,11 @@ class Exam
         $papers = [];
         foreach ($paper['paper_answer'] as $key) {
             if (empty($user['answer'])) {
-                $papers = $this -> judgeSubjectType($key);
+                $papers[] = $this -> judgeSubjectType($key);
                 continue;
             }
             foreach ($user['answer'] as $myAnswer) {
-                $papers = $this -> judgeSubjectType($key);
+                $papers[] = $this -> judgeSubjectType($key);
             }
         }
         $time = time();
