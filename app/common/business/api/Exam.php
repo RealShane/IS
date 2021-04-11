@@ -123,7 +123,7 @@ class Exam
         if ((empty($paper['close_time']['begin_time']) && $time <= $paper['close_time']['close_time']) || ($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time'])) {
             if (!empty($user['answer'])) {
                 foreach ($papers as $key) {
-                    $data[] = [$key['subject'], $key['option'], $user['answer']];
+                    $data[] = [$key['subject'], $key['option'], $key['myAnswer']];
                 }
             }
             foreach ($papers as $key) {
