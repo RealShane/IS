@@ -137,7 +137,11 @@
         let title = '', back = '', commit = '', str = '', count = 0;
         back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
         if (data['type']){
-            title = "<br><p class='layui-bg-red layui-text'>请注意截止时间：" + timestampToTime(data['close_time']) + "</p>";
+            if (empty(data['close_time'])){
+                title = "<br><p class='layui-bg-cyan layui-text'>无截止时间限制</p>";
+            }else {
+                title = "<br><p class='layui-bg-red layui-text'>请注意截止时间：" + timestampToTime(data['close_time']) + "</p>";
+            }
             commit =
                 "<div>" +
                     "<button onclick='commit(\"save\", " + data['id'] + ")' type=\"button\" class=\"layui-btn layui-btn-fluid\">保存</button>" +
