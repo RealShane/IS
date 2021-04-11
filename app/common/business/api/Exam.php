@@ -91,11 +91,13 @@ class Exam
                 $papers[] = $this -> judgeSubjectType($myAnswer);
             }
         }
-        echo json_encode($papers);exit();
+        echo json_encode($papers);
         $time = time();
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
         }
+        echo "我应该不显示";
+        exit();
         if ($time > $paper['close_time']['close_time']) {
             if ((int)$user['status']) {
                 $data['answer'] = $user['answer'];
