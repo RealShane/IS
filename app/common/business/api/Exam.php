@@ -67,14 +67,13 @@ class Exam
         if ($type){
             for ($i = 0; $i < count($paper['paper_answer']); $i++) {
                 $isInput = $this -> subjectType($paper['paper_answer'][$i]['answer']);
-                echo json_encode($isInput == "input");
                 if ($isInput == "input"){
                     continue;
                 }
                 if ($paper['paper_answer'][$i]['answer'] == $data['answer'][$i]) {
                     $score++;
                 }
-            }exit();
+            }
             if (empty($answer)){
                 return $this -> examAnswersModel -> save([
                     'uid' => $data['uid'],
@@ -91,6 +90,10 @@ class Exam
             ]);
         }
         for ($i = 0; $i < count($paper['paper_answer']); $i++) {
+            $isInput = $this -> subjectType($paper['paper_answer'][$i]['answer']);
+            if ($isInput == "input"){
+                continue;
+            }
             if ($paper['paper_answer'][$i]['answer'] == $answer['answer'][$i]) {
                 $score++;
             }
