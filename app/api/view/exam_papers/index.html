@@ -14,11 +14,12 @@
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
     </a>
 </div>
+<br>
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-body ">
+                <div class="layui-card-body" id="search">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-inline layui-show-xs-block">
                             <input type="text" name="title"  placeholder="请输入试卷名" autocomplete="off" class="layui-input">
@@ -41,15 +42,12 @@
 </body>
 <script>
     isApiLogin();
+    let paper_answer = null;
     $(document).ready(function() {
         getData(10, 1);
     });
-
     layui.use(['form'], function(){
         var form = layui.form;
-        form.on('select(num)', function(data){
-            getData(data.value, 1);
-        });
         form.on('submit(search)', function(res) {
             $.ajax({
                 type : "POST",
@@ -119,8 +117,6 @@
         );
     }
     function paper(id){
-        $("#page_remove").remove();
-        $("#data_remove").remove();
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -133,13 +129,80 @@
                     layer.msg(res.message);
                 }
                 renderPaper(res.result);
+                paper_answer = res.result['paper_answer'];
             }
         });
     }
     function renderPaper(data){
         console.log(data);
+        let back = '', commit = '', str = '', count = 0;
+        back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
+        commit =
+            "<div>" +
+                "<button onclick='commit(\"save\")' type=\"button\" class=\"layui-btn layui-btn-fluid\">保存</button>" +
+            "</div><br>" +
+            "<div>" +
+                "<button onclick='commit(\"judge\")' type=\"button\" class=\"layui-btn layui-btn-fluid\">判题</button>" +
+            "</div>";
+        for (let key of data['paper_answer']){
+            let options = "", alpha = 65;
+            if (false){
+                for (let option of key['option']){
+                    let char = String.fromCharCode((alpha))
+                    options += "<option value='" + char + "'>" + option + "</option>";
+                    alpha++;
+                }
+                str +=
+                    "<div class='layui-form-item' pane>" +
+                        "<blockquote class='layui-elem-quote'>"+key['subject']+"</blockquote>" +
+                        "<select id='answer_" + count + "'>" +
+                            "<option value=''>请选择</option>" +
+                            options +
+                        "</select>" +
+                    "</div>";
+            }
+            if (false){
+                for (let option of key['option']){
+                    let char = String.fromCharCode((alpha))
+                    options += "<input name='answer_" + count + "' type='checkbox' value='" + char + "' title=" + option + ">";
+                    alpha++;
+                }
+                str +=
+                    "<div class='layui-form-item' pane>" +
+                        "<blockquote class='layui-elem-quote'>" + key['subject'] + "</blockquote>" +
+                        options +
+                    "</div>";
+            }
+            if (true){
+                str +=
+                    "<div class=\"layui-form-item layui-form-text\">" +
+                        "<label class=\"layui-form-label\">" + key['subject'] + "</label>" +
+                        "<div class=\"layui-input-block\">" +
+                            "<textarea id='answer_" + count + "' placeholder=\"请输入你的答案\" class=\"layui-textarea\"></textarea>" +
+                        "</div>" +
+                    "</div>"
+            }
+            count++;
+        }
+        $("#search").hide();
+        $("#page_remove").remove();
+        $("#data_remove").remove();
+        $("#data").append(
+            "<div id=\"data_remove\">" +
+                "<form class=\"layui-form layui-form-pane\">" +
+                    back +
+                    str +
+                    commit +
+                "</form>" +
+            "</div>"
+        );
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
+        });
     }
     function getData(num, page) {
+        $("#search").show();
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -155,6 +218,27 @@
                 renderData(res.result, num, page);
             }
         });
+    }
+    function commit(type){
+        console.log(type);
+        let answer = [], count = 0;
+        for (let key of paper_answer){
+            if (false){
+                answer.push($("#answer_" + count).val());
+            }
+            if (false){
+                let temp = '';
+                $("[name=answer_" + count + "]:checked").each(function(index,value){
+                    temp += $(value).val();
+                });
+                answer.push(temp);
+            }
+            if (true){
+                answer.push($("#answer_" + count).val());
+            }
+            count++;
+        }
+        console.log(answer);
     }
 </script>
 </html>
