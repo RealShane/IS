@@ -175,6 +175,7 @@ class Exam
             return [
                 'id' => $paper['id'],
                 'paper_answer' => $temp,
+                'close_time' => $paper['close_time']['close_time'],
                 'type' => true
             ];
         }
@@ -203,6 +204,7 @@ class Exam
             'id' => $paper['id'],
             'paper_answer' => $temp,
             'score' => $answer['score'],
+            'close_time' => $paper['close_time']['close_time'],
             'type' => $type
         ];
     }
