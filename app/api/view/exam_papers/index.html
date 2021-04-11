@@ -178,7 +178,8 @@
             if (key['subjectType'] === "multiple"){
                 if (!empty(key['myAnswer'])){
                     let myAnswer = key['myAnswer'].split("");
-                    console.log(myAnswer);
+                    console.log(key['myAnswer'].length);
+                    console.log(key['myAnswer']);
                 }
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
