@@ -66,10 +66,13 @@ class Exam
         $score = 0;
         if ($type){
             for ($i = 0; $i < count($paper['paper_answer']); $i++) {
+                echo $paper['paper_answer'][$i]['subject'];
+                echo $data['answer'][$i] . '---' . $paper['paper_answer'][$i]['answer'];
                 if ($paper['paper_answer'][$i]['answer'] == $data['answer'][$i]) {
                     $score++;
                 }
             }
+            exit();
             if (empty($answer)){
                 return $this -> examAnswersModel -> save([
                     'uid' => $data['uid'],
