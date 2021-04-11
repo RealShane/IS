@@ -90,10 +90,11 @@ class Exam
                 $score++;
             }
         }
-        return $answer -> save([
+        $answer -> save([
             'score' => $score,
             'status' => 0
         ]);
+        return $answer;
     }
 
     public function showPaper($data) {
@@ -131,7 +132,7 @@ class Exam
             ];
         }
         if ((int)$answer['status']){
-            $this -> judgeScore($data, false);
+            $answer = $this -> judgeScore($data, false);
         }
         $type = true;
         for ($i = 0; $i < count($answer['answer']); $i++){
