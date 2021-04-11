@@ -100,16 +100,16 @@ class Exam
                 $data['answer'] = $user['answer'];
                 $this -> judgeScore($data);
             }
-            $this -> rebackQuitAnswer($paper, $papers, $user);
+            return $this -> rebackQuitAnswer($paper, $papers, $user);
         }
         if (($time >= $paper['close_time']['begin_time'] && empty($paper['close_time']['close_time'])) || (empty($paper['close_time']['begin_time']) && empty($paper['close_time']['close_time']))) {
             if ((int)$user['status'] == 0){
-                $this -> rebackQuitAnswer($paper, $papers, $user);
+                return $this -> rebackQuitAnswer($paper, $papers, $user);
             }
-            $this -> rebackAnswer($papers, $paper);
+            return $this -> rebackAnswer($papers, $paper);
         }
         if ((empty($paper['close_time']['begin_time']) && $time <= $paper['close_time']['close_time']) || ($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time'])) {
-            $this -> rebackAnswer($papers, $paper);
+            return $this -> rebackAnswer($papers, $paper);
         }
     }
 
