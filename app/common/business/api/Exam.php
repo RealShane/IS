@@ -86,6 +86,7 @@ class Exam
             throw new Exception("未到答题时间");
         }
         if ($time > $paper['close_time']['close_time']) {
+            echo "zheli";exit();
             if ((int)$answer['status']) {
                 $data['answer'] = $answer['answer'];
                 $this -> judgeScore($data);
