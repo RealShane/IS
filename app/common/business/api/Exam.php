@@ -80,8 +80,8 @@ class Exam
 
     public function showPaper($data) {
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
-        echo json_encode($paper);exit();
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
+        echo json_encode($user);exit();
         $papers = [];
         foreach ($paper['paper_answer'] as $key) {
             if (empty($user['answer'])) {
