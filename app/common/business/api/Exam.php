@@ -127,14 +127,16 @@ class Exam
                     $res['paper_answer'][] = [
                         'subject' => $key['subject'],
                         'option' => $key['option'],
-                        'myAnswer' => $key['myAnswer']
+                        'myAnswer' => $key['myAnswer'],
+                        'subjectType' => $key['subjectType']
                     ];
                 }
             } else{
                 foreach ($papers as $key) {
                     $res['paper_answer'][] = [
                         'subject' => $key['subject'],
-                        'option' => $key['option']
+                        'option' => $key['option'],
+                        'subjectType' => $key['subjectType']
                     ];
                 }
             }
