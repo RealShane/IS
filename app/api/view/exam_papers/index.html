@@ -224,7 +224,9 @@
         let answer = [], count = 0;
         for (let key of paper_answer){
             if (true){
-                console.log($("[name='answer_" + count + "']").val());
+                $("[name='answer_" + count + "']").each(function(index, value){
+                    console.log($(value).val());
+                });
             }
             count++;
         }
