@@ -85,14 +85,6 @@ class Exam
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
         }
-        if ($time > $paper['close_time']['close_time']) {
-            echo "zheli";exit();
-            if ((int)$answer['status']) {
-                $data['answer'] = $answer['answer'];
-                $this -> judgeScore($data);
-            }
-            return $this -> rebackQuitAnswer($paper, $paper, $answer);
-        }
         if (($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time']) || empty($paper['close_time']['close_time'])) {
             if ((int)$answer['status']){
                 echo json_encode("是我");exit();
