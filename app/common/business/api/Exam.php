@@ -94,10 +94,19 @@ class Exam
     }
 
     private function myAnswer($paper, $answer){
-        echo json_encode($paper);
-        exit();
         if (empty($answer)){
-            return [];
+            $temp = [];
+            foreach ($answer['paper_answer'] as $value){
+                $temp[] = [
+                    'subject' => $value['subject'],
+                    'option' => $value['option'],
+                ];
+            }
+            return [
+                'id' => $paper['id'],
+                'paper_answer' => $temp,
+                'type' => true
+            ];
         }
     }
 
