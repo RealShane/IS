@@ -219,40 +219,4 @@ class Exam
         }
     }
 
-
-    public function rebackQuitAnswer($paper, $papers, $user) {
-        return [
-            'id' => $paper['id'],
-            'paper_answer' => $papers,
-            'score' => $user['score'],
-            'type' => false
-        ];
-    }
-
-    public function rebackAnswer($papers, $paper) {
-        $res = [];
-        if (!empty($user['answer'])) {
-            foreach ($papers as $key) {
-                $res['paper_answer'][] = [
-                    'subject' => $key['subject'],
-                    'option' => $key['option'],
-                    'myAnswer' => $key['myAnswer'],
-                    'subjectType' => $key['subjectType']
-                ];
-            }
-        } else {
-            foreach ($papers as $key) {
-                $res['paper_answer'][] = [
-                    'subject' => $key['subject'],
-                    'option' => $key['option'],
-                    'subjectType' => $key['subjectType']
-                ];
-            }
-            $res['type'] = true;
-            $res['id'] = $paper['id'];
-            return $res;
-        }
-
-
-    }
 }
