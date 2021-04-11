@@ -75,24 +75,13 @@ class Exam
     {
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
-        foreach ($paper['paper_answer'] as $keys) {
-            if ( strlen($keys['answer']) == 1){
-                $res[] = [
-                    $keys['subject'],
-                    'subjectType' => '单选'
-                ];
-            }
-            else if (empty($keys['answer'])){
-                $res[] = [
-                    $keys['subject'],
-                    'subjectType' => '填空'
-                ];
-            }
-            else{
-                $res[] = [
-                    $keys['subject'],
-                    'subjectType' => '多选'
-                ];
+        foreach ($paper['paper_answer'] as $key) {
+            if (strlen($key['answer']) == 1){
+                $key['subjectType'] = "single";
+            } else if (empty($keys['answer'])){
+                $key['subjectType'] = "input";
+            } else{
+                $key['subjectType'] = "multiple";
             }
         }
         $time = time();
@@ -102,10 +91,9 @@ class Exam
         if ($time > $paper['close_time']['close_time']) {
             return [
                 'paper_answer' => $paper['paper_answer'],
-                'answer' => $user['answer'],
+                'answer',
                 'score' => $user['score'],
-                'type' => false,
-                $res
+                'type' => false
             ];
         }
         if (($time >= $paper['close_time']['begin_time'] && empty($paper['close_time']['close_time'])) || (empty($paper['close_time']['begin_time']) && empty($paper['close_time']['close_time']))){
