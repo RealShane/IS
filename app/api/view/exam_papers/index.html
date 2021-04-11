@@ -147,10 +147,12 @@
                 "</div>";
         }
         for (let key of data['paper_answer']){
+            console.log(1);
             let options = "", alpha = 65, answer = '', myAnswer = '';
             if (!empty(key['answer']) && !empty(key['analysis'])){
                 answer = "<br><p class='layui-bg-green layui-text'>参考答案：" + key['answer'] + "<br>参考解析：" + key['analysis'] + "</p>";
             }
+            console.log(1);
             if (empty(key['answer']) && !empty(key['analysis'])){
                 answer = "<br><p class='layui-bg-green layui-text'>参考解析：" + key['analysis'] + "</p>";
             }
