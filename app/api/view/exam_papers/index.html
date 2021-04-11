@@ -138,12 +138,8 @@
         let back = '', commit = '', str = '', count = 0;
         back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
         commit =
-            "<div style=\"width: 370px; margin: 0;\">" +
                 "<button onclick='commit(\"save\")' type=\"button\" class=\"layui-btn layui-btn-fluid\">保存</button>" +
-            "</div>" +
-            "<div style=\"width: 370px; margin: 0;\">" +
-                "<button onclick='commit(\"judge\")' type=\"button\" class=\"layui-btn layui-btn-fluid\">判题</button>" +
-            "</div>";
+                "<button onclick='commit(\"judge\")' type=\"button\" class=\"layui-btn layui-btn-fluid\">判题</button>";
         for (let key of data['paper_answer']){
             let options = "", alpha = 65;
             if (true){
@@ -224,7 +220,7 @@
         let answer = [], count = 0;
         for (let key of paper_answer){
             if (true){
-                console.log($("[name='answer_'" + count + "]").val());
+                console.log($("[name='answer_" + count + "']").val());
             }
             count++;
         }
