@@ -67,6 +67,7 @@ class Exam
         if ($type){
             for ($i = 0; $i < count($paper['paper_answer']); $i++) {
                 $isInput = $this -> subjectType($paper['paper_answer'][$i]['answer']);
+                echo json_encode($isInput == "input");
                 if ($isInput == "input"){
                     continue;
                 }
