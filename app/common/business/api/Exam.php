@@ -131,7 +131,9 @@ class Exam
                     ];
                 }
             } else{
-               return ['paper_answer' => $papers];
+               return $papers[
+                   'option'
+                   ];
 //                foreach ($papers as $key) {
 //                    $res[] = [
 //                        'subject' => $key['subject'],
