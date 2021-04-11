@@ -124,7 +124,7 @@ class Exam
             $res = [];
             if (!empty($user['answer'])) {
                 foreach ($papers as $key) {
-                    $res[] = [
+                    $res['paper_answer'][] = [
                         'subject' => $key['subject'],
                         'option' => $key['option'],
                         'myAnswer' => $key['myAnswer']
