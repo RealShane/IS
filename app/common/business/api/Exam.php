@@ -131,18 +131,12 @@ class Exam
                     ];
                 }
             } else{
-                $i=0;
-                while (!empty($papers[$i++]['subject'])){
-                    [$papers[$i++]['subject']];
+                foreach ($papers as $key) {
+                    $res[][] = [
+                        'subject' => $key['subject'],
+                        'option' => $key['option']
+                    ];
                 }
-                return  [$papers[$i++]['subject']];
-
-//                foreach ($papers as $key) {
-//                    $res[] = [
-//                        'subject' => $key['subject'],
-//                        'option' => $key['option']
-//                    ];
-//                }
             }
             $res['type'] = true;
             return $res;
