@@ -122,19 +122,19 @@ class Exam
         }
         if ((empty($paper['close_time']['begin_time']) && $time <= $paper['close_time']['close_time']) || ($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time'])) {
             if (!empty($papers['myAnswer'])) {
-                $res[] = [
+                return [
                     'subject' => $papers['subject'],
                     'option' => $papers['option'],
-                    'myAnswer' => $papers['myAnswer']
+                    'myAnswer' => $papers['myAnswer'],
+                    'type' => true
                 ];
             } else{
-                $res[] = [
+                return [
                     'subject' => $papers['subject'],
-                    'option' => $papers['option']
+                    'option' => $papers['option'],
+                     'type' => true
                 ];
             }
-            $res['type'] = true;
-            return $res;
         }
     }
 
