@@ -121,7 +121,7 @@ class Exam
                 $data[] = [$key['subject'], $key['option']];
             }
             $data['type'] = true;
-            return [$data,$res];
+            return $data . $res;
         }
     }
 
