@@ -94,18 +94,18 @@ class Exam
             ];
 
         }
+        echo json_encode($res);exit();
         $time = time();
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
         }
         if ($time > $paper['close_time']['close_time']) {
-            $user['status'] = 1;
             return [
                 'paper_answer' => $paper['paper_answer'],
                 'answer' => $user['answer'],
                 'score' => $user['score'],
                 'type' => false
-            ] . $res;
+            ];
         }
         if (($time >= $paper['close_time']['begin_time'] && empty($paper['close_time']['close_time'])) || (empty($paper['close_time']['begin_time']) && empty($paper['close_time']['close_time']))){
 
