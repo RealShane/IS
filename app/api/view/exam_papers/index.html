@@ -153,7 +153,7 @@
             if (empty(key['answer']) && !empty(key['analysis'])){
                 answer = "<br><p class='layui-bg-green layui-text'>参考解析：" + key['analysis'] + "</p>";
             }
-            // console.log(key);
+            console.log(key);
             if (key['subjectType'] === "single"){
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
@@ -254,7 +254,6 @@
                 type : type
             },
             success : function(res) {
-                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }else if(res.status === config('success')){

@@ -51,7 +51,7 @@ class Exam
             ];
             $answer = $this -> examAnswersModel -> findByUidAndPaperId($data);
             if (empty($answer)) {
-                $this -> examAnswersModel -> save($info);
+                return $this -> examAnswersModel -> save($info);
             }
             $answer -> save($info);
         }
