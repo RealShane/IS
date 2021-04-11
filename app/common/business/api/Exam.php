@@ -83,9 +83,9 @@ class Exam
             } else{
                 $key['subjectType'] = "multiple";
             }
-
+            echo json_encode($key);
         }
-        echo json_encode($paper);exit();
+        exit();
         $time = time();
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
