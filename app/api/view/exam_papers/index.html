@@ -147,7 +147,7 @@
         for (let key of data['paper_answer']){
             let options = "", alpha = 65, answer = '', myAnswer = '';
             if (!empty(key['answer'])){
-                answer = "<br><p class='layui-text'>参考答案：" + key['answer'] + "<br>参考解析：" + key['analysis'] + "</p>";
+                answer = "<br><p class='layui-bg-green layui-text'>参考答案：" + key['answer'] + "<br>参考解析：" + key['analysis'] + "</p>";
             }
             if (key['subjectType'] === "single"){
                 for (let option of key['option']){
