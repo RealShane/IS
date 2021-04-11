@@ -96,7 +96,7 @@ class Exam
     private function myAnswer($paper, $answer){
         if (empty($answer)){
             $temp = [];
-            foreach ($answer['paper_answer'] as $value){
+            foreach ($paper['paper_answer'] as $value){
                 $temp[] = [
                     'subject' => $value['subject'],
                     'option' => $value['option'],
@@ -108,6 +108,22 @@ class Exam
                 'type' => true
             ];
         }
+        $temp = [];
+        for ($i = 0; $i < count($answer['answer']); $i++){
+            echo "我的：" . $answer['answer'][$i] . "--实体：" . $paper['paper_answer'][$i]['subject'];
+        }
+        exit();
+        foreach ($paper['paper_answer'] as $value){
+            $temp[] = [
+                'subject' => $value['subject'],
+                'option' => $value['option'],
+            ];
+        }
+        return [
+            'id' => $paper['id'],
+            'paper_answer' => $temp,
+            'type' => true
+        ];
     }
 
     public function judgeSubjectType($key) {
