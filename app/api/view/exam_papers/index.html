@@ -146,7 +146,7 @@
                 "</div>";
         }
         for (let key of data['paper_answer']){
-            let options = "", alpha = 65, answer = '', myAnswer = '';
+            let options = "", alpha = 65, answer = '';
             if (!empty(key['answer']) && !empty(key['analysis'])){
                 answer = "<br><p class='layui-bg-green layui-text'>参考答案：" + key['answer'] + "<br>参考解析：" + key['analysis'] + "</p>";
             }
@@ -157,6 +157,11 @@
             if (key['subjectType'] === "single"){
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
+                    if (!empty(key['myAnswer']) && key['myAnswer'] === alpha){
+                        options += "<option selected value='" + char + "'>" + option + "</option>";
+                        alpha++;
+                        continue;
+                    }
                     options += "<option value='" + char + "'>" + option + "</option>";
                     alpha++;
                 }
@@ -171,8 +176,17 @@
                     "</div>";
             }
             if (key['subjectType'] === "multiple"){
+                if (!empty(key['myAnswer'])){
+                    let myAnswer = key['myAnswer'].split("");
+                    console.log(myAnswer);
+                }
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
+                    // if (!empty(key['myAnswer'])){
+                    //     options += "<input checked name='answer_" + count + "' type='checkbox' value='" + char + "' title=" + option + ">";
+                    //     alpha++;
+                    //     continue;
+                    // }
                     options += "<input name='answer_" + count + "' type='checkbox' value='" + char + "' title=" + option + ">";
                     alpha++;
                 }
@@ -188,7 +202,7 @@
                     "<div class=\"layui-form-item layui-form-text\">" +
                         "<label class=\"layui-form-label\">" + key['subject'] + "</label>" +
                         "<div class=\"layui-input-block\">" +
-                            "<textarea id='answer_" + count + "' placeholder=\"请输入你的答案\" class=\"layui-textarea\"></textarea>" +
+                            "<textarea id='answer_" + count + "' placeholder=\"请输入你的答案\" class=\"layui-textarea\">" + key['myAnswer'] + "</textarea>" +
                         "</div>" +
                         answer +
                     "</div>"

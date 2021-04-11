@@ -142,7 +142,7 @@ class Exam
                 'answer' => $paper['paper_answer'][$i]['answer'],
                 'analysis' => $paper['paper_answer'][$i]['analysis'],
                 'subjectType' => $this -> subjectType($paper['paper_answer'][$i]['answer']),
-                'my_answer' => $answer['answer'][$i]
+                'myAnswer' => $answer['answer'][$i]
             ];
             $type = false;
         }
@@ -177,7 +177,7 @@ class Exam
                     'subject' => $paper['paper_answer'][$i]['subject'],
                     'option' => $paper['paper_answer'][$i]['option'],
                     'subjectType' => $this -> subjectType($paper['paper_answer'][$i]['answer']),
-                    'my_answer' => $answer['answer'][$i]
+                    'myAnswer' => $answer['answer'][$i]
                 ];
                 continue;
             }
@@ -187,7 +187,7 @@ class Exam
                 'answer' => $paper['paper_answer'][$i]['answer'],
                 'analysis' => $paper['paper_answer'][$i]['analysis'],
                 'subjectType' => $this -> subjectType($paper['paper_answer'][$i]['answer']),
-                'my_answer' => $answer['answer'][$i]
+                'myAnswer' => $answer['answer'][$i]
             ];
             $type = false;
         }
