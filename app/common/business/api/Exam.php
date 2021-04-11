@@ -95,7 +95,7 @@ class Exam
 
 
         }
-        echo json_encode($res);exit();
+        echo json_encode( strlen($keys['answer']));exit();
         $time = time();
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
