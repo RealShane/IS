@@ -73,7 +73,7 @@ class Exam
 
     public function showPaper($data)
     {
-        $paper = $this -> examPapersModel -> findById($data['paper_id']);
+        $paper = $this -> examPapersModel -> findById($data['paper_id']) -> toArray();
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
         foreach ($paper['paper_answer'] as $key) {
             if (strlen($key['answer']) == 1){
