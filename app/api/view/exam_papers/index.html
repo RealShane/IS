@@ -135,10 +135,10 @@
     }
     function renderPaper(data){
         let title = '', back = '', commit = '', str = '', count = 0;
-        back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
+        back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button><br>";
         if (data['type']){
             if (empty(data['close_time'])){
-                title = "<br><p class='layui-bg-orange layui-text'>无截止时间限制</p></br>";
+                title = "<p class='layui-bg-orange layui-text'>无截止时间限制</p><br>";
             }else {
                 title = "<p class='layui-bg-red layui-text'>请注意截止时间：" + timestampToTime(data['close_time']) + "</p>";
             }
