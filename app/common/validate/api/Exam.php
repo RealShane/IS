@@ -16,7 +16,7 @@ class Exam extends Validate
 
     protected $scene = [
         'showPaper' => ['paper_id'],
-        'saveJudegeAnswers' => ['answer', 'paper_id', 'type'],
+        'saveJudgeAnswers' => ['answer', 'paper_id', 'type'],
         'judgeScore' => ['answer', 'paper_id']
     ];
 

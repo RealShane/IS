@@ -39,7 +39,7 @@ class Exam
         return $this -> examPapersModel -> pageList($classId['class_id'], $num);
     }
 
-    public function saveJudegeAnswers($data){
+    public function saveJudgeAnswers($data){
         $data['type'] = strtoupper( $data['type']);
         if ($data['type'] == 'SAVE'){
             $info = [
@@ -59,7 +59,12 @@ class Exam
             $paper = $this -> examPapersModel -> findById($data['paper_id']);
             foreach ($paper['paper_answer'] as $key) {
                 $data[] = $key['answer'];
+//                foreach ($data['answer'] as $answer){
+//                    $data[] = $key['answer'];
+//                }
+
             }
+            echo json_encode($data);exit();
             $this -> examAnswersModel -> save([
                 'score' => NULL,
                 'status' => 0
@@ -111,6 +116,7 @@ class Exam
         }
         if ($time > $paper['close_time']['close_time']) {
             return [
+                'id' => $paper['id'],
                 'paper_answer' => $papers,
                 'score' => $user['score'],
                 'type' => false
@@ -125,16 +131,20 @@ class Exam
             if (!empty($user['answer'])) {
                 foreach ($papers as $key) {
                     $res['paper_answer'][] = [
+                        'id' => $paper['id'],
                         'subject' => $key['subject'],
                         'option' => $key['option'],
-                        'myAnswer' => $key['myAnswer']
+                        'myAnswer' => $key['myAnswer'],
+                        'subjectType' => $key['subjectType']
                     ];
                 }
             } else{
                 foreach ($papers as $key) {
                     $res['paper_answer'][] = [
+                        'id' => $paper['id'],
                         'subject' => $key['subject'],
-                        'option' => $key['option']
+                        'option' => $key['option'],
+                        'subjectType' => $key['subjectType']
                     ];
                 }
             }
