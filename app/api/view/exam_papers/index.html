@@ -198,6 +198,9 @@
                     "</div>";
             }
             if (key['subjectType'] === "input"){
+                if (empty(key['myAnswer'])){
+                    key['myAnswer'] = '';
+                }
                 str +=
                     "<div class=\"layui-form-item layui-form-text\">" +
                         "<label class=\"layui-form-label\">" + key['subject'] + "</label>" +
