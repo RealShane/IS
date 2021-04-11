@@ -85,16 +85,16 @@ class Exam
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
         }
-        echo json_encode($answer);exit();
         if ($time > $paper['close_time']['close_time']) {
-            if ((int)$user['status']) {
-                $data['answer'] = $user['answer'];
+            if ((int)$answer['status']) {
+                $data['answer'] = $answer['answer'];
                 $this -> judgeScore($data);
             }
-            return $this -> rebackQuitAnswer($paper, $papers, $user);
+            return $this -> rebackQuitAnswer($paper, $paper, $answer);
         }
-        if (($time >= $paper['close_time']['begin_time'] && empty($paper['close_time']['close_time'])) || (empty($paper['close_time']['begin_time']) && empty($paper['close_time']['close_time']))) {
-            if ((int)$user['status'] || empty($user['status'])){
+        if (($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time']) || empty($paper['close_time']['close_time'])) {
+            if ((int)$answer['status']){
+                echo json_encode("是我");exit();
                 return $this -> rebackAnswer($papers, $paper);
             }
             return $this -> rebackQuitAnswer($paper, $papers, $user);
