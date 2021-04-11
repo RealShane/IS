@@ -38,18 +38,6 @@ class Exam extends BaseController
         return $this -> success($this -> business -> saveJudgeAnswers($data));
     }
 
-    public function judgeScore(){
-        $data['answer'] = $this -> request -> param("answer", '', 'htmlspecialchars');
-        $data['uid'] = $this -> getUid();
-        $data['paper_id'] = $this -> request -> param('paper_id', '', 'htmlspecialchars');
-        try {
-            validate(Validate::class) -> scene('judgeScore') -> check($data);
-        } catch (\Exception $exception) {
-            return $this -> fail($exception -> getMessage());
-        }
-        return $this -> success($this -> business -> judgeScore($data));
-    }
-
     public function showPaper(){
         $data['uid'] = $this -> getUid();
         $data['paper_id'] = $this -> request -> param('paper_id', '', 'htmlspecialchars');
