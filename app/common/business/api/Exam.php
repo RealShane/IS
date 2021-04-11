@@ -124,7 +124,7 @@ class Exam
             $key['subjectType'] = "multiple";
             $key['myAnswer'] = NULL;
         }
-        $papers[] = $key;
+        return $papers[] = $key;
     }
 
 
