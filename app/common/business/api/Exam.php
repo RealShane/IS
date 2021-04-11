@@ -121,20 +121,23 @@ class Exam
 
         }
         if ((empty($paper['close_time']['begin_time']) && $time <= $paper['close_time']['close_time']) || ($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time'])) {
-            if (!empty($papers['myAnswer'])) {
-                return [
-                    'subject' => $papers['subject'],
-                    'option' => $papers['option'],
-                    'myAnswer' => $papers['myAnswer'],
-                    'type' => true
-                ];
-            } else{
-                return [
-                    'subject' => $papers['subject'],
-                    'option' => $papers['option'],
-                     'type' => true
+            if (!empty($user['answer'])) {
+                foreach ($papers as $key) {
+                    $res[] = [
+                        'subject' => $key['subject'],
+                        'option' => $key['option'],
+                        'myAnswer' => $key['myAnswer']
+                    ];
+                }
+            }
+            foreach ($papers as $key) {
+                $res[] = [
+                    'subject' => $key['subject'],
+                    'option' => $key['option']
                 ];
             }
+            $res['type'] = true;
+            return $res;
         }
     }
 
