@@ -63,7 +63,7 @@ class Exam
                 }
 
             }
-            echo json_encode($key);exit();
+            echo json_encode($data);exit();
             $this -> examAnswersModel -> save([
                 'score' => NULL,
                 'status' => 0
@@ -115,7 +115,7 @@ class Exam
         }
         if ($time > $paper['close_time']['close_time']) {
             return [
-                'paper_id' => $paper['id'],
+                'id' => $paper['id'],
                 'paper_answer' => $papers,
                 'score' => $user['score'],
                 'type' => false
@@ -130,7 +130,7 @@ class Exam
             if (!empty($user['answer'])) {
                 foreach ($papers as $key) {
                     $res['paper_answer'][] = [
-                        'paper_id' => $paper['id'],
+                        'id' => $paper['id'],
                         'subject' => $key['subject'],
                         'option' => $key['option'],
                         'myAnswer' => $key['myAnswer'],
@@ -140,6 +140,7 @@ class Exam
             } else{
                 foreach ($papers as $key) {
                     $res['paper_answer'][] = [
+                        'id' => $paper['id'],
                         'subject' => $key['subject'],
                         'option' => $key['option'],
                         'subjectType' => $key['subjectType']
