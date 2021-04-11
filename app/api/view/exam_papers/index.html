@@ -227,9 +227,11 @@
                 answer.push($("#answer_" + count).val());
             }
             if (true){
+                let temp = '';
                 $("[name=answer_" + count + "]:checked").each(function(index,value){
-                    answer.push($(value).val());
+                    temp += $(value).val();
                 });
+                answer.push(temp);
             }
             count++;
         }
