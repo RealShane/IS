@@ -76,10 +76,10 @@ class Exam
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
         foreach ($paper['paper_answer'] as $keys) {
-            if (is_string($keys['answer'])){
+            if (count($keys['answer']) == 1){
                 $res[] = [
                     $keys['subject'],
-                    'subjectType' => '多选'
+                    'subjectType' => '单选'
                 ];
             }
             if (empty($keys['answer'])){
@@ -90,8 +90,9 @@ class Exam
             }
             $res[] = [
                 $keys['subject'],
-                'subjectType' => '单选'
+                'subjectType' => '多选'
             ];
+
 
         }
         echo json_encode($res);exit();
