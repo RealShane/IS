@@ -132,7 +132,11 @@ class Exam
                 }
             } else{
                 $i=0;
-               return $data[] = [$papers[$i++]['subject']];
+                while (!empty($data)){
+                    $data[] = [$papers[$i++]['subject']];
+                }
+                return $data;
+
 //                foreach ($papers as $key) {
 //                    $res[] = [
 //                        'subject' => $key['subject'],
