@@ -60,20 +60,38 @@ class Exam
         }
     }
 
-    public function judgeScore($data) {
+    private function judgeScore($data, $type = true) {
         $answer = $this -> examAnswersModel -> findByUidAndPaperId($data);
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
-        $answer['score'] = 0;
-        foreach ($paper['paper_answer'] as $key) {
-            $res[] = $key['answer'];
-            for ($i = 0; $i < count($res); $i++) {
-                if ($res[$i] == $data['answer'][$i]) {
-                    $answer['score']++;
+        $score = 0;
+        if ($type){
+            for ($i = 0; $i < count($paper['paper_answer']['answer']); $i++) {
+                if ($paper['paper_answer']['answer'][$i] == $data['answer'][$i]) {
+                    $score++;
                 }
             }
+            if (empty($answer)){
+                return $this -> examAnswersModel -> save([
+                    'uid' => $data['uid'],
+                    'paper_id' => $data['paper_id'],
+                    'answer' => $data['answer'],
+                    'score' => $score,
+                    'status' => 0
+                ]);
+            }
+            return $answer -> save([
+                'answer' => $data['answer'],
+                'score' => $score,
+                'status' => 0
+            ]);
         }
-        $this -> examAnswersModel -> save([
-            'score' => $answer['score'],
+        for ($i = 0; $i < count($paper['paper_answer']['answer']); $i++) {
+            if ($paper['paper_answer']['answer'][$i] == $answer['answer'][$i]) {
+                $score++;
+            }
+        }
+        return $answer -> save([
+            'score' => $score,
             'status' => 0
         ]);
     }
@@ -89,11 +107,11 @@ class Exam
             return $this -> myData($paper, $answer);
         }
         if ($time >= $paper['close_time']['close_time']){
-            return $this -> myAnswer($paper, $answer);
+            return $this -> myAnswer($paper, $answer, $data);
         }
     }
 
-    private function myAnswer($paper, $answer){
+    private function myAnswer($paper, $answer, $data){
         $temp = [];
         if (empty($answer)){
             foreach ($paper['paper_answer'] as $value){
@@ -113,7 +131,7 @@ class Exam
             ];
         }
         if ((int)$answer['status']){
-            return "todo";
+            $this -> judgeScore($data, false);
         }
         $type = true;
         for ($i = 0; $i < count($answer['answer']); $i++){
