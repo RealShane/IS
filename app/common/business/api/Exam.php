@@ -85,6 +85,7 @@ class Exam
                 'status' => 0
             ]);
         }
+        echo json_encode($paper['paper_answer']['answer']);exit();
         for ($i = 0; $i < count($paper['paper_answer']['answer']); $i++) {
             if ($paper['paper_answer']['answer'][$i] == $answer['answer'][$i]) {
                 $score++;
