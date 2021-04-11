@@ -25,17 +25,17 @@ class Exam extends BaseController
         return $this -> success($this -> business -> showPaperTitle($uid, $num));
     }
 
-    public function saveJudegeAnswers(){
+    public function saveJudgeAnswers(){
         $data['answer'] = $this -> request -> param("answer", '', 'htmlspecialchars');
         $data['type'] = $this -> request -> param("type", '', 'htmlspecialchars');
         $data['uid'] = $this -> getUid();
         $data['paper_id'] = $this -> request -> param('paper_id', '', 'htmlspecialchars');
         try {
-            validate(Validate::class) -> scene('saveJudegeAnswers') -> check($data);
+            validate(Validate::class) -> scene('saveJudgeAnswers') -> check($data);
         } catch (\Exception $exception) {
             return $this -> fail($exception -> getMessage());
         }
-        return $this -> success($this -> business -> saveJudegeAnswers($data));
+        return $this -> success($this -> business -> saveJudgeAnswers($data));
     }
 
     public function judgeScore(){

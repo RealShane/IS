@@ -39,7 +39,7 @@ class Exam
         return $this -> examPapersModel -> pageList($classId['class_id'], $num);
     }
 
-    public function saveJudegeAnswers($data){
+    public function saveJudgeAnswers($data){
         $data['type'] = strtoupper( $data['type']);
         if ($data['type'] == 'SAVE'){
             $info = [
@@ -111,6 +111,7 @@ class Exam
         }
         if ($time > $paper['close_time']['close_time']) {
             return [
+                'paper_id' => $paper['id'],
                 'paper_answer' => $papers,
                 'score' => $user['score'],
                 'type' => false
@@ -125,6 +126,7 @@ class Exam
             if (!empty($user['answer'])) {
                 foreach ($papers as $key) {
                     $res['paper_answer'][] = [
+                        'paper_id' => $paper['id'],
                         'subject' => $key['subject'],
                         'option' => $key['option'],
                         'myAnswer' => $key['myAnswer'],
