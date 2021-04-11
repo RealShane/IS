@@ -77,6 +77,20 @@ class Exam
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
         $papers = [];
         foreach ($paper['paper_answer'] as $key) {
+            if (empty($user['answer'])){
+                if (strlen($key['answer']) == 1){
+                    $key['subjectType'] = "single";
+                    $key['myAnswer'] = NULL;
+                } else if (empty($key['answer'])){
+                    $key['subjectType'] = "input";
+                    $key['myAnswer'] = NULL;
+                } else{
+                    $key['subjectType'] = "multiple";
+                    $key['myAnswer'] = NULL;
+                }
+                $papers[] = $key;
+                continue;
+            }
             foreach ($user['answer'] as $myAnswer){
                 if (strlen($key['answer']) == 1){
                     $key['subjectType'] = "single";
