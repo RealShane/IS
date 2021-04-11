@@ -149,13 +149,13 @@
             if (true){
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
-                    options += "<option name='answer_" + count + "' value='" + char + "'>" + option + "</option>";
+                    options += "<option value='" + char + "'>" + option + "</option>";
                     alpha++;
                 }
                 str +=
                     "<div class='layui-form-item' pane>" +
                         "<blockquote class='layui-elem-quote'>"+key['subject']+"</blockquote>" +
-                        "<select>" +
+                        "<select id='answer_" + count + "'>" +
                             "<option value=''>请选择</option>" +
                             options +
                         "</select>" +
@@ -224,7 +224,7 @@
         let answer = [], count = 0;
         for (let key of paper_answer){
             if (true){
-                let value = $("[name='answer_" + count + "']").val()
+                let value = $("#answer_" + count).val()
                 console.log(value)
             }
             count++;
