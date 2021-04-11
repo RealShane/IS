@@ -78,7 +78,7 @@ class Exam
         foreach ($paper['paper_answer'] as $key) {
             if (strlen($key['answer']) == 1){
                 $key['subjectType'] = "single";
-            } else if (empty($keys['answer'])){
+            } else if (empty($key['answer'])){
                 $key['subjectType'] = "input";
             } else{
                 $key['subjectType'] = "multiple";
@@ -91,7 +91,7 @@ class Exam
         if ($time > $paper['close_time']['close_time']) {
             return [
                 'paper_answer' => $paper['paper_answer'],
-                'answer',
+                'answer' => $user['answer'],
                 'score' => $user['score'],
                 'type' => false
             ];
