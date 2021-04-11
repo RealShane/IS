@@ -58,8 +58,12 @@ class Exam
         if ($data['type'] == 'JUDGE'){
             $paper = $this -> examPapersModel -> findById($data['paper_id']);
             foreach ($paper['paper_answer'] as $key) {
-                $data[] = $key['answer'];
+                foreach ($data['answer'] as $answer){
+                    $data[] = $key['answer'];
+                }
+
             }
+            echo json_encode($key);exit();
             $this -> examAnswersModel -> save([
                 'score' => NULL,
                 'status' => 0
