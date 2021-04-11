@@ -76,8 +76,7 @@ class Exam
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
         foreach ($paper['paper_answer'] as $keys) {
-            echo json_encode( strlen($keys['answer']));exit();
-            if ( strlen($keys['answer']) == 0){
+            if ( strlen($keys['answer']) == 1){
                 $res[] = [
                     $keys['subject'],
                     'subjectType' => '单选'
@@ -93,9 +92,9 @@ class Exam
                 $keys['subject'],
                 'subjectType' => '多选'
             ];
-
-
         }
+
+        echo json_encode($res);exit();
 
         $time = time();
         if ($time < $paper['close_time']['begin_time']) {
