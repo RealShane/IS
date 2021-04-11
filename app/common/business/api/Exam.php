@@ -81,17 +81,6 @@ class Exam
     public function showPaper($data) {
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $answer = $this -> examAnswersModel -> findByUidAndPaperId($data);
-        $papers = [];
-        foreach ($paper['paper_answer'] as $key) {
-            if (empty($answer['answer'])) {
-                $papers[] = $this -> judgeSubjectType($key);
-                continue;
-            }
-            foreach ($answer['answer'] as $myAnswer) {
-                $papers[] = $this -> judgeSubjectType($myAnswer);
-            }
-        }
-        echo json_encode($papers);
         $time = time();
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
