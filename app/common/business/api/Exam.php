@@ -132,8 +132,8 @@ class Exam
                 }
             } else{
                 foreach ($papers as $key) {
-                    $res[$key['subject']] = [
-
+                    $res['paper_answer'] = [
+                        'subject' => $key['subject'],
                         'option' => $key['option']
                     ];
                 }
