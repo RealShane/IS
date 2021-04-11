@@ -137,16 +137,24 @@
         console.log(data);
         let back = '', commit = '', str = '', count = 0;
         back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
-        commit =
-            "<div>" +
-                "<button onclick='commit(\"save\")' type=\"button\" class=\"layui-btn layui-btn-fluid\">保存</button>" +
-            "</div><br>" +
-            "<div>" +
-                "<button onclick='commit(\"judge\")' type=\"button\" class=\"layui-btn layui-btn-fluid\">判题</button>" +
-            "</div>";
+        if (data['type']){
+            commit =
+                "<div>" +
+                    "<button onclick='commit(\"save\")' type=\"button\" class=\"layui-btn layui-btn-fluid\">保存</button>" +
+                "</div><br>" +
+                "<div>" +
+                    "<button onclick='commit(\"judge\")' type=\"button\" class=\"layui-btn layui-btn-fluid\">判题</button>" +
+                "</div>";
+        }
         for (let key of data['paper_answer']){
-            let options = "", alpha = 65;
-            if (false){
+            let options = "", alpha = 65, answer = '', myAnswer = '';
+            if (!empty(key['answer']) && !empty(key['analysis'])){
+                answer = "<br><p class='layui-bg-green layui-text'>参考答案：" + key['answer'] + "<br>参考解析：" + key['analysis'] + "</p>";
+            }
+            if (empty(key['answer']) && !empty(key['analysis'])){
+                answer = "<br><p class='layui-bg-green layui-text'>参考解析：" + key['analysis'] + "</p>";
+            }
+            if (key['subjectType'] === "single"){
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
                     options += "<option value='" + char + "'>" + option + "</option>";
@@ -159,9 +167,10 @@
                             "<option value=''>请选择</option>" +
                             options +
                         "</select>" +
+                        answer +
                     "</div>";
             }
-            if (false){
+            if (key['subjectType'] === "multiple"){
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
                     options += "<input name='answer_" + count + "' type='checkbox' value='" + char + "' title=" + option + ">";
@@ -171,15 +180,17 @@
                     "<div class='layui-form-item' pane>" +
                         "<blockquote class='layui-elem-quote'>" + key['subject'] + "</blockquote>" +
                         options +
+                        answer +
                     "</div>";
             }
-            if (true){
+            if (key['subjectType'] === "input"){
                 str +=
                     "<div class=\"layui-form-item layui-form-text\">" +
                         "<label class=\"layui-form-label\">" + key['subject'] + "</label>" +
                         "<div class=\"layui-input-block\">" +
                             "<textarea id='answer_" + count + "' placeholder=\"请输入你的答案\" class=\"layui-textarea\"></textarea>" +
                         "</div>" +
+                        answer +
                     "</div>"
             }
             count++;
@@ -220,20 +231,15 @@
         });
     }
     function commit(type){
-        console.log(type);
         let answer = [], count = 0;
         for (let key of paper_answer){
-            if (false){
-                answer.push($("#answer_" + count).val());
-            }
-            if (false){
+            if (key['subjectType'] === "multiple"){
                 let temp = '';
                 $("[name=answer_" + count + "]:checked").each(function(index,value){
                     temp += $(value).val();
                 });
                 answer.push(temp);
-            }
-            if (true){
+            }else {
                 answer.push($("#answer_" + count).val());
             }
             count++;
