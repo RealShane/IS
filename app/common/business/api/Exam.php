@@ -65,12 +65,13 @@ class Exam
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $score = 0;
         if ($type){
-            echo json_encode($paper);exit();
             for ($i = 0; $i < count($paper['paper_answer']); $i++) {
+                $isInput = $this -> subjectType($paper['paper_answer'][$i]['answer']);
+                echo json_encode($isInput);
                 if ($paper['paper_answer'][$i]['answer'] == $data['answer'][$i]) {
                     $score++;
                 }
-            }
+            }exit();
             if (empty($answer)){
                 return $this -> examAnswersModel -> save([
                     'uid' => $data['uid'],
