@@ -182,7 +182,6 @@
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
                     if (!empty(key['myAnswer']) && myAnswer[i] === char){
-                        console.log(myAnswer[i]);
                         options += "<input checked name='answer_" + count + "' type='checkbox' value='" + char + "' title=" + option + ">";
                         alpha++;
                         i++;
