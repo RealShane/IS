@@ -86,15 +86,13 @@ class Exam
             }
             $papers[] = $key;
         }
-        echo json_encode($papers);
-        exit();
         $time = time();
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
         }
         if ($time > $paper['close_time']['close_time']) {
             return [
-                'paper_answer' => $paper['paper_answer'],
+                'paper_answer' => $papers,
                 'answer' => $user['answer'],
                 'score' => $user['score'],
                 'type' => false
