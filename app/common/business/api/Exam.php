@@ -130,12 +130,13 @@ class Exam
                         'myAnswer' => $key['myAnswer']
                     ];
                 }
-            }
-            foreach ($papers as $key) {
-                $res[] = [
-                    'subject' => $key['subject'],
-                    'option' => $key['option']
-                ];
+            } else{
+                foreach ($papers as $key) {
+                    $res[$key['subject']] = [
+
+                        'option' => $key['option']
+                    ];
+                }
             }
             $res['type'] = true;
             return $res;
