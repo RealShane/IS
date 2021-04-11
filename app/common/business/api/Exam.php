@@ -90,6 +90,7 @@ class Exam
         }
         if ($time >= $paper['close_time']['close_time']){
             echo json_encode("答题时间不为空我显示");
+            exit();
         }
         echo json_encode("答题时间为空我显示");
         exit();
