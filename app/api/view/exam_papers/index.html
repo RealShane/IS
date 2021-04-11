@@ -145,7 +145,10 @@
                 "<button onclick='commit(\"judge\")' type=\"button\" class=\"layui-btn layui-btn-fluid\">判题</button>" +
             "</div>";
         for (let key of data['paper_answer']){
-            let options = "", alpha = 65;
+            let options = "", alpha = 65, answer = '', myAnswer = '';
+            if (!empty(key['answer'])){
+                answer = "<br><p>参考答案：" + key['answer'] + "<br>参考解析：" + key['analysis'] + "</p>";
+            }
             if (key['subjectType'] === "single"){
                 for (let option of key['option']){
                     let char = String.fromCharCode((alpha))
@@ -159,6 +162,7 @@
                             "<option value=''>请选择</option>" +
                             options +
                         "</select>" +
+                        answer +
                     "</div>";
             }
             if (key['subjectType'] === "multiple"){
@@ -171,6 +175,7 @@
                     "<div class='layui-form-item' pane>" +
                         "<blockquote class='layui-elem-quote'>" + key['subject'] + "</blockquote>" +
                         options +
+                        answer +
                     "</div>";
             }
             if (key['subjectType'] === "input"){
@@ -180,6 +185,7 @@
                         "<div class=\"layui-input-block\">" +
                             "<textarea id='answer_" + count + "' placeholder=\"请输入你的答案\" class=\"layui-textarea\"></textarea>" +
                         "</div>" +
+                        answer +
                     "</div>"
             }
             count++;
