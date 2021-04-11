@@ -77,14 +77,19 @@ class Exam
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
         $papers = [];
         foreach ($paper['paper_answer'] as $key) {
-            if (strlen($key['answer']) == 1){
-                $key['subjectType'] = "single";
-            } else if (empty($key['answer'])){
-                $key['subjectType'] = "input";
-            } else{
-                $key['subjectType'] = "multiple";
+            foreach ($user['answer'] as $myAnswer){
+                if (strlen($key['answer']) == 1){
+                    $key['subjectType'] = "single";
+                    $key['myAnswer'] = empty($myAnswer) ? NULL : $myAnswer;
+                } else if (empty($key['answer'])){
+                    $key['subjectType'] = "input";
+                    $key['myAnswer'] = empty($myAnswer) ? NULL : $myAnswer;
+                } else{
+                    $key['subjectType'] = "multiple";
+                    $key['myAnswer'] = empty($myAnswer) ? NULL : $myAnswer;
+                }
+                $papers[] = $key;
             }
-            $papers[] = $key;
         }
         $time = time();
         if ($time < $paper['close_time']['begin_time']) {
@@ -93,7 +98,6 @@ class Exam
         if ($time > $paper['close_time']['close_time']) {
             return [
                 'paper_answer' => $papers,
-                'answer' => $user['answer'],
                 'score' => $user['score'],
                 'type' => false
             ];
