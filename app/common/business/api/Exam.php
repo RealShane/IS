@@ -76,7 +76,7 @@ class Exam
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
         foreach ($paper['paper_answer'] as $keys) {
-            if (($keys['answer'] -> length()) == 1){
+            if ( strlen($keys['answer']) == 1){
                 $res[] = [
                     $keys['subject'],
                     'subjectType' => '单选'
