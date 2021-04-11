@@ -25,27 +25,29 @@ class Exam extends BaseController
         return $this -> success($this -> business -> showPaperTitle($uid, $num));
     }
 
-    public function getAnswers(){
-
-    }
-
-    public function saveAnswer(){
-        $data['paper_id'] = $this -> request -> param('paper_id', '', 'htmlspecialchars');
+    public function saveJudegeAnswers(){
+        $data['answer'] = $this -> request -> param("answer", '', 'htmlspecialchars');
+        $data['type'] = $this -> request -> param("type", '', 'htmlspecialchars');
         $data['uid'] = $this -> getUid();
-        $data['answer'] = $this -> request -> param('answer', '', 'htmlspecialchars');
+        $data['paper_id'] = $this -> request -> param('paper_id', '', 'htmlspecialchars');
         try {
-            validate(Validate::class) -> scene('getAnswer') -> check(['paper_id' => $data['paper_id']]);
+            validate(Validate::class) -> scene('saveJudegeAnswers') -> check($data);
         } catch (\Exception $exception) {
             return $this -> fail($exception -> getMessage());
         }
-        $this -> business -> saveAnswer($data);
-        return $this -> success('保存成功！');
+        return $this -> success($this -> business -> saveJudegeAnswers($data));
     }
 
-    public function calculateScore(){
+    public function judgeScore(){
+        $data['answer'] = $this -> request -> param("answer", '', 'htmlspecialchars');
         $data['uid'] = $this -> getUid();
-        $data['answer'] = $this -> request -> param('answer', '', 'htmlspecialchars');
-        return $this -> success($this -> business -> calculateScore($data));
+        $data['paper_id'] = $this -> request -> param('paper_id', '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('judgeScore') -> check($data);
+        } catch (\Exception $exception) {
+            return $this -> fail($exception -> getMessage());
+        }
+        return $this -> success($this -> business -> judgeScore($data));
     }
 
     public function showPaper(){
