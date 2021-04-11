@@ -85,13 +85,14 @@ class Exam
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
         }
-        echo json_encode($time >= $paper['close_time']['begin_time']);exit();
         if (($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time']) || empty($paper['close_time']['close_time'])) {
-            return $this -> myAnswer($paper, $answer);
+//            return $this -> myAnswer($paper, $answer);
         }
-        if ((empty($paper['close_time']['begin_time']) && $time <= $paper['close_time']['close_time']) || ($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time'])) {
-            return $this -> rebackAnswer($papers, $paper);
+        if ($time >= $paper['close_time']['close_time']){
+            echo json_encode("答题时间不为空我显示");
         }
+        echo json_encode("答题时间为空我显示");
+        exit();
     }
 
     private function myAnswer($paper, $answer){
