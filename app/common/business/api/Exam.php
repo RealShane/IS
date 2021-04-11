@@ -39,23 +39,88 @@ class Exam
         return $this -> examPapersModel -> pageList($classId['class_id'], $num);
     }
 
+    public function saveJudegeAnswers($data){
+        $data['type'] = strtoupper( $data['type']);
+        if ($data['type'] == 'SAVE'){
+            $info = [
+                'uid' => $data['uid'],
+                'paper_id' => $data['paper_id'],
+                'answer' => $data['answer'],
+                'score' => NULL,
+                'status' => 1
+            ];
+            $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
+            if (empty($user)){
+                $this -> examAnswersModel -> save($info);
+            }
+            $user -> save($info);
+        }
+        if ($data['type'] == 'JUDGE'){
+            $paper = $this -> examPapersModel -> findById($data['paper_id']);
+            foreach ($paper['paper_answer'] as $key) {
+                $data[] = $key['answer'];
+            }
+            $this -> examAnswersModel -> save([
+                'score' => NULL,
+                'status' => 0
+            ]);
+        }
+    }
+
+    public function judgeScore($data){
+
+    }
+
     public function showPaper($data)
     {
-        $paper = $this->examPapersModel->findById($data['paper_id']);
-        $user = $this->examAnswersModel->findByUidAndPaperId($data);
+        $paper = $this -> examPapersModel -> findById($data['paper_id']);
+        $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
+        $papers = [];
+        foreach ($paper['paper_answer'] as $key) {
+            if (empty($user['answer'])){
+                if (strlen($key['answer']) == 1){
+                    $key['subjectType'] = "single";
+                    $key['myAnswer'] = NULL;
+                } else if (empty($key['answer'])){
+                    $key['subjectType'] = "input";
+                    $key['myAnswer'] = NULL;
+                } else{
+                    $key['subjectType'] = "multiple";
+                    $key['myAnswer'] = NULL;
+                }
+                $papers[] = $key;
+                continue;
+            }
+            foreach ($user['answer'] as $myAnswer){
+                if (strlen($key['answer']) == 1){
+                    $key['subjectType'] = "single";
+                    $key['myAnswer'] = empty($myAnswer) ? NULL : $myAnswer;
+                } else if (empty($key['answer'])){
+                    $key['subjectType'] = "input";
+                    $key['myAnswer'] = empty($myAnswer) ? NULL : $myAnswer;
+                } else{
+                    $key['subjectType'] = "multiple";
+                    $key['myAnswer'] = empty($myAnswer) ? NULL : $myAnswer;
+                }
+                $papers[] = $key;
+            }
+        }
         $time = time();
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
         }
         if ($time > $paper['close_time']['close_time']) {
             return [
-                'paper_answer' => $paper['paper_answer'],
-                'answer' => $user['answer'],
+                'paper_answer' => $papers,
                 'score' => $user['score'],
                 'type' => false
             ];
         }
-        if ($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time']) {
+        if (($time >= $paper['close_time']['begin_time'] && empty($paper['close_time']['close_time'])) || (empty($paper['close_time']['begin_time']) && empty($paper['close_time']['close_time']))){
+
+
+        }
+        if ((empty($paper['close_time']['begin_time']) && $time <= $paper['close_time']['close_time']) || ($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time'])) {
             if (!empty($user['answer'])) {
                 foreach ($paper['paper_answer'] as $key) {
                     $data[] = [$key['subject'], $key['option'], $user['answer']];
@@ -69,27 +134,6 @@ class Exam
         }
     }
 
-    public function saveAnswer($data){
-        $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
-        $info = [
-            'uid' => $data['uid'],
-            'paper_id' => $data['paper_id'],
-            'answer' => $data['answer'],
-            'score' => NULL
-        ];
-        if (empty($user)){
-            $this -> examAnswersModel -> save($info);
-        }
-        $user -> save($info);
-    }
-
-    public function getAnswers(){
-
-    }
-
-    public function calculateScore($data){
-        $uid = $this -> userClassModel -> findByUid($data['uid']);
-    }
 
 
 
