@@ -65,8 +65,8 @@ class Exam
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $score = 0;
         if ($type){
-            for ($i = 0; $i < count($paper['paper_answer']['answer']); $i++) {
-                if ($paper['paper_answer']['answer'][$i] == $data['answer'][$i]) {
+            for ($i = 0; $i < count($paper['paper_answer']); $i++) {
+                if ($paper['paper_answer'][$i]['answer'] == $data['answer'][$i]) {
                     $score++;
                 }
             }
@@ -85,9 +85,8 @@ class Exam
                 'status' => 0
             ]);
         }
-        echo json_encode($paper['paper_answer']['answer']);exit();
-        for ($i = 0; $i < count($paper['paper_answer']['answer']); $i++) {
-            if ($paper['paper_answer']['answer'][$i] == $answer['answer'][$i]) {
+        for ($i = 0; $i < count($paper['paper_answer']); $i++) {
+            if ($paper['paper_answer'][$i]['answer'] == $answer['answer'][$i]) {
                 $score++;
             }
         }
