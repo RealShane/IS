@@ -77,13 +77,15 @@ class Exam
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
         foreach ($paper['paper_answer'] as $key) {
             if (strlen($key['answer']) == 1){
-                $key -> subjectType = "single";
+                $key['subjectType'] = "single";
             } else if (empty($key['answer'])){
-                $key -> subjectType = "input";
+                $key['subjectType'] = "input";
             } else{
-                $key -> subjectType = "multiple";
+                $key['subjectType'] = "multiple";
             }
+
         }
+        echo json_encode($paper);exit();
         $time = time();
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
