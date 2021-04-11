@@ -11,7 +11,7 @@ class Exam extends Validate
 
     protected $rule = [
         'paper_id|试卷id' => ['require'],
-        'answer|答案' => ['require']
+        'answer|答案' => ['require'],
     ];
 
     protected $scene = [

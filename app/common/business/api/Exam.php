@@ -130,7 +130,7 @@ class Exam
 
     public function rebackQuitAnswer($paper, $papers, $user) {
         return [
-            'id' => $paper['id'],
+            'paper_id' => $paper['id'],
             'paper_answer' => $papers,
             'score' => $user['score'],
             'type' => false
