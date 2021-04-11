@@ -86,14 +86,56 @@ class Exam
             throw new Exception("未到答题时间");
         }
         if (($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time']) || empty($paper['close_time']['close_time'])) {
-            return $this -> myAnswer($paper, $answer);
+            return $this -> myData($paper, $answer);
         }
         if ($time >= $paper['close_time']['close_time']){
-//            return $this ->
+            return $this -> myAnswer($paper, $answer);
         }
     }
 
     private function myAnswer($paper, $answer){
+        $temp = [];
+        if (empty($answer)){
+            foreach ($paper['paper_answer'] as $value){
+                $temp[] = [
+                    'subject' => $value['subject'],
+                    'option' => $value['option'],
+                    'answer' => $value['answer'],
+                    'analysis' => $value['analysis'],
+                    'subjectType' => $this -> subjectType($value['answer'])
+                ];
+            }
+            return [
+                'id' => $paper['id'],
+                'paper_answer' => $temp,
+                'score' => "未答题",
+                'type' => true
+            ];
+        }
+        if ((int)$answer['status']){
+            return "todo";
+        }
+        $type = true;
+        for ($i = 0; $i < count($answer['answer']); $i++){
+            $temp[] = [
+                'subject' => $paper['paper_answer'][$i]['subject'],
+                'option' => $paper['paper_answer'][$i]['option'],
+                'answer' => $paper['paper_answer'][$i]['answer'],
+                'analysis' => $paper['paper_answer'][$i]['analysis'],
+                'subjectType' => $this -> subjectType($paper['paper_answer'][$i]['answer']),
+                'my_answer' => $answer['answer'][$i]
+            ];
+            $type = false;
+        }
+        return [
+            'id' => $paper['id'],
+            'paper_answer' => $temp,
+            'score' => $answer['score'],
+            'type' => $type
+        ];
+    }
+
+    private function myData($paper, $answer){
         $temp = [];
         if (empty($answer)){
             foreach ($paper['paper_answer'] as $value){
@@ -133,6 +175,7 @@ class Exam
         return [
             'id' => $paper['id'],
             'paper_answer' => $temp,
+            'score' => $answer['score'],
             'type' => $type
         ];
     }
