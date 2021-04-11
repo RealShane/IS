@@ -75,6 +75,7 @@ class Exam
     {
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
+        $papers = [];
         foreach ($paper['paper_answer'] as $key) {
             if (strlen($key['answer']) == 1){
                 $key['subjectType'] = "single";
@@ -83,8 +84,9 @@ class Exam
             } else{
                 $key['subjectType'] = "multiple";
             }
-            echo json_encode($key);
+            $papers[] = $key;
         }
+        echo json_encode($papers);
         exit();
         $time = time();
         if ($time < $paper['close_time']['begin_time']) {
