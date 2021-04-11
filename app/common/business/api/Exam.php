@@ -24,7 +24,7 @@ class Exam
     private $redis = NULL;
     private $str = NULL;
 
-    public function __construct(){
+    public function __construct() {
         $this -> excel = new Excel();
         $this -> examAnswersModel = new ExamAnswers();
         $this -> examPapersModel = new ExamPapers();
@@ -34,14 +34,14 @@ class Exam
         $this -> str = new Str();
     }
 
-    public function showPaperTitle($uid, $num){
+    public function showPaperTitle($uid, $num) {
         $classId = $this -> userClassModel -> findByUid($uid);
         return $this -> examPapersModel -> pageList($classId['class_id'], $num);
     }
 
-    public function saveJudgeAnswers($data){
-        $data['type'] = strtoupper( $data['type']);
-        if ($data['type'] == 'SAVE'){
+    public function saveJudgeAnswers($data) {
+        $data['type'] = strtoupper($data['type']);
+        if ($data['type'] == 'SAVE') {
             $info = [
                 'uid' => $data['uid'],
                 'paper_id' => $data['paper_id'],
@@ -49,65 +49,46 @@ class Exam
                 'score' => NULL,
                 'status' => 1
             ];
-            $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
-            if (empty($user)){
+            $answer = $this -> examAnswersModel -> findByUidAndPaperId($data);
+            if (empty($answer)) {
                 $this -> examAnswersModel -> save($info);
             }
-            $user -> save($info);
+            $answer -> save($info);
         }
-        if ($data['type'] == 'JUDGE'){
-            $paper = $this -> examPapersModel -> findById($data['paper_id']);
-            foreach ($paper['paper_answer'] as $key) {
-                $res[] = $key['answer'];
-//                foreach ($data['answer'] as $answer){
-//                    $data[] = $key['answer'];
-//                }
+        if ($data['type'] == 'JUDGE') {
+            $this -> judgeScore($data);
+        }
+    }
 
+    public function judgeScore($data) {
+        $answer = $this -> examAnswersModel -> findByUidAndPaperId($data);
+        $paper = $this -> examPapersModel -> findById($data['paper_id']);
+        $answer['score'] = 0;
+        foreach ($paper['paper_answer'] as $key) {
+            $res[] = $key['answer'];
+            for ($i = 0; $i < count($res); $i++) {
+                if ($res[$i] == $data['answer'][$i]) {
+                    $answer['score']++;
+                }
             }
-            echo json_encode($res);exit();
-            $this -> examAnswersModel -> save([
-                'score' => NULL,
-                'status' => 0
-            ]);
         }
+        $this -> examAnswersModel -> save([
+            'score' => $answer['score'],
+            'status' => 0
+        ]);
     }
 
-    public function judgeScore($data){
-
-    }
-
-    public function showPaper($data)
-    {
+    public function showPaper($data) {
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
         $papers = [];
         foreach ($paper['paper_answer'] as $key) {
-            if (empty($user['answer'])){
-                if (strlen($key['answer']) == 1){
-                    $key['subjectType'] = "single";
-                    $key['myAnswer'] = NULL;
-                } else if (empty($key['answer'])){
-                    $key['subjectType'] = "input";
-                    $key['myAnswer'] = NULL;
-                } else{
-                    $key['subjectType'] = "multiple";
-                    $key['myAnswer'] = NULL;
-                }
-                $papers[] = $key;
+            if (empty($user['answer'])) {
+                $this -> judgeSubjectType($key);
                 continue;
             }
-            foreach ($user['answer'] as $myAnswer){
-                if (strlen($key['answer']) == 1){
-                    $key['subjectType'] = "single";
-                    $key['myAnswer'] = empty($myAnswer) ? NULL : $myAnswer;
-                } else if (empty($key['answer'])){
-                    $key['subjectType'] = "input";
-                    $key['myAnswer'] = empty($myAnswer) ? NULL : $myAnswer;
-                } else{
-                    $key['subjectType'] = "multiple";
-                    $key['myAnswer'] = empty($myAnswer) ? NULL : $myAnswer;
-                }
-                $papers[] = $key;
+            foreach ($user['answer'] as $myAnswer) {
+                $this -> judgeSubjectType($key);
             }
         }
         $time = time();
@@ -115,45 +96,72 @@ class Exam
             throw new Exception("未到答题时间");
         }
         if ($time > $paper['close_time']['close_time']) {
-            return [
-                'id' => $paper['id'],
-                'paper_answer' => $papers,
-                'score' => $user['score'],
-                'type' => false
-            ];
+            if ((int)$user['status']) {
+                $data['answer'] = $user['answer'];
+                $this -> judgeScore($data);
+            }
+            $this -> rebackQuitAnswer($paper, $papers, $user);
         }
-        if (($time >= $paper['close_time']['begin_time'] && empty($paper['close_time']['close_time'])) || (empty($paper['close_time']['begin_time']) && empty($paper['close_time']['close_time']))){
-
-
+        if (($time >= $paper['close_time']['begin_time'] && empty($paper['close_time']['close_time'])) || (empty($paper['close_time']['begin_time']) && empty($paper['close_time']['close_time']))) {
+            if ((int)$user['status'] == 0){
+                $this -> rebackQuitAnswer($paper, $papers, $user);
+            }
+            $this -> rebackAnswer($papers, $paper);
         }
         if ((empty($paper['close_time']['begin_time']) && $time <= $paper['close_time']['close_time']) || ($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time'])) {
-            $res = [];
-            if (!empty($user['answer'])) {
-                foreach ($papers as $key) {
-                    $res['paper_answer'][] = [
-                        'id' => $paper['id'],
-                        'subject' => $key['subject'],
-                        'option' => $key['option'],
-                        'myAnswer' => $key['myAnswer'],
-                        'subjectType' => $key['subjectType']
-                    ];
-                }
-            } else{
-                foreach ($papers as $key) {
-                    $res['paper_answer'][] = [
-                        'id' => $paper['id'],
-                        'subject' => $key['subject'],
-                        'option' => $key['option'],
-                        'subjectType' => $key['subjectType']
-                    ];
-                }
+            $this -> rebackAnswer($papers, $paper);
+        }
+    }
+
+    public function judgeSubjectType($key) {
+        if (strlen($key['answer']) == 1) {
+            $key['subjectType'] = "single";
+            $key['myAnswer'] = NULL;
+        } else if (empty($key['answer'])) {
+            $key['subjectType'] = "input";
+            $key['myAnswer'] = NULL;
+        } else {
+            $key['subjectType'] = "multiple";
+            $key['myAnswer'] = NULL;
+        }
+        $papers[] = $key;
+    }
+
+
+    public function rebackQuitAnswer($paper, $papers, $user) {
+        return [
+            'id' => $paper['id'],
+            'paper_answer' => $papers,
+            'score' => $user['score'],
+            'type' => false
+        ];
+    }
+
+    public function rebackAnswer($papers, $paper) {
+        $res = [];
+        if (!empty($user['answer'])) {
+            foreach ($papers as $key) {
+                $res['paper_answer'][] = [
+                    'id' => $paper['id'],
+                    'subject' => $key['subject'],
+                    'option' => $key['option'],
+                    'myAnswer' => $key['myAnswer'],
+                    'subjectType' => $key['subjectType']
+                ];
+            }
+        } else {
+            foreach ($papers as $key) {
+                $res['paper_answer'][] = [
+                    'id' => $paper['id'],
+                    'subject' => $key['subject'],
+                    'option' => $key['option'],
+                    'subjectType' => $key['subjectType']
+                ];
             }
             $res['type'] = true;
             return $res;
         }
+
+
     }
-
-
-
-
 }
