@@ -67,6 +67,7 @@ class Exam
         if ($type){
             for ($i = 0; $i < count($paper['paper_answer']); $i++) {
                 echo $data['answer'][$i] . '---' . $paper['paper_answer'][$i]['answer'];
+                echo "  ";
                 echo json_encode($paper['paper_answer'][$i]['answer'] == $data['answer'][$i]);
                 if ($paper['paper_answer'][$i]['answer'] == $data['answer'][$i]) {
                     $score++;
