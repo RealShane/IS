@@ -50,9 +50,12 @@ class Exam
                 'status' => 1
             ];
             $answer = $this -> examAnswersModel -> findByUidAndPaperId($data);
+            echo 1;
             if (empty($answer)) {
+                echo 2;
                 $this -> examAnswersModel -> save($info);
             }
+            echo 3;
             $answer -> save($info);
         }
         if ($data['type'] == 'JUDGE') {
