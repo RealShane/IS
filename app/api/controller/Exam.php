@@ -35,7 +35,8 @@ class Exam extends BaseController
         } catch (\Exception $exception) {
             return $this -> fail($exception -> getMessage());
         }
-        return $this -> success($this -> business -> saveJudgeAnswers($data));
+        $this -> business -> saveJudgeAnswers($data);
+        return $this -> success("操作成功！");
     }
 
     public function showPaper(){
