@@ -103,10 +103,10 @@ class Exam
             return $this -> rebackQuitAnswer($paper, $papers, $user);
         }
         if (($time >= $paper['close_time']['begin_time'] && empty($paper['close_time']['close_time'])) || (empty($paper['close_time']['begin_time']) && empty($paper['close_time']['close_time']))) {
-            if ((int)$user['status'] == 0){
-                return $this -> rebackQuitAnswer($paper, $papers, $user);
+            if ((int)$user['status'] || empty($user['status'])){
+                return $this -> rebackAnswer($papers, $paper);
             }
-            return $this -> rebackAnswer($papers, $paper);
+            return $this -> rebackQuitAnswer($paper, $papers, $user);
         }
         if ((empty($paper['close_time']['begin_time']) && $time <= $paper['close_time']['close_time']) || ($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time'])) {
             return $this -> rebackAnswer($papers, $paper);
