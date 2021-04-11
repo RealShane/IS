@@ -86,14 +86,11 @@ class Exam
             throw new Exception("未到答题时间");
         }
         if (($time >= $paper['close_time']['begin_time'] && $time <= $paper['close_time']['close_time']) || empty($paper['close_time']['close_time'])) {
-//            return $this -> myAnswer($paper, $answer);
+            return $this -> myAnswer($paper, $answer);
         }
         if ($time >= $paper['close_time']['close_time']){
-            echo json_encode("答题时间不为空我显示");
-            exit();
+//            return $this ->
         }
-        echo json_encode("答题时间为空我显示");
-        exit();
     }
 
     private function myAnswer($paper, $answer){
@@ -119,6 +116,10 @@ class Exam
                 'subjectType' => $this -> subjectType($paper['paper_answer'][$i]['answer']),
                 'my_answer' => $answer['answer'][$i]
             ];
+            if (!(int)$answer['status']){
+                $temp[]['answer'] = $paper['paper_answer'][$i]['answer'];
+                $temp[]['analysis'] = $paper['paper_answer'][$i]['analysis'];
+            }
         }
         return [
             'id' => $paper['id'],
