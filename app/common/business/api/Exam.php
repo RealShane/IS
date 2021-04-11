@@ -110,16 +110,23 @@ class Exam
             ];
         }
         for ($i = 0; $i < count($answer['answer']); $i++){
+            if ((int)$answer['status']){
+                $temp[] = [
+                    'subject' => $paper['paper_answer'][$i]['subject'],
+                    'option' => $paper['paper_answer'][$i]['option'],
+                    'subjectType' => $this -> subjectType($paper['paper_answer'][$i]['answer']),
+                    'my_answer' => $answer['answer'][$i]
+                ];
+                continue;
+            }
             $temp[] = [
                 'subject' => $paper['paper_answer'][$i]['subject'],
                 'option' => $paper['paper_answer'][$i]['option'],
+                'answer' => $paper['paper_answer'][$i]['answer'],
+                'analysis' => $paper['paper_answer'][$i]['analysis'],
                 'subjectType' => $this -> subjectType($paper['paper_answer'][$i]['answer']),
                 'my_answer' => $answer['answer'][$i]
             ];
-            if (!(int)$answer['status']){
-                $temp[]['answer'] = $paper['paper_answer'][$i]['answer'];
-                $temp[]['analysis'] = $paper['paper_answer'][$i]['analysis'];
-            }
         }
         return [
             'id' => $paper['id'],
