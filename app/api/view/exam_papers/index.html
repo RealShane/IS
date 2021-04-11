@@ -222,7 +222,7 @@
     function commit(type){
         let answer = [], count = 0;
         for (let key of paper_answer){
-            if (false){
+            if (key['subjectType'] === "multiple"){
                 let temp = '';
                 $("[name=answer_" + count + "]:checked").each(function(index,value){
                     temp += $(value).val();
@@ -233,6 +233,7 @@
             }
             count++;
         }
+        console.log(answer);
     }
 </script>
 </html>
