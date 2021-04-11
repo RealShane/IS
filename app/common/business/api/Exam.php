@@ -76,6 +76,7 @@ class Exam
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $user = $this -> examAnswersModel -> findByUidAndPaperId($data);
         foreach ($paper['paper_answer'] as $keys) {
+            echo json_encode( strlen($keys['answer']));exit();
             if ( strlen($keys['answer']) == 0){
                 $res[] = [
                     $keys['subject'],
@@ -95,7 +96,7 @@ class Exam
 
 
         }
-        echo json_encode( strlen($keys['answer']));exit();
+
         $time = time();
         if ($time < $paper['close_time']['begin_time']) {
             throw new Exception("未到答题时间");
