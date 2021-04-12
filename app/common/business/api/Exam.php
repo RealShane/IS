@@ -136,6 +136,7 @@ class Exam
                 'id' => $paper['id'],
                 'paper_answer' => $temp,
                 'score' => "未答题",
+                'close_time' => "答题时间已过！",
                 'type' => true
             ];
         }
@@ -158,6 +159,7 @@ class Exam
             'id' => $paper['id'],
             'paper_answer' => $temp,
             'score' => $answer['score'],
+            'close_time' => "答题时间已过！",
             'type' => $type
         ];
     }
