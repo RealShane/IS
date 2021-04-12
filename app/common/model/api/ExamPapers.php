@@ -37,7 +37,7 @@ class ExamPapers extends Model
     }
 
     public function selectTitleList($title, $num){
-        return self::with('classes') -> where('title', 'LIKE', '%' . $title . '%') -> field('title') -> paginate($num);
+        return self::with('classes') -> where('title', 'LIKE', '%' . $title . '%') -> field(['id', 'title']) -> paginate($num);
     }
 
     public function findAll($num){
