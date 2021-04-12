@@ -34,6 +34,10 @@ class Exam
         $this -> str = new Str();
     }
 
+    public function getTargetPapers($title, $num){
+        return $this -> examPapersModel -> selectTitle($title, $num);
+    }
+
     public function showPaperTitle($uid, $num) {
         $classId = $this -> userClassModel -> findByUid($uid);
         return $this -> examPapersModel -> pageList($classId['class_id'], $num);

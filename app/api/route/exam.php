@@ -20,6 +20,7 @@ Route::group('Exam', function () {
     Route::rule('showPaperTitle', '/api/Exam/showPaperTitle', 'POST');
     Route::rule('getAnswer', '/api/Exam/getAnswer', 'POST');
     Route::rule('saveJudgeAnswers', '/api/Exam/saveJudgeAnswers', 'POST');
+    Route::rule('getTargetPapers', '/api/Exam/getTargetPapers', 'POST');
 }) -> middleware(IsLogin::class);
 
 //----------------------------------------------------------------------------------
