@@ -35,7 +35,7 @@ class Exam
     }
 
     public function getTargetPapers($title, $num){
-        return $this -> examPapersModel -> selectTitle($title, $num);
+        return $this -> examPapersModel -> selectTitleList($title, $num);
     }
 
     public function showPaperTitle($uid, $num) {
