@@ -127,6 +127,7 @@
             success : function(res) {
                 if (res.status === config('failed')){
                     layer.msg(res.message);
+                    return false;
                 }
                 renderPaper(res.result);
                 paper_answer = res.result['paper_answer'];
@@ -136,9 +137,6 @@
     function renderPaper(data){
         let title = '', back = '', commit = '', str = '', count = 0;
         back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
-        if (empty(data['type'])){
-            return false;
-        }
         if (data['type']){
             if (empty(data['close_time'])){
                 title = "<p class='layui-bg-orange layui-text'>无截止时间限制</p>";
