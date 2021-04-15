@@ -52,13 +52,14 @@
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
-                url : '/api/getTargetAdmin',
+                url : '/api/Exam/getTargetPapers',
                 data : {
                     title : res.field.title
                 },
                 success : function(res) {
-                    if(res.status === config('failed')){
+                    if (res.status === config('failed')){
                         layer.msg(res.message);
+                        return false;
                     }
                     renderData(res.result, 10, 1);
                 }
@@ -253,6 +254,7 @@
             success : function(res) {
                 if (res.status === config('failed')){
                     layer.msg(res.message);
+                    return false;
                 }
                 renderData(res.result, num, page);
             }
