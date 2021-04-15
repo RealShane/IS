@@ -20,7 +20,7 @@ class ExamAnswers extends Model
     }
 
     public function findAll($paperId, $num){
-        return self::with('classes')['name']
+        return self::with('classes')
             -> where('paper_id', $paperId)
             -> field(['id', 'uid'])
             -> paginate($num);
