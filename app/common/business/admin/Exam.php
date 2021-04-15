@@ -118,4 +118,8 @@ class Exam
     public function getPaperUsers($paperId, $num){
         return $this -> examAnswersModel -> findAll($paperId, $num);
     }
+
+    public function showPaper(){
+
+    }
 }
