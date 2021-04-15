@@ -25,6 +25,7 @@ class Exam extends Validate
         'id' => ['require'],
         'status|状态' => ['require'],
         'class|班级名' => ['require'],
+        'paperId|试卷id' => ['require'],
     ];
 
     protected $scene = [
@@ -32,6 +33,7 @@ class Exam extends Validate
         'readPaper' => ['file'],
         'getTargetPapers' => ['title'],
         'getTargetClass' => ['class'],
+        'getPaperUsers' => ['clpaperIdass'],
         'deletePaper' => ['id'],
         'getPaper' => ['id'],
         'updatePaper' => ['id', 'class_id', 'title', 'status']

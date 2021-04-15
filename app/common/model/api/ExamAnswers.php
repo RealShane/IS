@@ -19,6 +19,10 @@ class ExamAnswers extends Model
         return $this -> where('uid', $data['uid']) -> where('paper_id', $data['paper_id']) -> find();
     }
 
+    public function getByPaperId($paperId, $num){
+        return $this -> where('paper_id', $paperId) -> field(['id', 'uid']) -> paginate($num);;
+    }
+
 
 
 }
