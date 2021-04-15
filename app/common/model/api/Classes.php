@@ -44,4 +44,8 @@ class Classes extends Model
         return $this -> where('status', 1) -> select();
     }
 
+    public function getClasses($class, $num){
+        return $this -> where('name', 'LIKE', '%' . $class . '%') -> paginate($num);
+    }
+
 }

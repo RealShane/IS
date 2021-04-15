@@ -10,12 +10,13 @@ use app\common\business\admin\CRUD;
 use app\common\business\lib\Redis;
 use app\common\business\lib\Str;
 use think\Exception;
-
+use app\common\model\api\Classes;
 class Exam
 {
 
     private $excel = NULL;
     private $examPapersModel = NULL;
+    private $classesModel = NULL;
     private $crud = NULL;
     private $redis = NULL;
     private $str = NULL;
@@ -23,6 +24,7 @@ class Exam
     public function __construct(){
         $this -> excel = new Excel();
         $this -> examPapersModel = new ExamPapers();
+        $this -> classesModel = new Classes();
         $this -> crud = new CRUD();
         $this -> redis = new Redis();
         $this -> str = new Str();
@@ -92,8 +94,11 @@ class Exam
     }
 
     public function selectAllClass(){
-
         return $this -> crud -> setStore('api_class') -> all(['id', 'name']);
+    }
+
+    public function getTargetClass($class, $num){
+        return $this -> classesModel -> getClasses($class, $num);
     }
 
 

@@ -19,6 +19,10 @@ class Exam extends BaseController
         $this -> business = $business;
     }
 
+    public function rebackClassId(){
+
+    }
+
     public function updatePaper(){
         $data['id'] = $this -> request -> param('id', '', 'htmlspecialchars');
         $data['title'] = $this -> request -> param('title', '', 'htmlspecialchars');
@@ -100,6 +104,17 @@ class Exam extends BaseController
 
     public function selectAllClass(){
         return $this -> success($this -> business -> selectAllClass());
+    }
+
+    public function getTargetClass(){
+        $class = $this -> request -> param('class', '', 'htmlspecialchars');
+        $num = $this -> request -> param("num", 10, 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('getTargetClass') -> check(['class' => $class]);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        return $this -> success($this -> business -> getTargetClass($class, $num));
     }
 
 }
