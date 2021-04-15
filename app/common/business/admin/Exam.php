@@ -105,5 +105,9 @@ class Exam
         return $this -> examPapersModel -> pageList($classId, $num);
     }
 
+    public function getTargetTitle($title, $num){
+        return $this -> examPapersModel -> getTitle($title, $num);
+    }
+
 
 }

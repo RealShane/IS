@@ -123,4 +123,15 @@ class Exam extends BaseController
         return $this -> success($this -> business -> showPaperTitle($classId, $num));
     }
 
+    public function getTargetTitle(){
+        $title = $this -> request -> param('title', '', 'htmlspecialchars');
+        $num = $this -> request -> param("num", 10, 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('getTargetPapers') -> check(['title' => $title]);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        return $this -> success($this -> business -> getTargetTitle($title, $num));
+    }
+
 }

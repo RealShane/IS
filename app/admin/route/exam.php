@@ -29,6 +29,7 @@ Route::group('Exam', function () {
     Route::rule('updatePaper', '/admin/Exam/updatePaper', 'POST');
     Route::rule('getTargetClass', '/admin/Exam/getTargetClass', 'POST');
     Route::rule('showPaperTitle', '/admin/Exam/showPaperTitle', 'POST');
+    Route::rule('getTargetTitle', '/admin/Exam/getTargetTitle', 'POST');
 }) -> middleware(IsLogin::class) -> middleware(Auth::class);
 
 //----------------------------------------------------------------------------------

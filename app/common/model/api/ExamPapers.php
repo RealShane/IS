@@ -32,6 +32,10 @@ class ExamPapers extends Model
         return $this -> where('id', $id) -> delete();
     }
 
+    public function getTitle($title, $num){
+        return $this -> where('title', 'LIKE', '%' . $title . '%') -> field(['id', 'title']) -> paginate($num);
+    }
+
     public function selectTitle($title, $num){
         return self::with('classes') -> where('title', 'LIKE', '%' . $title . '%') -> paginate($num);
     }
