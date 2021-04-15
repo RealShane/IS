@@ -12,6 +12,7 @@ use app\common\business\lib\Str;
 use think\Exception;
 use app\common\model\api\Classes;
 use app\common\model\api\ExamAnswers;
+use app\common\model\api\User;
 class Exam
 {
 
@@ -19,6 +20,7 @@ class Exam
     private $examPapersModel = NULL;
     private $classesModel = NULL;
     private $examAnswersModel = NULL;
+    private $userModel = NULL;
     private $crud = NULL;
     private $redis = NULL;
     private $str = NULL;
@@ -28,6 +30,7 @@ class Exam
         $this -> examPapersModel = new ExamPapers();
         $this -> classesModel = new Classes();
         $this -> examAnswersModel = new ExamAnswers();
+        $this -> userModel = new User();
         $this -> crud = new CRUD();
         $this -> redis = new Redis();
         $this -> str = new Str();
@@ -113,10 +116,6 @@ class Exam
     }
 
     public function getPaperUsers($paperId, $num){
-        $users = $this -> examAnswersModel -> getByPaperId($paperId, $num);
-        foreach ($users as $user){
-            echo json_encode($user);
-        }
-        exit();
+        return $this -> examAnswersModel -> findAll($paperId, $num);
     }
 }
