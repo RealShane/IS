@@ -113,7 +113,10 @@ class Exam
     }
 
     public function getPaperUsers($paperId, $num){
-        $user = $this -> examAnswersModel -> getByPaperId($paperId, $num);
-        echo json_encode($user);exit();
+        $users = $this -> examAnswersModel -> getByPaperId($paperId, $num);
+        foreach ($users as $user){
+            echo json_encode($user);
+        }
+        exit();
     }
 }
