@@ -45,7 +45,7 @@ class Classes extends Model
     }
 
     public function getClasses($class, $num){
-        return $this -> where('name', 'LIKE', '%' . $class . '%') -> paginate($num);
+        return $this -> where('name', 'LIKE', '%' . $class . '%') -> field(['id', 'name']) -> paginate($num);
     }
 
 }
