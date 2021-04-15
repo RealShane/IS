@@ -117,4 +117,10 @@ class Exam extends BaseController
         return $this -> success($this -> business -> getTargetClass($class, $num));
     }
 
+    public function showPaperTitle(){
+        $classId = $this -> request -> param('classId', '', 'htmlspecialchars');
+        $num = $this -> request -> param("num", 10, 'htmlspecialchars');
+        return $this -> success($this -> business -> showPaperTitle($classId, $num));
+    }
+
 }

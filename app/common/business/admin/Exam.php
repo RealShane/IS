@@ -101,5 +101,9 @@ class Exam
         return $this -> classesModel -> getClasses($class, $num);
     }
 
+    public function showPaperTitle($classId, $num) {
+        return $this -> examPapersModel -> pageList($classId, $num);
+    }
+
 
 }
