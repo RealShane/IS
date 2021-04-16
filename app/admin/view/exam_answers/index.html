@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    {include file="public/_meta" /}
+</head>
+<body>
+<div class="x-nav">
+    <span class="layui-breadcrumb">
+        <a>首页</a>
+        <a>试题系统</a>
+        <a><cite>答题情况</cite></a>
+    </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+<br>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body" id="search">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="title"  placeholder="请输入试卷名" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-body" id="data">
+                </div>
+                <div class="layui-card-body">
+                    <div class="page" id="page">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    isLogin('{$secret}');
+    let paper_answer = null;
+    $(document).ready(function() {
+        getClassData(10, 1);
+    });
+    layui.use(['form'], function(){
+        var form = layui.form;
+        form.on('submit(search)', function(res) {
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : '/api/Exam/getTargetPapers',
+                data : {
+                    title : res.field.title
+                },
+                success : function(res) {
+                    if (res.status === config('failed')){
+                        layer.msg(res.message);
+                        return false;
+                    }
+                    renderData(res.result, 10, 1);
+                }
+            });
+            return false;
+        });
+    });
+    function renderData(data, num, page, type) {
+        /**
+         * 分页
+         */
+        let pre_num = page - 1;
+        let next_num = page + 1;
+        if (pre_num <= 0){
+            pre_num = 1;
+        }
+        if (next_num >= data['last_page']){
+            next_num = data['last_page'];
+        }
+        let str = "",
+            pre = "<a class=\"prev\" onclick=\"getData(" + num + ", " + pre_num + ")\">&lt;&lt;</a>",
+            next = "<a class=\"next\" onclick=\"getData(" + num + ", " + next_num + ")\">&gt;&gt;</a>";
+        for (let i = 1; i <= data['last_page']; i++){
+            let temp = "<a class=\"num\" onclick=\"getData(" + num + ", " + i + ")\">" + i + "</a>";
+            if (i === page){
+                temp = "<span class=\"current\">" + i + "</span>";
+            }
+            str += temp;
+        }
+        if (data['last_page'] === 1){
+            pre = "";next = "";
+        }
+        $("#page_remove").remove();
+        $("#page").append(
+            "<div id=\"page_remove\">" +
+            pre +
+            str +
+            next +
+            "</div>"
+        );
+        /**
+         * 渲染数据
+         */
+        str = "";
+        if (type === 'class'){
+            for (let key of data['data']){
+                str +=
+                    "<blockquote onclick='paper(" + key['id'] + ")' class='layui-elem-quote'>" +
+                        "<a>" + key['name'] + "</a>" +
+                    "</blockquote>";
+            }
+        }
+        $("#data_remove").remove();
+        $("#data").append(
+            "<div id=\"data_remove\">" +
+            str +
+            "</div>"
+        );
+    }
+    function paper(id){
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Exam/showPaper',
+            data : {
+                paper_id : id
+            },
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                renderPaper(res.result);
+                paper_answer = res.result['paper_answer'];
+            }
+        });
+    }
+    function renderPaper(data){
+        let title = '', back = '', commit = '', str = '', count = 0;
+        back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
+        if (data['type']){
+            if (empty(data['close_time'])){
+                title = "<p class='layui-bg-orange layui-text'>无截止时间限制</p>";
+            }else if(data['close_time'] === "答题时间已过！"){
+                title = "<p class='layui-bg-red layui-text'>" + data['close_time'] + "</p>";
+            }else {
+                title = "<p class='layui-bg-red layui-text'>请注意截止时间：" + timestampToTime(data['close_time']) + "</p>";
+            }
+            commit =
+                "<div>" +
+                    "<button onclick='commit(\"save\", " + data['id'] + ")' type=\"button\" class=\"layui-btn layui-btn-fluid\">保存</button>" +
+                "</div><br>" +
+                "<div>" +
+                    "<button onclick='commit(\"judge\", " + data['id'] + ")' type=\"button\" class=\"layui-btn layui-btn-fluid\">判题</button>" +
+                "</div>";
+        }else {
+            title = "<br><p class='layui-bg-cyan layui-text'>最终得分：" + data['score'] + "</p>";
+        }
+        for (let key of data['paper_answer']){
+            let options = "", alpha = 65, answer = '';
+            if (!empty(key['answer']) && !empty(key['analysis'])){
+                answer = "<br><p class='layui-bg-green layui-text'>参考答案：" + key['answer'] + "<br>参考解析：" + key['analysis'] + "</p>";
+            }
+            if (empty(key['answer']) && !empty(key['analysis'])){
+                answer = "<br><p class='layui-bg-green layui-text'>参考解析：" + key['analysis'] + "</p>";
+            }
+            if (key['subjectType'] === "single"){
+                for (let option of key['option']){
+                    let char = String.fromCharCode((alpha))
+                    if (!empty(key['myAnswer']) && key['myAnswer'] === char){
+                        options += "<option selected value='" + char + "'>" + option + "</option>";
+                        alpha++;
+                        continue;
+                    }
+                    options += "<option value='" + char + "'>" + option + "</option>";
+                    alpha++;
+                }
+                str +=
+                    "<div class='layui-form-item' pane>" +
+                        "<blockquote class='layui-elem-quote'>"+key['subject']+"</blockquote>" +
+                        "<select id='answer_" + count + "'>" +
+                            "<option value=''>请选择</option>" +
+                            options +
+                        "</select>" +
+                        answer +
+                    "</div>";
+            }
+            if (key['subjectType'] === "multiple"){
+                let myAnswer = null, i = 0;
+                if (!empty(key['myAnswer'])){
+                    myAnswer = key['myAnswer'].split("");
+                }
+                for (let option of key['option']){
+                    let char = String.fromCharCode((alpha))
+                    if (!empty(key['myAnswer']) && myAnswer[i] === char){
+                        options += "<input checked name='answer_" + count + "' type='checkbox' value='" + char + "' title=" + option + ">";
+                        alpha++;
+                        i++;
+                        continue;
+                    }
+                    options += "<input name='answer_" + count + "' type='checkbox' value='" + char + "' title=" + option + ">";
+                    alpha++;
+                }
+                str +=
+                    "<div class='layui-form-item' pane>" +
+                        "<blockquote class='layui-elem-quote'>" + key['subject'] + "</blockquote>" +
+                        options +
+                        answer +
+                    "</div>";
+            }
+            if (key['subjectType'] === "input"){
+                if (empty(key['myAnswer'])){
+                    key['myAnswer'] = '';
+                }
+                str +=
+                    "<div class=\"layui-form-item layui-form-text\">" +
+                        "<label class=\"layui-form-label\">" + key['subject'] + "</label>" +
+                        "<div class=\"layui-input-block\">" +
+                            "<textarea id='answer_" + count + "' placeholder=\"请输入你的答案\" class=\"layui-textarea\">" + key['myAnswer'] + "</textarea>" +
+                        "</div>" +
+                        answer +
+                    "</div>"
+            }
+            count++;
+        }
+        $("#search").hide();
+        $("#page_remove").remove();
+        $("#data_remove").remove();
+        $("#data").append(
+            "<div id=\"data_remove\">" +
+                "<form class=\"layui-form layui-form-pane\">" +
+                    back +
+                    title +
+                    str +
+                    commit +
+                "</form>" +
+            "</div>"
+        );
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
+        });
+    }
+    function getClassData(num, page) {
+        $("#search").show();
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/Exam/selectAllClass',
+            data : {
+                num : num,
+                page : page
+            },
+            success : function(res) {
+                console.log(res);
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                renderData(res.result, num, page, 'class');
+            }
+        });
+    }
+    function commit(type, id){
+        let answer = [], count = 0;
+        for (let key of paper_answer){
+            if (key['subjectType'] === "multiple"){
+                let temp = '';
+                $("[name=answer_" + count + "]:checked").each(function(index,value){
+                    temp += $(value).val();
+                });
+                answer.push(temp);
+            }else {
+                answer.push($("#answer_" + count).val());
+            }
+            count++;
+        }
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Exam/saveJudgeAnswers',
+            data : {
+                paper_id : id,
+                answer : answer,
+                type : type
+            },
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                }else if(res.status === config('success')){
+                    layer.msg(res.result, function() {
+                        if (type === "judge"){
+                            getData(10, 1);
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>
+</html>

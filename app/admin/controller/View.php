@@ -21,8 +21,14 @@ class View extends BaseController
 {
 
     /**
-     * 试听列表
+     * 试题系统
      */
+
+    public function examAnswersManageView(){
+        return V::fetch('exam_answers/index', [
+            'secret' => Env::get('ADMIN.FILE', '')
+        ]);
+    }
 
     public function examPapersManageView(){
         return V::fetch('exam_papers/index', [
@@ -43,7 +49,7 @@ class View extends BaseController
     }
 
     /**
-     * 试听列表
+     * 试题系统
      */
 
     /**
