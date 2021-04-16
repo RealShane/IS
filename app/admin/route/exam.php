@@ -13,6 +13,7 @@ use \app\admin\middleware\IsLogin;
 
 
 Route::group(function () {
+    Route::rule('View/Exam/Answers/index', '/admin/View/examAnswersManageView', 'GET');
     Route::rule('View/Exam/Papers/index', '/admin/View/examPapersManageView', 'GET');
     Route::rule('View/Exam/Papers/add', '/admin/View/examPapersAddView', 'GET');
     Route::rule('View/Exam/Papers/edit', '/admin/View/examPapersEditView', 'GET');
