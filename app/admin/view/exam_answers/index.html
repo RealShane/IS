@@ -330,11 +330,6 @@
         });
     }
     function commit(id){
-        layui.use(['layer'], function() {
-            $ = layui.jquery;
-            var layer = layui.layer;
-
-        });
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
