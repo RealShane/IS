@@ -42,7 +42,7 @@
 </body>
 <script>
     isLogin('{$secret}');
-    let paper_answer = null, search_type = "class", chosen_class = null;
+    let paper_answer = null, search_type = "class", chosen_class = null, chosen_user = null;
     $(document).ready(function() {
         getClassData(10, 1);
     });
@@ -138,7 +138,7 @@
             back = "<button onclick='getPapersData(" + chosen_class + ")' class=\"layui-btn\">返回</button>";
             for (let key of data['data']){
                 str +=
-                    "<blockquote onclick='(" + key['id'] + ")' class='layui-elem-quote'>" +
+                    "<blockquote onclick='paper(" + key['id'] + ", " + key['paper_id'] + ")' class='layui-elem-quote'>" +
                         "<a>" + key['classes']['name'] + "</a>" +
                     "</blockquote>";
             }
@@ -151,13 +151,14 @@
             "</div>"
         );
     }
-    function paper(id){
+    function paper(answer_id, paper_id){
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/Exam/showPaper',
+            url : '/{$secret}/Exam/showPaper',
             data : {
-                paper_id : id
+                answer_id : answer_id,
+                paper_id : paper_id
             },
             success : function(res) {
                 if (res.status === config('failed')){
@@ -171,7 +172,7 @@
     }
     function renderPaper(data){
         let title = '', back = '', commit = '', str = '', count = 0;
-        back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
+        back = "<button onclick='getPaperUsersData(" + chosen_user + ")' class=\"layui-btn\">返回</button>";
         if (data['type']){
             if (empty(data['close_time'])){
                 title = "<p class='layui-bg-orange layui-text'>无截止时间限制</p>";
@@ -317,6 +318,7 @@
     }
     function getPaperUsersData(id) {
         $("#search").hide();
+        chosen_user = id;
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
