@@ -112,7 +112,7 @@ class Exam extends BaseController
     }
 
     public function getTargetClass(){
-        $class = $this -> request -> param('class', '', 'htmlspecialchars');
+        $class = $this -> request -> param('key', '', 'htmlspecialchars');
         $num = $this -> request -> param("num", 10, 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('getTargetClass') -> check(['class' => $class]);
@@ -129,7 +129,7 @@ class Exam extends BaseController
     }
 
     public function getTargetTitle(){
-        $title = $this -> request -> param('title', '', 'htmlspecialchars');
+        $title = $this -> request -> param('key', '', 'htmlspecialchars');
         $num = $this -> request -> param("num", 10, 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('getTargetPapers') -> check(['title' => $title]);
