@@ -40,7 +40,7 @@ class Exam extends Validate
         'getPaper' => ['id'],
         'updatePaper' => ['id', 'class_id', 'title', 'status'],
         'showPaper' => ['paperId', 'answerId'],
-        'commitScore' => ['paperId', 'answerId', 'inputScore']
+        'commitScore' => ['answerId', 'inputScore']
     ];
 
 }

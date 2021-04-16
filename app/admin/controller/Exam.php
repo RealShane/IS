@@ -162,15 +162,17 @@ class Exam extends BaseController
     }
 
     public function commitScore(){
-        $paperId = $this -> request -> param('paperId', '', 'htmlspecialchars');
-        $answerId = $this -> request -> param('answerId', '', 'htmlspecialchars');
+        $answerId = $this -> request -> param('answer_id', '', 'htmlspecialchars');
         $inputScore = $this -> request -> param('input_score', '', 'htmlspecialchars');
         try {
-            validate(Validate::class) -> scene('commitScore') -> check(['paperId' => $paperId, 'answerId' => $answerId, 'inputScore' => $inputScore]);
+            validate(Validate::class) -> scene('commitScore') -> check([
+                'answerId' => $answerId,
+                'inputScore' => $inputScore
+            ]);
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
-        return $this -> success($this -> business -> commitScore($paperId, $answerId, $inputScore));
+        return $this -> success($this -> business -> commitScore($answerId, $inputScore));
     }
 
 
