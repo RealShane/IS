@@ -44,7 +44,7 @@
     isLogin('{$secret}');
     let paper_answer = null;
     $(document).ready(function() {
-        getData(10, 1);
+        getClassData(10, 1);
     });
     layui.use(['form'], function(){
         var form = layui.form;
@@ -241,17 +241,18 @@
             form.render();
         });
     }
-    function getData(num, page) {
+    function getClassData(num, page) {
         $("#search").show();
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/Exam/showPaperTitle',
+            url : '/{$secret}/Exam/selectAllClass',
             data : {
                 num : num,
                 page : page
             },
             success : function(res) {
+                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                     return false;
