@@ -42,7 +42,7 @@
 </body>
 <script>
     isLogin('{$secret}');
-    let paper_answer = null, search_type = "class", chosen_class = null;
+    let paper_answer = null, search_type = "class", chosen_class = null, chosen_user = null;
     $(document).ready(function() {
         getClassData(10, 1);
     });
@@ -138,7 +138,7 @@
             back = "<button onclick='getPapersData(" + chosen_class + ")' class=\"layui-btn\">返回</button>";
             for (let key of data['data']){
                 str +=
-                    "<blockquote onclick='(" + key['id'] + ")' class='layui-elem-quote'>" +
+                    "<blockquote onclick='paper(" + key['id'] + ", " + key['paper_id'] + ")' class='layui-elem-quote'>" +
                         "<a>" + key['classes']['name'] + "</a>" +
                     "</blockquote>";
             }
@@ -151,15 +151,17 @@
             "</div>"
         );
     }
-    function paper(id){
+    function paper(answer_id, paper_id){
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/Exam/showPaper',
+            url : '/{$secret}/Exam/showPaper',
             data : {
-                paper_id : id
+                answer_id : answer_id,
+                paper_id : paper_id
             },
             success : function(res) {
+                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                     return false;
@@ -171,22 +173,9 @@
     }
     function renderPaper(data){
         let title = '', back = '', commit = '', str = '', count = 0;
-        back = "<button onclick='getData(10, 1)' class=\"layui-btn\">返回</button>";
+        back = "<button onclick='getPaperUsersData(" + chosen_user + ")' class=\"layui-btn\">返回</button>";
         if (data['type']){
-            if (empty(data['close_time'])){
-                title = "<p class='layui-bg-orange layui-text'>无截止时间限制</p>";
-            }else if(data['close_time'] === "答题时间已过！"){
-                title = "<p class='layui-bg-red layui-text'>" + data['close_time'] + "</p>";
-            }else {
-                title = "<p class='layui-bg-red layui-text'>请注意截止时间：" + timestampToTime(data['close_time']) + "</p>";
-            }
-            commit =
-                "<div>" +
-                    "<button onclick='commit(\"save\", " + data['id'] + ")' type=\"button\" class=\"layui-btn layui-btn-fluid\">保存</button>" +
-                "</div><br>" +
-                "<div>" +
-                    "<button onclick='commit(\"judge\", " + data['id'] + ")' type=\"button\" class=\"layui-btn layui-btn-fluid\">判题</button>" +
-                "</div>";
+
         }else {
             title = "<br><p class='layui-bg-cyan layui-text'>最终得分：" + data['score'] + "</p>";
         }
@@ -246,6 +235,13 @@
                 if (empty(key['myAnswer'])){
                     key['myAnswer'] = '';
                 }
+                commit =
+                    "<div class=\"layui-input-inline\">" +
+                        "<input type=\"text\" id=\"add_score\" name=\"add_score\" autocomplete=\"off\" class=\"layui-input\">" +
+                    "</div><br>" +
+                    "<div>" +
+                        "<button onclick='commit(" + data['id'] + ")' type=\"button\" class=\"layui-btn layui-btn-fluid\">提交文字题分数</button>" +
+                    "</div>";
                 str +=
                     "<div class=\"layui-form-item layui-form-text\">" +
                         "<label class=\"layui-form-label\">" + key['subject'] + "</label>" +
@@ -317,6 +313,7 @@
     }
     function getPaperUsersData(id) {
         $("#search").hide();
+        chosen_user = id;
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -325,7 +322,6 @@
                 paper_id : id
             },
             success : function(res) {
-                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                     return false;
@@ -334,20 +330,7 @@
             }
         });
     }
-    function commit(type, id){
-        let answer = [], count = 0;
-        for (let key of paper_answer){
-            if (key['subjectType'] === "multiple"){
-                let temp = '';
-                $("[name=answer_" + count + "]:checked").each(function(index,value){
-                    temp += $(value).val();
-                });
-                answer.push(temp);
-            }else {
-                answer.push($("#answer_" + count).val());
-            }
-            count++;
-        }
+    function commit(id){
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -355,7 +338,7 @@
             data : {
                 paper_id : id,
                 answer : answer,
-                type : type
+                input_score : add_score
             },
             success : function(res) {
                 if (res.status === config('failed')){
