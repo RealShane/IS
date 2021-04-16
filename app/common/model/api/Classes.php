@@ -48,4 +48,8 @@ class Classes extends Model
         return $this -> where('name', 'LIKE', '%' . $class . '%') -> field(['id', 'name']) -> paginate($num);
     }
 
+    public function getAllClasses($num){
+        return $this -> where('id', '>', 0) -> field(['id', 'name']) -> paginate($num);
+    }
+
 }
