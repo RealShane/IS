@@ -19,6 +19,10 @@ class ExamAnswers extends Model
         return $this -> where('uid', $data['uid']) -> where('paper_id', $data['paper_id']) -> find();
     }
 
+    public function findById($id){
+        return $this -> where('id', $id) -> find();
+    }
+
     public function findAll($paperId, $num){
         return self::with('classes')
             -> where('paper_id', $paperId)

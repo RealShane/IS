@@ -145,4 +145,28 @@ class Exam extends BaseController
         return $this -> success($this -> business -> getPaperUsers($paperId, $num));
     }
 
+    public function showPaper(){
+        $paperId = $this -> request -> param('paperId', '', 'htmlspecialchars');
+        $answerId = $this -> request -> param('answerId', '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('getPaperUsers') -> check(['paperId' => $paperId]);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        return $this -> success($this -> business -> showPaper($paperId, $answerId));
+    }
+
+    public function commitScore(){
+        $paperId = $this -> request -> param('paperId', '', 'htmlspecialchars');
+        $answerId = $this -> request -> param('answerId', '', 'htmlspecialchars');
+        $inputScore = $this -> request -> param('inputScore', '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('getPaperUsers') -> check(['paperId' => $paperId]);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        return $this -> success($this -> business -> commitScore($paperId, $answerId, $inputScore));
+    }
+
+
 }

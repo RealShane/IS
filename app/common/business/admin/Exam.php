@@ -119,7 +119,60 @@ class Exam
         return $this -> examAnswersModel -> findAll($paperId, $num);
     }
 
-    public function showPaper(){
-
+    public function showPaper($paperId, $answerId){
+        $paper = $this -> examPapersModel -> findById($paperId);
+        $answer = $this -> examAnswersModel -> findById($answerId);
+        $temp = [];
+        for ($i = 0; $i < count($answer['answer']); $i++){
+            $temp[] = [
+                'subject' => $paper['paper_answer'][$i]['subject'],
+                'option' => $paper['paper_answer'][$i]['option'],
+                'answer' => $paper['paper_answer'][$i]['answer'],
+                'analysis' => $paper['paper_answer'][$i]['analysis'],
+                'subjectType' => $this -> subjectType($paper['paper_answer'][$i]['answer']),
+                'myAnswer' => $answer['answer'][$i]
+            ];
+        }
+        return [
+            'id' => $paper['id'],
+            'paper_answer' => $temp,
+            'score' => $answer['score'],
+            'close_time' => "答题时间已过！"
+        ];
     }
+
+    public function commitScore($paperId, $answerId, $inputScore){
+        $paper = $this -> examPapersModel -> findById($paperId);
+        $answer = $this -> examAnswersModel -> findById($answerId);
+        $this -> judgeScore($paper, $answer, $inputScore);
+        return $this -> showPaper($paperId, $answerId);
+    }
+
+
+    public function subjectType($answer) {
+        if (strlen($answer) == 1) {
+            return "single";
+        } else if (empty($answer)) {
+            return "input";
+        } else {
+            return "multiple";
+        }
+    }
+
+    private function judgeScore($paper, $answer,  $inputScore) {
+        $score = 0;
+        for ($i = 0; $i < count($paper['paper_answer']); $i++) {
+            $isInput = $this -> subjectType($paper['paper_answer'][$i]['answer']);
+            if ($isInput == "input"){
+                $score += $inputScore;
+            }
+        }
+        $answer -> save([
+            'score' => $score,
+            'status' => 0
+        ]);
+        return $answer;
+    }
+
+
 }

@@ -146,6 +146,7 @@ class Exam
         }
         if ((int)$answer['status']){
             $answer = $this -> judgeScore($data, false);
+            echo json_encode($answer);exit();
         }
         $type = true;
         for ($i = 0; $i < count($answer['answer']); $i++){
