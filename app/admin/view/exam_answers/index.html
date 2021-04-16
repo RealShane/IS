@@ -42,7 +42,7 @@
 </body>
 <script>
     isLogin('{$secret}');
-    let paper_answer = null, search_type = "class";
+    let paper_answer = null, search_type = "class", chosen_class = null;
     $(document).ready(function() {
         getClassData(10, 1);
     });
@@ -129,8 +129,17 @@
             back = "<button onclick='getClassData(10, 1)' class=\"layui-btn\">返回</button>";
             for (let key of data['data']){
                 str +=
-                    "<blockquote onclick='getPapersData(" + key['id'] + ")' class='layui-elem-quote'>" +
+                    "<blockquote onclick='getPaperUsersData(" + key['id'] + ")' class='layui-elem-quote'>" +
                         "<a>" + key['title'] + "</a>" +
+                    "</blockquote>";
+            }
+        }
+        if (type === 'paper_users'){
+            back = "<button onclick='getPapersData(" + chosen_class + ")' class=\"layui-btn\">返回</button>";
+            for (let key of data['data']){
+                str +=
+                    "<blockquote onclick='(" + key['id'] + ")' class='layui-elem-quote'>" +
+                        "<a>" + key['classes']['name'] + "</a>" +
                     "</blockquote>";
             }
         }
@@ -289,6 +298,7 @@
     function getPapersData(id) {
         $("#search").show();
         search_type = "paper_list";
+        chosen_class = id;
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -302,6 +312,25 @@
                     return false;
                 }
                 renderData(res.result, 10, 1, 'paper_list');
+            }
+        });
+    }
+    function getPaperUsersData(id) {
+        $("#search").hide();
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/Exam/getPaperUsers',
+            data : {
+                paper_id : id
+            },
+            success : function(res) {
+                console.log(res);
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                renderData(res.result, 10, 1, 'paper_users');
             }
         });
     }
