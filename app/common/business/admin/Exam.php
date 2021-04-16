@@ -145,11 +145,11 @@ class Exam
         ];
     }
 
-    public function commitScore($paperId, $answerId, $inputScore){
-        $paper = $this -> examPapersModel -> findById($paperId);
+    public function commitScore($answerId, $inputScore){
         $answer = $this -> examAnswersModel -> findById($answerId);
+        $paper = $this -> examPapersModel -> findById($answer['paper_id']);
         $this -> judgeScore($paper, $answer, $inputScore);
-        return $this -> showPaper($paperId, $answerId);
+        return $this -> showPaper($answer['paper_id'], $answerId);
     }
 
 
