@@ -164,7 +164,7 @@ class Exam extends BaseController
     public function commitScore(){
         $paperId = $this -> request -> param('paperId', '', 'htmlspecialchars');
         $answerId = $this -> request -> param('answerId', '', 'htmlspecialchars');
-        $inputScore = $this -> request -> param('inputScore', '', 'htmlspecialchars');
+        $inputScore = $this -> request -> param('input_score', '', 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('commitScore') -> check(['paperId' => $paperId, 'answerId' => $answerId, 'inputScore' => $inputScore]);
         }catch (\Exception $exception){
