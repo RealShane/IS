@@ -152,9 +152,8 @@ class Exam
             'score' => $score,
             'status' => 0
         ]);
-        return $this -> showPaper($answer['paper_id'], $answerId);
+        return '评分成功';
     }
-
 
     public function subjectType($answer) {
         if (strlen($answer) == 1) {
