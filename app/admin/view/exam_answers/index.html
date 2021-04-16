@@ -139,7 +139,7 @@
             for (let key of data['data']){
                 str +=
                     "<blockquote onclick='(" + key['id'] + ")' class='layui-elem-quote'>" +
-                        "<a>" + key['title'] + "</a>" +
+                        "<a>" + key['classes']['name'] + "</a>" +
                     "</blockquote>";
             }
         }
