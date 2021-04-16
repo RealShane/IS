@@ -103,6 +103,10 @@ class Exam
         return $this -> crud -> setStore('api_class') -> all(['id', 'name']);
     }
 
+    public function getAllClass($num){
+        return $this -> classesModel -> getAllClasses($num);
+    }
+
     public function getTargetClass($class, $num){
         return $this -> classesModel -> getClasses($class, $num);
     }

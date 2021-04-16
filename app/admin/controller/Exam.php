@@ -106,6 +106,11 @@ class Exam extends BaseController
         return $this -> success($this -> business -> selectAllClass());
     }
 
+    public function getAllClass(){
+        $num = $this -> request -> param("num", 10, 'htmlspecialchars');
+        return $this -> success($this -> business -> getAllClass($num));
+    }
+
     public function getTargetClass(){
         $class = $this -> request -> param('class', '', 'htmlspecialchars');
         $num = $this -> request -> param("num", 10, 'htmlspecialchars');
