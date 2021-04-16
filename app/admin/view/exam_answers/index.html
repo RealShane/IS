@@ -237,9 +237,9 @@
                 }
                 commit =
                     "<div class=\"layui-input-inline\">" +
-                        "<input type=\"text\" id=\"add_score\" name=\"add_score\" autocomplete=\"off\" class=\"layui-input\">" +
-                    "</div><br>" +
-                    "<div>" +
+                        "输入文字题总分：<input type=\"number\" id=\"add_score\" name=\"add_score\" autocomplete=\"off\" class=\"layui-input\">" +
+                    "</div>" +
+                    "<br><div class=\"layui-input-inline\">" +
                         "<button onclick='commit(" + data['id'] + ")' type=\"button\" class=\"layui-btn layui-btn-fluid\">提交文字题分数</button>" +
                     "</div>";
                 str +=
@@ -334,11 +334,10 @@
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/Exam/saveJudgeAnswers',
+            url : '/{$secret}/Exam/commitScore',
             data : {
-                paper_id : id,
-                answer : answer,
-                input_score : add_score
+                answer_id : id,
+                input_score : $("#add_score").val()
             },
             success : function(res) {
                 if (res.status === config('failed')){
