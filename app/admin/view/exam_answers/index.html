@@ -22,7 +22,7 @@
                 <div class="layui-card-body" id="search">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="title"  placeholder="请输入试卷名" autocomplete="off" class="layui-input">
+                            <input type="text" name="key"  placeholder="请输入检索" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
@@ -42,26 +42,38 @@
 </body>
 <script>
     isLogin('{$secret}');
-    let paper_answer = null;
+    let paper_answer = null, search_type = "class";
     $(document).ready(function() {
         getClassData(10, 1);
     });
     layui.use(['form'], function(){
         var form = layui.form;
         form.on('submit(search)', function(res) {
+            let url = "";
+            if (search_type === "class"){
+                url = '/{$secret}/Exam/getTargetClass';
+            }
+            if (search_type === "paper_list"){
+                url = '/{$secret}/Exam/getTargetTitle';
+            }
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
-                url : '/api/Exam/getTargetPapers',
+                url : url,
                 data : {
-                    title : res.field.title
+                    key : res.field.key
                 },
                 success : function(res) {
                     if (res.status === config('failed')){
                         layer.msg(res.message);
                         return false;
                     }
-                    renderData(res.result, 10, 1);
+                    if (search_type === "class"){
+                        renderData(res.result, 10, 1, 'class');
+                    }
+                    if (search_type === "paper_list"){
+                        renderData(res.result, 10, 1, 'paper_list');
+                    }
                 }
             });
             return false;
@@ -256,6 +268,7 @@
     }
     function getClassData(num, page) {
         $("#search").show();
+        search_type = "class";
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -275,6 +288,7 @@
     }
     function getPapersData(id) {
         $("#search").show();
+        search_type = "paper_list";
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
