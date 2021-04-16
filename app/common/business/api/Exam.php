@@ -146,7 +146,6 @@ class Exam
         }
         if ((int)$answer['status']){
             $answer = $this -> judgeScore($data, false);
-            echo json_encode($answer);exit();
         }
         $type = true;
         for ($i = 0; $i < count($answer['answer']); $i++){
@@ -160,6 +159,7 @@ class Exam
             ];
             $type = false;
         }
+        echo json_encode($answer);exit();
         return [
             'id' => $paper['id'],
             'paper_answer' => $temp,
