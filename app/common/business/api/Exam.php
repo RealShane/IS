@@ -125,6 +125,7 @@ class Exam
     }
 
     private function myAnswer($paper, $answer, $data){
+        echo json_encode($this -> judgeScore($data, false));exit();
         $temp = [];
         if (empty($answer)){
             foreach ($paper['paper_answer'] as $value){
@@ -159,7 +160,6 @@ class Exam
             ];
             $type = false;
         }
-        echo json_encode($answer);exit();
         return [
             'id' => $paper['id'],
             'paper_answer' => $temp,
