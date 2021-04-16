@@ -161,7 +161,6 @@
                 paper_id : paper_id
             },
             success : function(res) {
-                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                     return false;
@@ -331,25 +330,29 @@
         });
     }
     function commit(id){
-        $.ajax({
-            type : "POST",
-            contentType : "application/x-www-form-urlencoded",
-            url : '/{$secret}/Exam/commitScore',
-            data : {
-                answer_id : id,
-                input_score : $("#add_score").val()
-            },
-            success : function(res) {
-                if (res.status === config('failed')){
-                    layer.msg(res.message);
-                }else if(res.status === config('success')){
-                    layer.msg(res.result, function() {
-                        if (type === "judge"){
-                            getData(10, 1);
-                        }
-                    });
+        layui.use(['layer'], function() {
+            $ = layui.jquery;
+            var layer = layui.layer;
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : '/{$secret}/Exam/commitScore',
+                data : {
+                    answer_id : id,
+                    input_score : $("#add_score").val()
+                },
+                success : function(res) {
+                    if (res.status === config('failed')){
+                        layer.msg(res.message);
+                    }else if(res.status === config('success')){
+                        layer.msg(res.result, function() {
+                            if (type === "judge"){
+                                getData(10, 1);
+                            }
+                        });
+                    }
                 }
-            }
+            });
         });
     }
 </script>
