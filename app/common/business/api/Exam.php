@@ -125,7 +125,6 @@ class Exam
     }
 
     private function myAnswer($paper, $answer, $data){
-        echo json_encode($this -> judgeScore($data, false));exit();
         $temp = [];
         if (empty($answer)){
             foreach ($paper['paper_answer'] as $value){

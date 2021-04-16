@@ -149,7 +149,7 @@ class Exam extends BaseController
         $paperId = $this -> request -> param('paperId', '', 'htmlspecialchars');
         $answerId = $this -> request -> param('answerId', '', 'htmlspecialchars');
         try {
-            validate(Validate::class) -> scene('getPaperUsers') -> check(['paperId' => $paperId]);
+            validate(Validate::class) -> scene('showPaper') -> check(['paperId' => $paperId, 'answerId' => $answerId]);
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
@@ -161,7 +161,7 @@ class Exam extends BaseController
         $answerId = $this -> request -> param('answerId', '', 'htmlspecialchars');
         $inputScore = $this -> request -> param('inputScore', '', 'htmlspecialchars');
         try {
-            validate(Validate::class) -> scene('getPaperUsers') -> check(['paperId' => $paperId]);
+            validate(Validate::class) -> scene('commitScore') -> check(['paperId' => $paperId, 'answerId' => $answerId, 'inputScore' => $inputScore]);
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
