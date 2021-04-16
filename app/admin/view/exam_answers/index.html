@@ -103,6 +103,7 @@
         /**
          * 渲染数据
          */
+        let back = "";
         str = "";
         if (type === 'class'){
             for (let key of data['data']){
@@ -113,6 +114,7 @@
             }
         }
         if (type === 'paper_list'){
+            back = "<button onclick='getClassData(10, 1)' class=\"layui-btn\">返回</button>";
             for (let key of data['data']){
                 str +=
                     "<blockquote onclick='getPapersData(" + key['id'] + ")' class='layui-elem-quote'>" +
@@ -123,6 +125,7 @@
         $("#data_remove").remove();
         $("#data").append(
             "<div id=\"data_remove\">" +
+            back +
             str +
             "</div>"
         );
@@ -262,7 +265,6 @@
                 page : page
             },
             success : function(res) {
-                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                     return false;
@@ -281,7 +283,6 @@
                 class_id : id
             },
             success : function(res) {
-                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                     return false;
