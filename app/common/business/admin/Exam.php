@@ -147,8 +147,9 @@ class Exam
 
     public function commitScore($answerId, $inputScore){
         $answer = $this -> examAnswersModel -> findById($answerId);
+        $score = $answer['score'] + $inputScore;
         $answer -> save([
-            'score' => $answer['score'] + $inputScore,
+            'score' => $score,
             'status' => 0
         ]);
         return '评分成功';
