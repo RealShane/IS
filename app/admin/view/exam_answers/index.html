@@ -103,18 +103,29 @@
         /**
          * 渲染数据
          */
+        let back = "";
         str = "";
         if (type === 'class'){
             for (let key of data['data']){
                 str +=
-                    "<blockquote onclick='paper(" + key['id'] + ")' class='layui-elem-quote'>" +
+                    "<blockquote onclick='getPapersData(" + key['id'] + ")' class='layui-elem-quote'>" +
                         "<a>" + key['name'] + "</a>" +
+                    "</blockquote>";
+            }
+        }
+        if (type === 'paper_list'){
+            back = "<button onclick='getClassData(10, 1)' class=\"layui-btn\">返回</button>";
+            for (let key of data['data']){
+                str +=
+                    "<blockquote onclick='getPapersData(" + key['id'] + ")' class='layui-elem-quote'>" +
+                        "<a>" + key['title'] + "</a>" +
                     "</blockquote>";
             }
         }
         $("#data_remove").remove();
         $("#data").append(
             "<div id=\"data_remove\">" +
+            back +
             str +
             "</div>"
         );
@@ -254,12 +265,29 @@
                 page : page
             },
             success : function(res) {
-                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                     return false;
                 }
                 renderData(res.result, num, page, 'class');
+            }
+        });
+    }
+    function getPapersData(id) {
+        $("#search").show();
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/Exam/showPaperTitle',
+            data : {
+                class_id : id
+            },
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                renderData(res.result, 10, 1, 'paper_list');
             }
         });
     }
