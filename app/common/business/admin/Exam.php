@@ -147,8 +147,11 @@ class Exam
 
     public function commitScore($answerId, $inputScore){
         $answer = $this -> examAnswersModel -> findById($answerId);
-        $paper = $this -> examPapersModel -> findById($answer['paper_id']);
-        $this -> judgeScore($paper, $answer, $inputScore);
+        $score = $answer['score'] + $inputScore;
+        $answer -> save([
+            'score' => $score,
+            'status' => 0
+        ]);
         return $this -> showPaper($answer['paper_id'], $answerId);
     }
 
@@ -161,21 +164,6 @@ class Exam
         } else {
             return "multiple";
         }
-    }
-
-    private function judgeScore($paper, $answer,  $inputScore) {
-        $score = 0;
-        for ($i = 0; $i < count($paper['paper_answer']); $i++) {
-            $isInput = $this -> subjectType($paper['paper_answer'][$i]['answer']);
-            if ($isInput == "input"){
-                $score += $inputScore;
-            }
-        }
-        $answer -> save([
-            'score' => $score,
-            'status' => 0
-        ]);
-        return $answer;
     }
 
 
