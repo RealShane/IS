@@ -112,6 +112,14 @@
                     "</blockquote>";
             }
         }
+        if (type === 'paper_list'){
+            for (let key of data['data']){
+                str +=
+                    "<blockquote onclick='getPapersData(" + key['id'] + ")' class='layui-elem-quote'>" +
+                        "<a>" + key['title'] + "</a>" +
+                    "</blockquote>";
+            }
+        }
         $("#data_remove").remove();
         $("#data").append(
             "<div id=\"data_remove\">" +
