@@ -123,7 +123,7 @@ class Exam extends BaseController
     }
 
     public function showPaperTitle(){
-        $classId = $this -> request -> param('classId', '', 'htmlspecialchars');
+        $classId = $this -> request -> param('class_id', '', 'htmlspecialchars');
         $num = $this -> request -> param("num", 10, 'htmlspecialchars');
         return $this -> success($this -> business -> showPaperTitle($classId, $num));
     }
