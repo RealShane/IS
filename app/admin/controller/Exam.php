@@ -140,7 +140,7 @@ class Exam extends BaseController
     }
 
     public function getPaperUsers(){
-        $paperId = $this -> request -> param('paperId', '', 'htmlspecialchars');
+        $paperId = $this -> request -> param('paper_id', '', 'htmlspecialchars');
         $num = $this -> request -> param("num", 10, 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('getPaperUsers') -> check(['paperId' => $paperId]);
