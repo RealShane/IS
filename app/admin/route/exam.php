@@ -34,6 +34,7 @@ Route::group('Exam', function () {
     Route::rule('getPaperUsers', '/admin/Exam/getPaperUsers', 'POST');
     Route::rule('showPaper', '/admin/Exam/showPaper', 'POST');
     Route::rule('commitScore', '/admin/Exam/commitScore', 'POST');
+    Route::rule('getAllClass', '/admin/Exam/getAllClass', 'POST');
 }) -> middleware(IsLogin::class) -> middleware(Auth::class);
 
 //----------------------------------------------------------------------------------
