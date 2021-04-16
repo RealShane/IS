@@ -334,11 +334,10 @@
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/Exam/saveJudgeAnswers',
+            url : '/{$secret}/Exam/commitScore',
             data : {
-                paper_id : id,
-                answer : answer,
-                input_score : add_score
+                answer_id : id,
+                input_score : $("#add_score").val()
             },
             success : function(res) {
                 if (res.status === config('failed')){
