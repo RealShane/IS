@@ -67,7 +67,7 @@
             return false;
         });
     });
-    function renderData(data, num, page) {
+    function renderData(data, num, page, type) {
         /**
          * 分页
          */
@@ -104,11 +104,13 @@
          * 渲染数据
          */
         str = "";
-        for (let key of data['data']){
-            str +=
-                "<blockquote onclick='paper(" + key['id'] + ")' class='layui-elem-quote'>" +
-                    "<a>" + key['title'] + "</a>" +
-                "</blockquote>";
+        if (type === 'class'){
+            for (let key of data['data']){
+                str +=
+                    "<blockquote onclick='paper(" + key['id'] + ")' class='layui-elem-quote'>" +
+                        "<a>" + key['name'] + "</a>" +
+                    "</blockquote>";
+            }
         }
         $("#data_remove").remove();
         $("#data").append(
@@ -257,7 +259,7 @@
                     layer.msg(res.message);
                     return false;
                 }
-                renderData(res.result, num, page);
+                renderData(res.result, num, page, 'class');
             }
         });
     }
