@@ -151,8 +151,8 @@ class Exam extends BaseController
     }
 
     public function showPaper(){
-        $paperId = $this -> request -> param('paperId', '', 'htmlspecialchars');
-        $answerId = $this -> request -> param('answerId', '', 'htmlspecialchars');
+        $paperId = $this -> request -> param('paper_id', '', 'htmlspecialchars');
+        $answerId = $this -> request -> param('answer_id', '', 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('showPaper') -> check(['paperId' => $paperId, 'answerId' => $answerId]);
         }catch (\Exception $exception){
