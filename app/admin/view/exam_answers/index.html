@@ -344,9 +344,7 @@
                     layer.msg(res.message);
                 }else if(res.status === config('success')){
                     layer.msg(res.result, function() {
-                        if (type === "judge"){
-                            getData(10, 1);
-                        }
+                        getPaperUsersData(chosen_user);
                     });
                 }
             }
