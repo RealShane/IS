@@ -11,6 +11,11 @@
                 <label class="layui-form-label">
                     <span class="x-red">*</span>班级
                 </label>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">多选1</label>
+                    <div class="layui-input-block" id="tag_ids1">
+                    </div>
+                </div>
                 <div class="layui-input-inline">
                     <select lay-filter="class_id" id="class_id" lay-verify="required">
                         <option value="">请选择</option>
@@ -61,12 +66,14 @@
 </div>
 <script>
     isLogin('{$secret}');
+    let data = null, max = 0;
     $(document).ready(function() {
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
             url : '/{$secret}/Exam/selectAllClass',
             success : function(res) {
+                console.log(res);
                 if(res.status === config('failed')){
                     layer.msg(res.message);
                 }
@@ -74,13 +81,26 @@
             }
         });
     });
-    layui.use(['form', 'layer', 'upload', 'laydate'], function() {
+    layui.config({
+        base: "__ADMIN__/lib/layui/lay/mymodules/"
+    }).use(['form', 'layer', 'upload', 'laydate', 'selectM'], function() {
         $ = layui.jquery;
         var form = layui.form,
             upload  = layui.upload,
             laydate = layui.laydate,
-            layer = layui.layer;
+            layer = layui.layer,
+            selectM = layui.selectM;
         let file_token = null, class_id = null;
+        selectM({
+            elem: '#tag_ids1',
+            data: data,
+            max: max,
+            field: {
+                idName: 'id',
+                titleName: 'name'
+            },
+            verify:'required'
+        });
         upload.render({
             elem: '#upload',
             url: '/{$secret}/Exam/readPaper',
