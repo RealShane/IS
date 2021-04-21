@@ -57,6 +57,9 @@ class Classes extends Model
         $i = 0;
         foreach ($data as $item){
             $class = $this -> findById($item);
+            echo json_encode($class);
+            echo json_encode($class['name']);
+            exit();
             $array[$i] = $class['name'];
             $i++;
         }
