@@ -75,12 +75,12 @@ class Exam
 
     public function viewAllPapers($num){
         return $this -> examPapersModel -> findAll($num) -> each(function ($res){
-            $i = 0;
+            $array = [];
             foreach ($res['class_id'] as $item){
                 $class = $this -> classesModel -> findById($item);
-                $res['classes']['name'][$i] = $class['name'];
-                $i++;
+                $array[] = $class['name'];
             }
+            $res['classes']['name'] = $array;
         });
     }
 
