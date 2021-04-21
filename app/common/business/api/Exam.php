@@ -36,7 +36,7 @@ class Exam
 
     public function getTargetPapers($uid, $title, $num){
         $classId = $this -> userClassModel -> findByUid($uid);
-        return $this -> examPapersModel -> searchTitleList($classId, $title, $num);
+        return $this -> examPapersModel -> searchTitleList($classId['id'], $title, $num);
     }
 
     public function showPaperTitle($uid, $num) {
