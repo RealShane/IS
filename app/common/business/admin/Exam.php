@@ -78,7 +78,8 @@ class Exam
             $i = 0;
             foreach ($res['class_id'] as $item){
                 $class = $this -> classesModel -> findById($item);
-                $res['classes']['name'][$i++] = $class['name'];
+                $res['classes']['name'][$i] = $class['name'];
+                $i++;
             }
         });
     }
