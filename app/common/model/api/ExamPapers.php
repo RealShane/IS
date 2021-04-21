@@ -26,7 +26,7 @@ class ExamPapers extends Model
     }
 
     public function pageList($class_id, $num){
-        return $this -> where('class_id', 'LIKE', $class_id) -> order('id', 'DESC') -> field(['id', 'title']) -> paginate($num);
+        return $this -> where('class_id', 'LIKE', '%' . $class_id . '%') -> order('id', 'DESC') -> field(['id', 'title']) -> paginate($num);
     }
 
     public function deletePaper($id){
