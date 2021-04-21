@@ -7,6 +7,7 @@
 <div class="layui-fluid">
     <div class="layui-row">
         <form class="layui-form">
+            <br>
             <div class="layui-form-item">
                 <label class="layui-form-label">
                     试卷标题
@@ -19,10 +20,7 @@
                 <label class="layui-form-label">
                     <span class="x-red">*</span>班级
                 </label>
-                <div class="layui-input-inline">
-                    <select lay-filter="class_id" id="class_id" lay-verify="required">
-                        <option value="">请选择</option>
-                    </select>
+                <div class="layui-input-inline" id="class_id">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>选择该试题对应的班级
@@ -81,7 +79,6 @@
     isLogin('{$secret}');
     let param = getParams();
     let id = param.id;
-    let file_token = null, class_id = null;
     $(document).ready(function() {
         $.ajax({
             type : "POST",
@@ -120,12 +117,26 @@
             }
         });
     });
-    layui.use(['form', 'layer', 'upload', 'laydate'], function() {
+    layui.config({
+        base: "__ADMIN__/lib/layui/lay/mymodules/"
+    }).use(['form', 'layer', 'upload', 'laydate', 'selectM'], function() {
         $ = layui.jquery;
         var form = layui.form,
             upload = layui.upload,
             laydate = layui.laydate,
-            layer = layui.layer;
+            layer = layui.layer,
+            selectM = layui.selectM;
+        let file_token = null, class_id = selectM({
+            elem: '#class_id',
+            data: data,
+            max: data.length,
+            width: 200,
+            field: {
+                idName: 'id',
+                titleName: 'name'
+            },
+            verify:'required'
+        });
         upload.render({
             elem: '#upload',
             url: '/{$secret}/Exam/readPaper',
