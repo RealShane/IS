@@ -66,7 +66,6 @@
 </div>
 <script>
     isLogin('{$secret}');
-    let data = null, max = 0;
     $(document).ready(function() {
         $.ajax({
             type : "POST",
@@ -81,26 +80,13 @@
             }
         });
     });
-    layui.config({
-        base: "__ADMIN__/lib/layui/lay/mymodules/"
-    }).use(['form', 'layer', 'upload', 'laydate', 'selectM'], function() {
+    layui.use(['form', 'layer', 'upload', 'laydate'], function() {
         $ = layui.jquery;
         var form = layui.form,
             upload  = layui.upload,
             laydate = layui.laydate,
-            layer = layui.layer,
-            selectM = layui.selectM;
+            layer = layui.layer;
         let file_token = null, class_id = null;
-        selectM({
-            elem: '#tag_ids1',
-            data: data,
-            max: max,
-            field: {
-                idName: 'id',
-                titleName: 'name'
-            },
-            verify:'required'
-        });
         upload.render({
             elem: '#upload',
             url: '/{$secret}/Exam/readPaper',
@@ -155,6 +141,22 @@
 
     });
     function renderClassSelect(data) {
+        layui.config({
+            base: "__ADMIN__/lib/layui/lay/mymodules/"
+        }).use(['selectM'], function() {
+            $ = layui.jquery;
+            var selectM = layui.selectM;
+            selectM({
+                elem: '#tag_ids1',
+                data: data,
+                max: data.length,
+                field: {
+                    idName: 'id',
+                    titleName: 'name'
+                },
+                verify:'required'
+            });
+        });
         for (let key of data){
             $("#class_id").append("<option value=" + key['id'] + ">" + key['name'] + "</option>");
         }
