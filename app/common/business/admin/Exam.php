@@ -74,9 +74,8 @@ class Exam
     }
 
     public function viewAllPapers($num){
-        return $this -> examPapersModel -> findAll($num) -> each(function ($res){
-            $res['classes']['name'] = $this -> classesModel -> getClassesName($res['class_id']);
-        });
+        $res = $this -> examPapersModel -> findAll($num);
+        echo json_encode($res);exit();
     }
 
     public function readPaper($file){
