@@ -88,7 +88,7 @@
             elem: '#class_id',
             data: data,
             max: data.length,
-            width: 400,
+            width: 200,
             field: {
                 idName: 'id',
                 titleName: 'name'
@@ -120,16 +120,12 @@
             trigger: 'click'
         });
         form.on('submit(add)', function(res) {
-            console.log('tagIns1 当前选中的值名：',class_id.selected);
-            console.log('tagIns1 当前选中的值：',class_id.values);
-            console.log('tagIns1 当前选中的名：',class_id.names);
-            return false;
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
                 url : '/{$secret}/Exam/commitPaper',
                 data : {
-                    class_id : class_id,
+                    class_id : class_id.values,
                     token : file_token,
                     begin_time : timeToTimeStamp(res.field.begin_time),
                     close_time : timeToTimeStamp(res.field.close_time)
@@ -149,26 +145,6 @@
         });
 
     });
-    function renderClassSelect(data) {
-        layui.config({
-            base: "__ADMIN__/lib/layui/lay/mymodules/"
-        }).use(['selectM'], function() {
-            $ = layui.jquery;
-            var selectM = layui.selectM;
-            selectM({
-                elem: '#class_id',
-                data: data,
-                max: data.length,
-                width: 400,
-                field: {
-                    idName: 'id',
-                    titleName: 'name'
-                },
-                verify:'required'
-            });
-        });
-        renderForm()
-    }
     function renderForm(){
         layui.use('form', function(){
             var form = layui.form;
