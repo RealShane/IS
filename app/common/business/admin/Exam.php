@@ -71,7 +71,14 @@ class Exam
     }
 
     public function getTargetPapers($title, $num){
-        return $this -> examPapersModel -> selectTitle($title, $num);
+        return $this -> examPapersModel -> selectTitle($title, $num) -> each(function ($res){
+            $array = array();
+            foreach ($res['class_id'] as $item){
+                $temp = $this -> classesModel -> findById($item);
+                $array[] = $temp['name'];
+            }
+            $res['classes'] = $array;
+        });
     }
 
     public function viewAllPapers($num){
