@@ -60,6 +60,7 @@
 </div>
 <script>
     isLogin('{$secret}');
+    let data = null;
     $(document).ready(function() {
         $.ajax({
             type : "POST",
@@ -69,7 +70,8 @@
                 if(res.status === config('failed')){
                     layer.msg(res.message);
                 }
-                renderClassSelect(res.result);
+                data = res.result;
+                renderForm()
             }
         });
     });
@@ -82,7 +84,17 @@
             laydate = layui.laydate,
             layer = layui.layer,
             selectM = layui.selectM;
-        let file_token = null, class_id = null;
+        let file_token = null, class_id = selectM({
+            elem: '#class_id',
+            data: data,
+            max: data.length,
+            width: 400,
+            field: {
+                idName: 'id',
+                titleName: 'name'
+            },
+            verify:'required'
+        });
         upload.render({
             elem: '#upload',
             url: '/{$secret}/Exam/readPaper',
@@ -147,6 +159,7 @@
                 elem: '#class_id',
                 data: data,
                 max: data.length,
+                width: 400,
                 field: {
                     idName: 'id',
                     titleName: 'name'
