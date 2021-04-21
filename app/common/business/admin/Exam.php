@@ -79,7 +79,6 @@ class Exam
             $array = array();
             foreach ($res['class_id'] as $item){
                 $temp = $this -> classesModel -> findById($item);
-                $res['classes']['name'] = $temp['name'];
                 $array[] = $temp['name'];
             }
             echo json_encode($array);
