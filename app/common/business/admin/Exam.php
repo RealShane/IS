@@ -81,7 +81,7 @@ class Exam
                 $temp = $this -> classesModel -> findById($item);
                 $array[] = $temp['name'];
             }
-            $res['classes']['name'] = $array;
+            $res['classes'] = $array;
             echo json_encode($res);
             exit();
         });
