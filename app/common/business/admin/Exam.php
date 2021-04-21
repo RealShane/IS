@@ -9,6 +9,7 @@ use app\common\model\api\ExamPapers;
 use app\common\business\admin\CRUD;
 use app\common\business\lib\Redis;
 use app\common\business\lib\Str;
+use PhpOffice\PhpSpreadsheet\Reader\Xls\ErrorCode;
 use think\Exception;
 use app\common\model\api\Classes;
 use app\common\model\api\ExamAnswers;
@@ -77,6 +78,7 @@ class Exam
         $res = $this -> examPapersModel -> findAll($num) -> each(function ($res){
             foreach ($res['class_id'] as $item){
                 $temp = $this -> classesModel -> findById($item);
+                echo json_encode($temp);exit();
                 $res['classes']['name'] = $temp['name'];
             }
         });
