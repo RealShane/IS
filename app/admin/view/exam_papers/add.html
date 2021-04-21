@@ -12,14 +12,8 @@
                     <span class="x-red">*</span>班级
                 </label>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">多选1</label>
-                    <div class="layui-input-block" id="tag_ids1">
+                    <div class="layui-input-block" id="class_id">
                     </div>
-                </div>
-                <div class="layui-input-inline">
-                    <select lay-filter="class_id" id="class_id" lay-verify="required">
-                        <option value="">请选择</option>
-                    </select>
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>选择该试题对应的班级
@@ -72,7 +66,6 @@
             contentType : "application/x-www-form-urlencoded",
             url : '/{$secret}/Exam/selectAllClass',
             success : function(res) {
-                console.log(res);
                 if(res.status === config('failed')){
                     layer.msg(res.message);
                 }
@@ -80,13 +73,16 @@
             }
         });
     });
-    layui.use(['form', 'layer', 'upload', 'laydate'], function() {
+    layui.config({
+        base: "__ADMIN__/lib/layui/lay/mymodules/"
+    }).use(['form', 'layer', 'upload', 'laydate', 'selectM'], function() {
         $ = layui.jquery;
         var form = layui.form,
             upload  = layui.upload,
             laydate = layui.laydate,
-            layer = layui.layer;
-        let file_token = null, class_id = null;
+            layer = layui.layer,
+            selectM = layui.selectM;
+        let file_token = null, class_id = selectM({elem: '#class_id'});
         upload.render({
             elem: '#upload',
             url: '/{$secret}/Exam/readPaper',
@@ -111,10 +107,11 @@
             type: 'datetime',
             trigger: 'click'
         });
-        form.on('select(class_id)', function (data) {
-            class_id = data.value;
-        });
         form.on('submit(add)', function(res) {
+            console.log('tagIns1 当前选中的值名：',class_id.selected);
+            console.log('tagIns1 当前选中的值：',class_id.values);
+            console.log('tagIns1 当前选中的名：',class_id.names);
+            return false;
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
@@ -147,7 +144,7 @@
             $ = layui.jquery;
             var selectM = layui.selectM;
             selectM({
-                elem: '#tag_ids1',
+                elem: '#class_id',
                 data: data,
                 max: data.length,
                 field: {
@@ -157,9 +154,6 @@
                 verify:'required'
             });
         });
-        for (let key of data){
-            $("#class_id").append("<option value=" + key['id'] + ">" + key['name'] + "</option>");
-        }
         renderForm()
     }
     function renderForm(){
