@@ -79,6 +79,7 @@ class Exam
                 $class = $this -> classesModel -> findById($item);
                 $res['classes'][] = $class['name'];
             }
+            echo json_encode($res);exit();
             return $res;
         });
     }
