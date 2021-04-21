@@ -82,6 +82,7 @@ class Exam
 //                $res['classes']['name'] = $temp['name'];
                 $array[] = $temp['name'];
             }
+            echo json_encode($array);
             exit();
         });
         echo json_encode($res);
