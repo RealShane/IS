@@ -78,7 +78,7 @@
 <script>
     isLogin('{$secret}');
     let param = getParams();
-    let id = param.id;
+    let id = param.id, data = null;
     $(document).ready(function() {
         $.ajax({
             type : "POST",
@@ -88,7 +88,8 @@
                 if(res.status === config('failed')){
                     layer.msg(res.message);
                 }
-                renderClassSelect(res.result);
+                data = res.result;
+                renderForm()
             }
         });
         $.ajax({
@@ -103,7 +104,6 @@
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }
-                class_id = res.result['class_id'];
                 $("#title").val(res.result['title']);
                 $("#begin_time").val(timestampToTime(res.result['close_time']['begin_time']));
                 $("#close_time").val(timestampToTime(res.result['close_time']['close_time']));
@@ -194,12 +194,6 @@
         });
 
     });
-    function renderClassSelect(data) {
-        for (let key of data){
-            $("#class_id").append("<option value=" + key['id'] + ">" + key['name'] + "</option>");
-        }
-        renderForm()
-    }
     function renderForm(){
         layui.use('form', function(){
             var form = layui.form;
