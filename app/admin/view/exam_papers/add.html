@@ -97,11 +97,13 @@
         });
         laydate.render({
             elem: '#begin_time',
-            type: 'datetime'
+            type: 'datetime',
+            trigger: 'click'
         });
         laydate.render({
             elem: '#close_time',
-            type: 'datetime'
+            type: 'datetime',
+            trigger: 'click'
         });
         form.on('select(class_id)', function (data) {
             class_id = data.value;
