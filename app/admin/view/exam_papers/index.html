@@ -96,7 +96,6 @@
                     title : res.field.title
                 },
                 success : function(res) {
-                    console.log(res);
                     if(res.status === config('failed')){
                         layer.msg(res.message);
                     }
@@ -187,6 +186,7 @@
                 page : page
             },
             success : function(res) {
+                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }
