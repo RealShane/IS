@@ -77,8 +77,7 @@ class Exam
         return $this -> examPapersModel -> findAll($num) -> each(function ($res){
             foreach ($res['class_id'] as $item){
                 $class = $this -> classesModel -> findById($item);
-                echo json_encode($class);exit();
-                $res['classes'][] = $class['name'];
+                $res['classes'] = $class['name'];
             }
             return $res;
         });
