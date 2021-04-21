@@ -82,7 +82,7 @@
             laydate = layui.laydate,
             layer = layui.layer,
             selectM = layui.selectM;
-        let file_token = null, class_id = selectM({elem: '#class_id'});
+        let file_token = null, class_id = null;
         upload.render({
             elem: '#upload',
             url: '/{$secret}/Exam/readPaper',
