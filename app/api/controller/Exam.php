@@ -20,6 +20,7 @@ class Exam extends BaseController
     }
 
     public function getTargetPapers(){
+        $uid = $this -> getUid();
         $title = $this -> request -> param('title', '', 'htmlspecialchars');
         $num = $this -> request -> param("num", 10, 'htmlspecialchars');
         try {
@@ -27,7 +28,7 @@ class Exam extends BaseController
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
-        return $this -> success($this -> business -> getTargetPapers($title, $num));
+        return $this -> success($this -> business -> getTargetPapers($uid, $title, $num));
     }
 
 

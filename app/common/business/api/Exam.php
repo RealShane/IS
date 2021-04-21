@@ -34,8 +34,9 @@ class Exam
         $this -> str = new Str();
     }
 
-    public function getTargetPapers($title, $num){
-        return $this -> examPapersModel -> searchTitleList($title, $num);
+    public function getTargetPapers($uid, $title, $num){
+        $classId = $this -> userClassModel -> findByUid($uid);
+        return $this -> examPapersModel -> searchTitleList($classId, $title, $num);
     }
 
     public function showPaperTitle($uid, $num) {
@@ -44,6 +45,10 @@ class Exam
     }
 
     public function saveJudgeAnswers($data) {
+        $limit = $this -> limit($data['uid'], $data['paper_id']);
+        if (!$limit){
+            throw new Exception("所在班级没有该试卷");
+        }
         $data['type'] = strtoupper($data['type']);
         if ($data['type'] == 'SAVE') {
             $info = [
@@ -110,6 +115,10 @@ class Exam
     }
 
     public function showPaper($data) {
+        $limit = $this -> limit($data['uid'], $data['paper_id']);
+        if (!$limit){
+            throw new Exception("所在班级没有该试卷");
+        }
         $paper = $this -> examPapersModel -> findById($data['paper_id']);
         $answer = $this -> examAnswersModel -> findByUidAndPaperId($data);
         $time = time();
@@ -223,6 +232,17 @@ class Exam
         } else {
             return "multiple";
         }
+    }
+
+    private function limit($uid, $paperId){
+        $classId = $this -> userClassModel -> findByUid($uid);
+        $paper = $this -> examPapersModel -> findById($paperId);
+        foreach ($paper['class_id'] as $key){
+            if ((int)$key == (int)$classId['class_id']){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
