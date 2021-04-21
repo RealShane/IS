@@ -40,7 +40,12 @@ class Exam
 
     public function showPaperTitle($uid, $num) {
         $classId = $this -> userClassModel -> findByUid($uid);
-        return $this -> examPapersModel -> pageList($classId['class_id'], $num);
+        foreach ($classId['class_id'] as $key){
+            $result = $this -> examPapersModel -> pageList($key, $num);
+            if (!empty($result)){
+                return $result;
+            }
+        }
     }
 
     public function saveJudgeAnswers($data) {
