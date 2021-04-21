@@ -78,7 +78,7 @@
 <script>
     isLogin('{$secret}');
     let param = getParams();
-    let id = param.id, data = null;
+    let id = param.id, data = null, selected = null;
     $(document).ready(function() {
         $.ajax({
             type : "POST",
@@ -104,13 +104,13 @@
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }
+                selected = res['result']['class_id'];
                 $("#title").val(res.result['title']);
                 $("#begin_time").val(timestampToTime(res.result['close_time']['begin_time']));
                 $("#close_time").val(timestampToTime(res.result['close_time']['close_time']));
                 layui.use(['form'], function() {
                     $ = layui.jquery;
                     var form = layui.form;
-                    $("#class_id").find("option[value='" + res.result['class_id'] + "']").prop("selected",true);
                     $("#status").find("option[value='" + res.result['status'] + "']").prop("selected",true);
                     form.render();
                 });
@@ -135,6 +135,7 @@
                 idName: 'id',
                 titleName: 'name'
             },
+            selected: selected,
             verify:'required'
         });
         upload.render({
@@ -161,9 +162,6 @@
             type: 'datetime',
             trigger: 'click'
         });
-        form.on('select(class_id)', function (data) {
-            class_id = data.value;
-        });
         form.on('submit(add)', function(res) {
             let status = $("select[name='status']").val();
             $.ajax({
@@ -173,7 +171,7 @@
                 data : {
                     id : id,
                     title : res.field.title,
-                    class_id : class_id,
+                    class_id : class_id.values,
                     token : file_token,
                     begin_time : timeToTimeStamp(res.field.begin_time),
                     close_time : timeToTimeStamp(res.field.close_time),
