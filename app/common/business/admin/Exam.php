@@ -76,6 +76,7 @@ class Exam
     public function viewAllPapers($num){
         return $this -> examPapersModel -> findAll($num) -> each(function ($res){
             echo json_encode($res);
+            exit();
         });
     }
 
