@@ -143,6 +143,10 @@
          */
         str = "";
         for (let key of data['data']){
+            let classes = null;
+            for (let key2 of key['classes']){
+                classes += key2 + " ";
+            }
             let status = "<span class=\"layui-btn layui-btn-normal layui-btn-mini\">已启用</span></td>";
             if (key['status'] === 0){
                 status = "<span class=\"layui-btn layui-btn-disabled layui-btn-mini\">已停用</span></td>";
@@ -152,7 +156,7 @@
             str +=
                 "<tr>" +
                 "<td>" + key['id'] + "</td>" +
-                "<td>" + key['classes']['name'] + "</td>" +
+                "<td>" + classes + "</td>" +
                 "<td>" + key['title'] + "</td>" +
                 "<td>开始时间：" + timestampToTime(key['close_time']['begin_time']) + " 结束时间：" + timestampToTime(key['close_time']['close_time']) + "</td>" +
                 "<td>" + create_time + "</td>" +

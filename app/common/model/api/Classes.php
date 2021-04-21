@@ -52,17 +52,4 @@ class Classes extends Model
         return $this -> where('id', '>', 0) -> field(['id', 'name']) -> paginate($num);
     }
 
-    public function getClassesName($data){
-        $array = [];
-        $i = 0;
-        foreach ($data as $item){
-            $class = $this -> findById($item);
-            $array[$i] = [
-                $class['name']
-            ];
-            $i++;
-        }
-        return $array;
-    }
-
 }

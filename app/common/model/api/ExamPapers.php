@@ -46,8 +46,7 @@ class ExamPapers extends Model
     }
 
     public function findAll($num){
-        return $this -> field(['id', 'class_id', 'title', 'close_time', 'create_time', 'update_time', 'status'])
-            -> paginate($num);
+        return $this -> field(['id', 'class_id', 'title', 'close_time', 'create_time', 'update_time', 'status']) -> paginate($num);
     }
 
     public function classes(){
