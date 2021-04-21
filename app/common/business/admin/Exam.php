@@ -80,7 +80,6 @@ class Exam
                 $class = $this -> classesModel -> findById($item);
                 $res['classes']['name'][$i++] = $class['name'];
             }
-            return $res;
         });
     }
 
