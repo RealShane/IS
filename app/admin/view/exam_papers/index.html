@@ -145,6 +145,9 @@
         for (let key of data['data']){
             let classes = null;
             for (let key2 of key['classes']){
+                if (empty(key2)){
+                    continue;
+                }
                 classes += key2 + " ";
             }
             let status = "<span class=\"layui-btn layui-btn-normal layui-btn-mini\">已启用</span></td>";
