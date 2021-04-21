@@ -54,9 +54,11 @@ class Classes extends Model
 
     public function getClassesName($data){
         $array = [];
+        $i = 0;
         foreach ($data as $item){
             $class = $this -> findById($item);
-            $array[] = $class['name'];
+            $array[$i] = $class['name'];
+            $i++;
         }
         return $array;
     }
