@@ -159,6 +159,7 @@
         for (let key of data['paper_answer']){
             let options = "", alpha = 65, answer = '', alert = 'layui-elem-quote';
             if (!empty(key['answer']) && !empty(key['analysis'])){
+                console.log("sss");
                 if (key['answer'] !== key['myAnswer']){
                     alert = 'layui-bg-red';
                 }
