@@ -157,7 +157,7 @@
             title = "<br><p class='layui-bg-cyan layui-text'>最终得分：" + data['score'] + "</p>";
         }
         for (let key of data['paper_answer']){
-            let options = "", alpha = 65, answer = '', alert = 'layui-bg-green';
+            let options = "", alpha = 65, answer = '', alert = 'layui-elem-quote';
             if (!empty(key['answer']) && !empty(key['analysis'])){
                 if (key['answer'] !== key['myAnswer']){
                     alert = 'layui-bg-red';
@@ -180,7 +180,7 @@
                 }
                 str +=
                     "<div class='layui-form-item' pane>" +
-                        "<blockquote class='layui-elem-quote " + alert + "'>"+key['subject']+"</blockquote>" +
+                        "<blockquote class='" + alert + "'>"+key['subject']+"</blockquote>" +
                         "<select id='answer_" + count + "'>" +
                             "<option value=''>请选择</option>" +
                             options +
@@ -206,7 +206,7 @@
                 }
                 str +=
                     "<div class='layui-form-item' pane>" +
-                        "<blockquote class='layui-elem-quote " + alert + "'>" + key['subject'] + "</blockquote>" +
+                        "<blockquote class='" + alert + "'>" + key['subject'] + "</blockquote>" +
                         options +
                         answer +
                     "</div>";
