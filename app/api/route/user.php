@@ -29,7 +29,7 @@ Route::group('User', function () {
     Route::rule('isLogin', '/api/User/isLogin', 'POST');
     Route::rule('userInfo', '/api/User/userInfo', 'POST');
     Route::rule('joinClass', '/api/User/joinClass', 'POST');
-    Route::rule('joinClass', '/api/User/joinClass', 'POST');
+    Route::rule('sendUserRandom', '/api/User/sendUserRandom', 'POST');
     Route::rule('changePassword', '/api/User/changePassword', 'POST');
 }) -> middleware(IsLogin::class);
 //----------------------------------------------------------------------------------
