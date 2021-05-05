@@ -37,7 +37,7 @@ class UserClass extends Model
     }
 
     public function user(){
-        return $this -> belongsTo(User::class, 'uid', 'id') -> bind(['name']);
+        return $this -> belongsTo(User::class, 'uid', 'id');
     }
 
 

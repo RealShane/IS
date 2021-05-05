@@ -48,7 +48,10 @@ class Synthesize
             if (empty($sign) || $sign['uid'] == $user['id']){
                 continue;
             }
-            $result[] = $sign;
+            $result[] = [
+                'id' => $sign['uid'],
+                'name' => $sign['user']['name']
+            ];
         }
         return $result;
     }
