@@ -50,7 +50,7 @@ class Synthesize extends BaseController
     }
 
     public function showClasses(){
-        $errCode = (new SynthesizeBusiness()) -> showClasses();
+        $errCode = (new Business()) -> showClasses();
         if (empty($errCode)){
             return $this -> show(
                 config("status.failed"),
