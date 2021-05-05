@@ -53,7 +53,7 @@ class Synthesize
 //                '总分'
 //            ];
 //        }
-            $indexes = [
+            $indexes[] = [
                 '序号',
                 '被评分人',
                 $userName,
