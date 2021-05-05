@@ -28,8 +28,8 @@ class UserClass extends Model
         return $this -> where('class_id', $class) -> where('status', 1) -> select();
     }
 
-    public function findByUserId($uid){
-        return self::with('user') -> findByUid($uid);
+    public function findByUidWithUser($uid){
+        return self::with('user') -> where('uid', $uid) -> find();
     }
 
     public function findByUid($uid){
