@@ -95,21 +95,12 @@ class Excel
         }
         $this -> excel  -> getActiveSheet() -> setTitle('Sheet1');
         $this -> excel  -> setActiveSheetIndex(0);
-        header('Pragma: public');
-        header("Expires: 0");
-        header('Access-Control-Allow-Origin:*');
-        header('Access-Control-Allow-Headers:content-type');
-        header('Access-Control-Allow-Credentials:true');
-        header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
+
+        header('Content-Type: application.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $title . '.xls"');
         header('Cache-Control: max-age=0');
         header('Cache-Control: cache, must-revalidate');
-        header('Content-Type: application.ms-excel');
-        header("Content-Type:application/force-download");
-        header("Content-Type:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        header("Content-Type:application/octet-stream");
-        header("Content-Type:application/download");;
-        header('Content-Disposition: attachment;filename="' . $title . '.xls"');
-        header("Content-Transfer-Encoding:binary");
+        header('Pragma: public');
         $objWriter = IOFactory::createWriter($this -> excel, 'Xls');
         $objWriter -> save('php://output');
         exit;
