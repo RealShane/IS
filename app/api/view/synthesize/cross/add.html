@@ -9,16 +9,13 @@
         <form class="layui-form">
             <div class="layui-form-item">
                 <label class="layui-form-label">
-                    <span class="x-red">*</span>性别
+                    <span class="x-red">*</span>请打分
                 </label>
                 <div class="layui-input-inline">
-                    <select id="sex" name="sex">
-                        <option value=1>男</option>
-                        <option value=0>女</option>
-                    </select>
+                    <input type="number" id="score" name="score" required="" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
-                    请不要随意修改！
+                    分数请不小于70不大于100
                 </div>
             </div>
             <div class="layui-form-item">
@@ -32,6 +29,8 @@
 </div>
 <script>
     isApiLogin();
+    let param = getParams();
+    let id = param.id;
     layui.use(['form', 'layer'], function() {
         $ = layui.jquery;
         var form = layui.form,
@@ -42,7 +41,8 @@
                 contentType : "application/x-www-form-urlencoded",
                 url : '/api/user/',
                 data : {
-                    sex : $("select[name='sex']").val()
+                    target : id,
+                    score : res.field.score
                 },
                 success : function(res) {
                     if(res.status === config('failed')){
