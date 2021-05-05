@@ -45,7 +45,7 @@ class Synthesize
         }
         //$results = $this -> synthesizeCrossModel -> selectAll();
         foreach ($userName as $key){
-            $indexes[] = [
+            $indexes = [
                 '序号',
                 '被评分人',
                 $key,
