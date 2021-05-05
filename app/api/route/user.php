@@ -11,6 +11,11 @@
 use think\facade\Route;
 use \app\api\middleware\IsLogin;
 
+Route::group('View/User', function () {
+    Route::rule('change/password', '/api/View/changePasswordView', 'GET');
+    Route::rule('change/sex', '/api/View/changeSexView', 'GET');
+});
+
 Route::group('User', function () {
     Route::rule('activeRegister', '/api/User/activeRegister', 'GET');
     Route::rule('sendRandom', '/api/User/sendRandom', 'POST');
