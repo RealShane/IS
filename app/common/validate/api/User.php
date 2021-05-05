@@ -19,7 +19,7 @@ class User extends Validate
 
     protected $rule = [
         'email|邮箱' => ['require', 'email'],
-        'password|密码' => ['require', 'max:20'],
+        'password|密码' => ['require', 'between:6,20'],
         'name|姓名' => ['require', 'max:20'],
         'sex|性别' => ['require', 'between:0,1'],
         'student_id|学号' => ['require', 'max:255'],
