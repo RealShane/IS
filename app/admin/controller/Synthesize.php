@@ -15,6 +15,7 @@ namespace app\admin\controller;
 use app\BaseController;
 use app\common\business\admin\Synthesize as Business;
 use think\App;
+use app\common\validate\admin\Synthesize as validate;
 
 class Synthesize extends BaseController
 {
