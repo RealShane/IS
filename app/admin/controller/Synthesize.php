@@ -13,16 +13,28 @@ namespace app\admin\controller;
 
 
 use app\BaseController;
-use app\common\business\admin\Synthesize as SynthesizeBusiness;
-use think\facade\View;
+use app\common\business\admin\Synthesize as Business;
+use think\App;
 
 class Synthesize extends BaseController
 {
 
+    protected $business = NULL;
+
+    public function __construct(App $app, Business $business){
+        parent::__construct($app);
+        $this -> business = $business;
+    }
+
+    public function getAllClass(){
+        $num = $this -> request -> param("num", 10, 'htmlspecialchars');
+        return $this -> success($this -> business -> getAllClass($num));
+    }
+
     public function exportPoorSignExcel(){
         $type = $this -> request -> param("type", '', 'htmlspecialchars');
         $class_id = $this -> request -> param("class_id", '', 'htmlspecialchars');
-        $errCode = (new SynthesizeBusiness()) -> exportPoorSignExcel(strtoupper($type), $class_id);
+        $errCode = (new Business()) -> exportPoorSignExcel(strtoupper($type), $class_id);
         if (empty($errCode)){
             return $this -> show(
                 config("status.failed"),
@@ -38,7 +50,7 @@ class Synthesize extends BaseController
     }
 
     public function showClasses(){
-        $errCode = (new SynthesizeBusiness()) -> showClasses();
+        $errCode = (new Business()) -> showClasses();
         if (empty($errCode)){
             return $this -> show(
                 config("status.failed"),
