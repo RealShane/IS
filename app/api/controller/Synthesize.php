@@ -31,6 +31,17 @@ class Synthesize extends BaseController
         $this -> upload = $upload;
     }
 
+    public function getCrossScore(){
+       $uid = $this -> getUid();
+       $target = $this -> request -> param('target', '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('getCross_score') -> check(['target' => $target]);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        return $this -> success($this -> business -> getCrossScore($uid, $target));
+    }
+
     public function crossScore(){
         $data['uid'] = $this -> getUid();
         $data['target'] =  $this -> request -> param('target', '', 'htmlspecialchars');
