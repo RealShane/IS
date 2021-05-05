@@ -28,18 +28,6 @@
                                 <h3 onclick="xadmin.open('综测评分', '/api/View/Synthesize/Cross/add?id=1')" class="layui-timeline-title">8月18日</h3>
                             </div>
                         </li>
-                        <li class="layui-timeline-item">
-                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                            <div class="layui-timeline-content layui-text">
-                                <h3 class="layui-timeline-title">8月16日</h3>
-                            </div>
-                        </li>
-                        <li class="layui-timeline-item">
-                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                            <div class="layui-timeline-content layui-text">
-                                <h3 class="layui-timeline-title">8月15日</h3>
-                            </div>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -49,6 +37,25 @@
 </body>
 <script>
     isApiLogin();
-
+    $(document).ready(function() {
+        render();
+    });
+    function render(){
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Synthesize/showCrossList',
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                renderData(res.result);
+            }
+        });
+    }
+    function renderData(data){
+        console.log(data);
+    }
 </script>
 </html>
