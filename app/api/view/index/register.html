@@ -61,6 +61,8 @@
         layui.use('form', function(){
             var form = layui.form;
             form.on('submit(register)', function(res){
+                console.log(res.field.password);
+                console.log(res.field.password.length);
                 $.ajax({
                     type : "POST",
                     contentType : "application/x-www-form-urlencoded",
