@@ -19,6 +19,14 @@ class View
         return V::fetch('exam_papers/index');
     }
 
+    public function changeSexView(){
+        return V::fetch('index/sex');
+    }
+
+    public function changePasswordView(){
+        return V::fetch('index/password');
+    }
+
     public function welcomeView(){
         return V::fetch('index/welcome');
     }
