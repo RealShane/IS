@@ -54,27 +54,27 @@ class Synthesize
 //            ];
 //        }
 
-        $indexes = [
-            $userName['0'] => '序号',
-            $userName['1'] => '被评分人',
-            $userName,
-            $userName['2'] => '平均分',
-            $userName['3'] => '总分',
 
-        ];
-        echo json_encode($indexes);exit();
-        $id = 1;
-        $res = [];
-        foreach ($results as $result){
-            $res[] = [
-                'id' => $id,
-                'target' => $result['class'],
-               // []
-                'avgScore' => $result['dormitory'],
-                'sumScore' => $result['grade']
+            $indexes = [
+                '序号',
+                '被评分人',
+                $userName,
+                '平均分',
+                '总分'
             ];
-            $id++;
-        }
+        $res = [];
+//        $id = 1;
+//        $res = [];
+//        foreach ($results as $result){
+//            $res[] = [
+//                'id' => $id,
+//                'target' => $result['class'],
+//               // []
+//                'avgScore' => $result['dormitory'],
+//                'sumScore' => $result['grade']
+//            ];
+//            $id++;
+//        }
         $this -> excelLib -> push($title, $indexes, $res);
     }
 
