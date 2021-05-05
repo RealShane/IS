@@ -36,6 +36,26 @@ class Synthesize
         $this -> str = new Str();
     }
 
+    public function showCrossList($user){
+        $temp = $this -> userClassModel -> findByUid($user['id']);
+        if (empty($temp)){
+            throw new Exception("未加入班级！");
+        }
+        $ids = $this -> userClassModel -> findAllByClassId($temp['class_id']);
+        $result = [];
+        foreach ($ids as $id){
+            $sign = $this -> userClassModel -> findByUidWithUser($id['uid']);
+            if (empty($sign) || $sign['uid'] == $user['id']){
+                continue;
+            }
+            $result[] = [
+                'id' => $sign['uid'],
+                'name' => $sign['user']['name']
+            ];
+        }
+        return $result;
+    }
+
     public function showPoorSignDetail($user, $target){
         $myClass =  $this -> userClassModel -> findByUid($user['id']);
         $targetClass = $this -> userClassModel -> findByUid($target);

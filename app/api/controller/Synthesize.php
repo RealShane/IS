@@ -32,7 +32,7 @@ class Synthesize extends BaseController
     }
 
     public function showCrossList(){
-
+        return $this -> success($this -> business -> showCrossList($this -> getUser()));
     }
 
     public function showPoorSignDetail(){
