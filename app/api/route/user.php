@@ -17,7 +17,7 @@ Route::group('View/User', function () {
 });
 
 Route::group('User', function () {
-    Route::rule('activeRegister', '/api/User/activeRegister', 'GET');
+    Route::rule('activeRegister', '/api/User/activeRegister', 'POST');
     Route::rule('sendRandom', '/api/User/sendRandom', 'POST');
     Route::rule('register', '/api/User/register', 'POST');
     Route::rule('login', '/api/User/login', 'POST');
