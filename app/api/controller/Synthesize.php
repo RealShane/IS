@@ -39,7 +39,7 @@ class Synthesize extends BaseController
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
-        return $this -> success($this -> business -> crossScore($uid, $target));
+        return $this -> success($this -> business -> getCrossScore($uid, $target));
     }
 
     public function crossScore(){
