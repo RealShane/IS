@@ -58,7 +58,7 @@ class Synthesize
             $indexes = [
                 '序号',
                 '被评分人',
-                $userName,
+                '1',
                 '平均分',
                 '总分'
             ];
