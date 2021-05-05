@@ -18,12 +18,14 @@ use app\common\model\api\SynthesizePoorSign;
 use app\common\model\api\UserClass;
 use think\Exception;
 use app\common\model\api\User;
+use app\common\model\api\SynthesizeCross;
 
 class Synthesize
 {
 
     private $config = NULL;
     private $synthesizePoorSignModel = NULL;
+    private $synthesizeCrossModel = NULL;
     private $userClassModel = NULL;
     private $userModel = NULL;
     private $str = NULL;
@@ -31,26 +33,36 @@ class Synthesize
     public function __construct(){
         $this -> config = new Config();
         $this -> synthesizePoorSignModel = new SynthesizePoorSign();
+        $this -> synthesizeCrossModel = new SynthesizeCross();
         $this -> userClassModel = new UserClass();
         $this -> userModel = new User();
         $this -> str = new Str();
     }
 
     public function showCrossList($user){
-        $temp = $this -> userClassModel -> findByUid($user['id']);
-        if (empty($temp)){
+        if (!(int)$this -> config -> getSynthesizeCrossStatus()){
+            throw new Exception("综测评分功能已关闭！");
+        }
+        $class = $this -> userClassModel -> findByUid($user['id']);
+        if (empty($class)){
             throw new Exception("未加入班级！");
         }
-        $ids = $this -> userClassModel -> findAllByClassId($temp['class_id']);
+        $ids = $this -> userClassModel -> findAllByClassId($class['class_id']);
         $result = [];
         foreach ($ids as $id){
             $sign = $this -> userClassModel -> findByUidWithUser($id['uid']);
             if (empty($sign) || $sign['uid'] == $user['id']){
                 continue;
             }
+            $isEmpty = $this -> synthesizeCrossModel -> findByUidAndTarget($user['id'], $id['uid']);
+            $status = false;
+            if (empty($isEmpty)){
+                $status = true;
+            }
             $result[] = [
                 'id' => $sign['uid'],
-                'name' => $sign['user']['name']
+                'name' => $sign['user']['name'],
+                'status' => $status
             ];
         }
         return $result;
