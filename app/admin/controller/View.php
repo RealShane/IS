@@ -21,6 +21,26 @@ class View extends BaseController
 {
 
     /**
+     * 综合测评
+     */
+
+    public function crossView(){
+        return V::fetch('synthesize/cross/index');
+    }
+
+    public function poorView(){
+        return V::fetch('synthesize/poor/index');
+    }
+
+    public function leaderView(){
+        return V::fetch('synthesize/leader/index');
+    }
+
+    /**
+     * 综合测评
+     */
+
+    /**
      * 试题系统
      */
 
