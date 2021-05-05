@@ -31,6 +31,7 @@ Route::group('User', function () {
     Route::rule('joinClass', '/api/User/joinClass', 'POST');
     Route::rule('sendUserRandom', '/api/User/sendUserRandom', 'POST');
     Route::rule('changePassword', '/api/User/changePassword', 'POST');
+    Route::rule('changeSex', '/api/User/changeSex', 'POST');
 }) -> middleware(IsLogin::class);
 //----------------------------------------------------------------------------------
 /*
