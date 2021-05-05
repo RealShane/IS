@@ -16,6 +16,7 @@ use app\common\business\lib\Str;
 use app\common\model\api\Classes;
 use think\facade\Db;
 use app\common\model\api\SynthesizeCross;
+use app\common\model\api\UserClass;
 class Synthesize
 {
 
@@ -24,19 +25,22 @@ class Synthesize
     private $excelLib = NULL;
     private $classesModel = NULL;
     private $synthesizeCrossModel = NULL;
+    private $userClassModel = NULL;
 
     public function __construct(){
         $this -> strLib = new Str();
         $this -> excelLib = new Excel();
         $this -> classesModel = new Classes();
         $this -> synthesizeCrossModel = new SynthesizeCross();
+        $this -> userClassModel = new UserClass();
     }
 
     public function exportCrossExcel($classId){
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
+        $info = $this -> userClassModel -> findAllByClassId($classId);
+        echo json_encode($info);exit();
         $results = $this -> synthesizeCrossModel -> selectAll();
-        echo json_encode($results);exit();
         $indexes = ['序号', '班级', '时间', '宿舍', '成绩'];
         $id = 1;
         $res = [];
