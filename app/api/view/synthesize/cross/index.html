@@ -51,7 +51,7 @@
         let str = "";
         for (let key of data){
             let icon = "&#xe63f;";
-            if (!key['status']){
+            if (key['status']){
                 icon = "&#xe605;";
             }
             str +=
