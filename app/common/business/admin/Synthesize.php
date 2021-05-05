@@ -43,16 +43,15 @@ class Synthesize
         foreach ($infos as $info){
             $userName[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
         }
-        echo json_encode($userName);exit();
-        $results = $this -> synthesizeCrossModel -> selectAll();
+        //$results = $this -> synthesizeCrossModel -> selectAll();
         $indexes = [
             '序号',
             '被评分人',
-            $userName[0],
-
+            $userName,
             '平均分',
             '总分'
         ];
+        echo json_encode($indexes);exit();
         $id = 1;
         $res = [];
         foreach ($results as $result){
