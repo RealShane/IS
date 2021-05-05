@@ -157,9 +157,16 @@
             title = "<br><p class='layui-bg-cyan layui-text'>最终得分：" + data['score'] + "</p>";
         }
         for (let key of data['paper_answer']){
-            let options = "", alpha = 65, answer = '';
-            if (!empty(key['answer']) && !empty(key['analysis'])){
-                answer = "<br><p class='layui-bg-green layui-text'>参考答案：" + key['answer'] + "<br>参考解析：" + key['analysis'] + "</p>";
+            let options = "", alpha = 65, answer = '', alert = 'layui-elem-quote';
+            if (!empty(key['answer'])){
+                let analysis = key['analysis'];
+                if (empty(key['analysis'])){
+                    analysis = '无';
+                }
+                if (key['answer'] !== key['myAnswer']){
+                    alert = 'layui-bg-red';
+                }
+                answer = "<br><p class='layui-bg-green layui-text'>参考答案：" + key['answer'] + "<br>参考解析：" + analysis + "</p>";
             }
             if (empty(key['answer']) && !empty(key['analysis'])){
                 answer = "<br><p class='layui-bg-green layui-text'>参考解析：" + key['analysis'] + "</p>";
@@ -177,7 +184,7 @@
                 }
                 str +=
                     "<div class='layui-form-item' pane>" +
-                        "<blockquote class='layui-elem-quote'>"+key['subject']+"</blockquote>" +
+                        "<blockquote class='" + alert + "'>"+key['subject']+"</blockquote>" +
                         "<select id='answer_" + count + "'>" +
                             "<option value=''>请选择</option>" +
                             options +
@@ -203,7 +210,7 @@
                 }
                 str +=
                     "<div class='layui-form-item' pane>" +
-                        "<blockquote class='layui-elem-quote'>" + key['subject'] + "</blockquote>" +
+                        "<blockquote class='" + alert + "'>" + key['subject'] + "</blockquote>" +
                         options +
                         answer +
                     "</div>";
