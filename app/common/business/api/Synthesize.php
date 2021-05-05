@@ -39,15 +39,23 @@ class Synthesize
         $this -> str = new Str();
     }
 
-    public function crossScore($data){
-        $myClass =  $this -> userClassModel -> findByUid($data['uid']);
-        $targetClass = $this -> userClassModel -> findByUid($data['target']);
+    public function getCrossScore(){
+
+    }
+
+    public function check($uid, $target){
+        $myClass =  $this -> userClassModel -> findByUid($uid);
+        $targetClass = $this -> userClassModel -> findByUid($target);
         if ($myClass['class_id'] != $targetClass['class_id']){
             throw new Exception("非所在班级！");
         }
-        if ($data['uid'] == $data['target']){
+        if ($uid == $target){
             throw new Exception("不能给自己评分！");
         }
+    }
+
+    public function crossScore($data){
+        $this -> check($data['uid'], $data['target']);
         $info = $this -> synthesizeCrossModel -> findByUidAndTarget($data['uid'], $data['target']);
         $result = [
             'uid' => $data['uid'],
