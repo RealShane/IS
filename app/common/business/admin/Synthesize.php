@@ -38,21 +38,7 @@ class Synthesize
     public function exportCrossExcel($classId){
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
-        $infos = $this -> userClassModel -> findAllByClassId($classId);
-        $userName = [];
-        foreach ($infos as $info){
-            $userName[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
-        }
         //$results = $this -> synthesizeCrossModel -> selectAll();
-//        foreach ($userName as $key){
-//            $indexes = [
-//                '序号',
-//                '被评分人',
-//                $key,
-//                '平均分',
-//                '总分'
-//            ];
-//        }
             $indexes = [
                 '序号',
                 '被评分人',
@@ -61,18 +47,22 @@ class Synthesize
                 '总分'
             ];
         $res = [];
-//        $id = 1;
-//        $res = [];
-//        foreach ($results as $result){
-//            $res[] = [
-//                'id' => $id,
-//                'target' => $result['class'],
-//               // []
-//                'avgScore' => $result['dormitory'],
-//                'sumScore' => $result['grade']
-//            ];
-//            $id++;
-//        }
+        $id = 1;
+        $res = [];
+        $userName = [];
+        $infos = $this -> userClassModel -> findAllByClassId($classId);
+        foreach ($infos as $info){
+            $userName[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user'];
+            $res[] = [
+                'id' => $id,
+                'target' => 1,
+                // []
+                'avgScore' => 2,
+                'sumScore' => 1
+            ];
+            $id++;
+        }
+        echo json_encode($userName);exit();
         return $this -> excelLib -> push($title, $indexes, $res);
     }
 
