@@ -19,8 +19,10 @@ Route::group('View/Synthesize', function () {
 });
 
 Route::group('Synthesize', function () {
+    Route::rule('exportCrossExcel', '/admin/Synthesize/exportCrossExcel', 'GET');
+});
+Route::group('Synthesize', function () {
     Route::rule('getAllClass', '/admin/Synthesize/getAllClass', 'POST');
-    Route::rule('exportCrossExcel', '/admin/Synthesize/exportCrossExcel', 'POST');
 }) -> middleware(IsLogin::class) -> middleware(Auth::class);
 //----------------------------------------------------------------------------------
 /*
