@@ -9,6 +9,7 @@
  */
 
 use think\facade\Route;
+use \app\admin\middleware\Auth;
 use \app\api\middleware\IsLogin;
 
 Route::group('View/Synthesize', function () {
@@ -19,7 +20,7 @@ Route::group('View/Synthesize', function () {
 
 Route::group('Synthesize', function () {
     Route::rule('showCrossList', '/api/Synthesize/showCrossList', 'POST');
-}) -> middleware(IsLogin::class);
+}) -> middleware(IsLogin::class) -> middleware(Auth::class);
 //----------------------------------------------------------------------------------
 /*
                           _ooOoo_

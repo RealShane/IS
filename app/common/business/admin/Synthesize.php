@@ -13,7 +13,7 @@ namespace app\common\business\admin;
 
 use app\common\business\lib\Excel;
 use app\common\business\lib\Str;
-use app\common\model\admin\Synthesize as SynthesizeModel;
+use app\common\model\api\Classes;
 use think\facade\Db;
 
 class Synthesize
@@ -22,11 +22,16 @@ class Synthesize
     private $synthesizeModel = NULL;
     private $strLib = NULL;
     private $excelLib = NULL;
+    private $classesModel = NULL;
 
     public function __construct(){
-        $this -> synthesizeModel = new SynthesizeModel();
         $this -> strLib = new Str();
         $this -> excelLib = new Excel();
+        $this -> classesModel = new Classes();
+    }
+
+    public function getAllClass($num){
+        return $this -> classesModel -> getAllClasses($num);
     }
 
     public function exportPoorSignExcel($type, $class_id){
