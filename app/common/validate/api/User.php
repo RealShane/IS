@@ -34,6 +34,7 @@ class User extends Validate
         'type_password' => ['email', 'password', 'validate'],
         'type_email' => ['email', 'random', 'validate'],
         'send_email' => ['email', 'validate'],
+        'change_password' => ['password', 'random'],
         'active_register' => ['token'],
         'register' => ['email', 'password', 'name', 'sex', 'student_id', 'validate'],
     ];

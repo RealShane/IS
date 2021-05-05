@@ -32,7 +32,16 @@ class User extends BaseController
     }
 
     public function changePassword(){
-
+        $data['user'] = $this -> getUser();
+        $data['random'] = $this -> request -> param("random", '', 'htmlspecialchars');
+        $data['password'] = $this -> request -> param("password", '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene("change_password") -> check($data);
+        } catch (\Exception $exception) {
+            return $this -> fail($exception -> getMessage());
+        }
+        $this -> business -> changePassword($data);
+        return $this -> success("修改成功!");
     }
 
     public function sendUserRandom(){
