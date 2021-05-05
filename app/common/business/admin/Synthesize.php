@@ -39,6 +39,7 @@ class Synthesize
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
         $infos = $this -> userClassModel -> findAllByClassId($classId);
+        $userName = [];
         foreach ($infos as $info){
             $userName[] = $this -> userClassModel -> findByUidWithUser($info['uid']);
         }
