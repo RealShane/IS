@@ -59,6 +59,19 @@ class User
         $this -> redis = new Redis();
     }
 
+    public function changePassword($data){
+        $random = $this -> redis -> get(config("redis.code_pre") . $data['user']['email']);
+        if (empty($random)){
+            throw new Exception("验证码过期，请重新验证！");
+        }
+        if ($random != $data['random']){
+            throw new Exception('验证码错误');
+        }
+        $data['password_salt'] = $this -> str -> salt(5);
+        $data['password'] = md5($data['password_salt'] . $data['password'] . $data['password_salt']);
+        $this -> userModel -> changePassword($data);
+    }
+
     public function userInfo($user){
         $user = $this -> userModel -> findByIdWithStatus($user['id']);
         $data = $this -> userClassModel -> findByUid($user['id']);

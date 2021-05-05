@@ -23,7 +23,7 @@ class User extends Validate
         'name|姓名' => ['require', 'max:20'],
         'sex|性别' => ['require', 'integer'],
         'student_id|学号' => ['require', 'max:255'],
-        'random|随机码' => ['require', 'max:20'],
+        'random|六位验证码' => ['require', 'max:6'],
         'token' => ['require'],
         'invite_code|班级邀请码' => ['require'],
         'validate|验证码' => ['require', 'captcha']
@@ -34,6 +34,7 @@ class User extends Validate
         'type_password' => ['email', 'password', 'validate'],
         'type_email' => ['email', 'random', 'validate'],
         'send_email' => ['email', 'validate'],
+        'change_password' => ['password', 'random'],
         'active_register' => ['token'],
         'register' => ['email', 'password', 'name', 'sex', 'student_id', 'validate'],
     ];
