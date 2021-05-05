@@ -95,19 +95,24 @@ class Excel
         }
         $this -> excel  -> getActiveSheet() -> setTitle('Sheet1');
         $this -> excel  -> setActiveSheetIndex(0);
-
-        header('Content-Type: application.ms-excel');
-        header('Content-Disposition: attachment;filename="' . $title . '.xls"');
+        header('Pragma: public');
+        header("Expires: 0");
+        header('Access-Control-Allow-Origin:*');
+        header('Access-Control-Allow-Headers:content-type');
+        header('Access-Control-Allow-Credentials:true');
+        header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
         header('Cache-Control: max-age=0');
         header('Cache-Control: cache, must-revalidate');
-        header('Pragma: public');
+        header('Content-Type: application.ms-excel');
+        header("Content-Type:application/force-download");
+        header("Content-Type:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        header("Content-Type:application/octet-stream");
+        header("Content-Type:application/download");;
+        header('Content-Disposition: attachment;filename="' . $title . '.xls"');
+        header("Content-Transfer-Encoding:binary");
         $objWriter = IOFactory::createWriter($this -> excel, 'Xls');
-        ob_start();
         $objWriter -> save('php://output');
-        //exit;
-        $xlsdata = ob_get_contents();
-        ob_end_clean();
-        return ['file' => "data:application/vnd.ms-excel;base64," . base64_encode($xlsdata)];
+        exit;
     }
 
 }
