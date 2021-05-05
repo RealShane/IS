@@ -25,15 +25,21 @@ class View extends BaseController
      */
 
     public function crossView(){
-        return V::fetch('synthesize/cross/index');
+        return V::fetch('synthesize/cross/index', [
+            'secret' => Env::get('ADMIN.FILE', '')
+        ]);
     }
 
     public function poorView(){
-        return V::fetch('synthesize/poor/index');
+        return V::fetch('synthesize/poor/index', [
+            'secret' => Env::get('ADMIN.FILE', '')
+        ]);
     }
 
     public function leaderView(){
-        return V::fetch('synthesize/leader/index');
+        return V::fetch('synthesize/leader/index', [
+            'secret' => Env::get('ADMIN.FILE', '')
+        ]);
     }
 
     /**
