@@ -56,7 +56,7 @@ class Synthesize
             }
             $isEmpty = $this -> synthesizeCrossModel -> findByUidAndTarget($user['id'], $id['uid']);
             $status = false;
-            if (empty($isEmpty)){
+            if (!empty($isEmpty)){
                 $status = true;
             }
             $result[] = [
