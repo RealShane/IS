@@ -44,6 +44,7 @@
                     layer.msg(res.message);
                     return false;
                 }
+                console.log(res);
                 if (!empty(res.result)){
                     $('#score').val(res.result['score']);
                     $('#time').text("上次提交时间：" + timestampToTime(res.result['time']));
