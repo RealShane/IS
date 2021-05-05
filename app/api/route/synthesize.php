@@ -20,6 +20,7 @@ Route::group('View/Synthesize', function () {
 
 Route::group('Synthesize', function () {
     Route::rule('showCrossList', '/api/Synthesize/showCrossList', 'POST');
+    Route::rule('crossScore', '/api/Synthesize/crossScore', 'POST');
 }) -> middleware(IsLogin::class);
 //----------------------------------------------------------------------------------
 /*

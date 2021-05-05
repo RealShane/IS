@@ -39,6 +39,35 @@ class Synthesize
         $this -> str = new Str();
     }
 
+    public function getCrossScore(){
+
+    }
+
+    public function check($uid, $target){
+        $myClass =  $this -> userClassModel -> findByUid($uid);
+        $targetClass = $this -> userClassModel -> findByUid($target);
+        if ($myClass['class_id'] != $targetClass['class_id']){
+            throw new Exception("非所在班级！");
+        }
+        if ($uid == $target){
+            throw new Exception("不能给自己评分！");
+        }
+    }
+
+    public function crossScore($data){
+        $this -> check($data['uid'], $data['target']);
+        $info = $this -> synthesizeCrossModel -> findByUidAndTarget($data['uid'], $data['target']);
+        $result = [
+            'uid' => $data['uid'],
+            'target_uid' => $data['target'],
+            'score' => $data['score']
+        ];
+        if (empty($info)){
+            return $this -> synthesizeCrossModel -> save($result);
+        }
+        $info -> save($result);
+    }
+
     public function showCrossList($user){
         if (!(int)$this -> config -> getSynthesizeCrossStatus()){
             throw new Exception("综测评分功能已关闭！");
