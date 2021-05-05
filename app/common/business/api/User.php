@@ -59,13 +59,17 @@ class User
         $this -> redis = new Redis();
     }
 
+    public function changeSex($data){
+        $this -> userModel -> changeSex($data);
+    }
+
     public function changePassword($data){
         $random = $this -> redis -> get(config("redis.code_pre") . $data['user']['email']);
         if (empty($random)){
             throw new Exception("验证码过期，请重新验证！");
         }
         if ($random != $data['random']){
-            throw new Exception('验证码错误');
+            throw new Exception('验证码错误！');
         }
         $data['password_salt'] = $this -> str -> salt(5);
         $data['password'] = md5($data['password_salt'] . $data['password'] . $data['password_salt']);

@@ -31,6 +31,18 @@ class User extends BaseController
         return $this -> success("合法登录");
     }
 
+    public function changeSex(){
+        $data['user'] = $this -> getUser();
+        $data['sex'] = $this -> request -> param("sex", '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene("change_sex") -> check($data);
+        } catch (\Exception $exception) {
+            return $this -> fail($exception -> getMessage());
+        }
+        $this -> business -> changeSex($data);
+        return $this -> success("修改成功!");
+    }
+
     public function changePassword(){
         $data['user'] = $this -> getUser();
         $data['random'] = $this -> request -> param("random", '', 'htmlspecialchars');

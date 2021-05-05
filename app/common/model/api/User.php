@@ -29,6 +29,11 @@ class User extends Model
         return $result -> allowField(['password', 'password_salt']) -> save($data);
     }
 
+    public function changeSex($data){
+        $result = $this -> findByIdWithStatus($data['user']['id']);
+        return $result -> allowField(['sex']) -> save($data);
+    }
+
     public function findByStudentId($studentId){
         return $this -> where('student_id', $studentId) -> find();
     }

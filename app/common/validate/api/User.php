@@ -21,7 +21,7 @@ class User extends Validate
         'email|邮箱' => ['require', 'email'],
         'password|密码' => ['require', 'max:20'],
         'name|姓名' => ['require', 'max:20'],
-        'sex|性别' => ['require', 'integer'],
+        'sex|性别' => ['require', 'between:0,1'],
         'student_id|学号' => ['require', 'max:255'],
         'random|六位验证码' => ['require', 'max:6'],
         'token' => ['require'],
@@ -35,6 +35,7 @@ class User extends Validate
         'type_email' => ['email', 'random', 'validate'],
         'send_email' => ['email', 'validate'],
         'change_password' => ['password', 'random'],
+        'change_sex' => ['sex'],
         'active_register' => ['token'],
         'register' => ['email', 'password', 'name', 'sex', 'student_id', 'validate'],
     ];
