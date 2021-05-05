@@ -12,11 +12,9 @@ use think\facade\Route;
 use \app\api\middleware\IsLogin;
 
 Route::group('View/Synthesize', function () {
-    Route::rule('change/password', '/api/View/changePasswordView', 'GET');
-});
-
-Route::group('Synthesize', function () {
-    Route::rule('activeRegister', '/api/Synthesize/activeRegister', 'GET');
+    Route::rule('Cross/index', '/api/View/crossView', 'GET');
+    Route::rule('Poor/index', '/api/View/poorView', 'GET');
+    Route::rule('Leader/index', '/api/View/leaderView', 'GET');
 });
 
 Route::group('Synthesize', function () {

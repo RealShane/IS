@@ -15,9 +15,31 @@ use think\facade\View as V;
 class View
 {
 
+    //Exam类
+
     public function examPapersManageView(){
         return V::fetch('exam_papers/index');
     }
+
+    //Exam类
+
+    //Synthesize类
+
+    public function crossView(){
+        return V::fetch('synthesize/cross/index');
+    }
+
+    public function poorView(){
+        return V::fetch('synthesize/poor/index');
+    }
+
+    public function leaderView(){
+        return V::fetch('synthesize/leader/index');
+    }
+
+    //Synthesize类
+
+    //User类
 
     public function changeSexView(){
         return V::fetch('index/sex');
@@ -26,6 +48,8 @@ class View
     public function changePasswordView(){
         return V::fetch('index/password');
     }
+
+    //User类
 
     public function welcomeView(){
         return V::fetch('index/welcome');
