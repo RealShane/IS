@@ -42,8 +42,11 @@ class Synthesize
     public function crossScore($data){
         $myClass =  $this -> userClassModel -> findByUid($data['uid']);
         $targetClass = $this -> userClassModel -> findByUid($data['target']);
-        if ($myClass['class_id'] != $targetClass['class_id'] || $data['uid'] == $data['target']){
+        if ($myClass['class_id'] != $targetClass['class_id']){
             throw new Exception("非所在班级！");
+        }
+        if ($data['uid'] == $data['target']){
+            throw new Exception("不能给自己评分！");
         }
         $info = $this -> synthesizeCrossModel -> findByUidAndTarget($data['uid'], $data['target']);
         $result = [
@@ -52,7 +55,7 @@ class Synthesize
             'score' => $data['score']
         ];
         if (empty($info)){
-            $this -> synthesizeCrossModel -> save($result);
+            return $this -> synthesizeCrossModel -> save($result);
         }
         $info -> save($result);
     }
