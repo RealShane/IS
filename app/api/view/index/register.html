@@ -30,7 +30,9 @@
         <hr class="hr15">
         <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
         <hr class="hr15">
-        <input name="name" lay-verify="required" placeholder="大名"  type="text" class="layui-input">
+        <input name="name" lay-verify="required" placeholder="姓名"  type="text" class="layui-input">
+        <hr class="hr15">
+        <input name="student_id" lay-verify="required" placeholder="学号"  type="number" class="layui-input">
         <hr class="hr15">
         <input name="validate" lay-verify="required" placeholder="验证码"  type="text" class="layui-input">
         <hr class="hr15">
@@ -67,6 +69,7 @@
                         email:res.field.email,
                         password:res.field.password,
                         name:res.field.name,
+                        student_id:res.field.student_id,
                         validate:res.field.validate
                     },
                     success : function(res) {

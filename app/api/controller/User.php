@@ -125,7 +125,6 @@ class User extends BaseController
         $data['email'] = $this -> request -> param("email", '', 'htmlspecialchars');
         $data['password'] = $this -> request -> param("password", '', 'htmlspecialchars');
         $data['name'] = $this -> request -> param("name", '', 'htmlspecialchars');
-        $data['sex'] = $this -> request -> param("sex", '', 'htmlspecialchars');
         $data['student_id'] = $this -> request -> param("student_id", '', 'htmlspecialchars');
         $data['validate'] = $this -> request -> param("validate", '', 'htmlspecialchars');
         try {
