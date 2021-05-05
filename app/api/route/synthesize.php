@@ -13,6 +13,7 @@ use \app\api\middleware\IsLogin;
 
 Route::group('View/Synthesize', function () {
     Route::rule('Cross/index', '/api/View/crossView', 'GET');
+    Route::rule('Cross/add', '/api/View/crossAddView', 'GET');
     Route::rule('Poor/index', '/api/View/poorView', 'GET');
     Route::rule('Leader/index', '/api/View/leaderView', 'GET');
 });

@@ -29,6 +29,10 @@ class View
         return V::fetch('synthesize/cross/index');
     }
 
+    public function crossAddView(){
+        return V::fetch('synthesize/cross/add');
+    }
+
     public function poorView(){
         return V::fetch('synthesize/poor/index');
     }
