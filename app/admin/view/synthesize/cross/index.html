@@ -91,8 +91,8 @@
         let str = "";
         for (let key of data['data']){
             str +=
-                "<blockquote class='layui-elem-quote'>" +
-                    "<a href='/{$secret}/Synthesize/exportCrossExcel?id=" + key['id'] + "'>" + key['name'] + "</a>" +
+                "<blockquote onclick='pushExcel(" + key['id'] + ")' class='layui-elem-quote'>" +
+                    "<a>" + key['name'] + "</a>" +
                 "</blockquote>";
         }
         $("#data_remove").remove();
@@ -101,6 +101,23 @@
                 str +
             "</div>"
         );
+    }
+    function pushExcel(id){
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/Synthesize/exportCrossExcel',
+            data : {
+                id : id
+            },
+            success : function(res) {
+                console.log(res);
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+            }
+        });
     }
 </script>
 </html>
