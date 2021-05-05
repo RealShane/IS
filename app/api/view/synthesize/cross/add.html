@@ -14,7 +14,7 @@
                 <div class="layui-input-inline">
                     <input type="number" id="score" name="score" required="" autocomplete="off" class="layui-input">
                 </div>
-                <div class="layui-form-mid layui-word-aux">
+                <div class="layui-form-mid layui-word-aux" id="time">
                     分数请不小于70不大于100
                 </div>
             </div>
@@ -31,6 +31,26 @@
     isApiLogin();
     let param = getParams();
     let id = param.id;
+    $(document).ready(function() {
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Synthesize/getCrossScore',
+            data : {
+                target : id
+            },
+            success : function(res) {
+                if(res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                if (!empty(res.result)){
+                    $('#score').val(res.result['score']);
+                    $('#time').text("上次提交时间：" + timestampToTime(res.result['time']));
+                }
+            }
+        });
+    });
     layui.use(['form', 'layer'], function() {
         $ = layui.jquery;
         var form = layui.form,
