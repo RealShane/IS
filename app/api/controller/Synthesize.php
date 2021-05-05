@@ -31,6 +31,12 @@ class Synthesize extends BaseController
         $this -> upload = $upload;
     }
 
+    public function crossScore(){
+        $data['uid'] = $this -> getUid();
+        $data['target'] =  $this -> request -> param('target', '', 'htmlspecialchars');
+        $data['score'] = $this -> request -> param('score', '', 'htmlspecialchars');
+    }
+
     public function showCrossList(){
         return $this -> success($this -> business -> showCrossList($this -> getUser()));
     }
