@@ -15,6 +15,7 @@ namespace app\admin\controller;
 use app\BaseController;
 use app\common\business\admin\Synthesize as Business;
 use think\App;
+use app\common\validate\admin\Synthesize as validate;
 
 class Synthesize extends BaseController
 {
@@ -24,6 +25,16 @@ class Synthesize extends BaseController
     public function __construct(App $app, Business $business){
         parent::__construct($app);
         $this -> business = $business;
+    }
+
+    public function exportCrossExcel(){
+        $classId = $this -> request -> param("id", 10, 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('exportCrossExcel') -> check(['classId' => $classId]);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        return $this -> success($this -> business -> exportCrossExcel($classId));
     }
 
     public function getAllClass(){

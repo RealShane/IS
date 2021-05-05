@@ -15,7 +15,8 @@ use app\common\business\lib\Excel;
 use app\common\business\lib\Str;
 use app\common\model\api\Classes;
 use think\facade\Db;
-
+use app\common\model\api\SynthesizeCross;
+use app\common\model\api\UserClass;
 class Synthesize
 {
 
@@ -23,11 +24,58 @@ class Synthesize
     private $strLib = NULL;
     private $excelLib = NULL;
     private $classesModel = NULL;
+    private $synthesizeCrossModel = NULL;
+    private $userClassModel = NULL;
 
     public function __construct(){
         $this -> strLib = new Str();
         $this -> excelLib = new Excel();
         $this -> classesModel = new Classes();
+        $this -> synthesizeCrossModel = new SynthesizeCross();
+        $this -> userClassModel = new UserClass();
+    }
+
+    public function exportCrossExcel($classId){
+        $class = $this -> classesModel -> findById($classId);
+        $title = $class['name'] . "综测评分表";
+        $infos = $this -> userClassModel -> findAllByClassId($classId);
+        $userName = [];
+        foreach ($infos as $info){
+            $userName[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+        }
+        //$results = $this -> synthesizeCrossModel -> selectAll();
+//        foreach ($userName as $key){
+//            $indexes = [
+//                '序号',
+//                '被评分人',
+//                $key,
+//                '平均分',
+//                '总分'
+//            ];
+//        }
+
+
+            $indexes = [
+                '序号',
+                '被评分人',
+                '1',
+                '平均分',
+                '总分'
+            ];
+        $res = [];
+//        $id = 1;
+//        $res = [];
+//        foreach ($results as $result){
+//            $res[] = [
+//                'id' => $id,
+//                'target' => $result['class'],
+//               // []
+//                'avgScore' => $result['dormitory'],
+//                'sumScore' => $result['grade']
+//            ];
+//            $id++;
+//        }
+        return $this -> excelLib -> push($title, $indexes, $res);
     }
 
     public function getAllClass($num){
