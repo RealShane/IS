@@ -41,7 +41,7 @@ class Synthesize
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         $userName = [];
         foreach ($infos as $info){
-            $userName[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['name'];
+            $userName[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
         }
         echo json_encode($userName);exit();
         $results = $this -> synthesizeCrossModel -> selectAll();
