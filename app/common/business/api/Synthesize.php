@@ -39,11 +39,16 @@ class Synthesize
         $this -> str = new Str();
     }
 
-    public function getCrossScore(){
-
+    public function getCrossScore($uid, $target){
+        $this -> check($uid, $target);
+        $data = $this -> synthesizeCrossModel -> findByUidAndTarget($uid, $target);
+        return [
+            'score' => $data['score'],
+            'time' => $data['update_time']
+        ];
     }
 
-    public function check($uid, $target){
+    private function check($uid, $target){
         $myClass =  $this -> userClassModel -> findByUid($uid);
         $targetClass = $this -> userClassModel -> findByUid($target);
         if ($myClass['class_id'] != $targetClass['class_id']){
