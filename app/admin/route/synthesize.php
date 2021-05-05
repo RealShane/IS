@@ -13,13 +13,13 @@ use \app\admin\middleware\Auth;
 use \app\api\middleware\IsLogin;
 
 Route::group('View/Synthesize', function () {
-    Route::rule('Cross/index', '/api/View/crossView', 'GET');
-    Route::rule('Poor/index', '/api/View/poorView', 'GET');
-    Route::rule('Leader/index', '/api/View/leaderView', 'GET');
+    Route::rule('Cross/index', '/admin/View/crossView', 'GET');
+    Route::rule('Poor/index', '/admin/View/poorView', 'GET');
+    Route::rule('Leader/index', '/admin/View/leaderView', 'GET');
 });
 
 Route::group('Synthesize', function () {
-    Route::rule('showCrossList', '/api/Synthesize/showCrossList', 'POST');
+    Route::rule('getAllClass', '/admin/Synthesize/getAllClass', 'POST');
 }) -> middleware(IsLogin::class) -> middleware(Auth::class);
 //----------------------------------------------------------------------------------
 /*
