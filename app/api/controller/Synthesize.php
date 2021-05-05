@@ -31,6 +31,10 @@ class Synthesize extends BaseController
         $this -> upload = $upload;
     }
 
+    public function showCrossList(){
+
+    }
+
     public function showPoorSignDetail(){
         $target = $this -> request -> param('target', '', 'htmlspecialchars');
         return $this -> success($this -> business -> showPoorSignDetail($this -> getUser(), $target));
