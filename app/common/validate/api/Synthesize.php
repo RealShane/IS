@@ -34,11 +34,14 @@ class Synthesize extends Validate
         'home_phone|家庭电话' => ['require'],
         'contact_phone|联系方式' => ['require'],
         'remark|备注' => ['require'],
-        'supporting_document|证明文件' => ['require']
+        'supporting_document|证明文件' => ['require'],
+        'target|被评分人id' => ['require'],
+        'score|被评分人id' => ['require', 'length:70, 100'],
     ];
 
     protected $scene = [
         'poor_sign' => ['political_outlook', 'id_card_number', 'poor_type_one', 'poor_type_two', 'poor_type_three', 'poor_type_four', 'poor_type_five', 'poor_type_six', 'poor_type_seven', 'poor_type_eight', 'confirm_reason', 'confirm_reason_explain', 'address', 'home_phone', 'contact_phone', 'supporting_document'],
+        'cross_score' => ['target', 'score'],
     ];
 
 }
