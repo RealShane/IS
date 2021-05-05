@@ -93,7 +93,7 @@
         for (let key of data['data']){
             str +=
                 "<blockquote class='layui-elem-quote'>" +
-                    "<a href='" + key['id'] + "'>" + key['name'] + "</a>" +
+                    "<a href='/{$secret}/Synthesize/exportCrossExcel?id=" + key['id'] + "'>" + key['name'] + "</a>" +
                 "</blockquote>";
         }
         $("#data_remove").remove();
