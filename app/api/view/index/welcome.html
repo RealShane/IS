@@ -99,7 +99,6 @@
             contentType : "application/x-www-form-urlencoded",
             url : '/api/User/userInfo',
             success : function(res) {
-                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }
