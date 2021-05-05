@@ -103,7 +103,10 @@ class Excel
         header('Pragma: public');
         $objWriter = IOFactory::createWriter($this -> excel, 'Xls');
         $objWriter -> save('php://output');
-        exit;
+        //exit;
+        $xlsdata = ob_get_contents();
+        ob_end_clean();
+        return ['file' => "data:application/vnd.ms-excel;base64," . base64_encode($xlsdata)];
     }
 
 }
