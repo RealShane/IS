@@ -55,11 +55,11 @@ class Synthesize
 //        }
 
         $indexes = [
-            $userName['序号'],
-            $userName['被评分人'],
+            $userName['0'] => '序号',
+            $userName['1'] => '被评分人',
             $userName,
-            $userName['平均分'],
-            $userName[ '总分'],
+            $userName['2'] => '平均分',
+            $userName['3'] => '总分',
 
         ];
         echo json_encode($indexes);exit();
