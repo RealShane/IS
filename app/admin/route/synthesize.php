@@ -10,7 +10,7 @@
 
 use think\facade\Route;
 use \app\admin\middleware\Auth;
-use \app\api\middleware\IsLogin;
+use \app\admin\middleware\IsLogin;
 
 Route::group('View/Synthesize', function () {
     Route::rule('Cross/index', '/admin/View/crossView', 'GET');
