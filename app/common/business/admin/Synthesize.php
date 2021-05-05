@@ -52,7 +52,7 @@ class Synthesize
             $res[] = [
                 'id' => $id,
                 'target' => $result['class'],
-                []
+               // []
                 'avgScore' => $result['dormitory'],
                 'sumScore' => $result['grade']
             ];
