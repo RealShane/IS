@@ -73,7 +73,6 @@
                         validate:res.field.validate
                     },
                     success : function(res) {
-                        console.log(res);return;
                         if(res.status === config('failed')){
                             layer.msg(res.message);
                             $("#captcha").attr('src',"/captcha?id=" + Math.random());
