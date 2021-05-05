@@ -44,10 +44,11 @@ class Synthesize
         $ids = $this -> userClassModel -> findAllByClassId($temp['class_id']);
         $result = [];
         foreach ($ids as $id){
-            if (empty($id) || $id['uid'] == $user['id']){
+            $sign = $this -> userClassModel -> findByUserId($id['uid']);
+            if (empty($sign) || $sign['uid'] == $user['id']){
                 continue;
             }
-            $result[] = $id;
+            $result[] = $sign;
         }
         return $result;
     }

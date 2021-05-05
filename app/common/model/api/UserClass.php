@@ -25,7 +25,11 @@ class UserClass extends Model
     protected $table = "api_user_class";
 
     public function findAllByClassId($class){
-        return self::with('user') -> where('class_id', $class) -> where('status', 1) -> select();
+        return $this -> where('class_id', $class) -> where('status', 1) -> select();
+    }
+
+    public function findByUserId($uid){
+        return self::with('user') -> findByUid($uid);
     }
 
     public function findByUid($uid){
