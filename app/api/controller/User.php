@@ -35,6 +35,12 @@ class User extends BaseController
 
     }
 
+    public function sendUserRandom(){
+        $user = $this -> getUser();
+        $this -> business -> sendRandom($user['email']);
+        return $this -> success("发送成功，请查看邮箱！");
+    }
+
     public function userInfo(){
         return $this -> success($this -> business -> userInfo($this -> getUser()));
     }
