@@ -115,12 +115,6 @@
                     layer.msg(res.message);
                     return false;
                 }
-                var $a = $("<a>");
-                $a.attr("href", res.file);
-                $a.attr("download", '文件下载');
-                $("body").append($a);
-                $a[0].click();
-                $a.remove();
             }
         });
     }
