@@ -75,7 +75,7 @@ class Synthesize
 //            ];
 //            $id++;
 //        }
-        $this -> excelLib -> push($title, $indexes, $res);
+        return $this -> excelLib -> push($title, $indexes, $res);
     }
 
     public function getAllClass($num){
