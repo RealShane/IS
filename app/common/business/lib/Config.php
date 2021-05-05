@@ -56,6 +56,14 @@ class Config
         return intval($temp -> value) != 1;
     }
 
+    /**综测评分设置
+     * @return mixed
+     */
+
+    public function getSynthesizeCrossStatus(){
+        return $this -> synthesizeConfig -> keyValue("CROSS_STATUS") -> value;
+    }
+
     /**贫困生设置
      * @return mixed
      */
