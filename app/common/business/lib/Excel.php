@@ -102,6 +102,7 @@ class Excel
         header('Cache-Control: cache, must-revalidate');
         header('Pragma: public');
         $objWriter = IOFactory::createWriter($this -> excel, 'Xls');
+        ob_start();
         $objWriter -> save('php://output');
         //exit;
         $xlsdata = ob_get_contents();
