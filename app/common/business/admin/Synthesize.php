@@ -70,10 +70,6 @@ class Synthesize
             //$result = str_replace('""', '","', $hello[$index]);
 
             $hel .= $hello[$index] . '","';
-        }
-        //echo json_encode($hel);exit();
-
-
             $indexes = [
                 '序号',
                 '被评分人',
@@ -81,6 +77,11 @@ class Synthesize
                 '平均分',
                 '总分'
             ];
+        }
+        //echo json_encode($hel);exit();
+
+
+
 
 //    echo json_encode($cout);exit();
         return $this -> excelLib -> push($title, $indexes, $res);
