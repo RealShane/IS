@@ -69,17 +69,17 @@ class Synthesize
             for ($i = 0; $i < $cout; $i++){
                 $temp['rater' . $i] = $tem[$i];
             }
-            $temp['avgScore'] = $sum;
-            $temp['sumScore'] = $avgScore;
-            echo json_encode($temp);exit();
-            $res[] = $temp;
+            $temp['avgScore'] = $avgScore;
+            $temp['sumScore'] = $sum;
 
+            $res[] = $temp;
+            echo json_encode($res);
             $user[] = $userName;
 
             $id++;
 
         }
-
+        exit();
 
         $count = $cout + 2;
         $indexes[0] = '序号';
