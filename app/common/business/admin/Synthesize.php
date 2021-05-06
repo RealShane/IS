@@ -57,7 +57,7 @@ class Synthesize
                 }
                 $res[]['rater'] = $results['score'];
             }
-            echo json_encode($res[]['rater']);exit();
+            echo json_encode($res);exit();
 
             $res[] = [
                 'id' => $id,
