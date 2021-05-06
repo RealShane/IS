@@ -67,18 +67,16 @@ class Synthesize
                 'id' => $id,
                 'target' => $userName
             ];
-            for ($i = 0; $i < 100; $i++){
+            for ($i = 0; $i < $cout; $i++){
                 $temp['rater' . $i] = $i;
             }
             $temp['avgScore'] = 2;
             $temp['sumScore'] = 2;
             $res[] = $temp;
             $user[] = $userName;
-            echo json_encode($res);exit();
             $id++;
 
         }
-        exit();
         $count = $cout + 2;
         $indexes[0] = '序号';
         $indexes[1] = '被评分人';
