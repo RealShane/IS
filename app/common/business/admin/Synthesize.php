@@ -51,26 +51,31 @@ class Synthesize
         }
         $cout = $this -> userClassModel -> countByClass($classId);
         //echo json_encode($e);exit();
+        $temp = 2;
         foreach ($infos as $info) {
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
             foreach ($e as $item) {
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget($info['uid'], $item);
                 if ($info['uid'] = $item || $results['score'] == null || empty($results)) {
-                    $res[]['rater'] = 0;
+                    $results['score'] = 0;
                 }
-                $re[] = $results;
+                $res[][$temp++] = $results['score'];
                 $sum += $results['score'];
                 $avgScore = $sum / $cout;
             }
+            $res[][0] = $id;
+            $res[][1] = $userName;
+            $res[][$cout + 1] = $sum;
+            $res[][$cout + 2] = $avgScore;
 
 
-            $res[] = [
-                'id' => $id,
-                'target' => $userName,
-                'rater' => $re,
-                'avgScore' => 2,
-                'sumScore' => 1
-            ];
+//            $res[] = [
+//                'id' => $id,
+//                'target' => $userName,
+//                'rater' => $re,
+//                'avgScore' => 2,
+//                'sumScore' => 1
+//            ];
             $user[] = $userName;
 
             $id++;
