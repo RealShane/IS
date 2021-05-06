@@ -45,7 +45,7 @@ class Synthesize
         $user = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         foreach ($infos as $info){
-            $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user'];
+            $userName = $this -> userClassModel -> findByUidWithUser($info['uid']);
             echo json_encode($userName);exit();
             foreach ($userName as $item){
 
