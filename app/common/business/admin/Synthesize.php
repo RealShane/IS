@@ -63,10 +63,10 @@ class Synthesize
                 $sum += $results['score'];
                 $avgScore = $sum / $cout;
             }
-            $res[$id++][0] = $id;
-            $res[$id++][1] = $userName;
-            $res[$id++][$cout + 1] = $sum;
-            $res[$id++][$cout + 2] = $avgScore;
+            $res[$id][0] = $id;
+            $res[$id][1] = $userName;
+            $res[$id][$cout + 1] = $sum;
+            $res[$id][$cout + 2] = $avgScore;
             $id++;
 
 //            $res[] = [
