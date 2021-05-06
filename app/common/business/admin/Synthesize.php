@@ -68,9 +68,10 @@ class Synthesize
         for($index=0;$index<count($hello);$index++){
            $data[] = $hello[$index];
             $result = str_replace('""', '","', $data);
+            echo $result;
         }
 
-        echo $result;
+
         exit();
             $indexes = [
                 '序号',
