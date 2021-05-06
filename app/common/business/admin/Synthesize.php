@@ -58,7 +58,7 @@ class Synthesize
             foreach ($e as $item) {
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget($info['uid'], $item);
                 if ($info['uid'] = $item || $results['score'] == null || empty($results)) {
-                    $results['score'] = 0;
+                    $results['score'] = null;
                 }
                 $tem[] =  $results['score'];
                 $sum += $results['score'];
