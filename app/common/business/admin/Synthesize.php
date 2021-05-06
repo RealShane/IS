@@ -70,18 +70,11 @@ class Synthesize
             for ($i = 0; $i < 100; $i++){
                 $temp['rater' . $i] = $i;
             }
-            echo json_encode($temp);exit();
-            $res[] = [
-                'id' => $id,
-                'target' => $userName,
-                'rater1' => 1,
-                'rater2' => 1,
-                'rater3' => 1,
-                'avgScore' => 2,
-                'sumScore' => 1
-            ];
+            $temp['avgScore'] = 2;
+            $temp['sumScore'] = 2;
+            $res[] = $temp;
             $user[] = $userName;
-            echo json_encode($res);
+            echo json_encode($res);exit();
             $id++;
 
         }
