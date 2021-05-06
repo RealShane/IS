@@ -60,10 +60,10 @@ class Synthesize
                 }
                 $re[]= $results['score'];
                 echo json_encode($re[]);
-                exit();
                 $sum += $results['score'];
                 $avgScore = $sum / $cout;
             }
+            exit();
 
 
             $res[] = [
