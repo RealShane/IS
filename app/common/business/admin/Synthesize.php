@@ -57,10 +57,12 @@ class Synthesize
                 if ($info['uid'] == $item || $results['score'] == null || empty($results)) {
                     $results['score'] = null;
                 }
+                echo json_encode($results['score']);
                 $tem[] =  $results['score'];
                 $sum += $results['score'];
                 $avgScore = $sum / ($cout -1);
             }
+            exit();
             $temp = [
                 'id' => $id,
                 'target' => $userName,
