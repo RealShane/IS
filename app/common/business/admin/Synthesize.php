@@ -43,9 +43,6 @@ class Synthesize
         foreach ($infos as $key){
             $e[] = $key['uid'];
         }
-        echo json_encode($e);
-        echo json_encode($infos);
-        exit();
         $cout = $this -> userClassModel -> countByClass($classId);
         foreach ($infos as $info) {
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
