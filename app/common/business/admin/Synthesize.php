@@ -63,7 +63,9 @@ class Synthesize
                 $tem[] =  $results['score'];
                 $sum += $results['score'];
                 $avgScore = $sum / ($cout -1);
+                echo json_encode($results['score']);
             }
+            exit();
             $temp = [
                 'id' => $id,
                 'target' => $userName,
