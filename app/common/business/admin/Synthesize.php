@@ -58,8 +58,8 @@ class Synthesize
                 if ($info['uid'] = $item || $results['score'] == null || empty($results)) {
                     $res[]['rater'] = 0;
                 }
-                $res[]['rater'] = $results['score'];
-                echo json_encode($res[]['rater']);
+                $re[]= $results['score'];
+                echo json_encode($re[]);
                 exit();
                 $sum += $results['score'];
                 $avgScore = $sum / $cout;
