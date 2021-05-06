@@ -63,6 +63,10 @@ class Synthesize
                 $sum += $results['score'];
                 $avgScore = $sum / $cout;
             }
+            $temp = [];
+            for ($i = 0; $i < 100; $i++){
+                $temp['rater' . $i] = $i;
+            }
             $res[] = [
                 'id' => $id,
                 'target' => $userName,
@@ -73,11 +77,11 @@ class Synthesize
                 'sumScore' => 1
             ];
             $user[] = $userName;
-
+            echo json_encode($res);
             $id++;
 
         }
-
+        exit();
         $count = $cout + 2;
         $indexes[0] = '序号';
         $indexes[1] = '被评分人';
@@ -87,8 +91,7 @@ class Synthesize
         }
         $indexes[$count + 1] = '平均分';
         $indexes[$count + 2] = '总分';
-//    echo json_encode($cout);exit();
-        return $this -> excelLib -> push($title, $indexes, $res);
+        $this -> excelLib -> push($title, $indexes, $res);
     }
 
     public function getAllClass($num){
