@@ -52,7 +52,7 @@ class Synthesize
         $cout = $this -> userClassModel -> countByClass($classId);
         //echo json_encode($e);exit();
         $temp = 2;
-        $n = 0;
+        $n = 1;
         foreach ($infos as $info) {
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
             foreach ($e as $item) {
