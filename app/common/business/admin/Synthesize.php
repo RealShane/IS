@@ -69,9 +69,9 @@ class Synthesize
             $result = str_replace('""', '","', $hello[$index]);
             echo json_encode($hello[$index]);
             echo $result;
-            exit();
-        }
 
+        }
+        exit();
 
             $indexes = [
                 '序号',
