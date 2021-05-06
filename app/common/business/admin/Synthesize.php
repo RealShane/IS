@@ -63,28 +63,28 @@ class Synthesize
                 $res[][$temp++] = $results['score'];
                 $sum += $results['score'];
                 $avgScore = $sum / $cout;
-                $res[][0] = $id;
-                $res[][1] = $userName;
-                $res[][$cout + 1] = $sum;
-                $res[][$cout + 2] = $avgScore;
+//                $res[][0] = $id;
+//                $res[][1] = $userName;
+//                $res[][$cout + 1] = $sum;
+//                $res[][$cout + 2] = $avgScore;
 
             }
-            $id++;
+
 //            $res[$n][0] = $id;
 //            $res[$n][1] = $userName;
 //            $res[$n][$cout + 1] = $sum;
 //            $res[$n][$cout + 2] = $avgScore;
 //            $id++;$n++;
 
-//            $res[] = [
-//                'id' => $id,
-//                'target' => $userName,
-//                'rater' => $re,
-//                'avgScore' => 2,
-//                'sumScore' => 1
-//            ];
-            $user[] = $userName;
+            $res[] = [
+                'id' => $id,
+                'target' => $userName,
 
+                'avgScore' => 2,
+                'sumScore' => 1
+            ];
+            $user[] = $userName;
+            $id++;
 
 
         }
