@@ -73,7 +73,7 @@ class Synthesize
             ];
         }
 
-      总分  echo json_encode($cout);exit();
+    echo json_encode($cout);exit();
         return $this -> excelLib -> push($title, $indexes, $res);
     }
 
