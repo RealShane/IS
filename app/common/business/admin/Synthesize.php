@@ -63,6 +63,7 @@ class Synthesize
 
         }
         $cout = $this -> userClassModel -> countByClass($classId);
+        echo json_encode($cout);exit();
         for ($i = 0; $i < $cout ; $i++)
         $indexes = [
             '序号',
@@ -71,7 +72,7 @@ class Synthesize
             '平均分',
             '总分'
         ];
-        echo json_encode($cout);exit();
+
         return $this -> excelLib -> push($title, $indexes, $res);
     }
 
