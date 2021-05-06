@@ -38,23 +38,13 @@ class Synthesize
     public function exportCrossExcel($classId){
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
-        //$results = $this -> synthesizeCrossModel -> findByUidAndTarget();
-        $id = 1;
-        $res = [];
-        $user = [];
-        $e = [];
-        $sum = 0;
-        $avgScore = 0;
-
+        $id = 1;$res = [];$user = [];$sum = 0;$avgScore = 0;
         $infos = $this -> userClassModel -> findAllByClassId($classId);
-        foreach ($infos as $key){
-            $e[] = $key['uid'];
-        }
         $cout = $this -> userClassModel -> countByClass($classId);
         foreach ($infos as $info) {
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
             $tem = [];
-            foreach ($e as $item) {
+            foreach ($infos as $item) {
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget( $item, $info['uid']);
                 if (empty($results)){
                     $results['score'] = null;
