@@ -39,7 +39,7 @@ class Synthesize
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
         //$results = $this -> synthesizeCrossModel -> findByUidAndTarget();
-        $id = 0;
+        $id = 1;
         $res = [];
         $user = [];
         $e = [];
