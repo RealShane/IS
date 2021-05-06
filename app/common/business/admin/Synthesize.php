@@ -55,7 +55,6 @@ class Synthesize
             foreach ($e as $item) {
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget($info['uid'], $item);;
                 if ($info['uid'] == $item || empty($results)) {
-                    $results['score'] = null;
                     continue;
                 }
                 $tem[] =  $results['score'];
