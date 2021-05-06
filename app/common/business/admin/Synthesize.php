@@ -38,41 +38,58 @@ class Synthesize
     public function exportCrossExcel($classId){
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
-        $infos = $this -> userClassModel -> findAllByClassId($classId);
-        $userName = [];
-        foreach ($infos as $info){
-            $userName[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
-        }
-        //$results = $this -> synthesizeCrossModel -> selectAll();
-//        foreach ($userName as $key){
-//            $indexes = [
-//                '序号',
-//                '被评分人',
-//                $key,
-//                '平均分',
-//                '总分'
-//            ];
-//        }
-            $indexes = [
-                '序号',
-                '被评分人',
-                '评分人',
-                '平均分',
-                '总分'
-            ];
+        //$results = $this -> synthesizeCrossModel -> findByUidAndTarget();
+        $id = 1;
         $res = [];
-//        $id = 1;
-//        $res = [];
-//        foreach ($results as $result){
-//            $res[] = [
-//                'id' => $id,
-//                'target' => $result['class'],
-//               // []
-//                'avgScore' => $result['dormitory'],
-//                'sumScore' => $result['grade']
-//            ];
-//            $id++;
-//        }
+        $user = [];
+        $e = [];
+        $sum = 0;
+        $avgScore = 0;
+        $infos = $this -> userClassModel -> findAllByClassId($classId);
+        foreach ($infos as $key){
+            $e[] = $key['uid'];
+        }
+        $cout = $this -> userClassModel -> countByClass($classId);
+        //echo json_encode($e);exit();
+        foreach ($infos as $info) {
+            $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+            foreach ($e as $item) {
+                $results = $this -> synthesizeCrossModel -> findByUidAndTarget($info['uid'], $item);
+                echo json_encode($results);
+                if ($info['uid'] = $item || $results['score'] == null || empty($results)) {
+                    $res[]['rater'] = 0;
+                }
+                $re[]= $results;
+
+                $sum += $results['score'];
+                $avgScore = $sum / $cout;
+            }
+            exit();
+
+
+            $res[] = [
+                'id' => $id,
+                'target' => $userName,
+                'rater' => 1,
+                'avgScore' => 2,
+                'sumScore' => 1
+            ];
+            $user[] = $userName;
+
+            $id++;
+
+        }
+
+        $count = $cout + 2;
+        $indexes[0] = '序号';
+        $indexes[1] = '被评分人';
+        $j = 0;
+        for ($i = 2; $i < $count; $i++){
+            $indexes[$i] = $user[$j++];
+        }
+        $indexes[$count + 1] = '平均分';
+        $indexes[$count + 2] = '总分';
+//    echo json_encode($cout);exit();
         return $this -> excelLib -> push($title, $indexes, $res);
     }
 

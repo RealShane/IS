@@ -24,6 +24,10 @@ class UserClass extends Model
 
     protected $table = "api_user_class";
 
+    public function countByClass($classId){
+        return $this ->  where('class_id', $classId) -> count();
+    }
+
     public function findAllByClassId($class){
         return $this -> where('class_id', $class) -> where('status', 1) -> select();
     }
