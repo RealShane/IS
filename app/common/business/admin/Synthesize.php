@@ -64,16 +64,14 @@ class Synthesize
         }
         $cout = $this -> userClassModel -> countByClass($classId);
         $str = join(',', $user);
-        echo json_encode($str);exit();
-        $result = str_replace('""', '","', $hello[$index]);
-//        $hello = explode(',',$str);
-//        for($index=0;$index<count($hello);$index++){
-//            echo json_encode($hello[$index]);
-//            $result = str_replace('""', '","', $hello[$index]);
-//        }
-//
-//        echo $result;
-//        exit();
+        $hello = explode(',',$str);
+        for($index=0;$index<count($hello);$index++){
+            echo json_encode($hello[$index]);
+
+        }
+        $result = str_replace('""', '","', $hello);
+        echo $result;
+        exit();
             $indexes = [
                 '序号',
                 '被评分人',
