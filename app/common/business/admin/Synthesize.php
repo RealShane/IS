@@ -45,7 +45,7 @@ class Synthesize
         $e = [];
         $sum = 0;
         $avgScore = 0;
-        $tem = [];
+
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         foreach ($infos as $key){
             $e[] = $key['uid'];
@@ -53,6 +53,7 @@ class Synthesize
         $cout = $this -> userClassModel -> countByClass($classId);
         foreach ($infos as $info) {
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+            $tem = [];
             foreach ($e as $item) {
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget( $item, $info['uid']);
                 if (empty($results)){
@@ -70,8 +71,8 @@ class Synthesize
                 'id' => $id,
                 'target' => $userName,
             ];
-            for ($i = 0; $i < $cout; $i++){
-                $temp['rater' . $i] = $tem[$i];
+            for ($k = 0; $k < $cout; $k++){
+                $temp['rater' . $k] = $tem[$k];
             }
             $temp['avgScore'] = $avgScore;
             $temp['sumScore'] = $sum;
