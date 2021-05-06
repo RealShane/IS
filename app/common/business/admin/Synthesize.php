@@ -64,10 +64,10 @@ class Synthesize
         }
         $cout = $this -> userClassModel -> countByClass($classId);
         for ($i = 0; $i < $cout; $i++){
-            $indexes = [
+            $indexes[] = [
                 '序号',
                 '被评分人',
-                [] = $user[$i],
+                $user,
                 '平均分',
                 '总分'
             ];
