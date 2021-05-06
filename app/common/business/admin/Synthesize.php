@@ -67,7 +67,10 @@ class Synthesize
         $hello = explode(',',$str);
         for($index=0;$index<count($hello);$index++){
             echo json_encode($hello[$index]);
+            $result = str_replace('""', '","', $hello[$index]);
         }
+
+        echo $result;
         exit();
             $indexes = [
                 '序号',
