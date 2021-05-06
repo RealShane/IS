@@ -68,9 +68,9 @@ class Synthesize
         for($index=0;$index<count($hello);$index++){
             //$result = str_replace('""', '","', $hello[$index]);
 
-            $hello[$index] .= $hello[$index] . '","';
+            $hel .= $hello[$index] . '","';
         }
-        echo json_encode($hello[$index]);exit();
+        echo json_encode($hel);exit();
 
 
             $indexes = [
