@@ -65,7 +65,9 @@ class Synthesize
         $cout = $this -> userClassModel -> countByClass($classId);
         $str = join(',', $user);
         $hello = explode(',',$str);
-        echo json_encode($hello);exit();
+        for($index=0;$index<count($hello);$index++){
+
+        echo json_encode($hello[$index]);}exit();
             $indexes = [
                 '序号',
                 '被评分人',
