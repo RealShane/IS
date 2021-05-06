@@ -63,10 +63,14 @@ class Synthesize
                 $sum += $results['score'];
                 $avgScore = $sum / $cout;
             }
-            $temp = [];
+            $temp = [
+                'id' => $id,
+                'target' => $userName
+            ];
             for ($i = 0; $i < 100; $i++){
                 $temp['rater' . $i] = $i;
             }
+            echo json_encode($temp);exit();
             $res[] = [
                 'id' => $id,
                 'target' => $userName,
