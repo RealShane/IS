@@ -54,9 +54,9 @@ class Synthesize
 
         $n = 0;
         foreach ($infos as $info) {
-            $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+            $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user'];
             foreach ($e as $item) {
-                $results = $this -> synthesizeCrossModel -> findByUidAndTarget($info['uid'])['user']['id'], $item);
+                $results = $this -> synthesizeCrossModel -> findByUidAndTarget($userName['id'], $item);
                 echo json_encode($info['uid']. '+');
                 echo json_encode($item. ' ');
 
@@ -71,7 +71,7 @@ class Synthesize
 
             $temp = [
                 'id' => $id,
-                'target' => $userName,
+                'target' => $userName['name'],
             ];
             for ($i = 0; $i < $cout; $i++){
                 $temp['rater' . $i] = $tem[$i];
@@ -80,7 +80,7 @@ class Synthesize
             $temp['sumScore'] = $avgScore;
             $res[] = $temp;
 
-            $user[] = $userName;
+            $user[] = $userName['name'];
 
             $id++;
 
