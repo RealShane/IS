@@ -64,14 +64,22 @@ class Synthesize
         }
         $cout = $this -> userClassModel -> countByClass($classId);
         $str = join(',', $user);
-        echo json_encode($str);exit();
-        $indexes = [
-            '序号',
-            '被评分人',
-            $result ,
-            '平均分',
-            '总分'
-        ];
+        $hello = explode(',',$str);
+        for($index=0;$index<count($hello);$index++){
+            //$result = str_replace('""', '","', $hello[$index]);
+
+            $hello[$index] .= $hello[$index] . '","'
+        }
+        echo json_encode($hello[$index]);exit();
+
+
+            $indexes = [
+                '序号',
+                '被评分人',
+                $result ,
+                '平均分',
+                '总分'
+            ];
 
 //    echo json_encode($cout);exit();
         return $this -> excelLib -> push($title, $indexes, $res);
