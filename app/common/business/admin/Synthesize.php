@@ -65,6 +65,7 @@ class Synthesize
         $cout = $this -> userClassModel -> countByClass($classId);
         $str = join(',', $user);
         $hello = explode(',',$str);
+        $hel = null;
         for($index=0;$index<count($hello);$index++){
             //$result = str_replace('""', '","', $hello[$index]);
 
