@@ -51,7 +51,7 @@ class Synthesize
         }
         $cout = $this -> userClassModel -> countByClass($classId);
         //echo json_encode($e);exit();
-        $temp = 2;
+        $temp = 3;
         foreach ($infos as $info) {
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
             foreach ($e as $item) {
@@ -63,8 +63,8 @@ class Synthesize
                 $sum += $results['score'];
                 $avgScore = $sum / $cout;
             }
-            $res[$id][0] = $id;
-            $res[$id][1] = $userName;
+            $res[$id][1] = $id;
+            $res[$id][2] = $userName;
             $res[$id][$cout + 1] = $sum;
             $res[$id][$cout + 2] = $avgScore;
             $id++;
