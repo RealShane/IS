@@ -38,7 +38,7 @@ class Synthesize
     public function exportCrossExcel($classId){
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
-        $results = $this -> synthesizeCrossModel -> findByUidAndTarget();
+        //$results = $this -> synthesizeCrossModel -> findByUidAndTarget();
         $id = 1;
         $res = [];
         $user = [];
