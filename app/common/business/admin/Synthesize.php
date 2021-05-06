@@ -74,7 +74,7 @@ class Synthesize
             ];
             $user[] = $userName;
 
-            $d++;
+            $id++;
 
         }
 
