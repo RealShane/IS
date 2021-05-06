@@ -71,7 +71,7 @@ class Synthesize
             }
             $temp['avgScore'] = $avgScore;
             $temp['sumScore'] = $sum;
-
+echo json_encode($temp);exit();
             $res[] = $temp;
 
             $user[] = $userName;
