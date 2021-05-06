@@ -43,7 +43,7 @@ class Synthesize
         $res = [];
         $id = 1;
         $res = [];
-        $userName = [];
+        $user = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         foreach ($infos as $info){
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
@@ -57,7 +57,7 @@ class Synthesize
                 'avgScore' => 2,
                 'sumScore' => 1
             ];
-            $userName[] = $userName;
+            $user[] = $userName;
 
             $id++;
 
