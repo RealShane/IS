@@ -63,21 +63,33 @@ class Synthesize
 
         }
         $cout = $this -> userClassModel -> countByClass($classId);
-        $str = join(',', $user);
-        $hello = explode(',',$str);
-        $hel = '';
-        for($index=0;$index<count($hello);$index++){
-            //$result = str_replace('""', '","', $hello[$index]);
-
-            $hel .= $hello[$index] . '","';
-            $indexes = [
-                '序号',
-                '被评分人',
-                $hel,
-                '平均分',
-                '总分'
-            ];
+        $count = $cout + 2;
+        $indexes[0] = '序号';
+        $indexes[1] = '被评分人';
+        $j = 0;
+        for ($i = 2; $i < $count; $i++){
+            $indexes[$i] = $user[$j++];
         }
+        $indexes[$count + 1] = '序号';
+        $indexes[$count + 2] = '被评分人';
+
+
+
+//        $str = join(',', $user);
+//        $hello = explode(',',$str);
+//        $hel = '';
+//        for($index=0;$index<count($hello);$index++){
+//            //$result = str_replace('""', '","', $hello[$index]);
+//
+//            $hel .= $hello[$index] . '","';
+//            $indexes = [
+//                '序号',
+//                '被评分人',
+//                $hel,
+//                '平均分',
+//                '总分'
+//            ];
+//        }
         //echo json_encode($hel);exit();
 
 
