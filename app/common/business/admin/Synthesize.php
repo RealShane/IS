@@ -66,7 +66,7 @@ class Synthesize
                 'id' => $id,
                 'target' => $userName,
             ];
-            echo json_encode($tem[2]);exit();
+            echo json_encode($tem);exit();
             for ($i = 0; $i < $cout; $i++){
                 $temp['rater' . $i] = $tem[$i];
             }
