@@ -28,7 +28,4 @@ class SynthesizeCross extends Model
         return $this -> where('uid', $uid) -> where('target_uid', $target) -> find();
     }
 
-    public function selectAll(){
-        return $this -> where('id', '>', 0) -> select();
-    }
 }
