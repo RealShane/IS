@@ -66,15 +66,22 @@ class Synthesize
         $str = join(',', $user);
         $hello = explode(',',$str);
         for($index=0;$index<count($hello);$index++){
-
-        echo json_encode($hello[$index]);}exit();
             $indexes = [
                 '序号',
                 '被评分人',
-                $str,
+                $hello[$index],
                 '平均分',
                 '总分'
             ];
+            //echo json_encode($hello[$index]);
+        }
+//            $indexes = [
+//                '序号',
+//                '被评分人',
+//                $str,
+//                '平均分',
+//                '总分'
+//            ];
 
 //    echo json_encode($cout);exit();
         return $this -> excelLib -> push($title, $indexes, $res);
