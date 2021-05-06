@@ -60,6 +60,7 @@ class Synthesize
                 if ($info['uid'] = $item || $results['score'] == null || empty($results)) {
                     $results['score'] = 0;
                 }
+                $tem[] =  $results['score'];
                 $sum += $results['score'];
                 $avgScore = $sum / $cout;
             }
@@ -68,11 +69,12 @@ class Synthesize
                 'target' => $userName,
             ];
             for ($i = 0; $i < $cout; $i++){
-                $temp['rater' . $i] = $i;
+                $temp['rater' . $i] = $tem[$i];
             }
             $temp['avgScore'] = 1;
             $temp['sumScore'] = 1;
             $res[] = $temp;
+
             $user[] = $userName;
 
             $id++;
