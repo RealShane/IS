@@ -52,7 +52,7 @@ class Synthesize
 
             }
             $results = $this -> synthesizeCrossModel -> findByUidAndTarget($info['uid'], );
-            if ($userName['id'] == ){
+            if ($userName['id'] == 1){
                 $res[]['rater'] = 0;
             }
             $res[] = [
