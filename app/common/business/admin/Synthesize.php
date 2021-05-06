@@ -58,7 +58,7 @@ class Synthesize
 //            }
             $res[] = [
                 'id' => $id,
-                'target' => $userName,
+                'target' => $userName[$id],
                 'rater' => 1,
                 'avgScore' => 2,
                 'sumScore' => 1
