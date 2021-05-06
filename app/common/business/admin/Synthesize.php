@@ -71,13 +71,13 @@ class Synthesize
 
             $hel .= $hello[$index] . '","';
         }
-        echo json_encode($hel);exit();
+        //echo json_encode($hel);exit();
 
 
             $indexes = [
                 '序号',
                 '被评分人',
-                $result ,
+                $hel,
                 '平均分',
                 '总分'
             ];
