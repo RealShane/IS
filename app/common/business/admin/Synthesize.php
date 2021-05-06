@@ -66,10 +66,9 @@ class Synthesize
         $str = join(',', $user);
         $hello = explode(',',$str);
         for($index=0;$index<count($hello);$index++){
-            $result = str_replace('""', '","', $hello[$index]);
-            echo json_encode($hello[$index]);
+           $data[] = $hello[$index];
         }
-
+        $result = str_replace('""', '","', $data);
         echo $result;
         exit();
             $indexes = [
