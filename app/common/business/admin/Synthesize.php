@@ -67,8 +67,9 @@ class Synthesize
                 $res[][1] = $userName;
                 $res[][$cout + 1] = $sum;
                 $res[][$cout + 2] = $avgScore;
-                $id++;
+
             }
+            $id++;
 //            $res[$n][0] = $id;
 //            $res[$n][1] = $userName;
 //            $res[$n][$cout + 1] = $sum;
