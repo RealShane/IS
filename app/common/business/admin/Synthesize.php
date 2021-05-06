@@ -58,17 +58,18 @@ class Synthesize
                 'sumScore' => 1
             ];
             $userName[] = $userName;
-            $indexes = [
-                '序号',
-                '被评分人',
-                $userName['$id'],
-                '平均分',
-                '总分'
-            ];
+
             $id++;
 
         }
-
+        echo json_encode($userName);exit();
+        $indexes = [
+            '序号',
+            '被评分人',
+            $userName['$id'],
+            '平均分',
+            '总分'
+        ];
 
         return $this -> excelLib -> push($title, $indexes, $res);
     }
