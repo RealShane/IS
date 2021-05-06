@@ -45,6 +45,7 @@ class Synthesize
         $e = [];
         $sum = 0;
         $avgScore = 0;
+        $tem = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         foreach ($infos as $key){
             $e[] = $key['uid'];
@@ -55,7 +56,7 @@ class Synthesize
             foreach ($e as $item) {
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget($info['uid'], $item);
                 if (empty($results)){
-                    continue;
+                    $results['score'] = null;
                 }
                 if ($info['uid'] == $item) {
                     $results['score'] = null;
