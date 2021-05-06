@@ -62,7 +62,7 @@ class Synthesize
             $id++;
 
         }
-        echo json_encode($userName);exit();
+        echo json_encode($user);exit();
         $indexes = [
             '序号',
             '被评分人',
