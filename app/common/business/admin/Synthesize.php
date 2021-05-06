@@ -45,11 +45,11 @@ class Synthesize
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
             $tem = [];
             foreach ($infos as $item) {
-                $results = $this -> synthesizeCrossModel -> findByUidAndTarget( $item, $info['uid']);
+                $results = $this -> synthesizeCrossModel -> findByUidAndTarget($item['uid'], $info['uid']);
                 if (empty($results)){
                     $results['score'] = null;
                 }
-                if ($info['uid'] == $item) {
+                if ($info['uid'] == $item['uid']) {
                     $results['score'] = null;
 
                 }
