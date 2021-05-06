@@ -66,8 +66,8 @@ class Synthesize
         $str = join(',', $user);
         $hello = explode(',',$str);
         for($index=0;$index<count($hello);$index++){
-           $data[] = $hello[$index];
-            $result = str_replace('""', '","', $data);
+
+            $result = str_replace('""', '","', $hello[$index]);
             echo $result;
         }
 
