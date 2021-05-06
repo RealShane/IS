@@ -63,20 +63,21 @@ class Synthesize
                 $sum += $results['score'];
                 $avgScore = $sum / $cout;
             }
-            $temp = [
+            $res[] = [
                 'id' => $id,
-                'target' => $userName
+                'target' => $userName,
+                'rater1' => 1,
+                'rater2' => 1,
+                'rater3' => 1,
+                'avgScore' => 2,
+                'sumScore' => 1
             ];
-            for ($i = 0; $i < $cout; $i++){
-                $temp['rater' . $i] = $i;
-            }
-            $temp['avgScore'] = 2;
-            $temp['sumScore'] = 2;
-            $res[] = $temp;
             $user[] = $userName;
+
             $id++;
 
         }
+
         $count = $cout + 2;
         $indexes[0] = '序号';
         $indexes[1] = '被评分人';
@@ -86,6 +87,7 @@ class Synthesize
         }
         $indexes[$count + 1] = '平均分';
         $indexes[$count + 2] = '总分';
+//    echo json_encode($cout);exit();
         $this -> excelLib -> push($title, $indexes, $res);
     }
 
