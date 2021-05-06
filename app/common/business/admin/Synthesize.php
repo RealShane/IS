@@ -38,23 +38,16 @@ class Synthesize
     public function exportCrossExcel($classId){
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
-        $id = 1;$res = [];$user = [];$e = [];$sum = 0;$avgScore = 0;
+        $id = 1;$res = [];$user = [];$sum = 0;$avgScore = 0;
         $infos = $this -> userClassModel -> findAllByClassId($classId);
-        foreach ($infos as $key){
-            $e[] = $key['uid'];
-        }
         $cout = $this -> userClassModel -> countByClass($classId);
         foreach ($infos as $info) {
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
             $tem = [];
             foreach ($infos as $item) {
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget($item['uid'], $info['uid']);
-                if (empty($results)){
+                if (empty($results) || $info['uid'] == $item['uid']){
                     $results['score'] = null;
-                }
-                if ($info['uid'] == $item['uid']) {
-                    $results['score'] = null;
-
                 }
                 $tem[] =  $results['score'];
                 $sum += $results['score'];
@@ -64,30 +57,23 @@ class Synthesize
                 'id' => $id,
                 'target' => $userName,
             ];
-            for ($k = 0; $k < $cout; $k++){
-                $temp['rater' . $k] = $tem[$k];
+            for ($i = 0; $i < $cout; $i++){
+                $temp['rater' . $i] = $tem[$i];
             }
             $temp['avgScore'] = $avgScore;
             $temp['sumScore'] = $sum;
             $res[] = $temp;
-
             $user[] = $userName;
-
             $id++;
-
         }
-
-
         $count = $cout + 2;
         $indexes[0] = '序号';
         $indexes[1] = '被评分人';
-        $j = 0;
-        for ($i = 2; $i < $count; $i++){
+        for ($i = 2, $j = 0; $i < $count; $i++){
             $indexes[$i] = $user[$j++];
         }
         $indexes[$count + 1] = '平均分';
         $indexes[$count + 2] = '总分';
-//    echo json_encode($cout);exit();
         $this -> excelLib -> push($title, $indexes, $res);
     }
 
