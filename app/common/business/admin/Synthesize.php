@@ -52,13 +52,13 @@ class Synthesize
         $userName = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         foreach ($infos as $info){
-            $userName[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user'];
-            if ($userName['id'] == $uid){
-                continue;
-            }
+            $userName[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+//            if ($userName['id'] == $uid){
+//                continue;
+//            }
             $res[] = [
                 'id' => $id,
-                'target' => $userName['name'],
+                'target' => $userName,
                 'rater' => 1,
                 'avgScore' => 2,
                 'sumScore' => 1
