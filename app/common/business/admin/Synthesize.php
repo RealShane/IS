@@ -64,17 +64,13 @@ class Synthesize
         }
         $cout = $this -> userClassModel -> countByClass($classId);
         $str = join(',', $user);
-        echo json_encode($str);exit();
-        for ($i = 0; $i < $cout; $i++){
             $indexes = [
                 '序号',
                 '被评分人',
-                $user[0],
-                $user[1],
+                $str,
                 '平均分',
                 '总分'
             ];
-        }
 
 //    echo json_encode($cout);exit();
         return $this -> excelLib -> push($title, $indexes, $res);
