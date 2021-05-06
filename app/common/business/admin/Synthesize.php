@@ -43,10 +43,13 @@ class Synthesize
         $res = [];
         $user = [];
         $e = [];
+        $sum = 0;
+        $avgScore = 0;
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         foreach ($infos as $key){
             $e[] = $key['uid'];
         }
+        $cout = $this -> userClassModel -> countByClass($classId);
         //echo json_encode($e);exit();
         foreach ($infos as $info){
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
@@ -55,23 +58,31 @@ class Synthesize
                 if ($info['uid'] = $item || $results['score'] == null || empty($results)){
                     $res[]['rater'] = 0;
                 }
-                $res[]['rater'] = $results['score'];
+                $sum += $results['score'];
+                $avgScore = $sum / $cout;
+                $res[] = [
+                    'id' => $id,
+                    'target' => $userName,
+                    'rater' => $results['score'],
+                    'avgScore' => $avgScore,
+                    'sumScore' => $sum
+                ];
             }
-            echo json_encode($res);exit();
 
-            $res[] = [
-                'id' => $id,
-                'target' => $userName,
-                'rater' => 1,
-                'avgScore' => 2,
-                'sumScore' => 1
-            ];
+
+//            $res[] = [
+//                'id' => $id,
+//                'target' => $userName,
+//                'rater' => 1,
+//                'avgScore' => 2,
+//                'sumScore' => 1
+//            ];
             $user[] = $userName;
 
             $id++;
 
         }
-        $cout = $this -> userClassModel -> countByClass($classId);
+
         $count = $cout + 2;
         $indexes[0] = '序号';
         $indexes[1] = '被评分人';
