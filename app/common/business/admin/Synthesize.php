@@ -56,6 +56,7 @@ class Synthesize
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget($info['uid'], $item);;
                 if ($info['uid'] == $item || empty($results)) {
                     $results['score'] = null;
+                    continue;
                 }
                 $tem[] =  $results['score'];
                 $sum += $results['score'];
@@ -71,7 +72,6 @@ class Synthesize
             }
             $temp['avgScore'] = $avgScore;
             $temp['sumScore'] = $sum;
-echo json_encode($temp);exit();
             $res[] = $temp;
 
             $user[] = $userName;
