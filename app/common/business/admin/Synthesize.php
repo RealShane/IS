@@ -66,12 +66,12 @@ class Synthesize
         $str = join(',', $user);
         $hello = explode(',',$str);
         for($index=0;$index<count($hello);$index++){
+           $string = $hello[$index];
 
-            $result = str_replace('""', '","', $hello[$index]);
-            echo $result;
         }
 
-
+        $result = str_replace('""', '","', $string);
+        echo $result;
         exit();
             $indexes = [
                 '序号',
