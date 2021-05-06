@@ -45,7 +45,6 @@ class Synthesize
         $e = [];
         $sum = 0;
         $avgScore = 0;
-        $n = 0;
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         foreach ($infos as $key){
             $e[] = $key['uid'];
@@ -58,21 +57,19 @@ class Synthesize
                 if ($info['uid'] == $item || $results['score'] == null || empty($results)) {
                     $results['score'] = null;
                 }
-//                echo json_encode($results['score']);
-//                $tem[] =  $results['score'];
+                $tem[] =  $results['score'];
                 $sum += $results['score'];
                 $avgScore = $sum / ($cout -1);
-                $temp['rater' . $n] = $results['score'];
-                $n++;
             }
-//            exit();
+            echo json_encode($tem);
+            exit();
             $temp = [
                 'id' => $id,
                 'target' => $userName,
             ];
-//            for ($i = 0; $i < $cout; $i++){
-//                $temp['rater' . $i] = $tem[$i];
-//            }
+            for ($i = 0; $i < $cout; $i++){
+                $temp['rater' . $i] = $tem[$i];
+            }
             $temp['avgScore'] = $sum;
             $temp['sumScore'] = $avgScore;
             $res[] = $temp;
