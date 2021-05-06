@@ -43,13 +43,12 @@ class Synthesize
         foreach ($infos as $key){
             $e[] = $key['uid'];
         }
-        echo json_encode($e);
-        exit();
         $cout = $this -> userClassModel -> countByClass($classId);
         foreach ($infos as $info) {
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
             $tem = [];
             foreach ($infos as $item) {
+                echo json_encode($item);exit();
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget( $item, $info['uid']);
                 if (empty($results)){
                     $results['score'] = null;
