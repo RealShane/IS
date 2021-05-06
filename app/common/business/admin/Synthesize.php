@@ -67,6 +67,7 @@ class Synthesize
                     'avgScore' => $avgScore,
                     'sumScore' => $sum
                 ];
+                $id++;
             }
 
 
@@ -79,7 +80,7 @@ class Synthesize
 //            ];
             $user[] = $userName;
 
-            $id++;
+//            $id++;
 
         }
 
