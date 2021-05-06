@@ -58,6 +58,7 @@ class Synthesize
                 'sumScore' => 1
             ];
             $id++;
+            $userName[] = $userName;
             $indexes = [
                 '序号',
                 '被评分人',
