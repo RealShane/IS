@@ -66,10 +66,10 @@ class Synthesize
                 'id' => $id,
                 'target' => $userName,
             ];
-            echo json_encode($tem[1]);exit();
             for ($i = 0; $i < $cout; $i++){
                 $temp['rater' . $i] = $tem[$i];
             }
+            echo json_encode($temp);exit();
             $temp['avgScore'] = $sum;
             $temp['sumScore'] = $avgScore;
             $res[] = $temp;
