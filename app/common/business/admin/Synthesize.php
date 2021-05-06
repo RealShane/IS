@@ -48,12 +48,12 @@ class Synthesize
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
             $tem = [];
             foreach ($infos as $item) {
-                echo json_encode($item);exit();
-                $results = $this -> synthesizeCrossModel -> findByUidAndTarget( $item, $info['uid']);
+                echo json_encode($item['uid']);
+                $results = $this -> synthesizeCrossModel -> findByUidAndTarget($item['uid'], $info['uid']);
                 if (empty($results)){
                     $results['score'] = null;
                 }
-                if ($info['uid'] == $item) {
+                if ($info['uid'] == $item['uid']) {
                     $results['score'] = null;
 
                 }
@@ -61,6 +61,7 @@ class Synthesize
                 $sum += $results['score'];
                 $avgScore = $sum / ($cout -1);
             }
+            exit();
             $temp = [
                 'id' => $id,
                 'target' => $userName,
