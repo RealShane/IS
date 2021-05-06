@@ -63,11 +63,14 @@ class Synthesize
 
         }
         $cout = $this -> userClassModel -> countByClass($classId);
+        $str = join(',', $user);
+        echo json_encode($str);exit();
         for ($i = 0; $i < $cout; $i++){
-            $indexes[] = [
+            $indexes = [
                 '序号',
                 '被评分人',
-                $user,
+                $user[0],
+                $user[1],
                 '平均分',
                 '总分'
             ];
