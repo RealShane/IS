@@ -58,6 +58,7 @@ class Synthesize
             foreach ($e as $item) {
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget($info['uid'], $item);
                 echo json_encode($info['uid']);
+                echo json_encode('    ');
                 echo json_encode($item);
                 if ($info['uid'] = $item || $results['score'] == null || empty($results)) {
                     $results['score'] = null;
