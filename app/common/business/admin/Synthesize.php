@@ -68,7 +68,7 @@ class Synthesize
                 $avgScore = $sum / ($cout -1);
 
             }
-            exit();
+
             $temp = [
                 'id' => $id,
                 'target' => $userName,
@@ -85,6 +85,7 @@ class Synthesize
             $id++;
 
         }
+        exit();
 
         $count = $cout + 2;
         $indexes[0] = '序号';
