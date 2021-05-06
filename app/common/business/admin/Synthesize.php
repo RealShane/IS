@@ -57,13 +57,14 @@ class Synthesize
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
             foreach ($e as $item) {
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget($info['uid'], $item);
+                echo json_encode($results);
                 if ($info['uid'] = $item || $results['score'] == null || empty($results)) {
                     $results['score'] = null;
                 }
                 $tem[] =  $results['score'];
                 $sum += $results['score'];
                 $avgScore = $sum / ($cout -1);
-                echo json_encode($results['score']);
+
             }
             exit();
             $temp = [
