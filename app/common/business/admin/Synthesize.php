@@ -35,7 +35,7 @@ class Synthesize
         $this -> userClassModel = new UserClass();
     }
 
-    public function exportCrossExcel($classId, $uid){
+    public function exportCrossExcel($classId){
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
 
@@ -44,6 +44,7 @@ class Synthesize
         $res = [];
         $user = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
+        echo json_encode($infos);exit();
         foreach ($infos as $info){
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid']);
             echo json_encode($userName);exit();
@@ -51,7 +52,7 @@ class Synthesize
 
             }
             $results = $this -> synthesizeCrossModel -> findByUidAndTarget($info['uid'], );
-            if ($userName['id'] == $uid){
+            if ($userName['id'] == ){
                 $res[]['rater'] = 0;
             }
             $res[] = [
