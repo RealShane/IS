@@ -59,14 +59,14 @@ class Synthesize
             ];
             $id++;
             $userName[] = $userName;
-            $indexes = [
-                '序号',
-                '被评分人',
-                $userName,
-                '平均分',
-                '总分'
-            ];
         }
+        $indexes = [
+            '序号',
+            '被评分人',
+            $userName,
+            '平均分',
+            '总分'
+        ];
 
         return $this -> excelLib -> push($title, $indexes, $res);
     }
