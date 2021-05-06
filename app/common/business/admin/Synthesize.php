@@ -52,7 +52,7 @@ class Synthesize
         $userName = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         foreach ($infos as $info){
-            $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+            $userName[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
 //            if ($userName['id'] == $uid){
 //                continue;
 //            }
@@ -65,7 +65,6 @@ class Synthesize
             ];
             $id++;
         }
-        echo json_encode($userName);exit();
         return $this -> excelLib -> push($title, $indexes, $res);
     }
 
