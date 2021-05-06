@@ -39,13 +39,7 @@ class Synthesize
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
         //$results = $this -> synthesizeCrossModel -> selectAll();
-            $indexes = [
-                '序号',
-                '被评分人',
-                '评分人',
-                '平均分',
-                '总分'
-            ];
+
         $res = [];
         $id = 1;
         $res = [];
@@ -64,7 +58,15 @@ class Synthesize
                 'sumScore' => 1
             ];
             $id++;
+            $indexes = [
+                '序号',
+                '被评分人',
+                $userName,
+                '平均分',
+                '总分'
+            ];
         }
+
         return $this -> excelLib -> push($title, $indexes, $res);
     }
 
