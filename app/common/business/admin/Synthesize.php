@@ -67,7 +67,7 @@ class Synthesize
             $indexes = [
                 '序号',
                 '被评分人',
-                $user[$i],
+                [] = $user[$i],
                 '平均分',
                 '总分'
             ];
