@@ -39,7 +39,7 @@ class Synthesize
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
         //$results = $this -> synthesizeCrossModel -> findByUidAndTarget();
-        $id = 1;
+        $id = 0;
         $res = [];
         $user = [];
         $e = [];
@@ -67,7 +67,7 @@ class Synthesize
             $res[$id++][1] = $userName;
             $res[$id++][$cout + 1] = $sum;
             $res[$id++][$cout + 2] = $avgScore;
-
+            $id++;
 
 //            $res[] = [
 //                'id' => $id,
@@ -78,7 +78,7 @@ class Synthesize
 //            ];
             $user[] = $userName;
 
-            $id++;
+
 
         }
 
