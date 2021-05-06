@@ -73,12 +73,13 @@ class Synthesize
             $temp['sumScore'] = $sum;
 
             $res[] = $temp;
-            echo json_encode($res);
+
             $user[] = $userName;
 
             $id++;
 
         }
+        echo json_encode($res);
         exit();
 
         $count = $cout + 2;
