@@ -76,7 +76,7 @@ class Synthesize
         }
 
 
-        $count = $cout + 2;
+        $count = $cout + 3;
         $indexes[0] = '序号';
         $indexes[1] = '被评分人';
         $indexes[2] = '未打分人';
