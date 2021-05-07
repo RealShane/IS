@@ -73,7 +73,6 @@ class Synthesize extends BaseController
         $data['uid'] = $this -> getUid();
         $data['target'] = $this -> request -> param('target', '', 'htmlspecialchars');
         $data['score'] = $this -> request -> param('score', '', 'htmlspecialchars');
-        echo json_encode($data);exit();
         try {
             validate(Validate::class) -> scene('poor_score') -> check($data);
         }catch (\Exception $exception){
