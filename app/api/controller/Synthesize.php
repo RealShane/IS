@@ -95,7 +95,7 @@ class Synthesize extends BaseController
             return $this -> fail($exception -> getMessage());
         }
         $this -> business -> poorSign($data, $user);
-        return $this -> success("弄好了！");
+        return $this -> success("操作成功！");
     }
 
     public function viewPoorOption(){
