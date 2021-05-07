@@ -43,38 +43,37 @@ class Synthesize
         $cout = $this -> userClassModel -> countByClass($classId);
         foreach ($infos as $info) {
             $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
-            $tem = [];$sum = 0;$avgScore = 0;
+            $tem = [];
+            $sum = 0;
+            $avgScore = 0;
             foreach ($infos as $item) {
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget($item['uid'], $info['uid']);
-                if ($info['uid'] == $item['uid']){
+                if ($info['uid'] == $item['uid']) {
                     $results['score'] = null;
                 }
-                if (empty($results)){
+                if (empty($results)) {
                     $name = $this -> userClassModel -> findByUidWithUser($item['uid'])['user']['name'];
                     $notScore[] = $name;
                     $results['score'] = null;
                 }
-                $tem[] =  $results['score'];
+                $tem[] = $results['score'];
                 $sum += $results['score'];
-                $avgScore = $sum / ($cout -1);
+                $avgScore = $sum / ($cout - 1);
             }
             $temp = [
                 'id' => $id,
                 'target' => $userName,
             ];
-            for ($i = 0; $i < $cout; $i++){
+            for ($i = 0; $i < $cout; $i++) {
                 $temp['rater' . $i] = $tem[$i];
             }
             $temp['avgScore'] = $avgScore;
             $temp['sumScore'] = $sum;
-            $temp['notScore'] = implode(",",$notScore);
+            $temp['notScore'] = implode(",", $notScore);
             $res[] = $temp;
             $user[] = $userName;
             $id++;
         }
-
-
-        echo json_encode($res); exit();
 
         $count = $cout + 2;
         $indexes[0] = '序号';
