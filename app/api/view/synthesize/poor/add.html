@@ -127,7 +127,6 @@
                     score : res.field.score
                 },
                 success : function(res) {
-                    console.log(res);
                     if(res.status === config('failed')){
                         layer.msg(res.message);
                     }else if(res.status === config('success')){
