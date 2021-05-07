@@ -140,6 +140,7 @@ class Synthesize
             throw new Exception("无此政治面貌！");
         }
         echo 5;
+        exit();
         $isExist = $this -> synthesizePoorSignModel -> findByUid($user['id']);
         if (empty($isExist)){
             echo 6;
