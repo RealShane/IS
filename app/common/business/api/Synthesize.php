@@ -122,9 +122,38 @@ class Synthesize
             if (empty($sign) || $sign['uid'] == $user['id']){
                 continue;
             }
-            $result[] = $sign;
+            $result[] = [
+                'id' => $sign['uid'],
+                'name' => $sign['user']['name']
+            ];
         }
         return $result;
+    }
+
+    public function getPoorSign($uid){
+        $isExist = $this -> synthesizePoorSignModel -> findByUid($uid);
+        if (empty($isExist)){
+            return NULL;
+        }
+        return [
+            'political_outlook' => $isExist['political_outlook'],
+            'id_card_number' => $isExist['id_card_number'],
+            'poor_type_one' => $isExist['poor_type_one'],
+            'poor_type_two' => $isExist['poor_type_two'],
+            'poor_type_three' => $isExist['poor_type_three'],
+            'poor_type_four' => $isExist['poor_type_four'],
+            'poor_type_five' => $isExist['poor_type_five'],
+            'poor_type_six' => $isExist['poor_type_six'],
+            'poor_type_seven' => $isExist['poor_type_seven'],
+            'poor_type_eight' => $isExist['poor_type_eight'],
+            'confirm_reason' => $isExist['confirm_reason'],
+            'confirm_reason_explain' => $isExist['confirm_reason_explain'],
+            'address' => $isExist['address'],
+            'home_phone' => $isExist['home_phone'],
+            'contact_phone' => $isExist['contact_phone'],
+            'remark' => $isExist['remark'],
+            'supporting_document' => $isExist['supporting_document']
+        ];
     }
 
     public function poorSign($data, $user){
