@@ -139,8 +139,27 @@ class Synthesize
         if (empty($isExist)){
             $data['uid'] = $user['id'];
             $data['create_time'] = time();
-            echo json_encode($data);exit();
-            return $this -> synthesizePoorSignModel -> save($data);
+            return $this -> synthesizePoorSignModel -> allowField([
+                'uid',
+                'political_outlook',
+                'id_card_number',
+                'poor_type_one',
+                'poor_type_two',
+                'poor_type_three',
+                'poor_type_four',
+                'poor_type_five',
+                'poor_type_six',
+                'poor_type_seven',
+                'poor_type_eight',
+                'confirm_reason',
+                'confirm_reason_explain',
+                'address',
+                'home_phone',
+                'contact_phone',
+                'remark',
+                'create_time',
+                'supporting_document'
+            ]) -> save($data);
         }
         $this -> synthesizePoorSignModel -> updatePoorSign($data, $user['id']);
     }
