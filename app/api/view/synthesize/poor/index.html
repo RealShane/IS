@@ -41,7 +41,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="layui-card">
+            <div class="layui-card" id="data_show">
                 <div class="layui-card-body" id="data">
 
                 </div>
@@ -70,6 +70,11 @@
         });
     }
     function renderData(data){
+        console.log(data);
+        console.log(empty(data));
+        if (empty(data)){
+            return $("#data_show").hide();
+        }
         let str = "";
         for (let key of data){
             let icon = "&#xe63f;";
