@@ -28,12 +28,5 @@ class SynthesizeCross extends Model
         return $this -> where('uid', $uid) -> where('target_uid', $target) -> find();
     }
 
-    public function findByUidWithUser($uid){
-        return self::with('user') -> where('uid', $uid) -> find();
-    }
-
-    public function user(){
-        return $this -> belongsTo(User::class, 'uid', 'id');
-    }
 
 }
