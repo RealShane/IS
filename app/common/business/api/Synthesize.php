@@ -125,14 +125,14 @@ class Synthesize
             }
             $result[] = [
                 'id' => $sign['uid'],
-                'name' => $sign['name']
+                'name' => $sign['user']['name']
             ];
         }
         return $result;
     }
 
     public function getPoorSign($uid){
-        $isExist = $this -> synthesizePoorSignModel -> findWithUid($uid);
+        $isExist = $this -> synthesizePoorSignModel -> findByUid($uid);
         if (empty($isExist)){
             return NULL;
         }
