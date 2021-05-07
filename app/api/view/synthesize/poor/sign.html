@@ -13,9 +13,9 @@
                 </label>
                 <div class="layui-input-inline">
                     <select id="political_outlook" name="political_outlook">
-                        <option>群众</option>
-                        <option>共青团员</option>
-                        <option>中共党员</option>
+                        <option value="群众">群众</option>
+                        <option value="共青团员">共青团员</option>
+                        <option value="中共党员">中共党员</option>
                     </select>
                 </div>
             </div>
@@ -192,7 +192,7 @@
 </div>
 <script>
     isApiLogin();
-    let data = null;
+    let data = null, selected = null, file_token = null;
     $(document).ready(function() {
         $.ajax({
             type : "POST",
@@ -206,19 +206,38 @@
                 renderForm();
             }
         });
-        return false;
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/Synthesize/',
+            url : '/api/Synthesize/getPoorSign',
             success : function(res) {
                 if(res.status === config('failed')){
                     layer.msg(res.message);
                     return false;
                 }
-                if (!empty(res.result['score'])){
-                    $('#score').val(res.result['score']);
-                    $('#time').text("上次提交时间：" + res.result['time']);
+                if (!empty(res.result)){
+                    layui.use(['form'], function() {
+                        $ = layui.jquery;
+                        var form = layui.form;
+                        $("#political_outlook").find("option[value='" + res.result['political_outlook'] + "']").prop("selected",true);
+                        $('#id_card_number').val(res.result['id_card_number']);
+                        $("#poor_type_one").find("option[value='" + res.result['poor_type_one'] + "']").prop("selected",true);
+                        $("#poor_type_two").find("option[value='" + res.result['poor_type_two'] + "']").prop("selected",true);
+                        $("#poor_type_three").find("option[value='" + res.result['poor_type_three'] + "']").prop("selected",true);
+                        $("#poor_type_four").find("option[value='" + res.result['poor_type_four'] + "']").prop("selected",true);
+                        $("#poor_type_five").find("option[value='" + res.result['poor_type_five'] + "']").prop("selected",true);
+                        $("#poor_type_six").find("option[value='" + res.result['poor_type_six'] + "']").prop("selected",true);
+                        $("#poor_type_seven").find("option[value='" + res.result['poor_type_seven'] + "']").prop("selected",true);
+                        $("#poor_type_eight").find("option[value='" + res.result['poor_type_eight'] + "']").prop("selected",true);
+                        selected = res.result['confirm_reason'];
+                        $('#confirm_reason_explain').val(res.result['confirm_reason_explain']);
+                        $('#address').val(res.result['address']);
+                        $('#home_phone').val(res.result['home_phone']);
+                        $('#contact_phone').val(res.result['contact_phone']);
+                        $('#remark').val(res.result['remark']);
+                        file_token = res.result['supporting_document'];
+                        form.render();
+                    });
                 }
             }
         });
@@ -231,7 +250,7 @@
             layer = layui.layer,
             upload  = layui.upload,
             selectM = layui.selectM;
-        let file_token = null, confirm_reason = selectM({
+        let confirm_reason = selectM({
             elem: '#confirm_reason',
             data: data,
             max: data.length,
@@ -240,6 +259,7 @@
                 idName: 'option',
                 titleName: 'option'
             },
+            selected: selected,
             verify:'required'
         });
         upload.render({
