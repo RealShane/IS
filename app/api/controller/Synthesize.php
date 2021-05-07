@@ -104,20 +104,11 @@ class Synthesize extends BaseController
 
     public function uploadProve(){
         $user = $this -> getUser();
-        echo 1;
         $file = $this -> request -> file("file");
-        echo 2;
         try {
             validate(UploadValidate::class) -> checkRule(['file' => $file], 'checkFile');
         } catch (\Exception $exception) {
-            $message = $exception -> getMessage();
-            if ($exception -> getCode() == 4){
-                $message = '未上传文件！';
-            }
-            echo json_encode($exception -> getCode());
-            echo json_encode($exception -> getMessage());
-            exit();
-            return $this -> fail($message);
+            return $this -> fail($exception -> getMessage());
         }
         $saveName = $this -> upload -> upload($user, $file, 'synthesize_poor', 'synthesize/poor/');
         return $this -> success(['path' => $saveName]);
