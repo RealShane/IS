@@ -79,7 +79,8 @@ class Synthesize extends BaseController
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
-        return $this -> success($this -> business -> poorScore($data));
+        $this -> business -> poorScore($data);
+        return $this -> success("操作成功！");
     }
 
     public function showPoorSignDetail(){

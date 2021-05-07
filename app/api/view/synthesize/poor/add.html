@@ -53,6 +53,8 @@
                     $('#score').val(1);
                     $('#commit').text("给Ta投一票");
                 }
+                console.log(res);
+                console.log(!empty(res.result['mark']));
                 if (!empty(res.result['mark'])){
                     if (type === 1){
                         if (res.result['mark'] === 1){
