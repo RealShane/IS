@@ -125,23 +125,20 @@ class Synthesize
     }
 
     public function poorSign($data, $user){
-        echo 1;
         if (!($this -> config -> getSynthesizePoorStatus())){
             throw new Exception("贫困生报名处于关闭状态！");
         }
-        echo 2;
         $isJoin = $this -> userClassModel -> findByUid($user['id']);
-        echo 3;
         if (empty($isJoin)){
             throw new Exception("贫困生报名请先加入班级！");
         }
-        echo 4;
         if (!in_array($data['political_outlook'], ['群众', '共青团员', '中共党员'])){
             throw new Exception("无此政治面貌！");
         }
-        echo 5;
-        exit();
         $isExist = $this -> synthesizePoorSignModel -> findByUid($user['id']);
+        echo json_encode($isExist);
+        echo json_encode(empty($isExist));
+        exit();
         if (empty($isExist)){
             echo 6;
             $data['uid'] = $user['id'];
