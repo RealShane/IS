@@ -103,7 +103,7 @@
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                 }
-                selected = res['result']['class_id'];
+                selected = res.result['class_id'];
                 $("#title").val(res.result['title']);
                 $("#begin_time").val(timestampToTime(res.result['close_time']['begin_time']));
                 $("#close_time").val(timestampToTime(res.result['close_time']['close_time']));

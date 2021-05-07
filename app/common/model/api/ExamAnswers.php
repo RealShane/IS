@@ -12,7 +12,7 @@ class ExamAnswers extends Model
     protected $table = 'api_exam_answers';
 
     protected $type = [
-        'answer'    =>  'json',
+        'answer'    =>  'json'
     ];
 
     public function findByUidAndPaperId($data){

@@ -95,7 +95,7 @@ class Synthesize extends BaseController
             return $this -> fail($exception -> getMessage());
         }
         $this -> business -> poorSign($data, $user);
-        return $this -> success("弄好了！");
+        return $this -> success("操作成功！");
     }
 
     public function viewPoorOption(){
@@ -108,13 +108,7 @@ class Synthesize extends BaseController
         try {
             validate(UploadValidate::class) -> checkRule(['file' => $file], 'checkFile');
         } catch (\Exception $exception) {
-            $message = $exception -> getMessage();
-
-            if ($exception -> getCode() == 4){
-                $message = '未上传文件！';
-            }
-            echo json_encode($exception -> getCode());exit();
-            return $this -> fail($message);
+            return $this -> fail($exception -> getMessage());
         }
         $saveName = $this -> upload -> upload($user, $file, 'synthesize_poor', 'synthesize/poor/');
         return $this -> success(['path' => $saveName]);

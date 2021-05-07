@@ -142,13 +142,18 @@ class Synthesize
         if (empty($isExist)){
             $data['uid'] = $user['id'];
             $data['create_time'] = time();
-            $this -> synthesizePoorSignModel -> save($data);
+            return $this -> synthesizePoorSignModel -> save($data);
         }
         $this -> synthesizePoorSignModel -> updatePoorSign($data, $user['id']);
     }
 
     public function viewPoorOption(){
-        return json_decode($this -> config -> getSynthesizePoorSignOption());
+        $options = json_decode($this -> config -> getSynthesizePoorSignOption());
+        $result = [];
+        foreach ($options as $option){
+            $result[] = ['option' => $option];
+        }
+        return $result;
     }
 
     private function check($uid, $target){

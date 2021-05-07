@@ -13,7 +13,7 @@ class ExamPapers extends Model
     protected $type = [
         'paper_answer'    =>  'json',
         'close_time'     =>  'json',
-        'class_id'     =>  'json',
+        'class_id'     =>  'json'
     ];
 
     public function updatePaper($data, $field){

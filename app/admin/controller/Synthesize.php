@@ -34,7 +34,7 @@ class Synthesize extends BaseController
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
-        return $this -> success($this -> business -> exportCrossExcel($classId));
+        $this -> business -> exportCrossExcel($classId);
     }
 
     public function getAllClass(){

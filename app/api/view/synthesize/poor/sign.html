@@ -13,9 +13,9 @@
                 </label>
                 <div class="layui-input-inline">
                     <select id="political_outlook" name="political_outlook">
-                        <option>群众</option>
-                        <option>共青团员</option>
-                        <option>中共党员</option>
+                        <option value="群众">群众</option>
+                        <option value="共青团员">共青团员</option>
+                        <option value="中共党员">中共党员</option>
                     </select>
                 </div>
             </div>
@@ -127,8 +127,7 @@
                 <label class="layui-form-label">
                     <span class="x-red">*</span>认定原因
                 </label>
-                <div class="layui-input-inline">
-                    <textarea id="confirm_reason" name="confirm_reason" required lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+                <div class="layui-input-inline" id="confirm_reason">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -171,7 +170,7 @@
                     备注
                 </label>
                 <div class="layui-input-inline">
-                    <textarea id="remark" name="remark" required lay-verify="required" placeholder="非必填项" class="layui-textarea"></textarea>
+                    <textarea id="remark" name="remark" placeholder="非必填项" class="layui-textarea"></textarea>
                 </div>
             </div>
             <div class="layui-form-item" id="link_show">
@@ -179,7 +178,7 @@
                     <span class="x-red">*</span>证明文件
                 </label>
                 <button type="button" class="layui-btn" id="upload">
-                    <i class="layui-icon">&#xe67c;</i>上传试卷
+                    <i class="layui-icon">&#xe67c;</i>上传
                 </button>
             </div>
             <div class="layui-form-item">
@@ -193,38 +192,84 @@
 </div>
 <script>
     isApiLogin();
+    let data = null, selected = null, file_token = null;
     $(document).ready(function() {
-        return false;
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/Synthesize/',
+            url : '/api/Synthesize/viewPoorOption',
+            success : function(res) {
+                if(res.status === config('failed')){
+                    layer.msg(res.message);
+                }
+                data = res.result;
+                renderForm();
+            }
+        });
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Synthesize/getPoorSign',
             success : function(res) {
                 if(res.status === config('failed')){
                     layer.msg(res.message);
                     return false;
                 }
-                if (!empty(res.result['score'])){
-                    $('#score').val(res.result['score']);
-                    $('#time').text("上次提交时间：" + res.result['time']);
+                if (!empty(res.result)){
+                    layui.use(['form'], function() {
+                        $ = layui.jquery;
+                        var form = layui.form;
+                        $("#political_outlook").find("option[value='" + res.result['political_outlook'] + "']").prop("selected",true);
+                        $('#id_card_number').val(res.result['id_card_number']);
+                        $("#poor_type_one").find("option[value='" + res.result['poor_type_one'] + "']").prop("selected",true);
+                        $("#poor_type_two").find("option[value='" + res.result['poor_type_two'] + "']").prop("selected",true);
+                        $("#poor_type_three").find("option[value='" + res.result['poor_type_three'] + "']").prop("selected",true);
+                        $("#poor_type_four").find("option[value='" + res.result['poor_type_four'] + "']").prop("selected",true);
+                        $("#poor_type_five").find("option[value='" + res.result['poor_type_five'] + "']").prop("selected",true);
+                        $("#poor_type_six").find("option[value='" + res.result['poor_type_six'] + "']").prop("selected",true);
+                        $("#poor_type_seven").find("option[value='" + res.result['poor_type_seven'] + "']").prop("selected",true);
+                        $("#poor_type_eight").find("option[value='" + res.result['poor_type_eight'] + "']").prop("selected",true);
+                        selected = res.result['confirm_reason'];
+                        $('#confirm_reason_explain').val(res.result['confirm_reason_explain']);
+                        $('#address').val(res.result['address']);
+                        $('#home_phone').val(res.result['home_phone']);
+                        $('#contact_phone').val(res.result['contact_phone']);
+                        $('#remark').val(res.result['remark']);
+                        file_token = res.result['supporting_document'];
+                        form.render();
+                    });
                 }
             }
         });
     });
-    layui.use(['form', 'layer', 'upload'], function() {
+    layui.config({
+        base: "__API__/lib/layui/lay/mymodules/"
+    }).use(['form', 'layer', 'upload', 'selectM'], function() {
         $ = layui.jquery;
         var form = layui.form,
+            layer = layui.layer,
             upload  = layui.upload,
-            layer = layui.layer;
-        let file_token = null
+            selectM = layui.selectM;
+        let confirm_reason = selectM({
+            elem: '#confirm_reason',
+            data: data,
+            max: data.length,
+            width: 200,
+            field: {
+                idName: 'option',
+                titleName: 'option'
+            },
+            selected: selected,
+            verify:'required'
+        });
         upload.render({
             elem: '#upload',
             url: '/api/Synthesize/uploadProve',
             accept: 'file',
             size: 99999999999,
-            drag:true,
+            drag: true,
             done: function (res){
-                file_token = res.result;
+                file_token = res.result['path'];
                 $("#link_remove").remove();
                 $("#link_show").append(
                     "<div id='link_remove' class=\"layui-input-inline\">已读入数据</div>"
@@ -247,13 +292,13 @@
                     poor_type_six : res.field.poor_type_six,
                     poor_type_seven : res.field.poor_type_seven,
                     poor_type_eight : res.field.poor_type_eight,
-                    confirm_reason : res.field.confirm_reason,
+                    confirm_reason : confirm_reason.values,
                     confirm_reason_explain : res.field.confirm_reason_explain,
                     address : res.field.address,
                     home_phone : res.field.home_phone,
                     contact_phone : res.field.contact_phone,
                     remark : res.field.remark,
-                    supporting_document : res.field.supporting_document
+                    supporting_document : file_token
                 },
                 success : function(res) {
                     if(res.status === config('failed')){
@@ -269,6 +314,13 @@
             return false;
         });
     });
+
+    function renderForm(){
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
+        });
+    }
 </script>
 </body>
 </html>
