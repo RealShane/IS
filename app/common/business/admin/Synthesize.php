@@ -56,7 +56,7 @@ class Synthesize
                     $notScore[] = $name;
                 }
                 echo 1;
-                echo json_encode($res[]['notScore']);exit();
+                echo json_encode($res[]['notScore']);
                 $tem[] =  $results['score'];
                 $sum += $results['score'];
                 $avgScore = $sum / ($cout -1);
@@ -74,6 +74,7 @@ class Synthesize
             $user[] = $userName;
             $id++;
         }
+        exit();
         $res[]['notScore'] = $notScore;
 
 
