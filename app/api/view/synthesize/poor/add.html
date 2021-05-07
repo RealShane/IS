@@ -75,36 +75,36 @@
                 }
                 let str =
                     '<div class="layui-card">' +
-                    '<div class="layui-card-header layui-bg-green">认定原因：</div>' +
-                    '<div class="layui-card-body">' +
-                    confirm_reason +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="layui-card">' +
-                    '<div class="layui-card-header layui-bg-green">认定原因补充说明：</div>' +
-                    '<div class="layui-card-body">' +
-                    res.result['data']['confirm_reason_explain'] +
-                    '</div>' +
+                        '<div class="layui-card-header layui-bg-green">认定原因：</div>' +
+                        '<div class="layui-card-body">' +
+                            confirm_reason +
+                        '</div>' +
                     '</div>' +
                     '<div class="layui-card">' +
-                    '<div class="layui-card-header layui-bg-green">备注：</div>' +
-                    '<div class="layui-card-body">' +
-                    res.result['data']['remark'] +
+                        '<div class="layui-card-header layui-bg-green">认定原因补充说明：</div>' +
+                        '<div class="layui-card-body">' +
+                            res.result['data']['confirm_reason_explain'] +
+                        '</div>' +
                     '</div>' +
+                    '<div class="layui-card">' +
+                        '<div class="layui-card-header layui-bg-green">备注：</div>' +
+                        '<div class="layui-card-body">' +
+                            res.result['data']['remark'] +
+                        '</div>' +
                     '</div>';
                 if (res.result['data']['status'] === 0){
                     str +=
                         '<div class="layui-card">' +
-                        '<div class="layui-card-header layui-bg-red">认定困难级别：</div>' +
-                        '<div class="layui-card-body">' +
-                        res.result['data']['confirm_level'] +
-                        '</div>' +
+                            '<div class="layui-card-header layui-bg-red">认定困难级别：</div>' +
+                            '<div class="layui-card-body">' +
+                                res.result['data']['confirm_level'] +
+                            '</div>' +
                         '</div>' +
                         '<div class="layui-card">' +
-                        '<div class="layui-card-header layui-bg-cyan">认定时间：</div>' +
-                        '<div class="layui-card-body">' +
-                        res.result['data']['confirm_time'] +
-                        '</div>' +
+                            '<div class="layui-card-header layui-bg-cyan">认定时间：</div>' +
+                            '<div class="layui-card-body">' +
+                                res.result['data']['confirm_time'] +
+                            '</div>' +
                         '</div>';
                     $('#commit').addClass('layui-hide');
                     $('#mark').addClass('layui-hide');
