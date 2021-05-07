@@ -250,7 +250,7 @@
             size: 99999999999,
             drag: true,
             done: function (res){
-                file_token = res.result;
+                file_token = res.result['path'];
                 $("#link_remove").remove();
                 $("#link_show").append(
                     "<div id='link_remove' class=\"layui-input-inline\">已读入数据</div>"
@@ -282,7 +282,6 @@
                     supporting_document : file_token
                 },
                 success : function(res) {
-                    console.log(res);
                     if(res.status === config('failed')){
                         layer.msg(res.message);
                     }else if(res.status === config('success')){
