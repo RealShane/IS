@@ -145,7 +145,11 @@ class Synthesize
     }
 
     public function viewPoorOption(){
-        return json_decode($this -> config -> getSynthesizePoorSignOption());
+        $options = json_decode($this -> config -> getSynthesizePoorSignOption());
+        foreach ($options as $option){
+            echo json_encode($option);
+        }
+        exit();
     }
 
     private function check($uid, $target){
