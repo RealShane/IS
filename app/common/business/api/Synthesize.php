@@ -119,6 +119,14 @@ class Synthesize
     public function poorScore($data){
         $this -> check($data['uid'], $data['target']);
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
+        $scoreStart = $this -> config ->  getSynthesizePoorSignScoreOption();
+        $sign = $this -> synthesizePoorSignModel -> findByUid($data['uid']);
+        if ($scoreStart == 0){
+            throw new Exception("打分未开始！");
+        }
+        if ($sign['status'] == 0){
+            throw new Exception("贫困等级已认定！");
+        }
         if ($type == 0){
             if ($data['score'] < 70 || $data['score'] > 100){
                 throw new Exception("请在70~100之间评分！");
