@@ -67,12 +67,13 @@ class Synthesize
             }
             $temp['avgScore'] = $avgScore;
             $temp['sumScore'] = $sum;
+            $temp['notScore'] = $notScore;
             $res[] = $temp;
             $user[] = $userName;
             $id++;
         }
 
-        $res[]['notScore'] = $notScore;
+
         echo json_encode($res[]['notScore']); exit();
 
         $count = $cout + 2;
