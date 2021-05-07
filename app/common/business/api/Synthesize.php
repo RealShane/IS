@@ -102,7 +102,8 @@ class Synthesize
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
         return [
             'mark' => $mark['mark'],
-            'type' => $type
+            'type' => $type,
+            'time' => $mark['update_time']
         ];
     }
 
