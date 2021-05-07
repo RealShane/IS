@@ -136,13 +136,12 @@ class Synthesize
             throw new Exception("无此政治面貌！");
         }
         $isExist = $this -> synthesizePoorSignModel -> findByUid($user['id']);
-        echo json_encode($isExist);
-        echo json_encode(empty($isExist));
-        exit();
         if (empty($isExist)){
             echo 6;
             $data['uid'] = $user['id'];
             $data['create_time'] = time();
+            echo json_encode($data);
+            exit();
             return $this -> synthesizePoorSignModel -> save($data);
         }
         echo 7;
