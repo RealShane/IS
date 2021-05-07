@@ -35,16 +35,17 @@
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/Synthesize/getCrossScore',
+            url : '/api/Synthesize/getPoorScore',
             data : {
                 target : id
             },
             success : function(res) {
+                console.log(res);
                 if(res.status === config('failed')){
                     layer.msg(res.message);
                     return false;
                 }
-                if (!empty(res.result['score'])){
+                if (!empty(res.result)){
                     $('#score').val(res.result['score']);
                     $('#time').text("上次提交时间：" + res.result['time']);
                 }
@@ -59,7 +60,7 @@
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
-                url : '/api/Synthesize/',
+                url : '/api/Synthesize/poorScore',
                 data : {
                     target : id,
                     score : res.field.score
