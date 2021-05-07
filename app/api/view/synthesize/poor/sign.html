@@ -202,7 +202,7 @@
                 if(res.status === config('failed')){
                     layer.msg(res.message);
                 }
-                console.log(res);
+                console.log(res.result);
                 data = res.result;
                 renderForm();
             }
@@ -237,6 +237,10 @@
             data: data,
             max: data.length,
             width: 200,
+            field: {
+                idName: 'option',
+                titleName: 'option'
+            },
             verify:'required'
         });
         upload.render({
