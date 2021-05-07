@@ -41,7 +41,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="layui-card">
+            <div class="layui-card" id="data_show">
                 <div class="layui-card-body" id="data">
 
                 </div>
@@ -52,5 +52,44 @@
 </body>
 <script>
     isApiLogin();
+    $(document).ready(function() {
+        render();
+    });
+    function render(){
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Synthesize/showPoorSignList',
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                renderData(res.result);
+            }
+        });
+    }
+    function renderData(data){
+        if (data.length === 0){
+            return $("#data_show").hide();
+        }
+        let str = "";
+        for (let key of data){
+            let icon = "&#xe63f;";
+            if (key['status']){
+                icon = "&#xe605;";
+            }
+            str +=
+                "<li class=\"layui-timeline-item\">" +
+                    "<i class=\"layui-icon layui-timeline-axis\">" + icon + "</i>" +
+                    "<div class=\"layui-timeline-content layui-text\">" +
+                        "<h3 onclick=\"xadmin.open('贫困生投票/打分', '/api/View/Synthesize/Poor/add?id=" + key['id'] + "')\" class=\"layui-timeline-title\">" + key['name'] + "</h3>" +
+                    "</div>" +
+                "</li>";
+        }
+        $("#data").append(
+            "<ul class=\"layui-timeline\">" + str + "</ul>"
+        );
+    }
 </script>
 </html>
