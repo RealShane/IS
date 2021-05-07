@@ -139,7 +139,6 @@ class Synthesize
         if (empty($isExist)){
             $data['uid'] = $user['id'];
             $data['create_time'] = time();
-            $data['confirm_reason'] = json_encode($data['confirm_reason']);
             return $this -> synthesizePoorSignModel -> save($data);
         }
         $this -> synthesizePoorSignModel -> updatePoorSign($data, $user['id']);
