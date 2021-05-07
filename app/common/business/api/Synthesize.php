@@ -107,6 +107,33 @@ class Synthesize
         ];
     }
 
+    public function poorScore($data){
+        $this -> check($data['uid'], $data['target']);
+        $type = $this -> config -> getSynthesizePoorSignMarkOption();
+        if ($type == 0){
+            if ($data['score'] < 70 || $data['score'] > 100){
+                throw new Exception("请在70~100之间评分！");
+            }
+        }
+        if ($type == 1){
+            if ($data['score'] <= 0){
+                $data['score'] = 0;
+            }else{
+                $data['score'] = 1;
+            }
+        }
+        $info = $this -> synthesizePoorScoreModel -> findByUidAndTarget($data['uid'], $data['target']);
+        $result = [
+            'uid' => $data['uid'],
+            'target' => $data['target'],
+            'score' => $data['score']
+        ];
+        if (empty($info)){
+            return $this -> synthesizePoorScoreModel -> save($result);
+        }
+        $info -> save($result);
+    }
+
     public function showPoorSignDetail($user, $target){
         $myClass =  $this -> userClassModel -> findByUid($user['id']);
         $targetClass = $this -> userClassModel -> findByUid($target);
