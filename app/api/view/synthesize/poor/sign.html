@@ -258,8 +258,6 @@
             }
         });
         form.on('submit(add)', function(res) {
-            console.log(confirm_reason);
-            console.log(confirm_reason.values);
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
@@ -284,6 +282,7 @@
                     supporting_document : file_token
                 },
                 success : function(res) {
+                    console.log(res);
                     if(res.status === config('failed')){
                         layer.msg(res.message);
                     }else if(res.status === config('success')){
