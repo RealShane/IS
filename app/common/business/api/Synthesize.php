@@ -104,7 +104,14 @@ class Synthesize
         return [
             'mark' => $mark['mark'],
             'type' => $type,
-            'status' => $sign['status'],
+            'data' => [
+                'confirm_level' => $sign['confirm_level'],
+                'confirm_time' => $sign['confirm_time'],
+                'confirm_reason' => $sign['confirm_reason'],
+                'confirm_reason_explain' => $sign['confirm_reason_explain'],
+                'remark' => $sign['remark'],
+                'status' => $sign['status']
+            ],
             'time' => $mark['update_time']
         ];
     }
