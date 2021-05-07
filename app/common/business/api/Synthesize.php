@@ -126,7 +126,7 @@ class Synthesize
         $result = [
             'uid' => $data['uid'],
             'target' => $data['target'],
-            'score' => $data['score']
+            'mark' => $data['score']
         ];
         if (empty($info)){
             return $this -> synthesizePoorScoreModel -> save($result);
