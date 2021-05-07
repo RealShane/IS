@@ -50,13 +50,10 @@ class Synthesize
                     $results['score'] = null;
                 }
                 if (empty($results)){
-                    echo 2;
                     $results['score'] = null;
                     $name = $this -> synthesizeCrossModel -> findByUidWithUser($item['uid'])['user']['name'];
                     $notScore[] = $name;
                 }
-                echo 1;
-                echo json_encode($notScore);
                 $tem[] =  $results['score'];
                 $sum += $results['score'];
                 $avgScore = $sum / ($cout -1);
@@ -74,9 +71,9 @@ class Synthesize
             $user[] = $userName;
             $id++;
         }
-        exit();
-        $res[]['notScore'] = $notScore;
 
+        $res[]['notScore'] = $notScore;
+        echo json_encode($res[]['notScore']); exit();
 
         $count = $cout + 2;
         $indexes[0] = '序号';
