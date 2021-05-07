@@ -132,6 +132,9 @@ class Synthesize
         if (empty($isJoin)){
             throw new Exception("贫困生报名请先加入班级！");
         }
+        if (!in_array($data['political_outlook'], ['群众', '共青团员', '中共党员'])){
+            throw new Exception("无此政治面貌！");
+        }
         $isExist = $this -> synthesizePoorSignModel -> findByUid($user['id']);
         if (empty($isExist)){
             $data['uid'] = $user['id'];

@@ -19,9 +19,16 @@ Route::group('View/Synthesize', function () {
 });
 
 Route::group('Synthesize', function () {
+    //综测评分
     Route::rule('showCrossList', '/api/Synthesize/showCrossList', 'POST');
     Route::rule('crossScore', '/api/Synthesize/crossScore', 'POST');
     Route::rule('getCrossScore', '/api/Synthesize/getCrossScore', 'POST');
+    //贫困生
+    Route::rule('showPoorSignDetail', '/api/Synthesize/showPoorSignDetail', 'POST');
+    Route::rule('showPoorSignList', '/api/Synthesize/showPoorSignList', 'POST');
+    Route::rule('poorSign', '/api/Synthesize/poorSign', 'POST');
+    Route::rule('viewPoorOption', '/api/Synthesize/viewPoorOption', 'POST');
+    Route::rule('uploadProve', '/api/Synthesize/uploadProve', 'POST');
 }) -> middleware(IsLogin::class);
 //----------------------------------------------------------------------------------
 /*
