@@ -35,7 +35,7 @@ class Synthesize extends BaseController
        $uid = $this -> getUid();
        $target = $this -> request -> param('target', '', 'htmlspecialchars');
         try {
-            validate(Validate::class) -> scene('getCross_score') -> check(['target' => $target]);
+            validate(Validate::class) -> scene('get_cross_score') -> check(['target' => $target]);
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
@@ -57,6 +57,16 @@ class Synthesize extends BaseController
 
     public function showCrossList(){
         return $this -> success($this -> business -> showCrossList($this -> getUser()));
+    }
+
+    public function getPoorScore(){
+        $id = $this -> request -> param('target', '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('get_poor_score') -> check(['target' => $id]);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        return $this -> success($this -> business -> getPoorScore($id));
     }
 
     public function showPoorSignDetail(){

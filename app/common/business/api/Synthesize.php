@@ -15,6 +15,7 @@ namespace app\common\business\api;
 use app\common\business\lib\Config;
 use app\common\business\lib\Str;
 use app\common\model\api\SynthesizePoorSign;
+use app\common\model\api\SynthesizePoorScore;
 use app\common\model\api\UserClass;
 use think\Exception;
 use app\common\model\api\User;
@@ -25,6 +26,7 @@ class Synthesize
 
     private $config = NULL;
     private $synthesizePoorSignModel = NULL;
+    private $synthesizePoorScoreModel = NULL;
     private $synthesizeCrossModel = NULL;
     private $userClassModel = NULL;
     private $userModel = NULL;
@@ -33,6 +35,7 @@ class Synthesize
     public function __construct(){
         $this -> config = new Config();
         $this -> synthesizePoorSignModel = new SynthesizePoorSign();
+        $this -> synthesizePoorScoreModel = new SynthesizePoorScore();
         $this -> synthesizeCrossModel = new SynthesizeCross();
         $this -> userClassModel = new UserClass();
         $this -> userModel = new User();
@@ -92,6 +95,15 @@ class Synthesize
             ];
         }
         return $result;
+    }
+
+    public function getPoorScore($id){
+        $mark = $this -> synthesizePoorScoreModel -> findByUid($id);
+        $type = $this -> config -> getSynthesizePoorSignMarkOption();
+        return [
+            'mark' => $mark['mark'],
+            'type' => $type
+        ];
     }
 
     public function showPoorSignDetail($user, $target){
