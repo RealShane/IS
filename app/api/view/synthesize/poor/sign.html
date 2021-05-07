@@ -192,7 +192,7 @@
 </div>
 <script>
     isApiLogin();
-    let data = null, selected = null, file_token = null;
+    let data = null, selected = [], file_token = null;
     $(document).ready(function() {
         $.ajax({
             type : "POST",
@@ -250,8 +250,6 @@
             layer = layui.layer,
             upload  = layui.upload,
             selectM = layui.selectM;
-        console.log(data);
-        console.log(data.length);
         let confirm_reason = selectM({
             elem: '#confirm_reason',
             data: data,
