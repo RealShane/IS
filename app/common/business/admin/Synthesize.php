@@ -73,6 +73,9 @@ class Synthesize
             $id++;
         }
 
+
+        echo json_encode($res); exit();
+
         $count = $cout + 2;
         $indexes[0] = '序号';
         $indexes[1] = '被评分人';
