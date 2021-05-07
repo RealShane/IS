@@ -54,6 +54,7 @@ class Synthesize
                     $name = $this -> synthesizeCrossModel -> findByUidWithUser($item['uid'])['user']['name'];
                     $notScore[] = $name;
                 }
+                echo 1;
                 echo json_encode($res[]['notScore']);exit();
                 $tem[] =  $results['score'];
                 $sum += $results['score'];
