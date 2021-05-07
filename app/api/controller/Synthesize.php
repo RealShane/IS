@@ -60,13 +60,14 @@ class Synthesize extends BaseController
     }
 
     public function getPoorScore(){
+        $uid = $this -> getUid();
         $id = $this -> request -> param('target', '', 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('get_poor_score') -> check(['target' => $id]);
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
-        return $this -> success($this -> business -> getPoorScore($id));
+        return $this -> success($this -> business -> getPoorScore($uid, $id));
     }
 
     public function poorScore(){

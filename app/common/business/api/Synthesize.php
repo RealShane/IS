@@ -97,8 +97,8 @@ class Synthesize
         return $result;
     }
 
-    public function getPoorScore($id){
-        $mark = $this -> synthesizePoorScoreModel -> findByUid($id);
+    public function getPoorScore($uid, $id){
+        $mark = $this -> synthesizePoorScoreModel -> findByUidAndTarget($uid, $id);
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
         return [
             'mark' => $mark['mark'],
