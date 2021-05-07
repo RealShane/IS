@@ -80,7 +80,7 @@ class Synthesize
         $indexes[0] = '序号';
         $indexes[1] = '被评分人';
         $indexes[3] = '未打分人';
-        for ($i = 2, $j = 0; $i < $count; $i++){
+        for ($i = 3, $j = 0; $i < $count; $i++){
             $indexes[$i] = $user[$j++];
         }
         $indexes[$count + 1] = '平均分';
