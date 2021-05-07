@@ -70,6 +70,11 @@ class Synthesize extends BaseController
 
     }
 
+    public function getPoorSign(){
+        $uid = $this -> getUid();
+        return $this -> success($this -> business -> getPoorSign($uid));
+    }
+
     public function poorSign(){
         $user = $this -> getUser();
         $data['political_outlook'] = $this -> request -> param("political_outlook", '', 'htmlspecialchars');

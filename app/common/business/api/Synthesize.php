@@ -127,6 +127,26 @@ class Synthesize
         return $result;
     }
 
+    public function getPoorSign($uid){
+        $isExist = $this -> synthesizePoorSignModel -> findWithUid($uid);
+        echo json_encode($isExist);exit();
+        if (empty($isExist)){
+            return NULL;
+        }
+        return [
+            'political_outlook' => $isExist['political_outlook'],
+            'political_outlook' => $isExist['political_outlook'],
+            'political_outlook' => $isExist['political_outlook'],
+            'political_outlook' => $isExist['political_outlook'],
+            'political_outlook' => $isExist['political_outlook'],
+            'political_outlook' => $isExist['political_outlook'],
+            'political_outlook' => $isExist['political_outlook'],
+            'political_outlook' => $isExist['political_outlook'],
+            'political_outlook' => $isExist['political_outlook'],
+            'political_outlook' => $isExist['political_outlook'],
+        ];
+    }
+
     public function poorSign($data, $user){
         if (!($this -> config -> getSynthesizePoorStatus())){
             throw new Exception("贫困生报名处于关闭状态！");
