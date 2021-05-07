@@ -103,7 +103,7 @@
                         '<div class="layui-card">' +
                             '<div class="layui-card-header layui-bg-cyan">认定时间：</div>' +
                             '<div class="layui-card-body">' +
-                                res.result['data']['confirm_time'] +
+                                timestampToTime(res.result['data']['confirm_time']) +
                             '</div>' +
                         '</div>';
                     $('#commit').addClass('layui-hide');
