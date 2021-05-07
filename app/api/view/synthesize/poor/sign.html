@@ -18,6 +18,9 @@
                         <option value="中共党员">中共党员</option>
                     </select>
                 </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请选择政治面貌
+                </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
@@ -25,6 +28,9 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="text" id="id_card_number" name="id_card_number" required="" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请填写身份证号
                 </div>
             </div>
             <div class="layui-form-item">
@@ -38,6 +44,9 @@
                         <option value="1">是</option>
                     </select>
                 </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请选择是否为建档立卡贫困家庭
+                </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
@@ -49,6 +58,9 @@
                         <option value="0">否</option>
                         <option value="1">是</option>
                     </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请选择是否为低保家庭家庭
                 </div>
             </div>
             <div class="layui-form-item">
@@ -62,6 +74,9 @@
                         <option value="1">是</option>
                     </select>
                 </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请选择是否为特困供养学生
+                </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
@@ -73,6 +88,9 @@
                         <option value="0">否</option>
                         <option value="1">是</option>
                     </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请选择是否为孤残学生
                 </div>
             </div>
             <div class="layui-form-item">
@@ -86,6 +104,9 @@
                         <option value="1">是</option>
                     </select>
                 </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请选择是否为烈士子女
+                </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
@@ -97,6 +118,9 @@
                         <option value="0">否</option>
                         <option value="1">是</option>
                     </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请选择本人是否残疾
                 </div>
             </div>
             <div class="layui-form-item">
@@ -110,6 +134,9 @@
                         <option value="1">是</option>
                     </select>
                 </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请选择是否为家庭经济困难残疾人子女
+                </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
@@ -122,12 +149,18 @@
                         <option value="1">是</option>
                     </select>
                 </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请选择是否为单亲家庭
+                </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
                     <span class="x-red">*</span>认定原因
                 </label>
                 <div class="layui-input-inline" id="confirm_reason">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请选择认定原因
                 </div>
             </div>
             <div class="layui-form-item">
@@ -137,6 +170,9 @@
                 <div class="layui-input-inline">
                     <input type="text" id="confirm_reason_explain" name="confirm_reason_explain" required="" autocomplete="off" class="layui-input">
                 </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请填写认定原因补充说明
+                </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
@@ -145,6 +181,9 @@
                 <div class="layui-input-inline">
                     <input type="text" id="address" name="address" required="" autocomplete="off" class="layui-input">
                 </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请填写家庭住址
+                </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
@@ -152,6 +191,9 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="text" id="home_phone" name="home_phone" required="" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请填写家庭电话
                 </div>
             </div>
             <div class="layui-form-item">
@@ -162,7 +204,7 @@
                     <input type="text" id="contact_phone" name="contact_phone" required="" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
-                    手机号
+                    请填写联系方式（手机号）
                 </div>
             </div>
             <div class="layui-form-item">
@@ -192,7 +234,7 @@
 </div>
 <script>
     isApiLogin();
-    let data = null, selected = null, file_token = null;
+    let data = null, selected = [], file_token = null;
     $(document).ready(function() {
         $.ajax({
             type : "POST",
