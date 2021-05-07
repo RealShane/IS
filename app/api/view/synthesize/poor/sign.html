@@ -127,8 +127,7 @@
                 <label class="layui-form-label">
                     <span class="x-red">*</span>认定原因
                 </label>
-                <div class="layui-input-inline">
-                    <textarea id="confirm_reason" name="confirm_reason" required lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+                <div class="layui-input-inline" id="confirm_reason">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -193,7 +192,21 @@
 </div>
 <script>
     isApiLogin();
+    let data = null;
     $(document).ready(function() {
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Synthesize/viewPoorOption',
+            success : function(res) {
+                if(res.status === config('failed')){
+                    layer.msg(res.message);
+                }
+                console.log(res.result);
+                data = res.result;
+                renderForm();
+            }
+        });
         return false;
         $.ajax({
             type : "POST",
@@ -211,12 +224,23 @@
             }
         });
     });
-    layui.use(['form', 'layer', 'upload'], function() {
+    layui.use(['form', 'layer', 'upload', 'selectM'], function() {
         $ = layui.jquery;
         var form = layui.form,
+            layer = layui.layer,
             upload  = layui.upload,
-            layer = layui.layer;
-        let file_token = null
+            selectM = layui.selectM;
+        let file_token = null, confirm_reason = selectM({
+            elem: '#confirm_reason',
+            data: data,
+            max: data.length,
+            width: 200,
+            field: {
+                idName: 'id',
+                titleName: 'name'
+            },
+            verify:'required'
+        });
         upload.render({
             elem: '#upload',
             url: '/api/Synthesize/uploadProve',
@@ -232,6 +256,8 @@
             }
         });
         form.on('submit(add)', function(res) {
+            console.log(confirm_reason);
+            console.log(confirm_reason.values);
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
@@ -247,7 +273,7 @@
                     poor_type_six : res.field.poor_type_six,
                     poor_type_seven : res.field.poor_type_seven,
                     poor_type_eight : res.field.poor_type_eight,
-                    confirm_reason : res.field.confirm_reason,
+                    confirm_reason : confirm_reason.values,
                     confirm_reason_explain : res.field.confirm_reason_explain,
                     address : res.field.address,
                     home_phone : res.field.home_phone,
@@ -269,6 +295,13 @@
             return false;
         });
     });
+
+    function renderForm(){
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
+        });
+    }
 </script>
 </body>
 </html>
