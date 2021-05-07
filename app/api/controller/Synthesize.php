@@ -104,7 +104,9 @@ class Synthesize extends BaseController
 
     public function uploadProve(){
         $user = $this -> getUser();
+        echo 1;
         $file = $this -> request -> file("file");
+        echo 2;
         try {
             validate(UploadValidate::class) -> checkRule(['file' => $file], 'checkFile');
         } catch (\Exception $exception) {
