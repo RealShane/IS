@@ -45,7 +45,7 @@
                 }
                 type = parseInt(res.result['type']);
                 if (type === 0){
-                    $("#mark").show();
+                    $("#mark").removeClass('layui-hide');
                     $('#commit').text("提交");
                 }
                 if (type === 1){
