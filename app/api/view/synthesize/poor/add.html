@@ -21,9 +21,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button id="commit" class="layui-btn" lay-filter="add" lay-submit="">
-                    提交
-                </button>
+                <button id="commit" class="layui-btn" lay-filter="add" lay-submit=""></button>
             </div>
         </form>
     </div>
@@ -47,14 +45,13 @@
                 }
                 type = parseInt(res.result['type']);
                 if (type === 0){
-                    $("#mark").show();
+                    $("#mark").removeClass('layui-hide');
+                    $('#commit').text("提交");
                 }
                 if (type === 1){
                     $('#score').val(1);
                     $('#commit').text("给Ta投一票");
                 }
-                console.log(res);
-                console.log(!empty(res.result['mark']));
                 if (!empty(res.result['mark'])){
                     if (type === 1){
                         if (res.result['mark'] === 1){
