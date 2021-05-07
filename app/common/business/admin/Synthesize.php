@@ -74,7 +74,7 @@ class Synthesize
         }
 
 
-        echo json_encode($res[]['notScore']); exit();
+        echo json_encode($res); exit();
 
         $count = $cout + 2;
         $indexes[0] = '序号';
