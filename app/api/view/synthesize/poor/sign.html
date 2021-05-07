@@ -194,6 +194,7 @@
 <script>
     isApiLogin();
     $(document).ready(function() {
+        return false;
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -218,7 +219,7 @@
         let file_token = null
         upload.render({
             elem: '#upload',
-            url: '/api/Synthesize/',
+            url: '/api/Synthesize/uploadProve',
             accept: 'file',
             size: 99999999999,
             drag:true,
@@ -234,10 +235,25 @@
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
-                url : '/api/Synthesize/',
+                url : '/api/Synthesize/poorSign',
                 data : {
-                    target : id,
-                    score : res.field.score
+                    political_outlook : res.field.political_outlook,
+                    id_card_number : res.field.id_card_number,
+                    poor_type_one : res.field.poor_type_one,
+                    poor_type_two : res.field.poor_type_two,
+                    poor_type_three : res.field.poor_type_three,
+                    poor_type_four : res.field.poor_type_four,
+                    poor_type_five : res.field.poor_type_five,
+                    poor_type_six : res.field.poor_type_six,
+                    poor_type_seven : res.field.poor_type_seven,
+                    poor_type_eight : res.field.poor_type_eight,
+                    confirm_reason : res.field.confirm_reason,
+                    confirm_reason_explain : res.field.confirm_reason_explain,
+                    address : res.field.address,
+                    home_phone : res.field.home_phone,
+                    contact_phone : res.field.contact_phone,
+                    remark : res.field.remark,
+                    supporting_document : res.field.supporting_document
                 },
                 success : function(res) {
                     if(res.status === config('failed')){
