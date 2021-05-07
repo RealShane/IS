@@ -7,7 +7,7 @@
 <div class="layui-fluid">
     <div class="layui-row">
         <form class="layui-form">
-            <div class="layui-form-item">
+            <div class="layui-form-item" id="mark">
                 <label class="layui-form-label">
                     <span class="x-red">*</span>请打分
                 </label>
@@ -20,7 +20,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button  class="layui-btn" lay-filter="add" lay-submit="">
+                <button id="commit" class="layui-btn" lay-filter="add" lay-submit="">
                     提交
                 </button>
             </div>
@@ -30,8 +30,9 @@
 <script>
     isApiLogin();
     let param = getParams();
-    let id = param.id;
+    let id = param.id, type = 0;
     $(document).ready(function() {
+        $("#mark").hide();
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -45,8 +46,25 @@
                     layer.msg(res.message);
                     return false;
                 }
-                if (!empty(res.result)){
-                    $('#score').val(res.result['score']);
+                type = res.result['type'];
+                if (type === 0){
+                    $("#mark").show();
+                }
+                if (type === 1){
+                    $('#commit').text("给Ta投一票");
+                }
+                if (!empty(res.result['mark'])){
+                    if (type === 1){
+                        if (res.result['mark'] === 1){
+                            $('#score').val(0);
+                            $('#commit').addClass('layui-bg-red').text("取消投票");
+                        }else {
+                            $('#score').val(1);
+                            $('#commit').text("给Ta投一票");
+                        }
+                    }else {
+                        $('#score').val(res.result['mark']);
+                    }
                     $('#time').text("上次提交时间：" + res.result['time']);
                 }
             }
