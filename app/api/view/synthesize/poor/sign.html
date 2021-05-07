@@ -224,7 +224,9 @@
             }
         });
     });
-    layui.use(['form', 'layer', 'upload', 'selectM'], function() {
+    layui.config({
+        base: "__API__/lib/layui/lay/mymodules/"
+    }).use(['form', 'layer', 'upload', 'selectM'], function() {
         $ = layui.jquery;
         var form = layui.form,
             layer = layui.layer,
@@ -235,10 +237,6 @@
             data: data,
             max: data.length,
             width: 200,
-            field: {
-                idName: 'id',
-                titleName: 'name'
-            },
             verify:'required'
         });
         upload.render({
