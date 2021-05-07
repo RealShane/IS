@@ -67,7 +67,7 @@ class Synthesize
             }
             $temp['avgScore'] = $avgScore;
             $temp['sumScore'] = $sum;
-            $temp['notScore'] = $notScore;
+            $temp['notScore'] = implode(",",$notScore);
             $res[] = $temp;
             $user[] = $userName;
             $id++;
