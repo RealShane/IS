@@ -171,9 +171,15 @@ class Synthesize
             if (empty($sign) || $sign['uid'] == $user['id']){
                 continue;
             }
+            $isEmpty = $this -> synthesizePoorScoreModel -> findByUidAndTarget($user['id'], $id['uid']);
+            $status = false;
+            if (!empty($isEmpty)){
+                $status = true;
+            }
             $result[] = [
                 'id' => $sign['uid'],
-                'name' => $sign['user']['name']
+                'name' => $sign['user']['name'],
+                'status' => $status
             ];
         }
         return $result;
