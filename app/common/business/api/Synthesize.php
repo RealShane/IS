@@ -137,12 +137,10 @@ class Synthesize
         }
         $isExist = $this -> synthesizePoorSignModel -> findByUid($user['id']);
         if (empty($isExist)){
-            echo 6;
             $data['uid'] = $user['id'];
             $data['create_time'] = time();
             return $this -> synthesizePoorSignModel -> save($data);
         }
-        echo 7;
         $this -> synthesizePoorSignModel -> updatePoorSign($data, $user['id']);
     }
 
