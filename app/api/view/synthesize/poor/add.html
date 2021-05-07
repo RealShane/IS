@@ -47,6 +47,41 @@
                     layer.msg(res.message);
                     return false;
                 }
+                let confirm_reason = "";
+                for (let key of res.result['data']['confirm_reason']){
+                    confirm_reason += key + ',';
+                }
+                let str =
+                    '<div class="layui-card">' +
+                        '<div class="layui-card-body">' +
+                            confirm_reason +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="layui-card">' +
+                        '<div class="layui-card-body">' +
+                            res.result['data']['confirm_reason_explain'] +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="layui-card">' +
+                        '<div class="layui-card-body">' +
+                            res.result['data']['remark'] +
+                        '</div>' +
+                    '</div>';
+                if (res.result['data']['status'] === 0){
+                    str +=
+                        '<div class="layui-card">' +
+                            '<div class="layui-card-body">' +
+                                res.result['data']['confirm_level'] +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="layui-card">' +
+                            '<div class="layui-card-body">' +
+                                res.result['data']['confirm_time'] +
+                            '</div>' +
+                        '</div>';
+                    $('#commit').addClass('layui-hide');
+                }
+                $("#info").append(str);
                 type = parseInt(res.result['type']);
                 if (type === 0){
                     $("#mark").removeClass('layui-hide');
