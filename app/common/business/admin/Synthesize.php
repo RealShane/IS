@@ -50,9 +50,9 @@ class Synthesize
                     $results['score'] = null;
                 }
                 if (empty($results)){
-                    $results['score'] = null;
                     $name = $this -> synthesizeCrossModel -> findByUidWithUser($item['uid'])['user']['name'];
                     $notScore[] = $name;
+                    $results['score'] = null;
                 }
                 $tem[] =  $results['score'];
                 $sum += $results['score'];
