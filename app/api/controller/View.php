@@ -37,6 +37,14 @@ class View
         return V::fetch('synthesize/poor/index');
     }
 
+    public function poorSignView(){
+        return V::fetch('synthesize/poor/sign');
+    }
+
+    public function poorAddView(){
+        return V::fetch('synthesize/poor/add');
+    }
+
     public function leaderView(){
         return V::fetch('synthesize/leader/index');
     }
