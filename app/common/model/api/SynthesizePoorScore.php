@@ -28,4 +28,9 @@ class SynthesizePoorScore extends Model
         return $this -> where('uid', $uid) -> find();
     }
 
+    public function findByUidAndTarget($uid, $target){
+        return $this -> where('uid', $uid) -> where('target', $target) -> find();
+    }
+
+
 }
