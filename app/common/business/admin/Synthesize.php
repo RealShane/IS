@@ -56,7 +56,7 @@ class Synthesize
                     $notScore[] = $name;
                 }
                 echo 1;
-                echo json_encode($res[]['notScore']);
+                echo json_encode($notScore);
                 $tem[] =  $results['score'];
                 $sum += $results['score'];
                 $avgScore = $sum / ($cout -1);
