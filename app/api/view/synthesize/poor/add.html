@@ -47,7 +47,7 @@
                     layer.msg(res.message);
                     return false;
                 }
-                type = res.result['type'];
+                type = parseInt(res.result['type']);
                 console.log(type === 0);
                 console.log(type === 1);
                 if (type === 0){
