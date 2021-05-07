@@ -38,7 +38,7 @@ class Synthesize
     public function exportCrossExcel($classId){
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
-        $id = 1;$res = [];$user = [];
+        $id = 1;$res = [];$user = [];$notScore = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         $cout = $this -> userClassModel -> countByClass($classId);
         foreach ($infos as $info) {
@@ -46,8 +46,13 @@ class Synthesize
             $tem = [];$sum = 0;$avgScore = 0;
             foreach ($infos as $item) {
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget($item['uid'], $info['uid']);
-                if (empty($results) || $info['uid'] == $item['uid']){
+                if ($info['uid'] == $item['uid']){
                     $results['score'] = null;
+                }
+                if (empty($results)){
+                    $results['score'] = null;
+                    $name = $this -> synthesizeCrossModel -> findByUidWithUser($item['uid'])['user']['name'];
+                    $notScore[] = $name;
                 }
                 $tem[] =  $results['score'];
                 $sum += $results['score'];
@@ -66,6 +71,9 @@ class Synthesize
             $user[] = $userName;
             $id++;
         }
+        $res[]['notScore'] = $notScore;
+        echo json_encode($res[]['notScore']);exit();
+
         $count = $cout + 2;
         $indexes[0] = '序号';
         $indexes[1] = '被评分人';
