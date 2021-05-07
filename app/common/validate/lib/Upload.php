@@ -23,6 +23,7 @@ class Upload extends Validate
     ];
 
     protected function checkFile($file){
+        echo json_encode($file);exit();
         if (empty($file['file'])) {
             return '未上传文件！';
         }
