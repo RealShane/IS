@@ -140,8 +140,6 @@ class Synthesize
             echo 6;
             $data['uid'] = $user['id'];
             $data['create_time'] = time();
-            echo json_encode($data);
-            exit();
             return $this -> synthesizePoorSignModel -> save($data);
         }
         echo 7;

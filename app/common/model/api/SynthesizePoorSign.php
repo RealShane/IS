@@ -24,6 +24,10 @@ class SynthesizePoorSign extends Model
 
     protected $table = 'api_synthesize_poor_sign';
 
+    protected $type = [
+        'confirm_reason'    =>  'json'
+    ];
+
     protected $autoWriteTimestamp = false;
 
     public function updatePoorSign($data, $uid){
