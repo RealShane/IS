@@ -32,6 +32,7 @@ Route::group('Synthesize', function () {
     Route::rule('viewPoorOption', '/api/Synthesize/viewPoorOption', 'POST');
     Route::rule('uploadProve', '/api/Synthesize/uploadProve', 'POST');
     Route::rule('getPoorSign', '/api/Synthesize/getPoorSign', 'POST');
+    Route::rule('getPoorScore', '/api/Synthesize/getPoorScore', 'POST');
 }) -> middleware(IsLogin::class);
 //----------------------------------------------------------------------------------
 /*
