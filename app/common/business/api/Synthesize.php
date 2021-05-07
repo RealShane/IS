@@ -42,6 +42,9 @@ class Synthesize
     public function getCrossScore($uid, $target){
         $this -> check($uid, $target);
         $data = $this -> synthesizeCrossModel -> findByUidAndTarget($uid, $target);
+        if (empty($data['score'])){
+            return NULL;
+        }
         return [
             'score' => $data['score'],
             'time' => $data['update_time']
