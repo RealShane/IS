@@ -24,10 +24,6 @@ class SynthesizePoorScore extends Model
 
     protected $table = 'api_synthesize_poor_score';
 
-    public function findByUid($uid){
-        return $this -> where('uid', $uid) -> find();
-    }
-
     public function findByUidAndTarget($uid, $target){
         return $this -> where('uid', $uid) -> where('target', $target) -> find();
     }

@@ -100,9 +100,18 @@ class Synthesize
     public function getPoorScore($uid, $id){
         $mark = $this -> synthesizePoorScoreModel -> findByUidAndTarget($uid, $id);
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
+        $sign = $this -> synthesizePoorSignModel -> findByUid($uid);
         return [
             'mark' => $mark['mark'],
             'type' => $type,
+            'data' => [
+                'confirm_level' => $sign['confirm_level'],
+                'confirm_time' => $sign['confirm_time'],
+                'confirm_reason' => $sign['confirm_reason'],
+                'confirm_reason_explain' => $sign['confirm_reason_explain'],
+                'remark' => $sign['remark'],
+                'status' => $sign['status']
+            ],
             'time' => $mark['update_time']
         ];
     }
@@ -192,7 +201,8 @@ class Synthesize
             'home_phone' => $isExist['home_phone'],
             'contact_phone' => $isExist['contact_phone'],
             'remark' => $isExist['remark'],
-            'supporting_document' => $isExist['supporting_document']
+            'supporting_document' => $isExist['supporting_document'],
+
         ];
     }
 
