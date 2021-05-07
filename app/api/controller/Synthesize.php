@@ -109,7 +109,7 @@ class Synthesize extends BaseController
             validate(UploadValidate::class) -> checkRule(['file' => $file], 'checkFile');
         } catch (\Exception $exception) {
             $message = $exception -> getMessage();
-            echo json_encode($message);
+            echo json_encode($message);exit();
             if ($exception -> getCode() == 4){
                 $message = '未上传文件！';
             }
