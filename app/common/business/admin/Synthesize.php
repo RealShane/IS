@@ -63,27 +63,28 @@ class Synthesize
             $temp = [
                 'id' => $id,
                 'target' => $userName,
+                $temp['notScore'] = implode(",", $notScore)
             ];
             for ($i = 0; $i < $cout; $i++) {
                 $temp['rater' . $i] = $tem[$i];
             }
             $temp['avgScore'] = $avgScore;
             $temp['sumScore'] = $sum;
-            $temp['notScore'] = implode(",", $notScore);
             $res[] = $temp;
             $user[] = $userName;
             $id++;
         }
 
+
         $count = $cout + 2;
         $indexes[0] = '序号';
         $indexes[1] = '被评分人';
+        $indexes[3] = '未打分人';
         for ($i = 2, $j = 0; $i < $count; $i++){
             $indexes[$i] = $user[$j++];
         }
         $indexes[$count + 1] = '平均分';
         $indexes[$count + 2] = '总分';
-        $indexes[$count + 3] = '未打分人';
 
         $this -> excelLib -> push($title, $indexes, $res);
     }
