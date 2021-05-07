@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {include file="public/_meta" /}
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>请打分
+                </label>
+                <div class="layui-input-inline">
+                    <input type="number" id="score" name="score" required="" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux" id="time">
+                    分数请不小于70不大于100
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <button  class="layui-btn" lay-filter="add" lay-submit="">
+                    提交
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    isApiLogin();
+    let param = getParams();
+    let id = param.id;
+    $(document).ready(function() {
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Synthesize/getCrossScore',
+            data : {
+                target : id
+            },
+            success : function(res) {
+                if(res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                if (!empty(res.result['score'])){
+                    $('#score').val(res.result['score']);
+                    $('#time').text("上次提交时间：" + res.result['time']);
+                }
+            }
+        });
+    });
+    layui.use(['form', 'layer'], function() {
+        $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer;
+        form.on('submit(add)', function(res) {
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : '/api/Synthesize/',
+                data : {
+                    target : id,
+                    score : res.field.score
+                },
+                success : function(res) {
+                    if(res.status === config('failed')){
+                        layer.msg(res.message);
+                    }else if(res.status === config('success')){
+                        layer.alert(res.result, {icon: 6}, function() {
+                            xadmin.close();
+                            xadmin.father_reload();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
