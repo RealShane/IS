@@ -119,7 +119,6 @@ class Synthesize
         $result = [];
         foreach ($ids as $id){
             $sign = $this -> synthesizePoorSignModel -> findByUid($id['uid']);
-            echo json_encode($sign);exit();
             if (empty($sign) || $sign['uid'] == $user['id']){
                 continue;
             }

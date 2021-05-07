@@ -30,10 +30,6 @@ class SynthesizePoorSign extends Model
 
     protected $autoWriteTimestamp = false;
 
-    public function findWithUid($uid){
-        return $this -> where('uid', $uid) -> find();
-    }
-
     public function updatePoorSign($data, $uid){
         $result = $this -> findByUid($uid);
         return $result -> allowField([
