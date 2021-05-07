@@ -76,6 +76,11 @@ class Config
         return $this -> synthesizeConfig -> keyValue("POOR_SIGN_OPTION") -> value;
     }
 
+    //贫困生报名选项
+    public function getSynthesizePoorSignMarkOption(){
+        return $this -> synthesizeConfig -> keyValue("POOR_SIGN_MARK_STATUS") -> value;
+    }
+
     /**上传设置
      * @return mixed
      */

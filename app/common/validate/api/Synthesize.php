@@ -42,7 +42,8 @@ class Synthesize extends Validate
     protected $scene = [
         'poor_sign' => ['political_outlook', 'id_card_number', 'poor_type_one', 'poor_type_two', 'poor_type_three', 'poor_type_four', 'poor_type_five', 'poor_type_six', 'poor_type_seven', 'poor_type_eight', 'confirm_reason', 'confirm_reason_explain', 'address', 'home_phone', 'contact_phone', 'supporting_document'],
         'cross_score' => ['target', 'score'],
-        'getCross_score' => ['target'],
+        'get_cross_score' => ['target'],
+        'get_poor_score' => ['target'],
     ];
 
 }
