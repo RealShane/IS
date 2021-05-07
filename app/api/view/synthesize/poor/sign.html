@@ -206,7 +206,6 @@
                 renderForm();
             }
         });
-        return false;
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
@@ -251,6 +250,8 @@
             layer = layui.layer,
             upload  = layui.upload,
             selectM = layui.selectM;
+        console.log(data);
+        console.log(data.length);
         let confirm_reason = selectM({
             elem: '#confirm_reason',
             data: data,
