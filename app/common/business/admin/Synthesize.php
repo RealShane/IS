@@ -79,7 +79,7 @@ class Synthesize
         $count = $cout + 2;
         $indexes[0] = '序号';
         $indexes[1] = '被评分人';
-        $indexes[3] = '未打分人';
+        $indexes[2] = '未打分人';
         for ($i = 3, $j = 0; $i < $count; $i++){
             $indexes[$i] = $user[$j++];
         }
