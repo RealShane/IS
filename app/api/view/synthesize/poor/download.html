@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {include file="public/_meta" /}
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card" id="data_show">
+                <div class="layui-card-body" id="data">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    isApiLogin();
+    $(document).ready(function() {
+        render();
+    });
+    function render(){
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Synthesize/showPoorSignList',
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                renderData(res.result);
+            }
+        });
+    }
+    function renderData(data){
+        if (data.length === 0){
+            return $("#data_show").hide();
+        }
+        let str = "";
+        for (let key of data){
+            str +=
+                "<li class=\"layui-timeline-item\">" +
+                    "<i class=\"layui-icon layui-timeline-axis\">&#xe63f;</i>" +
+                    "<div class=\"layui-timeline-content layui-text\">" +
+                        "<h3 onclick='download(" + key['id'] + ")' class=\"layui-timeline-title\">下载" + key['name'] + "的文件</h3>" +
+                    "</div>" +
+                "</li>";
+        }
+        $("#data").append(
+            "<ul class=\"layui-timeline\">" + str + "</ul>"
+        );
+    }
+    function download(id){
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Synthesize/downloadProve',
+            data : {
+                target : id
+            },
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
