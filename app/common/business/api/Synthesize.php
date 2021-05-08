@@ -244,6 +244,15 @@ class Synthesize
         return $result;
     }
 
+    public function downloadProve($uid, $targetId) {
+        $isExist = $this -> synthesizePoorSignModel -> findByUid($targetId);
+        if (empty($isExist)){
+            throw new Exception("该学生未报名贫困生！");
+        }
+        echo json_encode($isExist['supporting_document']);exit();
+        return download($isExist['supporting_document'], 'test.txt', true);
+    }
+
     private function check($uid, $target){
         $myClass =  $this -> userClassModel -> findByUid($uid);
         $targetClass = $this -> userClassModel -> findByUid($target);

@@ -143,4 +143,10 @@ class Synthesize extends BaseController
         return $this -> success(['path' => $saveName]);
     }
 
+    public function downloadProve() {
+        $uid = $this -> getUid();
+        $targetId = $this -> request -> param("target", '', 'htmlspecialchars');
+        return $this -> success($this -> business -> downloadProve($uid, $targetId));
+    }
 }
+
