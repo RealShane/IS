@@ -23,7 +23,7 @@ Route::group('View/Synthesize', function () {
 
 
 Route::group('Synthesize', function () {
-    Route::rule('downloadProve', '/api/Synthesize/downloadProve', 'POST');
+    Route::rule('downloadProve', '/api/Synthesize/downloadProve', 'GET');
 });
 Route::group('Synthesize', function () {
     //综测评分
