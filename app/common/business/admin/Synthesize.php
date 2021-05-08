@@ -104,7 +104,7 @@ class Synthesize
         if (empty($class)){
           throw new \think\Exception("导出班级不存在或内部异常");
         }
-        return $this -> exportPoorSignExcelByClass($class);
+        $this -> exportPoorSignExcelByClass($class);
     }
 
     public function showClasses(){
