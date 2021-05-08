@@ -53,6 +53,15 @@ class SynthesizePoorSign extends Model
         ]) -> save($data);
     }
 
+    public function seletAll(){
+        return $this ->  where('id', '>',  0) -> select();
+    }
+
+
+    public function signCount(){
+        return $this ->  where('id', '>',  0) -> count();
+    }
+
     public function findByUid($uid){
         return self::with('user')
             -> where('uid', $uid)
