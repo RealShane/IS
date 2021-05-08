@@ -89,6 +89,10 @@ class Synthesize
         $this -> excelLib -> push($title, $indexes, $res);
     }
 
+    public function getTargetClass($key, $num){
+        return $this -> classesModel -> getAllClasses($key, $num);
+    }
+
     public function getAllClass($num){
         return $this -> classesModel -> getAllClasses($num);
     }

@@ -37,6 +37,16 @@ class Synthesize extends BaseController
         $this -> business -> exportCrossExcel($classId);
     }
 
+    public function getTargetClass(){
+        $key = $this -> request -> param("key", '', 'htmlspecialchars');
+        $num = $this -> request -> param("num", 10, 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('getTargetClass') -> check(['key' => $key]);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        return $this -> success($this -> business -> getTargetClass($key, $num));
+    }
     public function getAllClass(){
         $num = $this -> request -> param("num", 10, 'htmlspecialchars');
         return $this -> success($this -> business -> getAllClass($num));
