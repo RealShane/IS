@@ -249,7 +249,7 @@ class Synthesize
         if (empty($isExist)){
             throw new Exception("该学生未报名贫困生！");
         }
-        return download($isExist['supporting_document'], 'test.txt', true);
+        return download($isExist['supporting_document'], $isExist['id'], true);
     }
 
     private function check($uid, $target){
