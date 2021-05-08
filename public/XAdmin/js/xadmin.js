@@ -212,8 +212,8 @@ layui.use(['layer','element','jquery'],function() {
         xadmin.del_data(id);
     });
     //左侧菜单
-    $('.left-nav #side-nav #nav').on('click', 'li', function(event) {
-
+    $('.left-nav #nav').on('click', 'li', function(event) {
+        console.log("dianwole");
         if($(this).parent().attr('id')=='nav'){
           xadmin.set_cate_data({key:'f1',value:$('.left-nav #nav li').index($(this))})
           xadmin.set_cate_data({key:'f2',value:null})
