@@ -126,7 +126,9 @@ class Synthesize
             if (empty($sign) || empty($key) || empty($department) || empty($user)){
                 continue;
             }
+            echo json_encode(implode(",", $sign['confirm_reason']));exit();
             $sign['confirm_reason'] = implode(",", $sign['confirm_reason']);
+
             $data[] = $this -> packPoorSignData($department, $user, $sign, $class);
         }
         echo json_encode($data);exit();
