@@ -128,7 +128,7 @@ class Synthesize
             }
             $data[] = $this -> packPoorSignData($department, $user, $sign, $class);
         }
-        echo json_encode($indexes);exit();
+        echo json_encode($class['name']);exit();
         $this -> excelLib -> push('贫困生报名-' . $class['name'], $indexes, $data);
     }
 
