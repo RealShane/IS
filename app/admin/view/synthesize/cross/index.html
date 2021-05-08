@@ -43,8 +43,9 @@
 </body>
 <script>
     isLogin('{$secret}');
+    let token = getToken();
     $(document).ready(function() {
-        getClassData(10, 1);
+        getData(10, 1);
     });
     layui.use(['form'], function(){
         var form = layui.form;
@@ -54,20 +55,21 @@
                 contentType : "application/x-www-form-urlencoded",
                 url : '/{$secret}/Synthesize/getTargetClass',
                 data : {
-                    key : res.field.key
+                    key : res.field.key,
+                    num : 999999999
                 },
                 success : function(res) {
                     if (res.status === config('failed')){
                         layer.msg(res.message);
                         return false;
                     }
-                    render(res.result);
+                    render(res.result, 999999999, 1);
                 }
             });
             return false;
         });
     });
-    function getClassData(num, page) {
+    function getData(num, page) {
         $("#search").show();
         search_type = "class";
         $.ajax({
@@ -83,24 +85,85 @@
                     layer.msg(res.message);
                     return false;
                 }
-                render(res.result);
+                render(res.result, num, page);
             }
         });
     }
-    function render(data){
-        let str = "";
+    function render(data, num, page){
+        let pre_num = page - 1;
+        let next_num = page + 1;
+        if (pre_num <= 0){
+            pre_num = 1;
+        }
+        if (next_num >= data['last_page']){
+            next_num = data['last_page'];
+        }
+        let str = "",
+            pre = "<a class=\"prev\" onclick=\"getData(" + num + ", " + pre_num + ")\">&lt;&lt;</a>",
+            next = "<a class=\"next\" onclick=\"getData(" + num + ", " + next_num + ")\">&gt;&gt;</a>";
+        for (let i = 1; i <= data['last_page']; i++){
+            let temp = "<a class=\"num\" onclick=\"getData(" + num + ", " + i + ")\">" + i + "</a>";
+            if (i === page){
+                temp = "<span class=\"current\">" + i + "</span>";
+            }
+            str += temp;
+        }
+        if (data['last_page'] === 1){
+            pre = "";next = "";
+        }
+        $("#page_remove").remove();
+        $("#page").append(
+            "<div id=\"page_remove\">" +
+                pre +
+                str +
+                next +
+            "</div>"
+        );
+        str = "";
         for (let key of data['data']){
             str +=
-                "<blockquote class='layui-elem-quote'>" +
-                    "<a href='/{$secret}/Synthesize/exportCrossExcel?id=" + key['id'] + "'>" + key['name'] + "</a>" +
-                "</blockquote>";
+                "<div class=\"layui-colla-item\">" +
+                    "<h2 class=\"layui-colla-title\">" + key['name'] + "</h2>" +
+                    "<div class=\"layui-colla-content layui-show\">" +
+                        "<a onclick=\"download(" + key['id'] + ")\" class=\"layui-btn\">导出数据</a>" +
+                    "</div>" +
+                "</div>";
         }
         $("#data_remove").remove();
         $("#data").append(
-            "<div id=\"data_remove\">" +
+            "<div class=\"layui-collapse\" lay-accordion id=\"data_remove\">" +
                 str +
             "</div>"
         );
+        initCollapse();
+    }
+    function initCollapse(){
+        layui.use('element', function(){
+            var element = layui.element;
+            element.init();
+        });
+    }
+    function download(id) {
+        layer.msg("正在下载，请稍候！");
+        $.ajax({
+            type : "GET",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/Synthesize/exportCrossExcel',
+            data : {
+                target : id,
+                token : token
+            },
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                let $a = $("<a class='layui-hide'>");
+                $a.attr("href", "/{$secret}/Synthesize/exportCrossExcel?target=" + id + "&token=" + token);
+                $("body").append($a);
+                $a[0].click();
+            }
+        });
     }
 </script>
 </html>
