@@ -304,6 +304,9 @@
             selected: selected,
             verify:'required'
         });
+        $("#upload").click(function(){
+            layer.msg("正在上传，请稍候！");
+        });
         upload.render({
             elem: '#upload',
             url: '/api/Synthesize/uploadProve',

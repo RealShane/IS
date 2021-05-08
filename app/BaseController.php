@@ -124,7 +124,7 @@ abstract class BaseController
     }
 
     public function getParamToken(){
-        return $this -> request -> param('access-token');
+        return $this -> request -> param('token');
     }
 
     public function getUser(){

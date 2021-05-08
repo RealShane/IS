@@ -15,9 +15,91 @@
     </a>
 </div>
 <br>
-
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body" id="search">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="key"  placeholder="请输入班级名" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-body" id="data">
+                </div>
+                <div class="layui-card-body">
+                    <div class="page" id="page">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script>
-    isApiLogin();
+    isLogin('{$secret}');
+    $(document).ready(function() {
+        getClassData(10, 1);
+    });
+    layui.use(['form'], function(){
+        var form = layui.form;
+        form.on('submit(search)', function(res) {
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : '/{$secret}/Synthesize/getTargetClass',
+                data : {
+                    key : res.field.key
+                },
+                success : function(res) {
+                    if (res.status === config('failed')){
+                        layer.msg(res.message);
+                        return false;
+                    }
+                    render(res.result);
+                }
+            });
+            return false;
+        });
+    });
+    function getClassData(num, page) {
+        $("#search").show();
+        search_type = "class";
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/Synthesize/getAllClass',
+            data : {
+                num : num,
+                page : page
+            },
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                render(res.result);
+            }
+        });
+    }
+    function render(data){
+        let str = "";
+        for (let key of data['data']){
+            str +=
+                "<blockquote class='layui-elem-quote'>" +
+                    "<a href='/{$secret}/Synthesize/exportPoorSignExcel?id=" + key['id'] + "'>" + key['name'] + "</a>" +
+                "</blockquote>";
+        }
+        $("#data_remove").remove();
+        $("#data").append(
+            "<div id=\"data_remove\">" +
+                str +
+            "</div>"
+        );
+    }
 </script>
 </html>
