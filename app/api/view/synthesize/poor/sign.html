@@ -311,6 +311,10 @@
             size: 99999999999,
             drag: true,
             done: function (res){
+                if(res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
                 file_token = res.result['path'];
                 $("#link_remove").remove();
                 $("#link_show").append(
