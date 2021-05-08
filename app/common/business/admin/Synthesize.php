@@ -205,6 +205,7 @@ class Synthesize
             $classIndex[1]['Comment'],
             $classIndex[3]['Comment'],
             $classIndex[2]['Comment'],
+            $classIndex[4]['Comment'],
             $userIndex[4]['Comment'],
             $userIndex[5]['Comment'],
             $signIndex[2]['Comment'],
@@ -226,7 +227,6 @@ class Synthesize
             $signIndex[17]['Comment'],
             $signIndex[18]['Comment'],
             $signIndex[19]['Comment'],
-            $signIndex[20]['Comment'],
         ];
     }
 
