@@ -171,9 +171,9 @@ class Synthesize
                     }
                     if ($results['mark'] == 0){
                         $results['mark'] = '√';
-                        $tem[] = $results['mark'];
                         $sum ++;
                     }
+                    $tem[] = $results['mark'];
                 }
                 $temp = [
                     'id' => $id,
