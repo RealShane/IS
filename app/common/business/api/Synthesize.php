@@ -250,6 +250,7 @@ class Synthesize
             throw new Exception("该学生未报名贫困生！");
         }
         $arr = explode("/",$isExist['supporting_document']);
+        echo json_encode(root_path() . $isExist['supporting_document']);exit();
         return download( root_path() . $isExist['supporting_document'], end($arr));
     }
 
