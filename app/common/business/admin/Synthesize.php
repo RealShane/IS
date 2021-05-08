@@ -120,13 +120,16 @@ class Synthesize
         $temp = (new \app\common\model\api\UserClass()) -> findAllByClassId($class['id']);
         $department = (new \app\common\model\api\Department()) -> findById($class['depart_id']);
         $data = [];
+        $id = 1;
         foreach ($temp as $key){
             $user = (new \app\common\model\api\User()) -> findById($key['uid']);
             $sign = $this -> synthesizePoorSignModel -> findByUid($key['uid']);
             if (empty($sign) || empty($key) || empty($department) || empty($user)){
                 continue;
             }
-            $data[] = $this -> packPoorSignData($department, $user, $sign, $class);
+            $sign['confirm_reason'] = implode(",", $sign['confirm_reason']);
+            $data[] = $this -> packPoorSignData($department, $user, $sign, $class, $id);
+            $id++;
         }
         $this -> excelLib -> push('贫困生报名-' . $class['name'], $indexes, $data);
     }
@@ -152,7 +155,7 @@ class Synthesize
 //        }
 //    }
 
-    private function packPoorSignData($department, $user, $sign, $class){
+    private function packPoorSignData($department, $user, $sign, $class, $id){
         $user['sex'] = $this -> strLib -> convertSex($user['sex']);
         $sign['poor_type_one'] = $this -> strLib -> convertIs($sign['poor_type_one']);
         $sign['poor_type_two'] = $this -> strLib -> convertIs($sign['poor_type_two']);
@@ -163,7 +166,7 @@ class Synthesize
         $sign['poor_type_seven'] = $this -> strLib -> convertIs($sign['poor_type_seven']);
         $sign['poor_type_eight'] = $this -> strLib -> convertIs($sign['poor_type_eight']);
         return [
-            'id' => 1,
+            'id' => $id,
             'department' => $department['name'],
             'grade' => $class['grade'],
             'charge' => $class['charge'],
@@ -203,8 +206,9 @@ class Synthesize
             "序号",
             $departmentIndex[1]['Comment'],
             $classIndex[1]['Comment'],
-            $classIndex[3]['Comment'],
+            $classIndex[4]['Comment'],
             $classIndex[2]['Comment'],
+            $classIndex[3]['Comment'],
             $userIndex[4]['Comment'],
             $userIndex[5]['Comment'],
             $signIndex[2]['Comment'],
@@ -225,7 +229,7 @@ class Synthesize
             $signIndex[16]['Comment'],
             $signIndex[17]['Comment'],
             $signIndex[18]['Comment'],
-            $signIndex[19]['Comment'],
+            //$signIndex[19]['Comment'],
         ];
     }
 
