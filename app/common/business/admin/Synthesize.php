@@ -31,7 +31,7 @@ class Synthesize
     private $synthesizePoorScoreModel = NULL;
     private $userClassModel = NULL;
 
-    public function __construct(){
+    public function __construct() {
         $this -> config = new Config();
         $this -> strLib = new Str();
         $this -> excelLib = new Excel();
@@ -42,10 +42,13 @@ class Synthesize
         $this -> userClassModel = new UserClass();
     }
 
-    public function exportCrossExcel($classId){
+    public function exportCrossExcel($classId) {
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "综测评分表";
-        $id = 1;$res = [];$user = [];$notScore = [];
+        $id = 1;
+        $res = [];
+        $user = [];
+        $notScore = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         $cout = $this -> userClassModel -> countByClass($classId);
         foreach ($infos as $info) {
@@ -87,7 +90,7 @@ class Synthesize
         $indexes[0] = '序号';
         $indexes[1] = '被评分人';
         $indexes[2] = '未打分人';
-        for ($i = 3, $j = 0; $i < $count; $i++){
+        for ($i = 3, $j = 0; $i < $count; $i++) {
             $indexes[$i] = $user[$j++];
         }
         $indexes[$count + 1] = '平均分';
@@ -96,30 +99,33 @@ class Synthesize
         $this -> excelLib -> push($title, $indexes, $res);
     }
 
-    public function getTargetClass($key, $num){
+    public function getTargetClass($key, $num) {
         return $this -> classesModel -> getClasses($key, $num);
     }
 
-    public function getAllClass($num){
+    public function getAllClass($num) {
         return $this -> classesModel -> getAllClasses($num);
     }
 
-    public function exportPoorSignScoreExcel($classId){
+    public function exportPoorSignScoreExcel($classId) {
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "贫困生投票/打分表";
-        $id = 1;$res = [];$user = [];$notScore = [];
+        $id = 1;
+        $res = [];
+        $user = [];
+        $notScore = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         $cout = $this -> userClassModel -> countByClass($classId);
         $signs = $this -> synthesizePoorSignModel -> seletAll();
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
-        if ($type == 0){
-            foreach ($infos as $info) {
-                $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
-                $tem = [];
-                $sum = 0;
-                $avgScore = 0;
-                foreach ($signs as $item) {
-                    $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget( $info['uid'], $item['uid']);
+        if ($type == 0) {
+            $tem = [];
+            $sum = 0;
+            $avgScore = 0;
+            foreach ($signs as $item) {
+                foreach ($infos as $info) {
+                    $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+                    $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
                     if ($info['uid'] == $item['uid']) {
                         $results['mark'] = null;
                     }
@@ -131,74 +137,80 @@ class Synthesize
                     $tem[] = $results['mark'];
                     $sum += $results['mark'];
                     $avgScore = $sum / ($cout - 1);
-                }
-                $temp = [
-                    'id' => $id,
-                    'target' => $userName,
-                    $temp['notScore'] = implode(",", $notScore)
-                ];
-                for ($i = 0; $i < $cout; $i++) {
-                    $temp['rater' . $i] = $tem[$i];
-                }
-                $temp['avgScore'] = $avgScore;
-                $temp['sumScore'] = $sum;
-                $res[] = $temp;
-                $user[] = $userName;
-                $id++;
-            }
 
+                    $temp = [
+                        'id' => $id,
+                        'target' => $userName,
+                        $temp['notScore'] = implode(",", $notScore)
+                    ];
+                    for ($i = 0; $i < $cout; $i++) {
+                        $temp['rater' . $i] = $tem[$i];
+                    }
+                    $temp['avgScore'] = $avgScore;
+                    $temp['sumScore'] = $sum;
+                    $user[] = $userName;
+                    $id++;
+                }
+
+            $res[] = $temp;
+        }
             $count = $cout + 3;
             $indexes[0] = '序号';
             $indexes[1] = '被评分人';
             $indexes[2] = '未打分人';
-            for ($i = 3, $j = 0; $i < $count; $i++){
+            for ($i = 3, $j = 0; $i < $count; $i++) {
                 $indexes[$i] = $user[$j++];
             }
             $indexes[$count + 1] = '平均分';
             $indexes[$count + 2] = '总分';
         }
-        if ($type == 1){
-            foreach ($infos as $info) {
-                $userName = $this -> synthesizePoorSignModel -> findByUid($info['uid'])['user']['name'];
-                $tem = [];
-                $sum = 0;
-                foreach ($infos as $item) {
-                    $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($item['uid'], $info['uid']);
-                    if ($info['uid'] == $item['uid']) {
-                        $results['mark'] = null;
-                    }
-                    if (empty($results) || $results['mark'] == 0) {
-                        $results['mark'] = '×';
-                    }
-                    if ($results['mark'] == 0){
-                        $results['mark'] = '√';
-                        $sum ++;
-                    }
-                    $tem[] = $results['mark'];
-                }
-                $temp = [
-                    'id' => $id,
-                    'target' => $userName
-                ];
-                for ($i = 0; $i < $cout; $i++) {
-                    $temp['rater' . $i] = $tem[$i];
-                }
-                $temp['count'] = $sum;
-                $res[] = $temp;
-                $user[] = $userName;
-                $id++;
-            }
 
-            $count = $cout + 3;
-            $indexes[0] = '序号';
-            $indexes[1] = '被评分人';
-            for ($i = 3, $j = 0; $i < $count; $i++){
-                $indexes[$i] = $user[$j++];
-            }
-            $indexes[$count + 1] = '票数';
-        }
 
-        $this -> excelLib -> push($title, $indexes, $res);
+
+$this -> excelLib -> push($title, $indexes, $res);
+
+//        if ($type == 1){
+//            foreach ($infos as $info) {
+//                $userName = $this -> synthesizePoorSignModel -> findByUid($info['uid'])['user']['name'];
+//                $tem = [];
+//                $sum = 0;
+//                foreach ($infos as $item) {
+//                    $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($item['uid'], $info['uid']);
+//                    if ($info['uid'] == $item['uid']) {
+//                        $results['mark'] = null;
+//                    }
+//                    if (empty($results) || $results['mark'] == 0) {
+//                        $results['mark'] = '×';
+//                    }
+//                    if ($results['mark'] == 0){
+//                        $results['mark'] = '√';
+//                        $sum ++;
+//                    }
+//                    $tem[] = $results['mark'];
+//                }
+//                $temp = [
+//                    'id' => $id,
+//                    'target' => $userName
+//                ];
+//                for ($i = 0; $i < $cout; $i++) {
+//                    $temp['rater' . $i] = $tem[$i];
+//                }
+//                $temp['count'] = $sum;
+//                $res[] = $temp;
+//                $user[] = $userName;
+//                $id++;
+//            }
+//
+//            $count = $cout + 3;
+//            $indexes[0] = '序号';
+//            $indexes[1] = '被评分人';
+//            for ($i = 3, $j = 0; $i < $count; $i++){
+//                $indexes[$i] = $user[$j++];
+//            }
+//            $indexes[$count + 1] = '票数';
+//        }
+
+
     }
 
     public function exportPoorSignExcel($class_id){
