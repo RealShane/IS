@@ -120,6 +120,7 @@ class Synthesize
         $temp = (new \app\common\model\api\UserClass()) -> findAllByClassId($class['id']);
         $department = (new \app\common\model\api\Department()) -> findById($class['depart_id']);
         $data = [];
+        $id = 1;
         foreach ($temp as $key){
             $user = (new \app\common\model\api\User()) -> findById($key['uid']);
             $sign = $this -> synthesizePoorSignModel -> findByUid($key['uid']);
@@ -127,7 +128,8 @@ class Synthesize
                 continue;
             }
             $sign['confirm_reason'] = implode(",", $sign['confirm_reason']);
-            $data[] = $this -> packPoorSignData($department, $user, $sign, $class);
+            $data[] = $this -> packPoorSignData($department, $user, $sign, $class, $id);
+            $id++;
         }
         $this -> excelLib -> push('贫困生报名-' . $class['name'], $indexes, $data);
     }
@@ -153,7 +155,7 @@ class Synthesize
 //        }
 //    }
 
-    private function packPoorSignData($department, $user, $sign, $class){
+    private function packPoorSignData($department, $user, $sign, $class, $id){
         $user['sex'] = $this -> strLib -> convertSex($user['sex']);
         $sign['poor_type_one'] = $this -> strLib -> convertIs($sign['poor_type_one']);
         $sign['poor_type_two'] = $this -> strLib -> convertIs($sign['poor_type_two']);
@@ -164,7 +166,7 @@ class Synthesize
         $sign['poor_type_seven'] = $this -> strLib -> convertIs($sign['poor_type_seven']);
         $sign['poor_type_eight'] = $this -> strLib -> convertIs($sign['poor_type_eight']);
         return [
-            'id' => 1,
+            'id' => $id,
             'department' => $department['name'],
             'grade' => $class['grade'],
             'charge' => $class['charge'],
