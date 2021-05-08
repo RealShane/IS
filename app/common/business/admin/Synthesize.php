@@ -97,18 +97,12 @@ class Synthesize
         return $this -> classesModel -> getAllClasses($num);
     }
 
-    public function exportPoorSignExcel($type, $class_id){
-        if ($type == 'ALL'){
-            return $this -> exportAllPoorSignExcel();
-        }
-        if ($type == 'CLASS'){
+    public function exportPoorSignExcel($class_id){
             $class = (new \app\common\model\api\Classes()) -> findByIdWithStatus($class_id);
             if (empty($class)){
                 return NULL;
             }
             return $this -> exportPoorSignExcelByClass($class);
-        }
-        return NULL;
     }
 
     public function showClasses(){
@@ -139,26 +133,26 @@ class Synthesize
         }
     }
 
-    private function exportAllPoorSignExcel(){
-        try {
-            $signs = $this -> synthesizeModel -> findAll();
-            $data = [];
-            foreach ($signs as $sign){
-                $temp = (new \app\common\model\api\UserClass()) -> findByUid($sign['uid']);
-                $class = (new \app\common\model\api\Classes()) -> findById($temp['class_id']);
-                $department = (new \app\common\model\api\Department()) -> findById($class['depart_id']);
-                $user = (new \app\common\model\api\User()) -> findById($sign['uid']);
-                if (empty($temp) || empty($class) || empty($department) || empty($user)){
-                    continue;
-                }
-                $data[] = $this -> packPoorSignData($department, $user, $sign, $class);
-            }
-            $indexes = $this -> getPoorSignIndexes();
-            return $this -> excelLib -> push('贫困生报名(全部信息)', $indexes, $data);
-        }catch (\Exception $exception){
-            return NULL;
-        }
-    }
+//    private function exportAllPoorSignExcel(){
+//        try {
+//            $signs = $this -> synthesizeModel -> findAll();
+//            $data = [];
+//            foreach ($signs as $sign){
+//                $temp = (new \app\common\model\api\UserClass()) -> findByUid($sign['uid']);
+//                $class = (new \app\common\model\api\Classes()) -> findById($temp['class_id']);
+//                $department = (new \app\common\model\api\Department()) -> findById($class['depart_id']);
+//                $user = (new \app\common\model\api\User()) -> findById($sign['uid']);
+//                if (empty($temp) || empty($class) || empty($department) || empty($user)){
+//                    continue;
+//                }
+//                $data[] = $this -> packPoorSignData($department, $user, $sign, $class);
+//            }
+//            $indexes = $this -> getPoorSignIndexes();
+//            return $this -> excelLib -> push('贫困生报名(全部信息)', $indexes, $data);
+//        }catch (\Exception $exception){
+//            return NULL;
+//        }
+//    }
 
     private function packPoorSignData($department, $user, $sign, $class){
         $user['sex'] = $this -> strLib -> convertSex($user['sex']);
@@ -176,13 +170,14 @@ class Synthesize
             'grade' => $class['grade'],
             'charge' => $class['charge'],
             'class' => $class['name'],
+            'major' => $class['major'],
             'name' => $user['name'],
             'sex' => $user['sex'],
             'political_outlook' => $sign['political_outlook'],
             'student_id' => $user['student_id'],
             'id_card_type' => $sign['id_card_type'],
             'id_card_number' => $sign['id_card_number'],
-            'confirm_level' => $sign['confirm_level'],
+
             'poor_type_one' => $sign['poor_type_one'],
             'poor_type_two' => $sign['poor_type_two'],
             'poor_type_three' => $sign['poor_type_three'],
@@ -191,7 +186,7 @@ class Synthesize
             'poor_type_six' => $sign['poor_type_six'],
             'poor_type_seven' => $sign['poor_type_seven'],
             'poor_type_eight' => $sign['poor_type_eight'],
-            'confirm_time' => $sign['confirm_time'],
+
             'confirm_reason' => $sign['confirm_reason'],
             'confirm_reason_explain' => $sign['confirm_reason_explain'],
             'address' => $sign['address'],
@@ -233,7 +228,6 @@ class Synthesize
             $signIndex[17]['Comment'],
             $signIndex[18]['Comment'],
             $signIndex[19]['Comment'],
-            $signIndex[20]['Comment'],
         ];
     }
 

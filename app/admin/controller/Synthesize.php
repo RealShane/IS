@@ -53,9 +53,8 @@ class Synthesize extends BaseController
     }
 
     public function exportPoorSignExcel(){
-        $type = $this -> request -> param("type", '', 'htmlspecialchars');
-        $class_id = $this -> request -> param("class_id", '', 'htmlspecialchars');
-        $errCode = (new Business()) -> exportPoorSignExcel(strtoupper($type), $class_id);
+        $class_id = $this -> request -> param("target", '', 'htmlspecialchars');
+        $errCode = (new Business()) -> exportPoorSignExcel($class_id);
         if (empty($errCode)){
             return $this -> show(
                 config("status.failed"),
