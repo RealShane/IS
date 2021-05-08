@@ -249,6 +249,7 @@ class Synthesize
         if (empty($isExist)){
             throw new Exception("该学生未报名贫困生！");
         }
+        echo json_encode($isExist['supporting_document']);exit();
         return download($isExist['supporting_document'], 'test.txt', true);
     }
 
