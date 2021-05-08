@@ -98,7 +98,7 @@
                     }
                     if (res.status === config('success')){
                         layer.msg(res.result, function () {
-                            $.removeCookie('bill_login_token', {path: '/'});
+                            $.removeCookie('api_login_token', {path: '/'});
                             $(window).attr('location', '/api/View/login');
                         });
                     }
