@@ -20,7 +20,9 @@ Route::group('View/Synthesize', function () {
     Route::rule('Poor/download', '/api/View/poorDownloadView', 'GET');
     Route::rule('Leader/index', '/api/View/leaderView', 'GET');
 });
-
+Route::group('Synthesize', function () {
+    Route::rule('downloadProve', '/api/Synthesize/downloadProve', 'GET');
+});
 Route::group('Synthesize', function () {
     //综测评分
     Route::rule('showCrossList', '/api/Synthesize/showCrossList', 'POST');
@@ -32,7 +34,7 @@ Route::group('Synthesize', function () {
     Route::rule('poorSign', '/api/Synthesize/poorSign', 'POST');
     Route::rule('viewPoorOption', '/api/Synthesize/viewPoorOption', 'POST');
     Route::rule('uploadProve', '/api/Synthesize/uploadProve', 'POST');
-    Route::rule('downloadProve', '/api/Synthesize/downloadProve', 'POST');
+//    Route::rule('downloadProve', '/api/Synthesize/downloadProve', 'POST');
     Route::rule('getPoorSign', '/api/Synthesize/getPoorSign', 'POST');
     Route::rule('getPoorScore', '/api/Synthesize/getPoorScore', 'POST');
     Route::rule('poorScore', '/api/Synthesize/poorScore', 'POST');
