@@ -250,7 +250,7 @@ class Synthesize
             throw new Exception("该学生未报名贫困生！");
         }
         $arr = explode("/",$isExist['supporting_document']);
-        return download( BASE_PATH . $isExist['supporting_document'], $arr[9]);
+        return download( BASE_PATH . $isExist['supporting_document'], end($arr),true);
     }
 
     private function check($uid, $target){
