@@ -24,6 +24,10 @@ class User extends Model
 
     protected $table = "api_user";
 
+    public function findById($id){
+        return $this -> where('id', $id) -> find();
+    }
+
     public function changePassword($data){
         $result = $this -> findByIdWithStatus($data['user']['id']);
         return $result -> allowField(['password', 'password_salt']) -> save($data);

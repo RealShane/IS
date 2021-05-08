@@ -98,11 +98,11 @@ class Synthesize
     }
 
     public function exportPoorSignExcel($class_id){
-            $class = (new \app\common\model\api\Classes()) -> findByIdWithStatus($class_id);
-            if (empty($class)){
-                return NULL;
-            }
-            return $this -> exportPoorSignExcelByClass($class);
+        $class = (new \app\common\model\api\Classes()) -> findByIdWithStatus($class_id);
+        if (empty($class)){
+          throw new \think\Exception("导出班级不存在或内部异常");
+        }
+        return $this -> exportPoorSignExcelByClass($class);
     }
 
     public function showClasses(){

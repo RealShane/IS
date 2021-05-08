@@ -54,19 +54,7 @@ class Synthesize extends BaseController
 
     public function exportPoorSignExcel(){
         $class_id = $this -> request -> param("target", '', 'htmlspecialchars');
-        $errCode = (new Business()) -> exportPoorSignExcel($class_id);
-        if (empty($errCode)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "导出班级不存在或内部异常！"
-            );
-        }
-        return $this -> show(
-            config("status.success"),
-            config("message.success"),
-            $errCode
-        );
+        return $this -> success($this -> business -> exportPoorSignExcel($class_id));
     }
 
     public function showClasses(){
