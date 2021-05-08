@@ -104,7 +104,7 @@ class Synthesize
         if (empty($class)){
           throw new \think\Exception("导出班级不存在或内部异常");
         }
-        return $this -> exportPoorSignExcelByClass($class);
+        $this -> exportPoorSignExcelByClass($class);
     }
 
     public function showClasses(){
@@ -116,23 +116,19 @@ class Synthesize
     }
 
     private function exportPoorSignExcelByClass($class){
-        try {
-            $indexes = $this -> getPoorSignIndexes();
-            $temp = (new \app\common\model\api\UserClass()) -> findAllByClassId($class['id']);
-            $department = (new \app\common\model\api\Department()) -> findById($class['depart_id']);
-            $data = [];
-            foreach ($temp as $key){
-                $user = (new \app\common\model\api\User()) -> findById($key['uid']);
-                $sign = $this -> synthesizePoorSignModel -> findByUid($key['uid']);
-                if (empty($sign) || empty($key) || empty($department) || empty($user)){
-                    continue;
-                }
-                $data[] = $this -> packPoorSignData($department, $user, $sign, $class);
+        $indexes = $this -> getPoorSignIndexes();
+        $temp = (new \app\common\model\api\UserClass()) -> findAllByClassId($class['id']);
+        $department = (new \app\common\model\api\Department()) -> findById($class['depart_id']);
+        $data = [];
+        foreach ($temp as $key){
+            $user = (new \app\common\model\api\User()) -> findById($key['uid']);
+            $sign = $this -> synthesizePoorSignModel -> findByUid($key['uid']);
+            if (empty($sign) || empty($key) || empty($department) || empty($user)){
+                continue;
             }
-            $this -> excelLib -> push('贫困生报名-' . $class['name'], $indexes, $data);
-        }catch (\Exception $exception){
-            return NULL;
+            $data[] = $this -> packPoorSignData($department, $user, $sign, $class);
         }
+        $this -> excelLib -> push('贫困生报名-' . $class['name'], $indexes, $data);
     }
 
 //    private function exportAllPoorSignExcel(){

@@ -61,7 +61,7 @@ class Synthesize extends BaseController
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
-        return $this -> success($this -> business -> exportPoorSignExcel($class_id));
+        $this -> business -> exportPoorSignExcel($class_id);
     }
 
     public function showClasses(){
