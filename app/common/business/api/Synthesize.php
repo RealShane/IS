@@ -249,6 +249,8 @@ class Synthesize
         if (empty($isExist)){
             throw new Exception("该学生未报名贫困生！");
         }
+        $arr = explode("/",$isExist['supporting_document']);
+        echo json_encode($arr);exit();
         return download($isExist['supporting_document'], $isExist['id'], true);
     }
 
