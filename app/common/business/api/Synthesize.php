@@ -100,17 +100,16 @@ class Synthesize
     public function getPoorScore($uid, $id){
         $mark = $this -> synthesizePoorScoreModel -> findByUidAndTarget($uid, $id);
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
+        $scoreStart = $this -> config ->  getSynthesizePoorSignScoreOption();
         $sign = $this -> synthesizePoorSignModel -> findByUid($uid);
         return [
             'mark' => $mark['mark'],
             'type' => $type,
             'data' => [
-                'confirm_level' => $sign['confirm_level'],
-                'confirm_time' => $sign['confirm_time'],
                 'confirm_reason' => $sign['confirm_reason'],
                 'confirm_reason_explain' => $sign['confirm_reason_explain'],
                 'remark' => $sign['remark'],
-                'status' => $sign['status']
+                'status' => $scoreStart
             ],
             'time' => $mark['update_time']
         ];
@@ -120,12 +119,8 @@ class Synthesize
         $this -> check($data['uid'], $data['target']);
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
         $scoreStart = $this -> config ->  getSynthesizePoorSignScoreOption();
-        $sign = $this -> synthesizePoorSignModel -> findByUid($data['uid']);
         if ($scoreStart == 0){
             throw new Exception("打分未开始！");
-        }
-        if ($sign['status'] == 0){
-            throw new Exception("贫困等级已认定！");
         }
         if ($type == 0){
             if ($data['score'] < 70 || $data['score'] > 100){
