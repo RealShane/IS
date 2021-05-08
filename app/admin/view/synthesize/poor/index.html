@@ -45,8 +45,9 @@
     $(document).ready(function() {
         getData(10, 1);
     });
-    layui.use(['form'], function(){
-        var form = layui.form;
+    layui.use(['form', 'element'], function(){
+        var form = layui.form,
+            element = layui.element;
         form.on('submit(search)', function(res) {
             $.ajax({
                 type : "POST",
@@ -130,7 +131,7 @@
         }
         $("#data_remove").remove();
         $("#data").append(
-            "<div class=\"layui-collapse\" id=\"data_remove\">" +
+            "<div class=\"layui-collapse\" lay-accordion id=\"data_remove\">" +
                 str +
             "</div>"
         );
