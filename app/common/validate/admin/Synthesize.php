@@ -20,11 +20,14 @@ class Synthesize extends Validate
     protected $rule = [
         'classId|班级id' => ['require'],
         'key|查找关键字' => ['require'],
+        'token|token' => ['require'],
+        'target|目标班级' => ['require'],
     ];
 
     protected $scene = [
-        'exportCrossExcel' => ['classId'],
+        'exportCrossExcel' => ['classId', 'token'],
         'getTargetClass' => ['key'],
+        'exportPoorSignExcel' => ['target', 'token'],
     ];
 
 }
