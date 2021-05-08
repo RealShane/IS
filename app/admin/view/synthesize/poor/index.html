@@ -45,8 +45,9 @@
     $(document).ready(function() {
         getData(10, 1);
     });
-    layui.use(['form'], function(){
-        var form = layui.form;
+    layui.use(['form', 'element'], function(){
+        var form = layui.form,
+            element = layui.element;
         form.on('submit(search)', function(res) {
             $.ajax({
                 type : "POST",
@@ -82,7 +83,7 @@
                     layer.msg(res.message);
                     return false;
                 }
-                render(res.result, 10, 1);
+                render(res.result, num, page);
             }
         });
     }
@@ -117,6 +118,7 @@
                 next +
             "</div>"
         );
+        str = "";
         for (let key of data['data']){
             str +=
                 "<div class=\"layui-colla-item\">" +
