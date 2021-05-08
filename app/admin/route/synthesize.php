@@ -20,6 +20,7 @@ Route::group('View/Synthesize', function () {
 
 Route::group('Synthesize', function () {
     Route::rule('exportCrossExcel', '/admin/Synthesize/exportCrossExcel', 'GET');
+    Route::rule('exportPoorSignExcel', '/admin/Synthesize/exportPoorSignExcel', 'GET');
 });
 Route::group('Synthesize', function () {
     Route::rule('getAllClass', '/admin/Synthesize/getAllClass', 'POST');
