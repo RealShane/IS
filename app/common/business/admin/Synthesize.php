@@ -21,7 +21,6 @@ use app\common\model\api\UserClass;
 class Synthesize
 {
 
-    private $synthesizeModel = NULL;
     private $strLib = NULL;
     private $excelLib = NULL;
     private $classesModel = NULL;
