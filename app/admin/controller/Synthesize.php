@@ -29,7 +29,7 @@ class Synthesize extends BaseController
 
     public function exportCrossExcel(){
         $uid = $this -> getParamUid();
-        $classId = $this -> request -> param("id", 10, 'htmlspecialchars');
+        $classId = $this -> request -> param("target", 10, 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('exportCrossExcel') -> check(['classId' => $classId, 'token' => $uid]);
         }catch (\Exception $exception){
