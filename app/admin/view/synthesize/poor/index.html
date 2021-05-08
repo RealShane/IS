@@ -87,16 +87,21 @@
         });
     }
     function render(data){
+        console.log(data);
         let str = "";
         for (let key of data['data']){
             str +=
-                "<blockquote class='layui-elem-quote'>" +
-                    "<a href='/{$secret}/Synthesize/exportPoorSignExcel?id=" + key['id'] + "'>" + key['name'] + "</a>" +
-                "</blockquote>";
+                "<div class=\"layui-colla-item\">" +
+                    "<h2 class=\"layui-colla-title\">" + key['name'] + "</h2>" +
+                    "<div class=\"layui-colla-content layui-show\">" +
+                        "<a href=\"/{$secret}/Synthesize/exportPoorSignExcel?id=" + key['id'] + "\" class=\"layui-btn\">导出报名数据</a>" +
+                        "<a href=\"/{$secret}/Synthesize/exportPoorSignScoreExcel?id=" + key['id'] + "\" class=\"layui-btn\">导出打分/投票数据</a>" +
+                    "</div>" +
+                "</div>";
         }
         $("#data_remove").remove();
         $("#data").append(
-            "<div id=\"data_remove\">" +
+            "<div class=\"layui-collapse\" lay-accordion id=\"data_remove\">" +
                 str +
             "</div>"
         );
