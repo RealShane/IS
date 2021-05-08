@@ -90,7 +90,7 @@ class Synthesize
     }
 
     public function getTargetClass($key, $num){
-        return $this -> classesModel -> getAllClasses($key, $num);
+        return $this -> classesModel -> getClasses($key, $num);
     }
 
     public function getAllClass($num){
