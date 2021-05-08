@@ -42,7 +42,6 @@
                 target : id
             },
             success : function(res) {
-                console.log(res);
                 if(res.status === config('failed')){
                     layer.msg(res.message);
                     return false;
@@ -94,7 +93,7 @@
                     }
                     $('#time').text("上次提交时间：" + res.result['time']);
                 }
-                if (res.result['data']['status'] === 0){
+                if (parseInt(res.result['data']['status']) === 0){
                     $('#commit').addClass('layui-hide');
                     $('#mark').addClass('layui-hide');
                 }
