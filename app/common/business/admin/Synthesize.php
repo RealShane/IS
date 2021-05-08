@@ -167,11 +167,13 @@ class Synthesize
                         $results['mark'] = null;
                     }
                     if (empty($results) || $results['mark'] == 0) {
-                        $name = $this -> synthesizePoorSignModel -> findByUid($item['uid'])['user']['name'];
                         $results['mark'] = '×';
                     }
-                    $tem[] = $results['mark'];
-                    $sum ++;
+                    if ($results['mark'] == 0){
+                        $results['mark'] = '√';
+                        $tem[] = $results['mark'];
+                        $sum ++;
+                    }
                 }
                 $temp = [
                     'id' => $id,
