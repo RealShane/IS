@@ -45,6 +45,10 @@ class View
         return V::fetch('synthesize/poor/add');
     }
 
+    public function poorDownloadView(){
+        return V::fetch('synthesize/poor/download');
+    }
+
     public function leaderView(){
         return V::fetch('synthesize/leader/index');
     }

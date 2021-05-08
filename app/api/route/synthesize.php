@@ -17,6 +17,7 @@ Route::group('View/Synthesize', function () {
     Route::rule('Poor/index', '/api/View/poorView', 'GET');
     Route::rule('Poor/sign', '/api/View/poorSignView', 'GET');
     Route::rule('Poor/add', '/api/View/poorAddView', 'GET');
+    Route::rule('Poor/download', '/api/View/poorDownloadView', 'GET');
     Route::rule('Leader/index', '/api/View/leaderView', 'GET');
 });
 
