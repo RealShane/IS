@@ -44,13 +44,36 @@
                 "<li class=\"layui-timeline-item\">" +
                     "<i class=\"layui-icon layui-timeline-axis\">&#xe63f;</i>" +
                     "<div class=\"layui-timeline-content layui-text\">" +
-                        "<a href='/api/Synthesize/downloadProve?target=" + key['id'] + "&access-token=" + getApiToken() + "' class=\"layui-timeline-title\">下载" + key['name'] + "的文件</a>" +
+                        // "<a href='/api/Synthesize/downloadProve?target=" + key['id'] + "&access-token=" + getApiToken() + "' class=\"layui-timeline-title\">下载" + key['name'] + "的文件</a>" +
+                        "<h3 onclick='download(" + key['id'] + ", " + getApiToken() + ")' class=\"layui-timeline-title\">" + key['name'] + "</h3>" +
                     "</div>" +
                 "</li>";
         }
         $("#data").append(
             "<ul class=\"layui-timeline\">" + str + "</ul>"
         );
+    }
+    function download(id, token) {
+        $.ajax({
+            type : "GET",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Synthesize/downloadProve',
+            data : {
+                target : id,
+                'access-token' : token
+            },
+            success : function(res) {
+                console.log(res);
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                let $a = $("<a class='layui-hide'>");
+                $a.attr("href", "/api/Synthesize/downloadProve?target=" + id + "&access-token=" + token);
+                $("body").append($a);
+                $a[0].click();
+            }
+        });
     }
 </script>
 </body>
