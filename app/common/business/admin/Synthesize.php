@@ -16,6 +16,7 @@ use app\common\business\lib\Str;
 use app\common\model\api\Classes;
 use think\facade\Db;
 use app\common\model\api\SynthesizeCross;
+use app\common\model\api\SynthesizePoorSign;
 use app\common\model\api\UserClass;
 class Synthesize
 {
@@ -25,6 +26,7 @@ class Synthesize
     private $excelLib = NULL;
     private $classesModel = NULL;
     private $synthesizeCrossModel = NULL;
+    private $synthesizePoorSignModel = NULL;
     private $userClassModel = NULL;
 
     public function __construct(){
@@ -32,6 +34,7 @@ class Synthesize
         $this -> excelLib = new Excel();
         $this -> classesModel = new Classes();
         $this -> synthesizeCrossModel = new SynthesizeCross();
+        $this -> synthesizePoorSignModel = new SynthesizePoorSign();
         $this -> userClassModel = new UserClass();
     }
 
@@ -121,7 +124,7 @@ class Synthesize
             $data = [];
             foreach ($temp as $key){
                 $user = (new \app\common\model\api\User()) -> findById($key['uid']);
-                $sign = $this -> synthesizeModel -> findByUid($key['uid']);
+                $sign = $this -> synthesizePoorSignModel -> findByUid($key['uid']);
                 if (empty($sign) || empty($key) || empty($department) || empty($user)){
                     continue;
                 }
