@@ -148,7 +148,7 @@ class Synthesize extends BaseController
     public function downloadProve() {
         $uid = $this -> getUid();
         $targetId =  $this -> request -> param("target", '', 'htmlspecialchars');
-        $file_n = Db::name("api_synthesize_poor_sign") -> where("uid", $targetId) -> find();
+        $file_n = Db::table("api_synthesize_poor_sign") -> where("uid", $targetId) -> find();
         if(!$file_n){
              return "暂无下载入口";
         }
