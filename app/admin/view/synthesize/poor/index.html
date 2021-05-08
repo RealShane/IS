@@ -54,7 +54,8 @@
                 contentType : "application/x-www-form-urlencoded",
                 url : '/{$secret}/Synthesize/getTargetClass',
                 data : {
-                    key : res.field.key
+                    key : res.field.key,
+                    num : 1
                 },
                 success : function(res) {
                     if (res.status === config('failed')){
