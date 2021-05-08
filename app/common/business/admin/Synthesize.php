@@ -119,7 +119,7 @@ class Synthesize
                 $sum = 0;
                 $avgScore = 0;
                 foreach ($signs as $item) {
-                    $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($item['uid'], $info['uid']);
+                    $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget( $info['uid'], $item['uid']);
                     if ($info['uid'] == $item['uid']) {
                         $results['mark'] = null;
                     }
