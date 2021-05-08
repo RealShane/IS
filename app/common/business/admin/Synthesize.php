@@ -120,15 +120,15 @@ class Synthesize
                 foreach ($infos as $item) {
                     $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($item['uid'], $info['uid']);
                     if ($info['uid'] == $item['uid']) {
-                        $results['score'] = null;
+                        $results['mark'] = null;
                     }
                     if (empty($results)) {
                         $name = $this -> synthesizePoorSignModel -> findByUid($item['uid'])['user']['name'];
                         $notScore[] = $name;
-                        $results['score'] = null;
+                        $results['mark'] = null;
                     }
-                    $tem[] = $results['score'];
-                    $sum += $results['score'];
+                    $tem[] = $results['mark'];
+                    $sum += $results['mark'];
                     $avgScore = $sum / ($cout - 1);
                 }
                 $temp = [
