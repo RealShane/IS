@@ -43,7 +43,7 @@
 <script>
     isLogin('{$secret}');
     $(document).ready(function() {
-        getClassData(10, 1);
+        getData(10, 1);
     });
     layui.use(['form'], function(){
         var form = layui.form;
@@ -60,13 +60,13 @@
                         layer.msg(res.message);
                         return false;
                     }
-                    render(res.result);
+                    render(res.result, 10, 1);
                 }
             });
             return false;
         });
     });
-    function getClassData(num, page) {
+    function getData(num, page) {
         $("#search").show();
         search_type = "class";
         $.ajax({
@@ -82,13 +82,41 @@
                     layer.msg(res.message);
                     return false;
                 }
-                render(res.result);
+                render(res.result, 10, 1);
             }
         });
     }
-    function render(data){
+    function render(data, num, page){
         console.log(data);
-        let str = "";
+        let pre_num = page - 1;
+        let next_num = page + 1;
+        if (pre_num <= 0){
+            pre_num = 1;
+        }
+        if (next_num >= data['last_page']){
+            next_num = data['last_page'];
+        }
+        let str = "",
+            pre = "<a class=\"prev\" onclick=\"getData(" + num + ", " + pre_num + ")\">&lt;&lt;</a>",
+            next = "<a class=\"next\" onclick=\"getData(" + num + ", " + next_num + ")\">&gt;&gt;</a>";
+        for (let i = 1; i <= data['last_page']; i++){
+            let temp = "<a class=\"num\" onclick=\"getData(" + num + ", " + i + ")\">" + i + "</a>";
+            if (i === page){
+                temp = "<span class=\"current\">" + i + "</span>";
+            }
+            str += temp;
+        }
+        if (data['last_page'] === 1){
+            pre = "";next = "";
+        }
+        $("#page_remove").remove();
+        $("#page").append(
+            "<div id=\"page_remove\">" +
+                pre +
+                str +
+                next +
+            "</div>"
+        );
         for (let key of data['data']){
             str +=
                 "<div class=\"layui-colla-item\">" +
