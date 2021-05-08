@@ -13,6 +13,7 @@ namespace app\common\business\api;
 
 
 use app\common\business\lib\Config;
+use app\common\business\lib\Download;
 use app\common\business\lib\Str;
 use app\common\model\api\SynthesizePoorSign;
 use app\common\model\api\SynthesizePoorScore;
@@ -25,21 +26,23 @@ class Synthesize
 {
 
     private $config = NULL;
+    private $str = NULL;
+    private $download = NULL;
     private $synthesizePoorSignModel = NULL;
     private $synthesizePoorScoreModel = NULL;
     private $synthesizeCrossModel = NULL;
     private $userClassModel = NULL;
     private $userModel = NULL;
-    private $str = NULL;
 
     public function __construct(){
         $this -> config = new Config();
+        $this -> str = new Str();
+        $this -> download = new Download();
         $this -> synthesizePoorSignModel = new SynthesizePoorSign();
         $this -> synthesizePoorScoreModel = new SynthesizePoorScore();
         $this -> synthesizeCrossModel = new SynthesizeCross();
         $this -> userClassModel = new UserClass();
         $this -> userModel = new User();
-        $this -> str = new Str();
     }
 
     public function getCrossScore($uid, $target){
@@ -250,7 +253,8 @@ class Synthesize
             throw new Exception("该学生未报名贫困生！");
         }
         $arr = explode("/", $isExist['supporting_document']);
-        return download(root_path() . 'public' . $isExist['supporting_document'], end($arr), true);
+        return $this -> download -> push(root_path() . 'public' . $isExist['supporting_document'], end($arr));
+        //return download(root_path() . 'public' . $isExist['supporting_document'], end($arr), true);
     }
 
     private function check($uid, $target){
