@@ -18,6 +18,7 @@ use app\common\business\lib\Str;
 use app\common\model\api\SynthesizePoorSign;
 use app\common\model\api\SynthesizePoorScore;
 use app\common\model\api\UserClass;
+use app\common\model\api\SynthesizeAuth;
 use think\Exception;
 use app\common\model\api\User;
 use app\common\model\api\SynthesizeCross;
@@ -33,6 +34,7 @@ class Synthesize
     private $synthesizeCrossModel = NULL;
     private $userClassModel = NULL;
     private $userModel = NULL;
+    private $synthesizeAuth = NULL;
 
     public function __construct(){
         $this -> config = new Config();
@@ -43,6 +45,7 @@ class Synthesize
         $this -> synthesizeCrossModel = new SynthesizeCross();
         $this -> userClassModel = new UserClass();
         $this -> userModel = new User();
+        $this -> synthesizeAuth = new SynthesizeAuth();
     }
 
     public function getCrossScore($uid, $target){
@@ -247,8 +250,17 @@ class Synthesize
         return $result;
     }
 
-    public function downloadProve($uid, $targetId) {
-        $isExist = $this -> synthesizePoorSignModel -> findByUid($targetId);
+    public function downloadProve($data) {
+        $down = $this -> synthesizeAuth -> findByUid($data['uid']);
+        if (empty($down)){
+            throw new Exception("您没有下载权限！");
+        }
+        $downClass = $this -> userClassModel -> findByUid($data['uid']);
+        $userClass = $this -> userClassModel -> findByUid($data['target']);
+        if ($downClass['class_id'] != $userClass['class_id']){
+            throw new Exception("您下载的学生不是本班的学生！");
+        }
+        $isExist = $this -> synthesizePoorSignModel -> findByUid($data['target']);
         if (empty($isExist)){
             throw new Exception("该学生未报名贫困生！");
         }
