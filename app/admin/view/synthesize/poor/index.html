@@ -135,6 +135,13 @@
                 str +
             "</div>"
         );
+        initCollapse();
+    }
+    function initCollapse(){
+        layui.use('element', function(){
+            var element = layui.element;
+            element.init();
+        });
     }
 </script>
 </html>
