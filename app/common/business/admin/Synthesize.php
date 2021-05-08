@@ -157,7 +157,42 @@ class Synthesize
             $indexes[$count + 2] = '总分';
         }
         if ($type == 1){
-            toupio;
+            foreach ($infos as $info) {
+                $userName = $this -> synthesizePoorSignModel -> findByUid($info['uid'])['user']['name'];
+                $tem = [];
+                $sum = 0;
+                foreach ($infos as $item) {
+                    $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($item['uid'], $info['uid']);
+                    if ($info['uid'] == $item['uid']) {
+                        $results['mark'] = null;
+                    }
+                    if (empty($results) || $results['mark'] == 0) {
+                        $name = $this -> synthesizePoorSignModel -> findByUid($item['uid'])['user']['name'];
+                        $results['mark'] = '×';
+                    }
+                    $tem[] = $results['mark'];
+                    $sum ++;
+                }
+                $temp = [
+                    'id' => $id,
+                    'target' => $userName
+                ];
+                for ($i = 0; $i < $cout; $i++) {
+                    $temp['rater' . $i] = $tem[$i];
+                }
+                $temp['count'] = $sum;
+                $res[] = $temp;
+                $user[] = $userName;
+                $id++;
+            }
+
+            $count = $cout + 3;
+            $indexes[0] = '序号';
+            $indexes[1] = '被评分人';
+            for ($i = 3, $j = 0; $i < $count; $i++){
+                $indexes[$i] = $user[$j++];
+            }
+            $indexes[$count + 1] = '票数';
         }
 
         $this -> excelLib -> push($title, $indexes, $res);
