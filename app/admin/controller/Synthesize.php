@@ -56,9 +56,8 @@ class Synthesize extends BaseController
     public function exportPoorSignExcel(){
         $uid = $this -> getParamUid();
         $class_id = $this -> request -> param("target", '', 'htmlspecialchars');
-        echo json_encode($class_id);exit();
         try {
-            validate(Validate::class) -> scene('exportPoorSignExcel') -> check(['key' => $class_id, 'token' => $uid]);
+            validate(Validate::class) -> scene('exportPoorSignExcel') -> check(['target' => $class_id, 'token' => $uid]);
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
