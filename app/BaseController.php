@@ -123,11 +123,23 @@ abstract class BaseController
         return $this -> request -> header('access-token');
     }
 
+    public function getParamToken(){
+        return $this -> request -> param('access-token');
+    }
+
     public function getUser(){
         return $this -> redis -> get(config('redis.token_pre') . $this -> getToken());
     }
 
+    public function getParamUser(){
+        return $this -> redis -> get(config('redis.token_pre') . $this -> getParamToken());
+    }
+
     public function getUid(){
         return $this -> getUser()['id'];
+    }
+
+    public function getParamUid(){
+        return $this -> getParamUser()['id'];
     }
 }

@@ -144,8 +144,9 @@ class Synthesize extends BaseController
     }
 
     public function downloadProve() {
-        $uid = $this -> getUid();
+        $uid = $this -> getParamUid();
         $targetId = $this -> request -> param("target", '', 'htmlspecialchars');
+
         $this -> business -> downloadProve($uid, $targetId);
     }
 }
