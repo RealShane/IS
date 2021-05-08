@@ -17,7 +17,9 @@ use app\common\business\api\Synthesize as Business;
 use app\common\validate\api\Synthesize as Validate;
 use app\common\validate\lib\Upload as UploadValidate;
 use app\common\business\lib\Upload as UploadBusiness;
+use app\common\model\api\SynthesizePoorSign;
 use think\App;
+use think\Db;
 
 class Synthesize extends BaseController
 {
@@ -143,4 +145,28 @@ class Synthesize extends BaseController
         return $this -> success(['path' => $saveName]);
     }
 
+    public function downloadProve() {
+        $uid = $this -> getUid();
+        $targetId =  $this -> request -> param("target", '', 'htmlspecialchars');
+        $file_n = Db::name("api_synthesize_poor_sign") -> where("uid", $targetId) -> find();
+        if(!$file_n){
+             return "暂无下载入口";
+        }
+        //str_replace为了严谨点嘛，不要也可以
+        $files = str_replace("\\","/", $file_n["supporting_document"]);
+        if(!file_exists($files)){
+             return "文件不存在";
+        }else {
+            //打开文件
+            $file1 = fopen($files, "r");
+         //输入文件标签
+        Header("Content-type: application/octet-stream");
+        Header("Accept-Ranges: bytes");
+        Header("Accept-Length: " . filesize($files));
+        Header("Content-Disposition: attachment; filename=" . $file_n["supporting_document"]);
+        echo fread($file1, filesize($files));
+        fclose($file1);
+        }
+    }
 }
+

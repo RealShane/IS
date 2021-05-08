@@ -31,6 +31,7 @@ Route::group('Synthesize', function () {
     Route::rule('poorSign', '/api/Synthesize/poorSign', 'POST');
     Route::rule('viewPoorOption', '/api/Synthesize/viewPoorOption', 'POST');
     Route::rule('uploadProve', '/api/Synthesize/uploadProve', 'POST');
+    Route::rule('downloadProve', '/api/Synthesize/downloadProve', 'POST');
     Route::rule('getPoorSign', '/api/Synthesize/getPoorSign', 'POST');
     Route::rule('getPoorScore', '/api/Synthesize/getPoorScore', 'POST');
     Route::rule('poorScore', '/api/Synthesize/poorScore', 'POST');
