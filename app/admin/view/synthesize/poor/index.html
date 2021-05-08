@@ -44,7 +44,7 @@
     isLogin('{$secret}');
     let token = getToken();
     $(document).ready(function() {
-        getData(1, 1);
+        getData(10, 1);
     });
     layui.use(['form'], function(){
         var form = layui.form;
@@ -55,14 +55,14 @@
                 url : '/{$secret}/Synthesize/getTargetClass',
                 data : {
                     key : res.field.key,
-                    num : 1
+                    num : 999999999
                 },
                 success : function(res) {
                     if (res.status === config('failed')){
                         layer.msg(res.message);
                         return false;
                     }
-                    render(res.result, 1, 1);
+                    render(res.result, 999999999, 1);
                 }
             });
             return false;
