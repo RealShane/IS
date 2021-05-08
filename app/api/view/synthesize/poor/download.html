@@ -24,7 +24,7 @@
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/Synthesize/showPoorSignDownloadList',
+            url : '/api/Synthesize/showPoorSignList',
             success : function(res) {
                 if (res.status === config('failed')){
                     layer.msg(res.message);
