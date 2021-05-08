@@ -37,6 +37,7 @@ class Synthesize extends Validate
         'supporting_document|证明文件' => ['require'],
         'target|被评分人id' => ['require'],
         'score|被评分人分数' => ['require', 'between:70,100'],
+        'uid|用户id' => ['require'],
     ];
 
     protected $scene = [
@@ -45,6 +46,7 @@ class Synthesize extends Validate
         'get_cross_score' => ['target'],
         'get_poor_score' => ['target'],
         'poor_score' => ['target'],
+        'download_prove' => ['target', 'uid'],
     ];
 
 }
