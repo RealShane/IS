@@ -42,12 +42,12 @@
 </body>
 <script>
     isLogin('{$secret}');
+    let token = getToken();
     $(document).ready(function() {
         getData(10, 1);
     });
-    layui.use(['form', 'element'], function(){
-        var form = layui.form,
-            element = layui.element;
+    layui.use(['form'], function(){
+        var form = layui.form;
         form.on('submit(search)', function(res) {
             $.ajax({
                 type : "POST",
@@ -88,7 +88,6 @@
         });
     }
     function render(data, num, page){
-        console.log(data);
         let pre_num = page - 1;
         let next_num = page + 1;
         if (pre_num <= 0){
@@ -124,8 +123,8 @@
                 "<div class=\"layui-colla-item\">" +
                     "<h2 class=\"layui-colla-title\">" + key['name'] + "</h2>" +
                     "<div class=\"layui-colla-content layui-show\">" +
-                        "<a href=\"/{$secret}/Synthesize/exportPoorSignExcel?id=" + key['id'] + "\" class=\"layui-btn\">导出报名数据</a>" +
-                        "<a href=\"/{$secret}/Synthesize/exportPoorSignScoreExcel?id=" + key['id'] + "\" class=\"layui-btn\">导出打分/投票数据</a>" +
+                        "<a onclick=\"downloadPoorSign(" + key['id'] + ")\" class=\"layui-btn\">导出报名数据</a>" +
+                        "<a onclick=\"downloadPoorSignScore(" + key['id'] + ")\" class=\"layui-btn\">导出打分/投票数据</a>" +
                     "</div>" +
                 "</div>";
         }
@@ -141,6 +140,50 @@
         layui.use('element', function(){
             var element = layui.element;
             element.init();
+        });
+    }
+    function downloadPoorSign(id) {
+        layer.msg("正在下载，请稍候！");
+        $.ajax({
+            type : "GET",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/Synthesize/exportPoorSignExcel',
+            data : {
+                target : id,
+                token : token
+            },
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                let $a = $("<a class='layui-hide'>");
+                $a.attr("href", "/{$secret}/Synthesize/exportPoorSignExcel?target=" + id + "&token=" + token);
+                $("body").append($a);
+                $a[0].click();
+            }
+        });
+    }
+    function downloadPoorSignScore(id) {
+        layer.msg("正在下载，请稍候！");
+        $.ajax({
+            type : "GET",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/Synthesize/exportPoorSignScoreExcel',
+            data : {
+                target : id,
+                token : token
+            },
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                let $a = $("<a class='layui-hide'>");
+                $a.attr("href", "/{$secret}/Synthesize/exportPoorSignScoreExcel?target=" + id + "&token=" + token);
+                $("body").append($a);
+                $a[0].click();
+            }
         });
     }
 </script>
