@@ -137,22 +137,20 @@ class Synthesize
                     $tem[] = $results['mark'];
                     $sum += $results['mark'];
                     $avgScore = $sum / ($cout - 1);
-
-                    $temp = [
-                        'id' => $id,
-                        'target' => $userName,
-                        $temp['notScore'] = implode(",", $notScore)
-                    ];
-                    for ($i = 0; $i < $cout; $i++) {
-                        $temp['rater' . $i] = $tem[$i];
-                    }
-                    $temp['avgScore'] = $avgScore;
-                    $temp['sumScore'] = $sum;
-                    $user[] = $userName;
-                    $id++;
                 }
-
-            $res[] = $temp;
+                $temp = [
+                    'id' => $id,
+                    'target' => $userName,
+                    $temp['notScore'] = implode(",", $notScore)
+                ];
+                for ($i = 0; $i < $cout; $i++) {
+                    $temp['rater' . $i] = $tem[$i];
+                }
+                $temp['avgScore'] = $avgScore;
+                $temp['sumScore'] = $sum;
+                $user[] = $userName;
+                $id++;
+                $res[] = $temp;
         }
             $count = $cout + 3;
             $indexes[0] = '序号';
