@@ -108,22 +108,23 @@ class Synthesize
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "贫困生投票/打分表";
         $id = 1;$res = [];$user = [];$notScore = [];
-        $infos = $this -> synthesizePoorSignModel -> seletAll();
-        $cout = $this -> synthesizePoorSignModel -> signCount();
+        $infos = $this -> userClassModel -> findAllByClassId($classId);
+        $cout = $this -> userClassModel -> countByClass($classId);
+        $signs = $this -> synthesizePoorSignModel -> seletAll();
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
         if ($type == 0){
             foreach ($infos as $info) {
-                $userName = $this -> synthesizePoorSignModel -> findByUid($info['uid'])['user']['name'];
+                $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
                 $tem = [];
                 $sum = 0;
                 $avgScore = 0;
-                foreach ($infos as $item) {
+                foreach ($signs as $item) {
                     $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($item['uid'], $info['uid']);
                     if ($info['uid'] == $item['uid']) {
                         $results['mark'] = null;
                     }
                     if (empty($results)) {
-                        $name = $this -> synthesizePoorSignModel -> findByUid($item['uid'])['user']['name'];
+                        $name = $this -> userClassModel -> findByUidWithUser($item['uid'])['user']['name'];
                         $notScore[] = $name;
                         $results['mark'] = null;
                     }
