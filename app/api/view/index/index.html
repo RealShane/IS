@@ -65,19 +65,6 @@
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/User/userInfo',
-            success : function(res) {
-                if (res.status === config('failed')){
-                    layer.msg(res.message);
-                }
-                $("#name").append(
-                    "<span>你好：" + res.result['name'] + "</span>"
-                );
-            }
-        });
-        $.ajax({
-            type : "POST",
-            contentType : "application/x-www-form-urlencoded",
             url : '/api/User/menuAndView',
             success : function(res) {
                 if (res.status === config('failed')){
@@ -86,6 +73,20 @@
                 }
                 renderMenu(res.result['viewWithMenu']);
                 renderView(res.result['view']);
+            }
+        });
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/User/userInfo',
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                $("#name").append(
+                    "<span>你好：" + res.result['name'] + "</span>"
+                );
             }
         });
         $("#quit").click(function() {
