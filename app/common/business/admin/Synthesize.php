@@ -127,7 +127,7 @@ class Synthesize
                 foreach ($infos as $info) {
                     $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
                     if ($item['uid'] == $info['uid']) {
-                        $results['mark'] = 0;
+                        $results['mark'] = null;
                     }
                     if (empty($results)) {
                         $name = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
