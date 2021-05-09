@@ -167,50 +167,77 @@ class Synthesize
         }
 
 
-//        if ($type == 1){
-//            foreach ($infos as $info) {
-//                $userName = $this -> synthesizePoorSignModel -> findByUid($info['uid'])['user']['name'];
-//                $tem = [];
-//                $sum = 0;
-//                foreach ($infos as $item) {
-//                    $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($item['uid'], $info['uid']);
-//                    if ($info['uid'] == $item['uid']) {
-//                        $results['mark'] = null;
-//                    }
-//                    if (empty($results) || $results['mark'] == 0) {
-//                        $results['mark'] = '×';
-//                    }
-//                    if ($results['mark'] == 0){
-//                        $results['mark'] = '√';
-//                        $sum ++;
-//                    }
-//                    $tem[] = $results['mark'];
-//                }
-//                $temp = [
-//                    'id' => $id,
-//                    'target' => $userName
-//                ];
-//                for ($i = 0; $i < $cout; $i++) {
-//                    $temp['rater' . $i] = $tem[$i];
-//                }
-//                $temp['count'] = $sum;
-//                $res[] = $temp;
-//                $user[] = $userName;
-//                $id++;
-//            }
-//
-//            $count = $cout + 3;
-//            $indexes[0] = '序号';
-//            $indexes[1] = '被评分人';
-//            for ($i = 3, $j = 0; $i < $count; $i++){
-//                $indexes[$i] = $user[$j++];
-//            }
-//            $indexes[$count + 1] = '票数';
-//        }
+        if ($type == 1) {
+            $num = 0;
+            foreach ($signs as $item) {
+                $tem = [];
+                $userName = $this -> synthesizePoorSignModel -> findByUid($item['uid'])['user']['name'];
+                foreach ($infos as $info) {
+                    $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
+                    if ($item['uid'] == $info['uid']) {
+                        $results['mark'] = null;
+                    }
+                    if (empty($results) || $results['mark'] == 0) {
+                        $results['mark'] = '×';
+                    }
+                    if ($results['mark'] == 0){
+                        $results['mark'] = '√';
+                        $num ++;
+                    }
+                    $tem[] = $results['mark'];
+                }
+                $temp = [
+                    'id' => $id,
+                    'target' => $userName,
+                ];
+                for ($i = 0; $i < $cout; $i++) {
+                    $temp['rater' . $i] = $tem[$i];
+                }
+                $temp['score_num'] = $num;
+                $id++;
+                $res[] = $temp;
+            }
+            foreach ($infos as $info){
+                $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+            }
+            $count = $cout + 3;
+            $indexes[0] = '序号';
+            $indexes[1] = '被评分人';
+            $indexes[2] = '未打分人';
+            for ($i = 3, $j = 0; $i < $count; $i++) {
+                $indexes[$i] = $user[$j++];
+            }
+            $indexes[$count + 1] = '平均分';
+            $indexes[$count + 2] = '总分';
+            $this -> excelLib -> push($title, $indexes, $res);
+        }
 
 
     }
 
+
+
+        if ($info['uid'] == $item['uid']) {
+            $results['mark'] = null;
+        }
+        if (empty($results) || $results['mark'] == 0) {
+            $results['mark'] = '×';
+        }
+        if ($results['mark'] == 0){
+            $results['mark'] = '√';
+            $sum ++;
+        }
+        $tem[] = $results['mark'];
+    }
+$temp = [
+'id' => $id,
+'target' => $userName
+];
+for ($i = 0; $i < $cout; $i++) {
+$temp['rater' . $i] = $tem[$i];
+}
+$temp['count'] = $sum;
+$res[] = $temp;
     public function exportPoorSignExcel($class_id){
         $class = (new \app\common\model\api\Classes()) -> findByIdWithStatus($class_id);
         if (empty($class)){
