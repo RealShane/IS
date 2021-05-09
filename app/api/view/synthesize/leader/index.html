@@ -15,9 +15,73 @@
     </a>
 </div>
 <br>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">请选择要进行的操作：</div>
+                <div class="layui-card-body ">
+                    <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+                        <li>
+                            <a onclick="xadmin.open('班委报名', '/api/View/Synthesize/Leader/sign')" href="javascript:;" class="x-admin-backlog-body">
+                                <h3>班委：</h3>
+                                <p>
+                                    <cite>报名</cite>
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="layui-card" id="data_show">
+                <div class="layui-card-body" id="data">
 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script>
     isApiLogin();
+    $(document).ready(function() {
+        render();
+    });
+    function render(){
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Synthesize/showLeaderSignList',
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                renderData(res.result);
+            }
+        });
+    }
+    function renderData(data){
+        if (data.length === 0){
+            return $("#data_show").hide();
+        }
+        let str = "";
+        for (let key of data){
+            let icon = "&#xe63f;";
+            if (key['status']){
+                icon = "&#xe605;";
+            }
+            str +=
+                "<li class=\"layui-timeline-item\">" +
+                    "<i class=\"layui-icon layui-timeline-axis\">" + icon + "</i>" +
+                    "<div class=\"layui-timeline-content layui-text\">" +
+                        "<h3 onclick=\"xadmin.open('班委投票/打分', '/api/View/Synthesize/Leader/add?id=" + key['id'] + "')\" class=\"layui-timeline-title\">" + key['name'] + "</h3>" +
+                    "</div>" +
+                "</li>";
+        }
+        $("#data").append(
+            "<ul class=\"layui-timeline\">" + str + "</ul>"
+        );
+    }
 </script>
 </html>

@@ -53,6 +53,14 @@ class View
         return V::fetch('synthesize/leader/index');
     }
 
+    public function leaderSignView(){
+        return V::fetch('synthesize/leader/sign');
+    }
+
+    public function leaderAddView(){
+        return V::fetch('synthesize/leader/add');
+    }
+
     //Synthesize类
 
     //User类

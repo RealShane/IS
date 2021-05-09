@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {include file="public/_meta" /}
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <br>
+            <div class="layui-form-item" id="info">
+
+            </div>
+            <div class="layui-form-item layui-hide" id="mark">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>请打分
+                </label>
+                <div class="layui-input-inline">
+                    <input type="number" id="score" name="score" required="" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux" id="time">
+                    分数请不小于70不大于100
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <button id="commit" class="layui-btn" lay-filter="add" lay-submit=""></button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    isApiLogin();
+    let param = getParams();
+    let id = param.id, type = 0;
+    $(document).ready(function() {
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/api/Synthesize/getPoorScore',
+            data : {
+                target : id
+            },
+            success : function(res) {
+                if(res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                let confirm_reason = "";
+                for (let key of res.result['data']['confirm_reason']){
+                    confirm_reason += key + ' ';
+                }
+                $("#info").append(
+                    '<div class="layui-card">' +
+                        '<div class="layui-card-header layui-bg-green">认定原因：</div>' +
+                        '<div class="layui-card-body">' +
+                            confirm_reason +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="layui-card">' +
+                        '<div class="layui-card-header layui-bg-green">认定原因补充说明：</div>' +
+                        '<div class="layui-card-body">' +
+                            res.result['data']['confirm_reason_explain'] +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="layui-card">' +
+                        '<div class="layui-card-header layui-bg-green">备注：</div>' +
+                        '<div class="layui-card-body">' +
+                            res.result['data']['remark'] +
+                        '</div>' +
+                    '</div>'
+                );
+                type = parseInt(res.result['type']);
+                if (type === 0){
+                    $("#mark").removeClass('layui-hide');
+                    $('#commit').text("提交");
+                }
+                if (type === 1){
+                    $('#score').val(1);
+                    $('#commit').text("给Ta投一票");
+                }
+                if (!empty(res.result['mark'])){
+                    if (type === 1){
+                        if (res.result['mark'] === 1){
+                            $('#score').val(0);
+                            $('#commit').addClass('layui-bg-red').text("取消投票");
+                        }else {
+                            $('#score').val(1);
+                            $('#commit').text("给Ta投一票");
+                        }
+                    }else {
+                        $('#score').val(res.result['mark']);
+                    }
+                    $('#time').text("上次提交时间：" + res.result['time']);
+                }
+                if (parseInt(res.result['data']['status']) === 0){
+                    $('#commit').addClass('layui-hide');
+                    $('#mark').addClass('layui-hide');
+                }
+            }
+        });
+    });
+    layui.use(['form', 'layer'], function() {
+        $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer;
+        form.on('submit(add)', function(res) {
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : '/api/Synthesize/poorScore',
+                data : {
+                    target : id,
+                    score : res.field.score
+                },
+                success : function(res) {
+                    if(res.status === config('failed')){
+                        layer.msg(res.message);
+                    }else if(res.status === config('success')){
+                        layer.alert(res.result, {icon: 6}, function() {
+                            xadmin.close();
+                            xadmin.father_reload();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
