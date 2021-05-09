@@ -124,6 +124,7 @@ class Synthesize
     public function poorScore($data){
         $this -> check($data['uid'], $data['target']);
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
+        $count = $this -> config -> getSynthesizePoorSignMarkCountOption();
         $scoreStart = $this -> config ->  getSynthesizePoorSignScoreOption();
         if ($scoreStart == 0){
             throw new Exception("打分未开始！");
@@ -133,10 +134,14 @@ class Synthesize
                 throw new Exception("请在70~100之间评分！");
             }
         }
-        if ($type == 1){
-            if ($data['score'] <= 0){
+        if ($type == 1) {
+            if ($data['score'] <= 0) {
                 $data['score'] = 0;
-            }else{
+            } else {
+                $scoreCount = $this -> synthesizePoorScoreModel -> findByUid($data['uid']);
+                if ($scoreCount >= $count) {
+                    throw new Exception("您的投票次数已用完！");
+                }
                 $data['score'] = 1;
             }
         }

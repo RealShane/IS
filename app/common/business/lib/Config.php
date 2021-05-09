@@ -87,6 +87,11 @@ class Config
         return $this -> synthesizeConfig -> keyValue("POOR_SIGN_MARK_STATUS") -> value;
     }
 
+    //贫困生投票次数开关
+    public function getSynthesizePoorSignMarkCountOption(){
+        return $this -> synthesizeConfig -> keyValue("POOR_MARK_COUNT_STATUS") -> value;
+    }
+
     /**上传设置
      * @return mixed
      */
