@@ -134,7 +134,7 @@ class Synthesize
                         $notScore[] = $name;
                         $results['mark'] = null;
                     }
-                    if ($results['mark'] != null){
+                    if (!empty($results)){
                         $tem[] = $results['mark'];
                     }
                     $sum += $results['mark'];
