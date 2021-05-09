@@ -121,8 +121,7 @@ class Synthesize
         $signs = $this -> synthesizePoorSignModel -> seletAll();
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
         foreach ($infos as $key){
-            $userName = $this -> userClassModel -> findByUidWithUser($key['uid'])['user']['name'];
-            $res[]['target'] = $userName;
+            $userName[] = $this -> userClassModel -> findByUidWithUser($key['uid'])['user']['name'];
         }
 //        echo json_encode($userName);exit();
 
@@ -151,6 +150,7 @@ class Synthesize
                 //echo json_encode($avgScore);
                 $temp = [
                     'id' => $id,
+                    'target' => $userName[$num++],
                 ];
                 $temp['notScore'] = implode(",", $notScore);
                 for ($i = 0; $i < $cout; $i++) {
