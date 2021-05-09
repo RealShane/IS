@@ -234,24 +234,11 @@
 </div>
 <script>
     isApiLogin();
-    let data = null, selected = [], file_token = null;
     $(document).ready(function() {
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/Synthesize/viewPoorOption',
-            success : function(res) {
-                if(res.status === config('failed')){
-                    layer.msg(res.message);
-                }
-                data = res.result;
-                renderForm();
-            }
-        });
-        $.ajax({
-            type : "POST",
-            contentType : "application/x-www-form-urlencoded",
-            url : '/api/Synthesize/getPoorSign',
+            url : '/api/Synthesize/getLeaderSign',
             success : function(res) {
                 if(res.status === config('failed')){
                     layer.msg(res.message);
@@ -271,65 +258,26 @@
                         $("#poor_type_six").find("option[value='" + res.result['poor_type_six'] + "']").prop("selected",true);
                         $("#poor_type_seven").find("option[value='" + res.result['poor_type_seven'] + "']").prop("selected",true);
                         $("#poor_type_eight").find("option[value='" + res.result['poor_type_eight'] + "']").prop("selected",true);
-                        selected = res.result['confirm_reason'];
                         $('#confirm_reason_explain').val(res.result['confirm_reason_explain']);
                         $('#address').val(res.result['address']);
                         $('#home_phone').val(res.result['home_phone']);
                         $('#contact_phone').val(res.result['contact_phone']);
                         $('#remark').val(res.result['remark']);
-                        file_token = res.result['supporting_document'];
                         form.render();
                     });
                 }
             }
         });
     });
-    layui.config({
-        base: "__API__/lib/layui/lay/mymodules/"
-    }).use(['form', 'layer', 'upload', 'selectM'], function() {
+    layui.use(['form', 'layer'], function() {
         $ = layui.jquery;
         var form = layui.form,
-            layer = layui.layer,
-            upload  = layui.upload,
-            selectM = layui.selectM;
-        let confirm_reason = selectM({
-            elem: '#confirm_reason',
-            data: data,
-            max: data.length,
-            width: 200,
-            field: {
-                idName: 'option',
-                titleName: 'option'
-            },
-            selected: selected,
-            verify:'required'
-        });
-        $("#upload").click(function(){
-            layer.msg("正在上传，请稍候！");
-        });
-        upload.render({
-            elem: '#upload',
-            url: '/api/Synthesize/uploadProve',
-            accept: 'file',
-            size: 99999999999,
-            drag: true,
-            done: function (res){
-                if(res.status === config('failed')){
-                    layer.msg(res.message);
-                    return false;
-                }
-                file_token = res.result['path'];
-                $("#link_remove").remove();
-                $("#link_show").append(
-                    "<div id='link_remove' class=\"layui-input-inline\">已读入数据</div>"
-                );
-            }
-        });
+            layer = layui.layer;
         form.on('submit(add)', function(res) {
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
-                url : '/api/Synthesize/poorSign',
+                url : '/api/Synthesize/leaderSign',
                 data : {
                     political_outlook : res.field.political_outlook,
                     id_card_number : res.field.id_card_number,
@@ -341,13 +289,11 @@
                     poor_type_six : res.field.poor_type_six,
                     poor_type_seven : res.field.poor_type_seven,
                     poor_type_eight : res.field.poor_type_eight,
-                    confirm_reason : confirm_reason.values,
                     confirm_reason_explain : res.field.confirm_reason_explain,
                     address : res.field.address,
                     home_phone : res.field.home_phone,
                     contact_phone : res.field.contact_phone,
-                    remark : res.field.remark,
-                    supporting_document : file_token
+                    remark : res.field.remark
                 },
                 success : function(res) {
                     if(res.status === config('failed')){

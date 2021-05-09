@@ -37,7 +37,7 @@
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/api/Synthesize/getPoorScore',
+            url : '/api/Synthesize/getLeaderScore',
             data : {
                 target : id
             },
@@ -108,7 +108,7 @@
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
-                url : '/api/Synthesize/poorScore',
+                url : '/api/Synthesize/leaderScore',
                 data : {
                     target : id,
                     score : res.field.score
