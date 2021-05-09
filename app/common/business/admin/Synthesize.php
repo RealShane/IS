@@ -114,7 +114,6 @@ class Synthesize
         $res = [];
         $user = [];
         $notScore = [];
-        $userName = [];
         $num = 0;
         $temp = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
