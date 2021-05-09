@@ -110,7 +110,6 @@ class Synthesize
     public function exportPoorSignScoreExcel($classId) {
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "贫困生投票/打分表";
-        echo json_encode($title . '1');
         $id = 1;
         $res = [];
         $user = [];
@@ -156,6 +155,7 @@ class Synthesize
                 }
                 $temp['avgScore'] = $avgScore;
                 $temp['sumScore'] = $sum;
+                echo json_encode($temp . '1');
                 $user[] = $userNa;
                 $id++;
                 $res[] = $temp;
