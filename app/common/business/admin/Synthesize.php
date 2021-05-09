@@ -164,7 +164,7 @@ class Synthesize
                 echo json_encode($temp['target']. '______________________________');
                 echo json_encode($temp['notScore']. '______________________________');
                 echo json_encode($temp['avgScore']. '______________________________');
-                echo json_encode($temp['sumScore']. '______________________________');
+                echo json_encode($temp['sumScore']. '______________________________');exit();
                 $user[] = $userNa;
                 $id++;
                 $res[] = $temp;
