@@ -9,7 +9,7 @@
         <form class="layui-form">
             <div class="layui-form-item">
                 <label class="layui-form-label">
-                    <span class="x-red">*</span>类型选择
+                    <span class="x-red">*</span>记录类型
                 </label>
                 <div class="layui-input-inline">
                     <select id="type" name="type">
@@ -19,6 +19,26 @@
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     请选择班委记录类型
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>班委类型
+                </label>
+                <div class="layui-input-inline">
+                    <select id="rank" name="rank">
+                        <option value="班长">班长</option>
+                        <option value="团支书">团支书</option>
+                        <option value="纪律委员">纪律委员</option>
+                        <option value="生活委员">生活委员</option>
+                        <option value="文艺委员">文艺委员</option>
+                        <option value="宣传委员">宣传委员</option>
+                        <option value="组织委员">组织委员</option>
+                        <option value="心理委员">心理委员</option>
+                    </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    请选择班委类型
                 </div>
             </div>
             <div class="layui-form-item">
@@ -55,6 +75,7 @@
                         $ = layui.jquery;
                         var form = layui.form;
                         $("#type").find("option[value='" + res.result['type'] + "']").prop("selected",true);
+                        $("#rank").find("option[value='" + res.result['rank'] + "']").prop("selected",true);
                         $('#remark').val(res.result['remark']);
                         form.render();
                     });
@@ -68,12 +89,14 @@
             layer = layui.layer;
         form.on('submit(add)', function(res) {
             let remark = $("select[name='remark']").val();
+            let rank = $("select[name='rank']").val();
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
                 url : '/api/Synthesize/leaderSign',
                 data : {
                     type : res.field.type,
+                    rank : rank,
                     remark : remark
                 },
                 success : function(res) {
