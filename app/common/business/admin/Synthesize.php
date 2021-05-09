@@ -150,10 +150,9 @@ class Synthesize
                 $temp['avgScore'] = $avgScore;
                 $temp['sumScore'] = $sum;
                 $id++;
-                echo json_encode($temp);exit();
                 $res[] = $temp;
         }
-            echo json_encode($res . '2');
+            echo json_encode($res);exit();
 
             foreach ($infos as $info){
                 $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
