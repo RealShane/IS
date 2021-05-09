@@ -136,9 +136,9 @@ class Synthesize
                     }
                     if ($results['mark'] != null){
                         $tem[] = $results['mark'];
-                        $sum += $results['mark'];
-                        $avgScore = $sum / ($cout - 1);
                     }
+                    $sum += $results['mark'];
+                    $avgScore = $sum / ($cout - 1);
                 }
                 $temp = [
                     'id' => $id,
