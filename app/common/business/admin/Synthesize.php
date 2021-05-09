@@ -126,7 +126,7 @@ class Synthesize
                 $userName = $this -> synthesizePoorSignModel -> findByUid($item['uid'])['user']['name'];
                 foreach ($infos as $info) {
                     $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
-                    if ($info['uid'] == $item['uid']) {
+                    if ($item['uid'] == $info['uid']) {
                         $results['mark'] = null;
                     }
                     if (empty($results)) {
