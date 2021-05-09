@@ -130,7 +130,7 @@ class Synthesize
                         $results['mark'] = null;
                     }
                     if (empty($results)) {
-                        $name = $this -> userClassModel -> findByUidWithUser($item['uid'])['user']['name'];
+                        $name = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
                         $notScore[] = $name;
                         $results['mark'] = null;
                     }
