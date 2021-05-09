@@ -168,14 +168,14 @@ class Synthesize
 
 
         if ($type == 1) {
-            $num = 0;
             foreach ($signs as $item) {
                 $tem = [];
+                $num = 0;
                 $userName = $this -> synthesizePoorSignModel -> findByUid($item['uid'])['user']['name'];
                 foreach ($infos as $info) {
                     $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
                     if ($item['uid'] == $info['uid']) {
-                        $results['mark'] = null;
+                        $results['mark'] = 0;
                     }
                     if (empty($results) || $results['mark'] == 0) {
                         $results['mark'] = '×';
