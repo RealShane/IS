@@ -155,9 +155,9 @@ class Synthesize
                 $temp['notScore'] = implode(",", $notScore);
                 for ($i = 0; $i < $cout; $i++) {
                     $temp['rater' . $i] = $tem[$i];
-                    echo json_encode($temp['rater' . $i]);
+                    //echo json_encode($temp['rater' . $i]);
                 }
-                exit();
+
                 $temp['avgScore'] = $avgScore;
                 $temp['sumScore'] = $sum;
                 echo json_encode($temp['id'] . '1');
