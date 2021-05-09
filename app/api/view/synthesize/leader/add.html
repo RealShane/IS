@@ -32,7 +32,7 @@
 <script>
     isApiLogin();
     let param = getParams();
-    let id = param.id, type = 0;
+    let id = param.id, type = param.type;
     $(document).ready(function() {
         $.ajax({
             type : "POST",

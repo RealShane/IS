@@ -9,219 +9,25 @@
         <form class="layui-form">
             <div class="layui-form-item">
                 <label class="layui-form-label">
-                    <span class="x-red">*</span>政治面貌
+                    <span class="x-red">*</span>类型选择
                 </label>
                 <div class="layui-input-inline">
-                    <select id="political_outlook" name="political_outlook">
-                        <option value="群众">群众</option>
-                        <option value="共青团员">共青团员</option>
-                        <option value="中共党员">中共党员</option>
+                    <select id="type" name="type">
+                        <option value=0>新班委报名</option>
+                        <option value=1>老班委述职</option>
                     </select>
                 </div>
                 <div class="layui-form-mid layui-word-aux">
-                    请选择政治面貌
+                    请选择班委记录类型
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
-                    <span class="x-red">*</span>身份证号
+                    <span class="x-red">*</span>报名/述职
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="id_card_number" name="id_card_number" required="" autocomplete="off" class="layui-input">
+                    <textarea id="remark" name="remark" required  lay-verify="required" placeholder="请填写" class="layui-textarea"></textarea>
                 </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请填写身份证号
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>是否建档立卡贫困家庭
-                </label>
-                <div class="layui-input-inline">
-                    <select required="" id="poor_type_one" name="poor_type_one">
-                        <option>请选择</option>
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </select>
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请选择是否为建档立卡贫困家庭
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>是否低保家庭家庭
-                </label>
-                <div class="layui-input-inline">
-                    <select required="" id="poor_type_two" name="poor_type_two">
-                        <option>请选择</option>
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </select>
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请选择是否为低保家庭家庭
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>是否特困供养学生
-                </label>
-                <div class="layui-input-inline">
-                    <select required="" id="poor_type_three" name="poor_type_three">
-                        <option>请选择</option>
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </select>
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请选择是否为特困供养学生
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>是否孤残学生
-                </label>
-                <div class="layui-input-inline">
-                    <select required="" id="poor_type_four" name="poor_type_four">
-                        <option>请选择</option>
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </select>
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请选择是否为孤残学生
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>是否烈士子女
-                </label>
-                <div class="layui-input-inline">
-                    <select required="" id="poor_type_five" name="poor_type_five">
-                        <option>请选择</option>
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </select>
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请选择是否为烈士子女
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>本人是否残疾
-                </label>
-                <div class="layui-input-inline">
-                    <select required="" id="poor_type_six" name="poor_type_six">
-                        <option>请选择</option>
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </select>
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请选择本人是否残疾
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>是否家庭经济困难残疾人子女
-                </label>
-                <div class="layui-input-inline">
-                    <select required="" id="poor_type_seven" name="poor_type_seven">
-                        <option>请选择</option>
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </select>
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请选择是否为家庭经济困难残疾人子女
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>是否单亲家庭
-                </label>
-                <div class="layui-input-inline">
-                    <select required="" id="poor_type_eight" name="poor_type_eight">
-                        <option>请选择</option>
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </select>
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请选择是否为单亲家庭
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>认定原因
-                </label>
-                <div class="layui-input-inline" id="confirm_reason">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请选择认定原因
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>认定原因补充说明
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="confirm_reason_explain" name="confirm_reason_explain" required="" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请填写认定原因补充说明
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>家庭住址
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="address" name="address" required="" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请填写家庭住址
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>家庭电话
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="home_phone" name="home_phone" required="" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请填写家庭电话
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>联系方式
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="contact_phone" name="contact_phone" required="" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请填写联系方式（手机号）
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                    备注
-                </label>
-                <div class="layui-input-inline">
-                    <textarea id="remark" name="remark" placeholder="非必填项" class="layui-textarea"></textarea>
-                </div>
-            </div>
-            <div class="layui-form-item" id="link_show">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>证明文件
-                </label>
-                <button type="button" class="layui-btn" id="upload">
-                    <i class="layui-icon">&#xe67c;</i>上传
-                </button>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
@@ -248,20 +54,7 @@
                     layui.use(['form'], function() {
                         $ = layui.jquery;
                         var form = layui.form;
-                        $("#political_outlook").find("option[value='" + res.result['political_outlook'] + "']").prop("selected",true);
-                        $('#id_card_number').val(res.result['id_card_number']);
-                        $("#poor_type_one").find("option[value='" + res.result['poor_type_one'] + "']").prop("selected",true);
-                        $("#poor_type_two").find("option[value='" + res.result['poor_type_two'] + "']").prop("selected",true);
-                        $("#poor_type_three").find("option[value='" + res.result['poor_type_three'] + "']").prop("selected",true);
-                        $("#poor_type_four").find("option[value='" + res.result['poor_type_four'] + "']").prop("selected",true);
-                        $("#poor_type_five").find("option[value='" + res.result['poor_type_five'] + "']").prop("selected",true);
-                        $("#poor_type_six").find("option[value='" + res.result['poor_type_six'] + "']").prop("selected",true);
-                        $("#poor_type_seven").find("option[value='" + res.result['poor_type_seven'] + "']").prop("selected",true);
-                        $("#poor_type_eight").find("option[value='" + res.result['poor_type_eight'] + "']").prop("selected",true);
-                        $('#confirm_reason_explain').val(res.result['confirm_reason_explain']);
-                        $('#address').val(res.result['address']);
-                        $('#home_phone').val(res.result['home_phone']);
-                        $('#contact_phone').val(res.result['contact_phone']);
+                        $("#type").find("option[value='" + res.result['type'] + "']").prop("selected",true);
                         $('#remark').val(res.result['remark']);
                         form.render();
                     });
@@ -274,26 +67,14 @@
         var form = layui.form,
             layer = layui.layer;
         form.on('submit(add)', function(res) {
+            let remark = $("select[name='remark']").val();
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
                 url : '/api/Synthesize/leaderSign',
                 data : {
-                    political_outlook : res.field.political_outlook,
-                    id_card_number : res.field.id_card_number,
-                    poor_type_one : res.field.poor_type_one,
-                    poor_type_two : res.field.poor_type_two,
-                    poor_type_three : res.field.poor_type_three,
-                    poor_type_four : res.field.poor_type_four,
-                    poor_type_five : res.field.poor_type_five,
-                    poor_type_six : res.field.poor_type_six,
-                    poor_type_seven : res.field.poor_type_seven,
-                    poor_type_eight : res.field.poor_type_eight,
-                    confirm_reason_explain : res.field.confirm_reason_explain,
-                    address : res.field.address,
-                    home_phone : res.field.home_phone,
-                    contact_phone : res.field.contact_phone,
-                    remark : res.field.remark
+                    type : res.field.type,
+                    remark : remark
                 },
                 success : function(res) {
                     if(res.status === config('failed')){
