@@ -130,6 +130,7 @@ class Synthesize
             $sum = 0;
             $avgScore = 0;
             foreach ($signs as $item) {
+                $userNa = null;
                 $userNa = $userName[$num++];
                 foreach ($infos as $info) {
                     $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
