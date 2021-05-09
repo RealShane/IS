@@ -113,7 +113,6 @@ class Synthesize
         $id = 1;
         $res = [];
         $user = [];
-        $notScore = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         $cout = $this -> userClassModel -> countByClass($classId);
         $signs = $this -> synthesizePoorSignModel -> seletAll();
@@ -164,7 +163,6 @@ class Synthesize
             }
             $indexes[$count + 1] = '平均分';
             $indexes[$count + 2] = '总分';
-            echo json_encode($indexes);exit();
             $this -> excelLib -> push($title, $indexes, $res);
         }
 
