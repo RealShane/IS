@@ -123,16 +123,15 @@ class Synthesize
         foreach ($infos as $key){
             $userName[] = $this -> userClassModel -> findByUidWithUser($key['uid'])['user']['name'];
         }
-        echo json_encode($userName);exit();
+//        echo json_encode($userName);exit();
 
         if ($type == 0) {
             $tem = [];
             $sum = 0;
             $avgScore = 0;
             foreach ($signs as $item) {
-
+                $userName = $userName[$num++];
                 foreach ($infos as $info) {
-                    $userName = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
                     $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
                     if ($info['uid'] == $item['uid']) {
                         $results['mark'] = null;
@@ -213,7 +212,7 @@ class Synthesize
 //            $indexes[$count + 1] = '票数';
 //        }
 
-        //$this -> excelLib -> push($title, $indexes, $res);
+        $this -> excelLib -> push($title, $indexes, $res);
     }
 
     public function exportPoorSignExcel($class_id){
