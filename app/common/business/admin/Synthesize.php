@@ -200,15 +200,13 @@ class Synthesize
             foreach ($infos as $info){
                 $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
             }
-            $count = $cout + 3;
+            $count = $cout + 2;
             $indexes[0] = '序号';
             $indexes[1] = '被评分人';
-            $indexes[2] = '未打分人';
-            for ($i = 3, $j = 0; $i < $count; $i++) {
+            for ($i = 2, $j = 0; $i < $count; $i++) {
                 $indexes[$i] = $user[$j++];
             }
-            $indexes[$count + 1] = '平均分';
-            $indexes[$count + 2] = '总分';
+            $indexes[$count + 1] = '票数';
             $this -> excelLib -> push($title, $indexes, $res);
         }
     }
