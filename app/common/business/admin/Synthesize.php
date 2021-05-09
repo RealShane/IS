@@ -114,27 +114,16 @@ class Synthesize
         $res = [];
         $user = [];
         $notScore = [];
-        $num = 0;
-        $temp = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         $cout = $this -> userClassModel -> countByClass($classId);
         $signs = $this -> synthesizePoorSignModel -> seletAll();
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
-        foreach ($infos as $key){
-            $userName = $this -> userClassModel -> findByUidWithUser($key['uid'])['user']['name'];
-            $temp = [
-                'id' => $id,
-                'target' => $userName,
-            ];
-        }
-//        echo json_encode($userName);exit();
-
         if ($type == 0) {
             $tem = [];
             $sum = 0;
             $avgScore = 0;
             foreach ($signs as $item) {
-
+                $userName = $this -> synthesizePoorSignModel -> findByUid($item['uid'])['user']['name'];
                 foreach ($infos as $info) {
                     $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
                     if ($info['uid'] == $item['uid']) {
@@ -149,19 +138,14 @@ class Synthesize
                     $sum += $results['mark'];
                     $avgScore = $sum / ($cout - 1);
                 }
-                //echo json_encode($notScore);
-                //echo json_encode($tem);
-                //echo json_encode($avgScore);
-//                $temp = [
-//                    'id' => $id,
-//                    'target' => $userName[$num++],
-//                ];
+                $temp = [
+                    'id' => $id,
+                    'target' => $userName,
+                ];
                 $temp['notScore'] = implode(",", $notScore);
                 for ($i = 0; $i < $cout; $i++) {
                     $temp['rater' . $i] = $tem[$i];
-                    //echo json_encode($temp['rater' . $i]);
                 }
-
                 $temp['avgScore'] = $avgScore;
                 $temp['sumScore'] = $sum;
                 echo json_encode($temp['id'] . '______________________________');
@@ -169,8 +153,8 @@ class Synthesize
                 echo json_encode($temp['notScore']. '______________________________');
                 echo json_encode($temp['avgScore']. '______________________________');
                 echo json_encode($temp['sumScore']. '______________________________');exit();
-                $user[] = $userNa;
-                $id++;$num++;
+                $user[] = $userName;
+                $id++;
                 $res[] = $temp;
         }
             echo json_encode($res . '2');
