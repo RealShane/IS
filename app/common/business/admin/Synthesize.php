@@ -141,8 +141,8 @@ class Synthesize
                 $temp = [
                     'id' => $id,
                     'target' => $userName,
+                    'notScore' => implode(",", $notScore)
                 ];
-                $temp['notScore'] = implode(",", $notScore);
                 for ($i = 0; $i < $cout; $i++) {
                     $temp['rater' . $i] = $tem[$i];
                 }
