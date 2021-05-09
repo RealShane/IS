@@ -148,12 +148,14 @@ class Synthesize
                 }
                 $temp['avgScore'] = $avgScore;
                 $temp['sumScore'] = $sum;
-                $user[] = $userName;
                 $id++;
                 $res[] = $temp;
         }
-            echo json_encode($res . '2');exit();
+            echo json_encode($res . '2');
 
+            foreach ($infos as $info){
+                $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+            }
             $count = $cout + 3;
             $indexes[0] = '序号';
             $indexes[1] = '被评分人';
