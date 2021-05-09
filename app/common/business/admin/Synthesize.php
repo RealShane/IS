@@ -122,7 +122,7 @@ class Synthesize
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
         foreach ($infos as $key){
             $userName = $this -> userClassModel -> findByUidWithUser($key['uid'])['user']['name'];
-            $temp['target'] = $userName;
+            $res[]['target'] = $userName;
         }
 //        echo json_encode($userName);exit();
 
