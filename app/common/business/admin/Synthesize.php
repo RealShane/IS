@@ -130,7 +130,6 @@ class Synthesize
             $sum = 0;
             $avgScore = 0;
             foreach ($signs as $item) {
-                $userNa = $userName[$num];
                 foreach ($infos as $info) {
                     $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
                     if ($info['uid'] == $item['uid']) {
@@ -150,7 +149,7 @@ class Synthesize
                 //echo json_encode($avgScore);
                 $temp = [
                     'id' => $id,
-                    'target' => $userNa,
+                    'target' => $userName,
                 ];
                 $temp['notScore'] = implode(",", $notScore);
                 for ($i = 0; $i < $cout; $i++) {
@@ -164,8 +163,8 @@ class Synthesize
                 echo json_encode($temp['target']. '______________________________');
                 echo json_encode($temp['notScore']. '______________________________');
                 echo json_encode($temp['avgScore']. '______________________________');
-                echo json_encode($temp['sumScore']. '______________________________');
-                $user[] = $userNa;
+                echo json_encode($temp['sumScore']. '______________________________');exit();
+                $user[] = $userName;
                 $id++;$num++;
                 $res[] = $temp;
         }
