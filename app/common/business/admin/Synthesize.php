@@ -130,7 +130,7 @@ class Synthesize
             $sum = 0;
             $avgScore = 0;
             foreach ($signs as $item) {
-                $userName = $userName[$num++];
+                $userNa = $userName[$num++];
                 foreach ($infos as $info) {
                     $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
                     if ($info['uid'] == $item['uid']) {
@@ -147,7 +147,7 @@ class Synthesize
                 }
                 $temp = [
                     'id' => $id,
-                    'target' => $userName,
+                    'target' => $userNa,
                     $temp['notScore'] = implode(",", $notScore)
                 ];
                 for ($i = 0; $i < $cout; $i++) {
@@ -155,7 +155,7 @@ class Synthesize
                 }
                 $temp['avgScore'] = $avgScore;
                 $temp['sumScore'] = $sum;
-                $user[] = $userName;
+                $user[] = $userNa;
                 $id++;
                 $res[] = $temp;
         }
