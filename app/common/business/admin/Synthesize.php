@@ -160,11 +160,11 @@ class Synthesize
 
                 $temp['avgScore'] = $avgScore;
                 $temp['sumScore'] = $sum;
-                echo json_encode($temp['id'] . '1');
-                echo json_encode($temp['target'] . '1');
-                echo json_encode($temp['notScore'] . '1');
-                echo json_encode($temp['avgScore'] . '1');
-                echo json_encode($temp['sumScore'] . '1');
+                echo json_encode($temp['id'] . '______________________________');
+                echo json_encode($temp['target']. '______________________________');
+                echo json_encode($temp['notScore']. '______________________________');
+                echo json_encode($temp['avgScore']. '______________________________');
+                echo json_encode($temp['sumScore']. '______________________________');
                 $user[] = $userNa;
                 $id++;
                 $res[] = $temp;
