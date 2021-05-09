@@ -145,6 +145,9 @@ class Synthesize
                     $sum += $results['mark'];
                     $avgScore = $sum / ($cout - 1);
                 }
+                echo json_encode($notScore);
+                echo json_encode($tem);
+                echo json_encode($avgScore);
                 $temp = [
                     'id' => $id,
                     'target' => $userNa,
