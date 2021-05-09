@@ -211,33 +211,7 @@ class Synthesize
             $indexes[$count + 2] = '总分';
             $this -> excelLib -> push($title, $indexes, $res);
         }
-
-
     }
-
-
-
-        if ($info['uid'] == $item['uid']) {
-            $results['mark'] = null;
-        }
-        if (empty($results) || $results['mark'] == 0) {
-            $results['mark'] = '×';
-        }
-        if ($results['mark'] == 0){
-            $results['mark'] = '√';
-            $sum ++;
-        }
-        $tem[] = $results['mark'];
-    }
-$temp = [
-'id' => $id,
-'target' => $userName
-];
-for ($i = 0; $i < $cout; $i++) {
-$temp['rater' . $i] = $tem[$i];
-}
-$temp['count'] = $sum;
-$res[] = $temp;
     public function exportPoorSignExcel($class_id){
         $class = (new \app\common\model\api\Classes()) -> findByIdWithStatus($class_id);
         if (empty($class)){
