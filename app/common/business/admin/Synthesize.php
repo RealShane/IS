@@ -152,7 +152,7 @@ class Synthesize
                 $id++;
                 $res[] = $temp;
         }
-            echo json_encode($res . '2');
+            echo json_encode($res . '2');exit();
 
             $count = $cout + 3;
             $indexes[0] = '序号';
