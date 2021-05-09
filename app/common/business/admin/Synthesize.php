@@ -73,8 +73,8 @@ class Synthesize
             $temp = [
                 'id' => $id,
                 'target' => $userName,
-                $temp['notScore'] = implode(",", $notScore)
             ];
+            $temp['notScore'] = implode(",", $notScore);
             for ($i = 0; $i < $cout; $i++) {
                 $temp['rater' . $i] = $tem[$i];
             }
@@ -151,14 +151,19 @@ class Synthesize
                 $temp = [
                     'id' => $id,
                     'target' => $userNa,
-                    $temp['notScore'] = implode(",", $notScore)
                 ];
+                $temp['notScore'] = implode(",", $notScore);
                 for ($i = 0; $i < $cout; $i++) {
                     $temp['rater' . $i] = $tem[$i];
+                    echo json_encode($temp['rater' . $i]);
                 }
                 $temp['avgScore'] = $avgScore;
                 $temp['sumScore'] = $sum;
-                echo json_encode($temp . '1');
+                echo json_encode($temp['id'] . '1');
+                echo json_encode($temp['target'] . '1');
+                echo json_encode($temp['notScore'] . '1');
+                echo json_encode($temp['avgScore'] . '1');
+                echo json_encode($temp['sumScore'] . '1');
                 $user[] = $userNa;
                 $id++;
                 $res[] = $temp;
