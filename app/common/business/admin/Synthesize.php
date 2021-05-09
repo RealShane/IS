@@ -145,9 +145,9 @@ class Synthesize
                     $sum += $results['mark'];
                     $avgScore = $sum / ($cout - 1);
                 }
-                echo json_encode($notScore);
-                echo json_encode($tem);
-                echo json_encode($avgScore);
+                //echo json_encode($notScore);
+                //echo json_encode($tem);
+                //echo json_encode($avgScore);
                 $temp = [
                     'id' => $id,
                     'target' => $userNa,
@@ -157,6 +157,7 @@ class Synthesize
                     $temp['rater' . $i] = $tem[$i];
                     echo json_encode($temp['rater' . $i]);
                 }
+                exit();
                 $temp['avgScore'] = $avgScore;
                 $temp['sumScore'] = $sum;
                 echo json_encode($temp['id'] . '1');
