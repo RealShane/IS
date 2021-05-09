@@ -134,9 +134,7 @@ class Synthesize
                         $notScore[] = $name;
                         $results['mark'] = null;
                     }
-                    if (!empty($results)){
-                        $tem[] = $results['mark'];
-                    }
+                    $tem[] = $results['mark'];
                     $sum += $results['mark'];
                     $avgScore = $sum / ($cout - 1);
                 }
