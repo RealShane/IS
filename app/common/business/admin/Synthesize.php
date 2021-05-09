@@ -48,7 +48,6 @@ class Synthesize
         $id = 1;
         $res = [];
         $user = [];
-        $notScore = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         $cout = $this -> userClassModel -> countByClass($classId);
         foreach ($infos as $info) {
@@ -56,6 +55,7 @@ class Synthesize
             $tem = [];
             $sum = 0;
             $avgScore = 0;
+            $notScore = [];
             foreach ($infos as $item) {
                 $results = $this -> synthesizeCrossModel -> findByUidAndTarget($item['uid'], $info['uid']);
                 if ($info['uid'] == $item['uid']) {
@@ -118,11 +118,11 @@ class Synthesize
         $signs = $this -> synthesizePoorSignModel -> seletAll();
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
         if ($type == 0) {
-            $sum = 0;
             foreach ($signs as $item) {
                 $notScore = [];
                 $tem = [];
                 $avgScore = 0;
+                $sum = 0;
                 $userName = $this -> synthesizePoorSignModel -> findByUid($item['uid'])['user']['name'];
                 foreach ($infos as $info) {
                     $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
