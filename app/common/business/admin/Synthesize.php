@@ -159,7 +159,6 @@ class Synthesize
                 $id++;
                 $res[] = $temp;
         }
-            $indexes = [];
             $count = $cout + 3;
             $indexes[0] = '序号';
             $indexes[1] = '被评分人';
@@ -169,6 +168,7 @@ class Synthesize
             }
             $indexes[$count + 1] = '平均分';
             $indexes[$count + 2] = '总分';
+            $this -> excelLib -> push($title, $indexes, $res);
         }
 
 
@@ -213,7 +213,7 @@ class Synthesize
 //            $indexes[$count + 1] = '票数';
 //        }
 
-        $this -> excelLib -> push($title, $indexes, $res);
+
     }
 
     public function exportPoorSignExcel($class_id){
