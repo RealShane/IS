@@ -180,7 +180,7 @@ class Synthesize
                     if (empty($results) || $results['mark'] == 0) {
                         $results['mark'] = '×';
                     }
-                    if ($results['mark'] == 0){
+                    if ($results['mark'] == 1){
                         $results['mark'] = '√';
                         $num ++;
                     }
