@@ -159,6 +159,7 @@ class Synthesize
                 $id++;
                 $res[] = $temp;
         }
+            $indexes = [];
             $count = $cout + 3;
             $indexes[0] = '序号';
             $indexes[1] = '被评分人';
