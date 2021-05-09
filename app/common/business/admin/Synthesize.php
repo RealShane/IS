@@ -138,8 +138,6 @@ class Synthesize
                     $tem[] = $results['mark'];
                     $sum += $results['mark'];
                     $avgScore = $sum / ($cout - 1);
-                    echo json_encode($sum);
-                    echo json_encode($tem);
                 }
                 $temp = [
                     'id' => $id,
@@ -152,6 +150,7 @@ class Synthesize
                 $temp['avgScore'] = $avgScore;
                 $temp['sumScore'] = $sum;
                 $id++;
+                echo json_encode($temp);exit();
                 $res[] = $temp;
         }
             echo json_encode($res . '2');
