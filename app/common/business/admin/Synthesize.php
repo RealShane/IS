@@ -159,8 +159,8 @@ class Synthesize
                 $id++;
                 $res[] = $temp;
         }
-            echo json_encode($res);
-            echo json_encode($title);
+            echo json_encode($res . '1');
+            echo json_encode($title . '2');
             $count = $cout + 3;
             $indexes[0] = '序号';
             $indexes[1] = '被评分人';
@@ -170,7 +170,7 @@ class Synthesize
             }
             $indexes[$count + 1] = '平均分';
             $indexes[$count + 2] = '总分';
-            echo json_encode($indexes);exit();
+            echo json_encode($indexes . '3');exit();
             $this -> excelLib -> push($title, $indexes, $res);
         }
 
