@@ -152,8 +152,6 @@ class Synthesize
                 $id++;
                 $res[] = $temp;
         }
-            echo json_encode($res);exit();
-
             foreach ($infos as $info){
                 $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
             }
@@ -166,7 +164,7 @@ class Synthesize
             }
             $indexes[$count + 1] = '平均分';
             $indexes[$count + 2] = '总分';
-            echo json_encode($indexes . '3');exit();
+            echo json_encode($indexes);exit();
             $this -> excelLib -> push($title, $indexes, $res);
         }
 
