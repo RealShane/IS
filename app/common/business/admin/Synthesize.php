@@ -119,10 +119,10 @@ class Synthesize
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
         if ($type == 0) {
             $sum = 0;
-            $avgScore = 0;
             foreach ($signs as $item) {
                 $notScore = [];
                 $tem = [];
+                $avgScore = 0;
                 $userName = $this -> synthesizePoorSignModel -> findByUid($item['uid'])['user']['name'];
                 foreach ($infos as $info) {
                     $results = $this -> synthesizePoorScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
