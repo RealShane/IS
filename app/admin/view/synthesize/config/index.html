@@ -79,7 +79,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label"></label>
                             <div class="layui-input-inline">
-                                <input type="text" id="create" autocomplete="off" class="layui-input">
+                                <input type="text" id="create" name="create" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -142,7 +142,7 @@
         var form = layui.form;
         form.on('submit(create)', function(res) {
             $("#options").append(
-                "<input value=\"" + $("#create").val() + "\" type=\"checkbox\" name=\"POOR_SIGN_OPTION\" title=\"" + $("#create").val() + "\" checked>"
+                "<input value=\"" + res.field.create + "\" type=\"checkbox\" name=\"POOR_SIGN_OPTION\" title=\"" + res.field.create + "\" checked>"
             );
             return false;
         });
