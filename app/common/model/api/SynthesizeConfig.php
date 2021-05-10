@@ -36,4 +36,8 @@ class SynthesizeConfig extends Model
         return $this -> where('id', '>', 0) -> field(['id', 'key', 'value', 'statement']) -> select();
     }
 
+    public function findByKey($key){
+        return $this -> where('key', $key) -> find();
+    }
+
 }

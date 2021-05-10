@@ -51,8 +51,30 @@ class Synthesize
         $this -> synthesizeConfigModel = new SynthesizeConfig();
     }
 
+    public function setConfig($data){
+        foreach ($data as $key => $value){
+            $info = $this -> synthesizeConfigModel -> findByKey($key);
+            $info -> save(['value' => $value]);
+        }
+
+    }
+
     public function getAllConfig(){
-        return $this -> synthesizeConfigModel -> selectAll();
+        $value = [];
+        $infos =  $this -> synthesizeConfigModel -> selectAll();
+        foreach ($infos as $info){
+            $value[] = $info['value'];
+        }
+        return [
+            'POOR_SIGN_OPTION' => $value[0],
+            'POOR_SIGN_STATUS' => $value[1],
+            'CROSS_STATUS' => $value[2],
+            'POOR_SIGN_MARK_STATUS' => $value[3],
+            'POOR_SCORE_STATUS' => $value[4],
+            'POOR_MARK_COUNT_STATUS' => $value[5],
+            'LEADER_SIGN_STATUS' => $value[6],
+            'LEADER_SCORE_STATUS' => $value[7],
+        ];
     }
 
     public function exportCrossExcel($classId) {
@@ -246,7 +268,7 @@ class Synthesize
 
 
     public function exportPoorSignExcel($class_id){
-        $class = (new \app\common\model\api\Classes()) -> findByIdWithStatus($class_id);
+        $class = $this -> classesModel -> findByIdWithStatus($class_id);
         if (empty($class)){
           throw new \think\Exception("导出班级不存在或内部异常");
         }
@@ -255,7 +277,7 @@ class Synthesize
 
     public function showClasses(){
         try {
-            return (new \app\common\model\api\Classes()) -> findAll();
+            return $this -> classesModel -> findAll();
         }catch (\Exception $exception){
             return NULL;
         }
@@ -283,8 +305,8 @@ class Synthesize
 
     private function exportPoorSignExcelByClass($class){
         $indexes = $this -> getPoorSignIndexes();
-        $temp = (new \app\common\model\api\UserClass()) -> findAllByClassId($class['id']);
-        $department = (new \app\common\model\api\Department()) -> findById($class['depart_id']);
+        $temp = $this -> userClassModel -> findAllByClassId($class['id']);
+        $department = (new \app\common\odel\api\Department()) -> findById($class['depart_id']);
         $data = [];
         $id = 1;
         foreach ($temp as $key){
