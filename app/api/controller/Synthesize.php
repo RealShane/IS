@@ -31,6 +31,20 @@ class Synthesize extends BaseController
         $this -> upload = $upload;
     }
 
+    public function leaderSign(){
+        $uid = $this -> getUid();
+        $data['job'] = $this -> request -> param("job", '', 'htmlspecialchars');
+        $data['advantage'] = $this -> request -> param("advantage", '', 'htmlspecialchars');
+        $data['type'] = $this -> request -> param("type", '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('leader_Sign') -> check($data);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        $this -> business -> leaderSign($data, $uid);
+        return $this -> success("操作成功！");
+    }
+
     public function getCrossScore(){
        $uid = $this -> getUid();
        $target = $this -> request -> param('target', '', 'htmlspecialchars');

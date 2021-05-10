@@ -56,6 +56,15 @@ class Config
         return intval($temp -> value) != 1;
     }
 
+    /**班委测评设置
+     * @return mixed
+     */
+
+    public function getSynthesizeLeaderSignStatus(){
+        return $this -> synthesizeConfig -> keyValue("LEADER_SIGN_STATUS") -> value;
+    }
+
+
     /**综测评分设置
      * @return mixed
      */
