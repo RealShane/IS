@@ -26,7 +26,7 @@
                     <span class="x-red">*</span>班委类型
                 </label>
                 <div class="layui-input-inline">
-                    <select id="rank" name="rank">
+                    <select id="job" name="job">
                         <option value="班长">班长</option>
                         <option value="团支书">团支书</option>
                         <option value="纪律委员">纪律委员</option>
@@ -46,7 +46,7 @@
                     <span class="x-red">*</span>报名/述职
                 </label>
                 <div class="layui-input-inline">
-                    <textarea id="remark" name="remark" required  lay-verify="required" placeholder="请填写" class="layui-textarea"></textarea>
+                    <textarea id="advantage" name="advantage" required  lay-verify="required" placeholder="请填写" class="layui-textarea"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -75,8 +75,8 @@
                         $ = layui.jquery;
                         var form = layui.form;
                         $("#type").find("option[value='" + res.result['type'] + "']").prop("selected",true);
-                        $("#rank").find("option[value='" + res.result['rank'] + "']").prop("selected",true);
-                        $('#remark').val(res.result['remark']);
+                        $("#job").find("option[value='" + res.result['job'] + "']").prop("selected",true);
+                        $('#advantage').val(res.result['advantage']);
                         form.render();
                     });
                 }
@@ -88,16 +88,16 @@
         var form = layui.form,
             layer = layui.layer;
         form.on('submit(add)', function(res) {
-            let remark = $("select[name='remark']").val();
-            let rank = $("select[name='rank']").val();
+            let type = $("select[name='type']").val();
+            let job = $("select[name='job']").val();
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
                 url : '/api/Synthesize/leaderSign',
                 data : {
-                    type : res.field.type,
-                    rank : rank,
-                    remark : remark
+                    type : type,
+                    job : job,
+                    advantage : res.field.advantage
                 },
                 success : function(res) {
                     if(res.status === config('failed')){
