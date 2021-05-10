@@ -53,9 +53,20 @@ class Synthesize extends BaseController
         return $this -> success($this -> business -> getAllClass($num));
     }
 
+    public function exportLeaderSignScoreExcel(){
+        $uid = $this -> getParamUid();
+        $classId = $this -> request -> param("target", '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('exportLeaderSignScoreExcel') -> check(['classId' => $classId, 'token' => $uid]);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        $this -> business -> exportLeaderSignScoreExcel($classId);
+    }
+
     public function exportPoorSignScoreExcel(){
         $uid = $this -> getParamUid();
-        $classId = $this -> request -> param("target", 10, 'htmlspecialchars');
+        $classId = $this -> request -> param("target", '', 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('exportPoorSignScoreExcel') -> check(['classId' => $classId, 'token' => $uid]);
         }catch (\Exception $exception){
