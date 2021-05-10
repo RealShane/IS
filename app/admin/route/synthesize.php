@@ -23,7 +23,7 @@ Route::group('Synthesize', function () {
     Route::rule('exportCrossExcel', '/admin/Synthesize/exportCrossExcel', 'GET');
     Route::rule('exportPoorSignExcel', '/admin/Synthesize/exportPoorSignExcel', 'GET');
     Route::rule('exportPoorSignScoreExcel', '/admin/Synthesize/exportPoorSignScoreExcel', 'GET');
-    Route::rule('exportLeaderSignScoreExcel', '/admin/Synthesize/exportLeaderSignScoreExcel', 'GET');
+    Route::rule('exportLeaderExcel', '/admin/Synthesize/exportLeaderExcel', 'GET');
 });
 Route::group('Synthesize', function () {
     Route::rule('getAllClass', '/admin/Synthesize/getAllClass', 'POST');

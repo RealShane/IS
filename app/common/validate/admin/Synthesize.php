@@ -27,7 +27,7 @@ class Synthesize extends Validate
     protected $scene = [
         'exportCrossExcel' => ['classId', 'token'],
         'exportPoorSignScoreExcel' => ['classId', 'token'],
-        'exportLeaderSignScoreExcel' => ['classId', 'token'],
+        'exportLeaderExcel' => ['classId', 'token'],
         'getTargetClass' => ['key'],
         'exportPoorSignExcel' => ['target', 'token'],
     ];

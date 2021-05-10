@@ -113,7 +113,7 @@ class Synthesize
         return $this -> classesModel -> getAllClasses($num);
     }
 
-    public function exportLeaderSignScoreExcel($classId) {
+    public function exportLeaderExcel($classId) {
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "班委打分表";
         $id = 1;
