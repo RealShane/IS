@@ -132,7 +132,7 @@
                 POOR_SIGN_MARK_STATUS = $("select[name='POOR_SIGN_MARK_STATUS']").val(),
                 POOR_SIGN_OPTION = [],
                 LEADER_SIGN_STATUS = $("select[name='LEADER_SIGN_STATUS']").val();
-            $("input[name='POOR_SIGN_OPTION']").each(function(){
+            $("[name=POOR_SIGN_OPTION]:checked").each(function(){
                 POOR_SIGN_OPTION.push($(this).val());
             })
             console.log(POOR_SIGN_OPTION);
