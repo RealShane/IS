@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    {include file="public/_meta" /}
+</head>
+<body>
+<div class="x-nav">
+    <span class="layui-breadcrumb">
+        <a>首页</a>
+        <a>综合测评</a>
+        <a><cite>设置</cite></a>
+    </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+<br>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                <span class="x-red">*</span>综测评分</label>
+                            <div class="layui-input-inline">
+                                <select id="CROSS_STATUS" name="CROSS_STATUS">
+                                    <option value=1>开启</option>
+                                    <option value=0>关闭</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                <span class="x-red">*</span>贫困生报名</label>
+                            <div class="layui-input-inline">
+                                <select id="POOR_SIGN_STATUS" name="POOR_SIGN_STATUS">
+                                    <option value=1>开启</option>
+                                    <option value=0>关闭</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                <span class="x-red">*</span>贫困生打分/投票</label>
+                            <div class="layui-input-inline">
+                                <select id="POOR_SCORE_STATUS" name="POOR_SCORE_STATUS">
+                                    <option value=1>开启</option>
+                                    <option value=0>关闭</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                <span class="x-red">*</span>贫困生打分/投票切换</label>
+                            <div class="layui-input-inline">
+                                <select id="POOR_SIGN_MARK_STATUS" name="POOR_SIGN_MARK_STATUS">
+                                    <option value=1>打分</option>
+                                    <option value=0>投票</option>
+                                </select>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">
+                                0是打分1是投票
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                <span class="x-red">*</span>贫困生投票次数限制
+                            </label>
+                            <div class="layui-input-inline">
+                                <input type="number" id="POOR_MARK_COUNT_STATUS" name="POOR_MARK_COUNT_STATUS" required="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                <span class="x-red">*</span>贫困生认定原因
+                            </label>
+                            <div class="layui-input-inline">
+                                <div class="layui-input-block">
+                                    <input value="写作" type="checkbox" name="POOR_SIGN_OPTION" title="写作" checked>
+                                    <input value="阅读" type="checkbox" name="POOR_SIGN_OPTION" title="阅读" checked>
+                                    <input value="发呆" type="checkbox" name="POOR_SIGN_OPTION" title="发呆" checked>
+                                </div>
+                            </div>
+                            <div class="layui-input-inline">
+                                <input type="number" id="create" required="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                <span class="x-red">*</span>班委报名</label>
+                            <div class="layui-input-inline">
+                                <select id="LEADER_SIGN_STATUS" name="LEADER_SIGN_STATUS">
+                                    <option value=1>开启</option>
+                                    <option value=0>关闭</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"></label>
+                            <button  class="layui-btn" lay-filter="add" lay-submit="">
+                                提交
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    isLogin('{$secret}');
+    $(document).ready(function() {
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : '/{$secret}/Synthesize/getConfig',
+            success : function(res) {
+                if (res.status === config('failed')){
+                    layer.msg(res.message);
+                    return false;
+                }
+                render(res.result);
+            }
+        });
+    });
+    layui.use(['form'], function(){
+        var form = layui.form;
+        form.on('submit(add)', function(res) {
+            let CROSS_STATUS = $("select[name='CROSS_STATUS']").val(),
+                POOR_SIGN_STATUS = $("select[name='POOR_SIGN_STATUS']").val(),
+                POOR_SCORE_STATUS = $("select[name='POOR_SCORE_STATUS']").val(),
+                POOR_SIGN_MARK_STATUS = $("select[name='POOR_SIGN_MARK_STATUS']").val(),
+                POOR_SIGN_OPTION = $("input[name='POOR_SIGN_OPTION']").val(),
+                LEADER_SIGN_STATUS = $("select[name='LEADER_SIGN_STATUS']").val();
+            console.log(POOR_SIGN_OPTION);
+            return false;
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : '/api/Synthesize/setConfig',
+                data : {
+                    CROSS_STATUS : CROSS_STATUS,
+                    POOR_SIGN_STATUS : POOR_SIGN_STATUS,
+                    POOR_SCORE_STATUS : POOR_SCORE_STATUS,
+                    POOR_SIGN_MARK_STATUS : POOR_SIGN_MARK_STATUS,
+                    POOR_MARK_COUNT_STATUS : res.field.POOR_MARK_COUNT_STATUS,
+                    LEADER_SIGN_STATUS : LEADER_SIGN_STATUS,
+                    score : res.field.score
+                },
+                success : function(res) {
+                    if(res.status === config('failed')){
+                        layer.msg(res.message);
+                    }else if(res.status === config('success')){
+                        layer.alert(res.result, {icon: 6}, function() {
+                            xadmin.close();
+                            xadmin.father_reload();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</html>
