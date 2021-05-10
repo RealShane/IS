@@ -17,6 +17,7 @@ use app\common\business\lib\Download;
 use app\common\business\lib\Str;
 use app\common\model\api\SynthesizePoorSign;
 use app\common\model\api\SynthesizePoorScore;
+use app\common\model\api\SynthesizeLeaderSign;
 use app\common\model\api\UserClass;
 use app\common\model\api\SynthesizeAuth;
 use think\Exception;
@@ -30,6 +31,7 @@ class Synthesize
     private $str = NULL;
     private $download = NULL;
     private $synthesizePoorSignModel = NULL;
+    private $synthesizeLeaderSignModel = NULL;
     private $synthesizePoorScoreModel = NULL;
     private $synthesizeCrossModel = NULL;
     private $userClassModel = NULL;
@@ -41,11 +43,32 @@ class Synthesize
         $this -> str = new Str();
         $this -> download = new Download();
         $this -> synthesizePoorSignModel = new SynthesizePoorSign();
+        $this -> synthesizeLeaderSignModel = new SynthesizeLeaderSign();
         $this -> synthesizePoorScoreModel = new SynthesizePoorScore();
         $this -> synthesizeCrossModel = new SynthesizeCross();
         $this -> userClassModel = new UserClass();
         $this -> userModel = new User();
         $this -> synthesizeAuth = new SynthesizeAuth();
+    }
+
+    public function leaderSign($data, $uid){
+        if (!($this -> config -> getSynthesizeLeaderSignStatus())){
+            throw new Exception("班委报名处于关闭状态！");
+        }
+        $isJoin = $this -> userClassModel -> findByUid($uid);
+        if (empty($isJoin)){
+            throw new Exception("班委报名请先加入班级！");
+        }
+        if (!in_array($data['job'], ['班长', '团支书', '纪律委员', '生活委员', '文艺委员', '宣传委员', '组织委员', '心理委员'])){
+            throw new Exception("无此班委职务！");
+        }
+        $isExist = $this -> synthesizeLeaderSignModel -> findByUid($uid);
+        if (empty($isExist)){
+            $data['uid'] = $uid;
+            $data['create_time'] = time();
+            return $this -> synthesizePoorSignModel -> save($data);
+        }
+        $this -> synthesizeLeaderSignSignModel -> updateLeaderSign($data, $uid);
     }
 
     public function getCrossScore($uid, $target){
