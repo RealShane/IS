@@ -145,6 +145,7 @@
             $("#options").append(
                 "<div><input value=\"" + res.field.tag + "\" type=\"checkbox\" name=\"POOR_SIGN_OPTION\" title=\"" + res.field.tag + "\" checked></div>"
             );
+            renderForm()
             return false;
         });
         form.on('submit(add)', function(res) {
@@ -186,5 +187,11 @@
             return false;
         });
     });
+    function renderForm(){
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
+        });
+    }
 </script>
 </html>
