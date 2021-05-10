@@ -56,10 +56,6 @@ class Synthesize
 
     public function getLeaderScore($uid, $id){
         $mark = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($uid, $id);
-        if (empty($mark)){
-            $mark['mark'] = null;
-            $mark['update_time'] = null;
-        }
         $sign = $this -> synthesizeLeaderSignModel -> findByUid($uid);
         return [
             'job' => $sign['job'],
