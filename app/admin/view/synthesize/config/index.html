@@ -143,7 +143,7 @@
         form.on('submit(push)', function(res) {
             console.log(res.field.tag);
             $("#options").append(
-                "<input value=\"" + res.field.tag + "\" type=\"checkbox\" name=\"POOR_SIGN_OPTION\" title=\"" + res.field.tag + "\" checked>"
+                "<div><input value=\"" + res.field.tag + "\" type=\"checkbox\" name=\"POOR_SIGN_OPTION\" title=\"" + res.field.tag + "\" checked></div>"
             );
             return false;
         });
