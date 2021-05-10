@@ -11,7 +11,7 @@
             <div class="layui-form-item" id="info">
 
             </div>
-            <div class="layui-form-item layui-hide">
+            <div class="layui-form-item">
                 <label class="layui-form-label">
                     <span class="x-red">*</span>请打分
                 </label>
@@ -24,7 +24,9 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button id="commit" class="layui-btn" lay-filter="add" lay-submit=""></button>
+                <button id="commit" class="layui-btn" lay-filter="add" lay-submit="">
+                    提交
+                </button>
             </div>
         </form>
     </div>
@@ -45,6 +47,9 @@
                 if(res.status === config('failed')){
                     layer.msg(res.message);
                     return false;
+                }
+                if (!empty(res.result['mark'])){
+                    $('#score').val(res.result['mark']);
                 }
                 $("#info").append(
                     '<div class="layui-card">' +
