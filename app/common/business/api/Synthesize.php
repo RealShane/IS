@@ -66,9 +66,10 @@ class Synthesize
         if (empty($isExist)){
             $data['uid'] = $uid;
             $data['create_time'] = time();
+            $data['update_time'] = time();
             return $this -> synthesizeLeaderSignModel -> save($data);
         }
-        $this -> synthesizeLeaderSignSignModel -> updateLeaderSign($data, $uid);
+        $this -> synthesizeLeaderSignModel -> updateLeaderSign($data, $uid);
     }
 
     public function getCrossScore($uid, $target){
@@ -264,6 +265,7 @@ class Synthesize
         if (empty($isExist)){
             $data['uid'] = $user['id'];
             $data['create_time'] = time();
+            $data['update_time'] = time();
             return $this -> synthesizePoorSignModel -> save($data);
         }
         $this -> synthesizePoorSignModel -> updatePoorSign($data, $user['id']);
