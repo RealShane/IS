@@ -118,7 +118,7 @@
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : '/{$secret}/Synthesize/getConfig',
+            url : '/{$secret}/Synthesize/getAllConfig',
             success : function(res) {
                 if (res.status === config('failed')){
                     layer.msg(res.message);
