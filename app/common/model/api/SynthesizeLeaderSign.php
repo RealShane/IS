@@ -30,8 +30,7 @@ class SynthesizeLeaderSign extends Model
         $result = $this -> findByUid($uid);
         return $result -> allowField([
             'job',
-            'advantage',
-            'type'
+            'advantage'
         ]) -> save($data);
     }
 
