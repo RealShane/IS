@@ -113,62 +113,74 @@ class Synthesize
         return $this -> classesModel -> getAllClasses($num);
     }
 
+//    public function exportLeaderExcel($classId) {
+//        $class = $this -> classesModel -> findById($classId);
+//        $title = $class['name'] . "班委打分表";
+//        $id = 1;
+//        $res = [];
+//        $user = [];
+//        $infos = $this -> userClassModel -> findAllByClassId($classId);
+//        $cout = $this -> userClassModel -> countByClass($classId);
+//        $signs = $this -> synthesizeLeaderSignModel -> seletAll();
+//        foreach ($signs as $item) {
+//            $notScore = [];
+//            $tem = [];
+//            $avgScore = 0;
+//            $sum = 0;
+//            $userName = $this -> synthesizeLeaderSignModel -> findByUid($item['uid'])['user']['name'];
+//            foreach ($infos as $info) {
+//                $results = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
+//                if ($item['uid'] == $info['uid']) {
+//                    $results['mark'] = null;
+//                }
+//                if (empty($results)) {
+//                    $name = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+//                    $notScore[] = $name;
+//                    $results['mark'] = null;
+//                }
+//                $tem[] = $results['mark'];
+//                $sum += $results['mark'];
+//                $avgScore = $sum / ($cout - 1);
+//            }
+//            $temp = [
+//                'id' => $id,
+//                'target' => $userName,
+//                'notScore' => implode(",", $notScore)
+//            ];
+//            for ($i = 0; $i < $cout; $i++) {
+//                $temp['rater' . $i] = $tem[$i];
+//            }
+//            $temp['avgScore'] = $avgScore;
+//            $temp['sumScore'] = $sum;
+//            $id++;
+//            $res[] = $temp;
+//        }
+//        foreach ($infos as $info) {
+//            $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+//        }
+//        $count = $cout + 3;
+//        $indexes[0] = '序号';
+//        $indexes[1] = '被评分人';
+//        $indexes[2] = '未打分人';
+//        for ($i = 3, $j = 0; $i < $count; $i++) {
+//            $indexes[$i] = $user[$j++];
+//        }
+//        $indexes[$count + 1] = '平均分';
+//        $indexes[$count + 2] = '总分';
+//
+//        $this -> excelLib -> push($title, $indexes, $res);
+//
+//    }
+
     public function exportLeaderExcel($classId) {
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "班委打分表";
-        $id = 1;
-        $res = [];
-        $user = [];
-        $infos = $this -> userClassModel -> findAllByClassId($classId);
-        $cout = $this -> userClassModel -> countByClass($classId);
+        $userNa = $this -> synthesizeLeaderSignModel -> findByUid($item['uid'])['user']['name'];
         $signs = $this -> synthesizeLeaderSignModel -> seletAll();
-        foreach ($signs as $item) {
-            $notScore = [];
-            $tem = [];
-            $avgScore = 0;
-            $sum = 0;
-            $userName = $this -> synthesizeLeaderSignModel -> findByUid($item['uid'])['user']['name'];
-            foreach ($infos as $info) {
-                $results = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
-                if ($item['uid'] == $info['uid']) {
-                    $results['mark'] = null;
-                }
-                if (empty($results)) {
-                    $name = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
-                    $notScore[] = $name;
-                    $results['mark'] = null;
-                }
-                $tem[] = $results['mark'];
-                $sum += $results['mark'];
-                $avgScore = $sum / ($cout - 1);
-            }
-            $temp = [
-                'id' => $id,
-                'target' => $userName,
-                'notScore' => implode(",", $notScore)
-            ];
-            for ($i = 0; $i < $cout; $i++) {
-                $temp['rater' . $i] = $tem[$i];
-            }
-            $temp['avgScore'] = $avgScore;
-            $temp['sumScore'] = $sum;
-            $id++;
-            $res[] = $temp;
-        }
-        foreach ($infos as $info) {
-            $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
-        }
-        $count = $cout + 3;
-        $indexes[0] = '序号';
-        $indexes[1] = '被评分人';
-        $indexes[2] = '未打分人';
-        for ($i = 3, $j = 0; $i < $count; $i++) {
-            $indexes[$i] = $user[$j++];
-        }
-        $indexes[$count + 1] = '平均分';
-        $indexes[$count + 2] = '总分';
+        $result = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
+        $info = $this -> packScoreData($userNa, $result, $signs);
 
-        $this -> excelLib -> push($title, $indexes, $res);
+        $this -> excelLib -> push($title, $info['indexes'], $info['res']);
 
     }
 
@@ -274,6 +286,8 @@ class Synthesize
         }
         $this -> excelLib -> push($title, $indexes, $res);
     }
+
+
     public function exportPoorSignExcel($class_id){
         $class = (new \app\common\model\api\Classes()) -> findByIdWithStatus($class_id);
         if (empty($class)){
@@ -288,6 +302,64 @@ class Synthesize
         }catch (\Exception $exception){
             return NULL;
         }
+    }
+
+    private function packScoreData($userNa, $result, $signs){
+        $id = 1;
+        $res = [];
+        $user = [];
+        $infos = $this -> userClassModel -> findAllByClassId($classId);
+        $cout = $this -> userClassModel -> countByClass($classId);
+        foreach ($signs as $item) {
+            $notScore = [];
+            $tem = [];
+            $avgScore = 0;
+            $sum = 0;
+            $userName = $userNa;
+            foreach ($infos as $info) {
+                $results = $result;
+                if ($item['uid'] == $info['uid']) {
+                    $results['mark'] = null;
+                }
+                if (empty($results)) {
+                    $name = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+                    $notScore[] = $name;
+                    $results['mark'] = null;
+                }
+                $tem[] = $results['mark'];
+                $sum += $results['mark'];
+                $avgScore = $sum / ($cout - 1);
+            }
+            $temp = [
+                'id' => $id,
+                'target' => $userName,
+                'notScore' => implode(",", $notScore)
+            ];
+            for ($i = 0; $i < $cout; $i++) {
+                $temp['rater' . $i] = $tem[$i];
+            }
+            $temp['avgScore'] = $avgScore;
+            $temp['sumScore'] = $sum;
+            $id++;
+            $res[] = $temp;
+        }
+        foreach ($infos as $info) {
+            $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+        }
+        $count = $cout + 3;
+        $indexes[0] = '序号';
+        $indexes[1] = '被评分人';
+        $indexes[2] = '未打分人';
+        for ($i = 3, $j = 0; $i < $count; $i++) {
+            $indexes[$i] = $user[$j++];
+        }
+        $indexes[$count + 1] = '平均分';
+        $indexes[$count + 2] = '总分';
+        return[
+            'res' => $res,
+            'indexes' => $indexes
+        ];
+
     }
 
     private function exportPoorSignExcelByClass($class){
@@ -308,27 +380,6 @@ class Synthesize
         }
         $this -> excelLib -> push('贫困生报名-' . $class['name'], $indexes, $data);
     }
-
-//    private function exportAllPoorSignExcel(){
-//        try {
-//            $signs = $this -> synthesizeModel -> findAll();
-//            $data = [];
-//            foreach ($signs as $sign){
-//                $temp = (new \app\common\model\api\UserClass()) -> findByUid($sign['uid']);
-//                $class = (new \app\common\model\api\Classes()) -> findById($temp['class_id']);
-//                $department = (new \app\common\model\api\Department()) -> findById($class['depart_id']);
-//                $user = (new \app\common\model\api\User()) -> findById($sign['uid']);
-//                if (empty($temp) || empty($class) || empty($department) || empty($user)){
-//                    continue;
-//                }
-//                $data[] = $this -> packPoorSignData($department, $user, $sign, $class);
-//            }
-//            $indexes = $this -> getPoorSignIndexes();
-//            return $this -> excelLib -> push('贫困生报名(全部信息)', $indexes, $data);
-//        }catch (\Exception $exception){
-//            return NULL;
-//        }
-//    }
 
     private function packPoorSignData($department, $user, $sign, $class, $id){
         $user['sex'] = $this -> strLib -> convertSex($user['sex']);
