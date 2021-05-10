@@ -141,7 +141,6 @@
     layui.use(['form'], function(){
         var form = layui.form;
         form.on('submit(push)', function(res) {
-            console.log(res.field.tag);
             $("#options").append(
                 "<div><input value=\"" + res.field.tag + "\" type=\"checkbox\" name=\"POOR_SIGN_OPTION\" title=\"" + res.field.tag + "\" checked></div>"
             );
@@ -158,8 +157,6 @@
             $("[name=POOR_SIGN_OPTION]:checked").each(function(){
                 POOR_SIGN_OPTION.push($(this).val());
             });
-            console.log(POOR_SIGN_OPTION);
-            return false;
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
