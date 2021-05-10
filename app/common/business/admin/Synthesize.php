@@ -54,8 +54,9 @@ class Synthesize
     public function setConfig($data){
         foreach ($data as $key => $value){
             $info = $this -> synthesizeConfigModel -> findByKey($key);
-            $info -> save(['value' => $value]);
-        }
+            echo json_encode(['value' => $value]);
+            //$info -> save(['value' => $value]);
+        }exit();
 
     }
 
