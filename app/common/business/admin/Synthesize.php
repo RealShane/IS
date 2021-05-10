@@ -144,7 +144,7 @@ class Synthesize
             $tem = [];
             $avgScore = 0;
             $sum = 0;
-            $userName = $this -> synthesizeLeaderSignModel -> findByUid($item['uid'])['user']['name'];
+            $userName = $this -> synthesizeLeaderSignModel -> findByUid($item['uid']);
             foreach ($infos as $info) {
                 $results = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
                 if ($item['uid'] == $info['uid']) {
@@ -161,7 +161,7 @@ class Synthesize
             }
             $temp = [
                 'id' => $id,
-                'target' => $userName,
+                'target' => $userName['user']['name'],
                 'job' => $userName['job'],
                 'notScore' => implode(",", $notScore)
             ];
