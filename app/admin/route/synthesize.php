@@ -28,6 +28,7 @@ Route::group('Synthesize', function () {
 Route::group('Synthesize', function () {
     Route::rule('getAllClass', '/admin/Synthesize/getAllClass', 'POST');
     Route::rule('getTargetClass', '/admin/Synthesize/getTargetClass', 'POST');
+    Route::rule('getAllConfig', '/admin/Synthesize/getAllConfig', 'POST');
 }) -> middleware(IsLogin::class) -> middleware(Auth::class);
 //----------------------------------------------------------------------------------
 /*

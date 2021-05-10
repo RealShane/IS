@@ -22,6 +22,7 @@ use think\facade\Db;
 use app\common\model\api\SynthesizeCross;
 use app\common\model\api\SynthesizePoorSign;
 use app\common\model\api\UserClass;
+use app\common\model\api\SynthesizeConfig;
 class Synthesize
 {
     private $config = NULL;
@@ -34,6 +35,7 @@ class Synthesize
     private $synthesizeLeaderScoreModel = NULL;
     private $synthesizeLeaderSignModel = NULL;
     private $userClassModel = NULL;
+    private $synthesizeConfigModel = NULL;
 
     public function __construct() {
         $this -> config = new Config();
@@ -46,6 +48,11 @@ class Synthesize
         $this -> synthesizeLeaderScoreModel = new SynthesizeLeaderScore();
         $this -> synthesizeLeaderSignModel = new SynthesizeLeaderSign();
         $this -> userClassModel = new UserClass();
+        $this -> synthesizeConfigModel = new SynthesizeConfig();
+    }
+
+    public function getAllConfig(){
+        return $this -> synthesizeConfigModel -> selectAll();
     }
 
     public function exportCrossExcel($classId) {

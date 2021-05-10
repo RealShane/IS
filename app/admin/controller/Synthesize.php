@@ -27,6 +27,10 @@ class Synthesize extends BaseController
         $this -> business = $business;
     }
 
+    public function getAllConfig(){
+        return $this -> success($this -> business -> getAllConfig());
+    }
+
     public function exportCrossExcel(){
         $uid = $this -> getParamUid();
         $classId = $this -> request -> param("target", 10, 'htmlspecialchars');

@@ -28,4 +28,8 @@ class SynthesizeConfig extends Model
         return $this -> field('value') -> where('key', $key) -> where('status', 1) -> find();
     }
 
+    public function selectAll(){
+        return $this -> where('id', '>', 0) -> field(['id', 'key', 'value', 'statement']) -> select();
+    }
+
 }
