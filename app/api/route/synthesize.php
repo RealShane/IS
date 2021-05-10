@@ -42,6 +42,7 @@ Route::group('Synthesize', function () {
     Route::rule('leaderSign', '/api/Synthesize/leaderSign', 'POST');
     Route::rule('getLeaderSign', '/api/Synthesize/getLeaderSign', 'POST');
     Route::rule('showLeaderSignList', '/api/Synthesize/showLeaderSignList', 'POST');
+    Route::rule('leaderScore', '/api/Synthesize/leaderScore', 'POST');
 }) -> middleware(IsLogin::class);
 //----------------------------------------------------------------------------------
 /*

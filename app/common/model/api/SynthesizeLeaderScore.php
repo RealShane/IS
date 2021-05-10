@@ -27,10 +27,4 @@ class SynthesizeLeaderScore extends Model
     public function findByUidAndTarget($uid, $target){
         return $this -> where('uid', $uid) -> where('target', $target) -> find();
     }
-
-    public function findByUid($uid){
-        return $this -> where('uid', $uid) -> count();
-    }
-
-
 }

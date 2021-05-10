@@ -54,6 +54,27 @@ class Synthesize
         $this -> synthesizeAuth = new SynthesizeAuth();
     }
 
+    public function leaderScore($data){
+        $this -> check($data['uid'], $data['target']);
+        $scoreStart = $this -> config ->  getSynthesizeLeaderScoreStatus();
+        if ($scoreStart == 0){
+            throw new Exception("打分未开始！");
+        }
+        if ($data['mark'] < 70 || $data['mark'] > 100){
+            throw new Exception("请在70~100之间评分！");
+        }
+        $info = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($data['uid'], $data['target']);
+        $result = [
+            'uid' => $data['uid'],
+            'target' => $data['target'],
+            'mark' => $data['mark']
+        ];
+        if (empty($info)){
+            return $this -> synthesizeLeaderScoreModel -> save($result);
+        }
+        $info -> save($result);
+    }
+
     public function showLeaderSignList($user){
         $temp =  $this -> userClassModel -> findByUid($user['id']);
         if (empty($temp)){

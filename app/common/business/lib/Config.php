@@ -59,16 +59,21 @@ class Config
     /**班委测评设置
      * @return mixed
      */
-
+    //班委报名开关
     public function getSynthesizeLeaderSignStatus(){
         return $this -> synthesizeConfig -> keyValue("LEADER_SIGN_STATUS") -> value;
+    }
+
+    //班委打分开关
+    public function getSynthesizeLeaderScoreStatus(){
+        return $this -> synthesizeConfig -> keyValue("LEADER_SCORE_STATUS") -> value;
     }
 
 
     /**综测评分设置
      * @return mixed
      */
-
+    //综测评分开关
     public function getSynthesizeCrossStatus(){
         return $this -> synthesizeConfig -> keyValue("CROSS_STATUS") -> value;
     }
@@ -89,7 +94,6 @@ class Config
     public function getSynthesizePoorSignScoreOption(){
         return $this -> synthesizeConfig -> keyValue("POOR_SCORE_STATUS") -> value;
     }
-
 
     //贫困生打分、投票选项
     public function getSynthesizePoorSignMarkOption(){
