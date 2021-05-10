@@ -34,17 +34,7 @@
                 </div>
             </div>
             <div class="layui-card" id="data_show">
-                <div class="layui-card-body">
-                    <div class="layui-collapse" lay-accordion>
-                        <div class="layui-colla-item">
-                            <h2 class="layui-colla-title">新班委</h2>
-                            <div class="layui-colla-content layui-show" id="new"></div>
-                        </div>
-                        <div class="layui-colla-item">
-                            <h2 class="layui-colla-title">老班委</h2>
-                            <div class="layui-colla-content layui-show" id="old"></div>
-                        </div>
-                    </div>
+                <div class="layui-card-body" id="data">
                 </div>
             </div>
         </div>
@@ -74,33 +64,23 @@
         if (data.length === 0){
             return $("#data_show").hide();
         }
-        let newLeader = "", oldLeader = "";
+        let str = "";
         for (let key of data){
             let icon = "&#xe63f;";
             if (key['status']){
                 icon = "&#xe605;";
             }
-            if (key['type'] === 0){
-                newLeader +=
-                    "<li class=\"layui-timeline-item\">" +
-                        "<i class=\"layui-icon layui-timeline-axis\">" + icon + "</i>" +
-                        "<div class=\"layui-timeline-content layui-text\">" +
-                            "<h3 onclick=\"xadmin.open('班委打分', '/api/View/Synthesize/Leader/add?id=" + key['id'] + "&type=0')\" class=\"layui-timeline-title\">" + key['name'] + "</h3>" +
-                        "</div>" +
-                    "</li>";
-            }
-            if (key['type'] === 1){
-                oldLeader +=
-                    "<li class=\"layui-timeline-item\">" +
-                        "<i class=\"layui-icon layui-timeline-axis\">" + icon + "</i>" +
-                        "<div class=\"layui-timeline-content layui-text\">" +
-                            "<h3 onclick=\"xadmin.open('班委打分', '/api/View/Synthesize/Leader/add?id=" + key['id'] + "&type=1')\" class=\"layui-timeline-title\">" + key['name'] + "</h3>" +
-                        "</div>" +
-                    "</li>"
-            }
+            str +=
+                "<li class=\"layui-timeline-item\">" +
+                    "<i class=\"layui-icon layui-timeline-axis\">" + icon + "</i>" +
+                    "<div class=\"layui-timeline-content layui-text\">" +
+                        "<h3 onclick=\"xadmin.open('班委打分', '/api/View/Synthesize/Leader/add?id=" + key['id'] + "')\" class=\"layui-timeline-title\">" + key['name'] + "</h3>" +
+                    "</div>" +
+                "</li>";
         }
-        $("#new").append(newLeader);
-        $("#old").append(oldLeader);
+        $("#data").append(
+            "<ul class=\"layui-timeline\">" + str + "</ul>"
+        );
     }
 </script>
 </html>

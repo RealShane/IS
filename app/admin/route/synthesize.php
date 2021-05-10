@@ -16,6 +16,7 @@ Route::group('View/Synthesize', function () {
     Route::rule('Cross/index', '/admin/View/crossView', 'GET');
     Route::rule('Poor/index', '/admin/View/poorView', 'GET');
     Route::rule('Leader/index', '/admin/View/leaderView', 'GET');
+    Route::rule('Config/index', '/admin/View/configView', 'GET');
 });
 
 Route::group('Synthesize', function () {
