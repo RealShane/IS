@@ -54,10 +54,12 @@ class Synthesize
     public function setConfig($data){
         foreach ($data as $key => $value){
             $info = $this -> synthesizeConfigModel -> findByKey($key);
-            echo json_encode($value);
-            //$info -> save(['value' => $value]);
-        }exit();
-
+            if ($key == 'POOR_SIGN_OPTION'){
+                $info -> save(['value' => $value]);
+                continue;
+            }
+            $info -> save(['value' => (int)$value]);
+        }
     }
 
     public function getAllConfig(){
