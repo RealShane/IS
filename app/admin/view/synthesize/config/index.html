@@ -142,10 +142,12 @@
                 $("#POOR_MARK_COUNT_STATUS").val(res.result['POOR_MARK_COUNT_STATUS']);
                 $("#LEADER_SIGN_STATUS").find("option[value='" + res.result['LEADER_SIGN_STATUS'] + "']").prop("selected",true);
                 $("#LEADER_SCORE_STATUS").find("option[value='" + res.result['LEADER_SCORE_STATUS'] + "']").prop("selected",true);
-                for (let key of res.result['POOR_SIGN_OPTION']){
-                    $("#options").append(
-                        "<input value=\"" + key + "\" type=\"checkbox\" name=\"POOR_SIGN_OPTION\" title=\"" + key + "\" checked>"
-                    );
+                if (!empty(res.result['POOR_SIGN_OPTION'])){
+                    for (let key of res.result['POOR_SIGN_OPTION']){
+                        $("#options").append(
+                            "<input value=\"" + key + "\" type=\"checkbox\" name=\"POOR_SIGN_OPTION\" title=\"" + key + "\" checked>"
+                        );
+                    }
                 }
             }
         });
