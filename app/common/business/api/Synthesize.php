@@ -54,7 +54,7 @@ class Synthesize
         $this -> synthesizeAuth = new SynthesizeAuth();
     }
 
-    public function showPoorLeaderList($user){
+    public function showLeaderSignList($user){
         $temp =  $this -> userClassModel -> findByUid($user['id']);
         if (empty($temp)){
             throw new Exception("未加入班级！");
