@@ -162,6 +162,7 @@ class Synthesize
             $temp = [
                 'id' => $id,
                 'target' => $userName,
+                'job' => $userName['job'],
                 'notScore' => implode(",", $notScore)
             ];
             for ($i = 0; $i < $cout; $i++) {
@@ -172,7 +173,23 @@ class Synthesize
             $id++;
             $res[] = $temp;
         }
-        $this -> excelLib -> push($title, $this -> packScoreData($infos, $cout)['indexes'], $res);
+
+        $user = [];
+        foreach ($infos as $info) {
+            $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+        }
+        $count = $cout + 4;
+        $indexes[0] = '序号';
+        $indexes[1] = '被评分人';
+        $indexes[2] = '职位';
+        $indexes[3] = '未打分人';
+        for ($i = 4, $j = 0; $i < $count; $i++) {
+            $indexes[$i] = $user[$j++];
+        }
+        $indexes[$count + 1] = '平均分';
+        $indexes[$count + 2] = '总分';
+
+        $this -> excelLib -> push($title, $indexes, $res);
 
     }
 
