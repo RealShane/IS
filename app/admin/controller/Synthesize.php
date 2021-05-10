@@ -36,11 +36,11 @@ class Synthesize extends BaseController
         $data['POOR_MARK_COUNT_STATUS'] = $this -> request -> param("POOR_MARK_COUNT_STATUS", '', 'htmlspecialchars');
         $data['LEADER_SIGN_STATUS'] = $this -> request -> param("LEADER_SIGN_STATUS", '', 'htmlspecialchars');
         $data['LEADER_SCORE_STATUS'] = $this -> request -> param("LEADER_SCORE_STATUS", '', 'htmlspecialchars');
-//        try {
-//            validate(Validate::class) -> scene('setConfig') -> check($data);
-//        }catch (\Exception $exception){
-//            return $this -> fail($exception -> getMessage());
-//        }
+        try {
+            validate(Validate::class) -> scene('setConfig') -> check($data);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
         $this -> business -> setConfig($data);
         return $this -> success('保存成功！');
     }

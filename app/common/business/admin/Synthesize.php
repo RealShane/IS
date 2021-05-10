@@ -53,9 +53,10 @@ class Synthesize
 
     public function setConfig($data){
         foreach ($data as $key => $value){
-            echo json_encode($key . ':' . $value);
+            $info = $this -> synthesizeConfigModel -> findByKey($key);
+            $info -> save(['value' => $value]);
         }
-        exit();
+
     }
 
     public function getAllConfig(){
@@ -267,7 +268,7 @@ class Synthesize
 
 
     public function exportPoorSignExcel($class_id){
-        $class = (new \app\common\model\api\Classes()) -> findByIdWithStatus($class_id);
+        $class = $this -> classesModel -> findByIdWithStatus($class_id);
         if (empty($class)){
           throw new \think\Exception("导出班级不存在或内部异常");
         }
@@ -276,7 +277,7 @@ class Synthesize
 
     public function showClasses(){
         try {
-            return (new \app\common\model\api\Classes()) -> findAll();
+            return $this -> classesModel -> findAll();
         }catch (\Exception $exception){
             return NULL;
         }
@@ -304,8 +305,8 @@ class Synthesize
 
     private function exportPoorSignExcelByClass($class){
         $indexes = $this -> getPoorSignIndexes();
-        $temp = (new \app\common\model\api\UserClass()) -> findAllByClassId($class['id']);
-        $department = (new \app\common\model\api\Department()) -> findById($class['depart_id']);
+        $temp = $this -> userClassModel -> findAllByClassId($class['id']);
+        $department = (new \app\common\odel\api\Department()) -> findById($class['depart_id']);
         $data = [];
         $id = 1;
         foreach ($temp as $key){
