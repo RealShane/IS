@@ -40,7 +40,6 @@ class Synthesize extends Validate
         'uid|用户id' => ['require'],
         'job|班委职务' => ['require'],
         'advantage|述职' => ['require'],
-        'type|新老班委类型' => ['require'],
     ];
 
     protected $scene = [
@@ -50,7 +49,7 @@ class Synthesize extends Validate
         'get_poor_score' => ['target'],
         'poor_score' => ['target'],
         'download_prove' => ['target', 'uid'],
-        'leader_Sign' => ['job', 'advantage', 'type'],
+        'leader_Sign' => ['job', 'advantage'],
     ];
 
 }
