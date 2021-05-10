@@ -9,20 +9,6 @@
         <form class="layui-form">
             <div class="layui-form-item">
                 <label class="layui-form-label">
-                    <span class="x-red">*</span>记录类型
-                </label>
-                <div class="layui-input-inline">
-                    <select id="type" name="type">
-                        <option value=0>新班委报名</option>
-                        <option value=1>老班委述职</option>
-                    </select>
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    请选择班委记录类型
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
                     <span class="x-red">*</span>班委类型
                 </label>
                 <div class="layui-input-inline">
@@ -74,7 +60,6 @@
                     layui.use(['form'], function() {
                         $ = layui.jquery;
                         var form = layui.form;
-                        $("#type").find("option[value='" + res.result['type'] + "']").prop("selected",true);
                         $("#job").find("option[value='" + res.result['job'] + "']").prop("selected",true);
                         $('#advantage').val(res.result['advantage']);
                         form.render();
@@ -88,14 +73,12 @@
         var form = layui.form,
             layer = layui.layer;
         form.on('submit(add)', function(res) {
-            let type = $("select[name='type']").val();
             let job = $("select[name='job']").val();
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
                 url : '/api/Synthesize/leaderSign',
                 data : {
-                    type : type,
                     job : job,
                     advantage : res.field.advantage
                 },

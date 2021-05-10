@@ -32,15 +32,14 @@
 <script>
     isApiLogin();
     let param = getParams();
-    let id = param.id, type = param.type;
+    let id = param.id;
     $(document).ready(function() {
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
             url : '/api/Synthesize/getLeaderScore',
             data : {
-                target : id,
-                type : type
+                target : id
             },
             success : function(res) {
                 if(res.status === config('failed')){
@@ -69,7 +68,6 @@
                 url : '/api/Synthesize/leaderScore',
                 data : {
                     target : id,
-                    type : type,
                     score : res.field.score
                 },
                 success : function(res) {
