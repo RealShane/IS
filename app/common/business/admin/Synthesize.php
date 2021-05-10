@@ -53,7 +53,6 @@ class Synthesize
         $title = $class['name'] . "综测评分表";
         $id = 1;
         $res = [];
-        $user = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         $cout = $this -> userClassModel -> countByClass($classId);
         foreach ($infos as $info) {
@@ -87,22 +86,9 @@ class Synthesize
             $temp['avgScore'] = $avgScore;
             $temp['sumScore'] = $sum;
             $res[] = $temp;
-            $user[] = $userName;
             $id++;
         }
-
-
-        $count = $cout + 3;
-        $indexes[0] = '序号';
-        $indexes[1] = '被评分人';
-        $indexes[2] = '未打分人';
-        for ($i = 3, $j = 0; $i < $count; $i++) {
-            $indexes[$i] = $user[$j++];
-        }
-        $indexes[$count + 1] = '平均分';
-        $indexes[$count + 2] = '总分';
-
-        $this -> excelLib -> push($title, $indexes, $res);
+        $this -> excelLib -> push($title, $this -> packScoreData($infos, $cout)['indexes'], $res);
     }
 
     public function getTargetClass($key, $num) {
@@ -154,8 +140,6 @@ class Synthesize
             $id++;
             $res[] = $temp;
         }
-
-
         $this -> excelLib -> push($title, $this -> packScoreData($infos, $cout)['indexes'], $res);
 
     }
@@ -206,21 +190,8 @@ class Synthesize
                 $id++;
                 $res[] = $temp;
         }
-            foreach ($infos as $info){
-                $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
-            }
-            $count = $cout + 3;
-            $indexes[0] = '序号';
-            $indexes[1] = '被评分人';
-            $indexes[2] = '未打分人';
-            for ($i = 3, $j = 0; $i < $count; $i++) {
-                $indexes[$i] = $user[$j++];
-            }
-            $indexes[$count + 1] = '平均分';
-            $indexes[$count + 2] = '总分';
+            $this -> excelLib -> push($title, $this -> packScoreData($infos, $cout)['indexes'], $res);
         }
-
-
         if ($type == 1) {
             foreach ($signs as $item) {
                 $tem = [];
@@ -261,8 +232,9 @@ class Synthesize
                 $indexes[$i] = $user[$j++];
             }
             $indexes[$count + 1] = '票数';
+
+            $this -> excelLib -> push($title, $indexes, $res);
         }
-        $this -> excelLib -> push($title, $indexes, $res);
     }
 
 
