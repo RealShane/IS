@@ -60,14 +60,14 @@ class Synthesize
         if ($scoreStart == 0){
             throw new Exception("打分未开始！");
         }
-        if ($data['mark'] < 70 || $data['mark'] > 100){
+        if ($data['score'] < 70 || $data['score'] > 100){
             throw new Exception("请在70~100之间评分！");
         }
         $info = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($data['uid'], $data['target']);
         $result = [
             'uid' => $data['uid'],
             'target' => $data['target'],
-            'mark' => $data['mark']
+            'mark' => $data['score']
         ];
         if (empty($info)){
             return $this -> synthesizeLeaderScoreModel -> save($result);
