@@ -113,76 +113,54 @@ class Synthesize
         return $this -> classesModel -> getAllClasses($num);
     }
 
-//    public function exportLeaderExcel($classId) {
-//        $class = $this -> classesModel -> findById($classId);
-//        $title = $class['name'] . "班委打分表";
-//        $id = 1;
-//        $res = [];
-//        $user = [];
-//        $infos = $this -> userClassModel -> findAllByClassId($classId);
-//        $cout = $this -> userClassModel -> countByClass($classId);
-//        $signs = $this -> synthesizeLeaderSignModel -> seletAll();
-//        foreach ($signs as $item) {
-//            $notScore = [];
-//            $tem = [];
-//            $avgScore = 0;
-//            $sum = 0;
-//            $userName = $this -> synthesizeLeaderSignModel -> findByUid($item['uid'])['user']['name'];
-//            foreach ($infos as $info) {
-//                $results = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
-//                if ($item['uid'] == $info['uid']) {
-//                    $results['mark'] = null;
-//                }
-//                if (empty($results)) {
-//                    $name = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
-//                    $notScore[] = $name;
-//                    $results['mark'] = null;
-//                }
-//                $tem[] = $results['mark'];
-//                $sum += $results['mark'];
-//                $avgScore = $sum / ($cout - 1);
-//            }
-//            $temp = [
-//                'id' => $id,
-//                'target' => $userName,
-//                'notScore' => implode(",", $notScore)
-//            ];
-//            for ($i = 0; $i < $cout; $i++) {
-//                $temp['rater' . $i] = $tem[$i];
-//            }
-//            $temp['avgScore'] = $avgScore;
-//            $temp['sumScore'] = $sum;
-//            $id++;
-//            $res[] = $temp;
-//        }
-//        foreach ($infos as $info) {
-//            $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
-//        }
-//        $count = $cout + 3;
-//        $indexes[0] = '序号';
-//        $indexes[1] = '被评分人';
-//        $indexes[2] = '未打分人';
-//        for ($i = 3, $j = 0; $i < $count; $i++) {
-//            $indexes[$i] = $user[$j++];
-//        }
-//        $indexes[$count + 1] = '平均分';
-//        $indexes[$count + 2] = '总分';
-//
-//        $this -> excelLib -> push($title, $indexes, $res);
-//
-//    }
-
     public function exportLeaderExcel($classId) {
         $class = $this -> classesModel -> findById($classId);
         $title = $class['name'] . "班委打分表";
-        $userNa = $this -> synthesizeLeaderSignModel -> findByUid($item['uid'])['user']['name'];
+        $id = 1;
+        $res = [];
+        $infos = $this -> userClassModel -> findAllByClassId($classId);
+        $cout = $this -> userClassModel -> countByClass($classId);
         $signs = $this -> synthesizeLeaderSignModel -> seletAll();
-        $result = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
-        $info = $this -> packScoreData($userNa, $result, $signs);
+        foreach ($signs as $item) {
+            $notScore = [];
+            $tem = [];
+            $avgScore = 0;
+            $sum = 0;
+            $userName = $this -> synthesizeLeaderSignModel -> findByUid($item['uid'])['user']['name'];
+            foreach ($infos as $info) {
+                $results = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
+                if ($item['uid'] == $info['uid']) {
+                    $results['mark'] = null;
+                }
+                if (empty($results)) {
+                    $name = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+                    $notScore[] = $name;
+                    $results['mark'] = null;
+                }
+                $tem[] = $results['mark'];
+                $sum += $results['mark'];
+                $avgScore = $sum / ($cout - 1);
+            }
+            $temp = [
+                'id' => $id,
+                'target' => $userName,
+                'notScore' => implode(",", $notScore)
+            ];
+            for ($i = 0; $i < $cout; $i++) {
+                $temp['rater' . $i] = $tem[$i];
+            }
+            $temp['avgScore'] = $avgScore;
+            $temp['sumScore'] = $sum;
+            $id++;
+            $res[] = $temp;
+        }
 
-        $this -> excelLib -> push($title, $info['indexes'], $info['res']);
+
+        $this -> excelLib -> push($title, $this -> packScoreData($infos, $cout)['indexes'], $res);
 
     }
+
+
 
     public function exportPoorSignScoreExcel($classId) {
         $class = $this -> classesModel -> findById($classId);
@@ -304,45 +282,8 @@ class Synthesize
         }
     }
 
-    private function packScoreData($userNa, $result, $signs){
-        $id = 1;
-        $res = [];
+    private function packScoreData($infos, $cout){
         $user = [];
-        $infos = $this -> userClassModel -> findAllByClassId($classId);
-        $cout = $this -> userClassModel -> countByClass($classId);
-        foreach ($signs as $item) {
-            $notScore = [];
-            $tem = [];
-            $avgScore = 0;
-            $sum = 0;
-            $userName = $userNa;
-            foreach ($infos as $info) {
-                $results = $result;
-                if ($item['uid'] == $info['uid']) {
-                    $results['mark'] = null;
-                }
-                if (empty($results)) {
-                    $name = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
-                    $notScore[] = $name;
-                    $results['mark'] = null;
-                }
-                $tem[] = $results['mark'];
-                $sum += $results['mark'];
-                $avgScore = $sum / ($cout - 1);
-            }
-            $temp = [
-                'id' => $id,
-                'target' => $userName,
-                'notScore' => implode(",", $notScore)
-            ];
-            for ($i = 0; $i < $cout; $i++) {
-                $temp['rater' . $i] = $tem[$i];
-            }
-            $temp['avgScore'] = $avgScore;
-            $temp['sumScore'] = $sum;
-            $id++;
-            $res[] = $temp;
-        }
         foreach ($infos as $info) {
             $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
         }
@@ -356,7 +297,6 @@ class Synthesize
         $indexes[$count + 1] = '平均分';
         $indexes[$count + 2] = '总分';
         return[
-            'res' => $res,
             'indexes' => $indexes
         ];
 
