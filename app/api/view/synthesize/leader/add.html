@@ -48,6 +48,9 @@
                     layer.msg(res.message);
                     return false;
                 }
+                if (!empty(res.result['mark'])){
+                    $('#score').val(res.result['mark']);
+                }
                 $("#info").append(
                     '<div class="layui-card">' +
                         '<div class="layui-card-header layui-bg-green">' + res.result['data']['job'] + '：</div>' +
