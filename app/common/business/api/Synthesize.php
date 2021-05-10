@@ -17,6 +17,7 @@ use app\common\business\lib\Download;
 use app\common\business\lib\Str;
 use app\common\model\api\SynthesizePoorSign;
 use app\common\model\api\SynthesizePoorScore;
+use app\common\model\api\SynthesizeLeaderScore;
 use app\common\model\api\SynthesizeLeaderSign;
 use app\common\model\api\UserClass;
 use app\common\model\api\SynthesizeAuth;
@@ -33,6 +34,7 @@ class Synthesize
     private $synthesizePoorSignModel = NULL;
     private $synthesizeLeaderSignModel = NULL;
     private $synthesizePoorScoreModel = NULL;
+    private $synthesizeLeaderScoreModel = NULL;
     private $synthesizeCrossModel = NULL;
     private $userClassModel = NULL;
     private $userModel = NULL;
@@ -45,11 +47,39 @@ class Synthesize
         $this -> synthesizePoorSignModel = new SynthesizePoorSign();
         $this -> synthesizeLeaderSignModel = new SynthesizeLeaderSign();
         $this -> synthesizePoorScoreModel = new SynthesizePoorScore();
+        $this -> synthesizeLeaderScoreModel = new SynthesizeLeaderScore();
         $this -> synthesizeCrossModel = new SynthesizeCross();
         $this -> userClassModel = new UserClass();
         $this -> userModel = new User();
         $this -> synthesizeAuth = new SynthesizeAuth();
     }
+
+    public function showPoorLeaderList($user){
+        $temp =  $this -> userClassModel -> findByUid($user['id']);
+        if (empty($temp)){
+            throw new Exception("未加入班级！");
+        }
+        $ids = $this -> userClassModel -> findAllByClassId($temp['class_id']);
+        $result = [];
+        foreach ($ids as $id){
+            $sign = $this -> synthesizePoorSignModel -> findByUid($id['uid']);
+            if (empty($sign) || $sign['uid'] == $user['id']){
+                continue;
+            }
+            $isEmpty = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($user['id'], $id['uid']);
+            $status = false;
+            if (!empty($isEmpty)){
+                $status = true;
+            }
+            $result[] = [
+                'id' => $sign['uid'],
+                'name' => $sign['user']['name'],
+                'status' => $status
+            ];
+        }
+        return $result;
+    }
+
 
     public function getLeaderSign($uid){
         $isExist = $this -> synthesizeLeaderSignModel -> findByUid($uid);
