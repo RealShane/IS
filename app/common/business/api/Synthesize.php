@@ -66,7 +66,7 @@ class Synthesize
         if (empty($isExist)){
             $data['uid'] = $uid;
             $data['create_time'] = time();
-            return $this -> synthesizePoorSignModel -> save($data);
+            return $this -> synthesizeLeaderSignModel -> save($data);
         }
         $this -> synthesizeLeaderSignSignModel -> updateLeaderSign($data, $uid);
     }
