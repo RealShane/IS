@@ -170,6 +170,7 @@
             $("[name=POOR_SIGN_OPTION]:checked").each(function(){
                 POOR_SIGN_OPTION.push($(this).val());
             });
+            console.log(POOR_SIGN_OPTION);
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
