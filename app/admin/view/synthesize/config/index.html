@@ -192,7 +192,7 @@
                         layer.msg(res.message);
                     }else if(res.status === config('success')){
                         layer.msg(res.result, {icon: 6}, function() {
-                            xadmin.father_reload();
+                            window.location.reload()
                         });
                     }
                 }
