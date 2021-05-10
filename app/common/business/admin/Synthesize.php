@@ -52,7 +52,21 @@ class Synthesize
     }
 
     public function getAllConfig(){
-        return $this -> synthesizeConfigModel -> selectAll();
+        $value = [];
+        $infos =  $this -> synthesizeConfigModel -> selectAll();
+        foreach ($infos as $info){
+            $value[] = $info['value'];
+        }
+        return [
+            'POOR_SIGN_OPTION' => $value[0],
+            'POOR_SIGN_STATUS' => $value[1],
+            'CROSS_STATUS' => $value[2],
+            'POOR_SIGN_MARK_STATUS' => $value[3],
+            'POOR_SCORE_STATUS' => $value[4],
+            'POOR_MARK_COUNT_STATUS' => $value[5],
+            'LEADER_SIGN_STATUS' => $value[6],
+            'LEADER_SCORE_STATUS' => $value[7],
+        ];
     }
 
     public function exportCrossExcel($classId) {
