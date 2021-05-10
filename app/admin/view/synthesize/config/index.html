@@ -73,10 +73,7 @@
                             <label class="layui-form-label">
                                 <span class="x-red">*</span>贫困生认定原因
                             </label>
-                            <div class="layui-input-inline">
-                                <input value="写作" type="checkbox" name="POOR_SIGN_OPTION" title="写作" checked>
-                                <input value="阅读" type="checkbox" name="POOR_SIGN_OPTION" title="阅读" checked>
-                                <input value="发呆" type="checkbox" name="POOR_SIGN_OPTION" title="发呆" checked>
+                            <div class="layui-input-inline" id="options">
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -127,12 +124,28 @@
                     layer.msg(res.message);
                     return false;
                 }
-                render(res.result);
+                $("#CROSS_STATUS").find("option[value='" + res.result['CROSS_STATUS'] + "']").prop("selected",true);
+                $("#POOR_SIGN_STATUS").find("option[value='" + res.result['POOR_SIGN_STATUS'] + "']").prop("selected",true);
+                $("#POOR_SCORE_STATUS").find("option[value='" + res.result['POOR_SCORE_STATUS'] + "']").prop("selected",true);
+                $("#POOR_SIGN_MARK_STATUS").find("option[value='" + res.result['POOR_SIGN_MARK_STATUS'] + "']").prop("selected",true);
+                $("#POOR_MARK_COUNT_STATUS").val(res.result['POOR_MARK_COUNT_STATUS']);
+                $("#LEADER_SIGN_STATUS").find("option[value='" + res.result['LEADER_SIGN_STATUS'] + "']").prop("selected",true);
+                for (let key of res.result['POOR_SIGN_OPTION']){
+                    $("#options").append(
+                        "<input value=\"" + key + "\" type=\"checkbox\" name=\"POOR_SIGN_OPTION\" title=\"" + key + "\" checked>"
+                    );
+                }
             }
         });
     });
     layui.use(['form'], function(){
         var form = layui.form;
+        form.on('submit(create)', function(res) {
+            $("#options").append(
+                "<input value=\"" + $("#create").val() + "\" type=\"checkbox\" name=\"POOR_SIGN_OPTION\" title=\"" + $("#create").val() + "\" checked>"
+            );
+            return false;
+        });
         form.on('submit(add)', function(res) {
             let CROSS_STATUS = $("select[name='CROSS_STATUS']").val(),
                 POOR_SIGN_STATUS = $("select[name='POOR_SIGN_STATUS']").val(),
@@ -142,7 +155,7 @@
                 LEADER_SIGN_STATUS = $("select[name='LEADER_SIGN_STATUS']").val();
             $("[name=POOR_SIGN_OPTION]:checked").each(function(){
                 POOR_SIGN_OPTION.push($(this).val());
-            })
+            });
             console.log(POOR_SIGN_OPTION);
             return false;
             $.ajax({
