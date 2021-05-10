@@ -51,6 +51,18 @@ class Synthesize
         $this -> synthesizeAuth = new SynthesizeAuth();
     }
 
+    public function getLeaderSign($uid){
+        $isExist = $this -> synthesizeLeaderSignModel -> findByUid($uid);
+        if (empty($isExist)){
+            return NULL;
+        }
+        return [
+            'job' => $isExist['job'],
+            'advantage' => $isExist['advantage']
+        ];
+    }
+
+
     public function leaderSign($data, $uid){
         if (!($this -> config -> getSynthesizeLeaderSignStatus())){
             throw new Exception("班委报名处于关闭状态！");

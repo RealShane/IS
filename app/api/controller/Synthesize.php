@@ -31,6 +31,11 @@ class Synthesize extends BaseController
         $this -> upload = $upload;
     }
 
+    public function getLeaderSign(){
+        $uid = $this -> getUid();
+        return $this -> success($this -> business -> getLeaderSign($uid));
+    }
+
     public function leaderSign(){
         $uid = $this -> getUid();
         $data['job'] = $this -> request -> param("job", '', 'htmlspecialchars');
