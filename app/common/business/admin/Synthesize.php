@@ -51,6 +51,13 @@ class Synthesize
         $this -> synthesizeConfigModel = new SynthesizeConfig();
     }
 
+    public function setConfig($data){
+        foreach ($data as $key => $value){
+            echo json_encode($key . ':' . $value);
+        }
+        exit();
+    }
+
     public function getAllConfig(){
         $value = [];
         $infos =  $this -> synthesizeConfigModel -> selectAll();
