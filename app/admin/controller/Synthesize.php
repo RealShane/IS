@@ -27,6 +27,10 @@ class Synthesize extends BaseController
         $this -> business = $business;
     }
 
+    public function getAllConfig(){
+        return $this -> success($this -> business -> getAllConfig());
+    }
+
     public function exportCrossExcel(){
         $uid = $this -> getParamUid();
         $classId = $this -> request -> param("target", 10, 'htmlspecialchars');
@@ -53,9 +57,20 @@ class Synthesize extends BaseController
         return $this -> success($this -> business -> getAllClass($num));
     }
 
+    public function exportLeaderExcel(){
+        $uid = $this -> getParamUid();
+        $classId = $this -> request -> param("target", '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('exportLeaderExcel') -> check(['classId' => $classId, 'token' => $uid]);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        $this -> business -> exportLeaderExcel($classId);
+    }
+
     public function exportPoorSignScoreExcel(){
         $uid = $this -> getParamUid();
-        $classId = $this -> request -> param("target", 10, 'htmlspecialchars');
+        $classId = $this -> request -> param("target", '', 'htmlspecialchars');
         try {
             validate(Validate::class) -> scene('exportPoorSignScoreExcel') -> check(['classId' => $classId, 'token' => $uid]);
         }catch (\Exception $exception){

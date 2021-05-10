@@ -16,10 +16,13 @@ use app\common\business\lib\Excel;
 use app\common\business\lib\Str;
 use app\common\model\api\Classes;
 use app\common\model\api\SynthesizePoorScore;
+use app\common\model\api\SynthesizeLeaderSign;
+use app\common\model\api\SynthesizeLeaderScore;
 use think\facade\Db;
 use app\common\model\api\SynthesizeCross;
 use app\common\model\api\SynthesizePoorSign;
 use app\common\model\api\UserClass;
+use app\common\model\api\SynthesizeConfig;
 class Synthesize
 {
     private $config = NULL;
@@ -29,7 +32,10 @@ class Synthesize
     private $synthesizeCrossModel = NULL;
     private $synthesizePoorSignModel = NULL;
     private $synthesizePoorScoreModel = NULL;
+    private $synthesizeLeaderScoreModel = NULL;
+    private $synthesizeLeaderSignModel = NULL;
     private $userClassModel = NULL;
+    private $synthesizeConfigModel = NULL;
 
     public function __construct() {
         $this -> config = new Config();
@@ -39,7 +45,14 @@ class Synthesize
         $this -> synthesizeCrossModel = new SynthesizeCross();
         $this -> synthesizePoorSignModel = new SynthesizePoorSign();
         $this -> synthesizePoorScoreModel = new SynthesizePoorScore();
+        $this -> synthesizeLeaderScoreModel = new SynthesizeLeaderScore();
+        $this -> synthesizeLeaderSignModel = new SynthesizeLeaderSign();
         $this -> userClassModel = new UserClass();
+        $this -> synthesizeConfigModel = new SynthesizeConfig();
+    }
+
+    public function getAllConfig(){
+        return $this -> synthesizeConfigModel -> selectAll();
     }
 
     public function exportCrossExcel($classId) {
@@ -47,7 +60,6 @@ class Synthesize
         $title = $class['name'] . "综测评分表";
         $id = 1;
         $res = [];
-        $user = [];
         $infos = $this -> userClassModel -> findAllByClassId($classId);
         $cout = $this -> userClassModel -> countByClass($classId);
         foreach ($infos as $info) {
@@ -81,22 +93,9 @@ class Synthesize
             $temp['avgScore'] = $avgScore;
             $temp['sumScore'] = $sum;
             $res[] = $temp;
-            $user[] = $userName;
             $id++;
         }
-
-
-        $count = $cout + 3;
-        $indexes[0] = '序号';
-        $indexes[1] = '被评分人';
-        $indexes[2] = '未打分人';
-        for ($i = 3, $j = 0; $i < $count; $i++) {
-            $indexes[$i] = $user[$j++];
-        }
-        $indexes[$count + 1] = '平均分';
-        $indexes[$count + 2] = '总分';
-
-        $this -> excelLib -> push($title, $indexes, $res);
+        $this -> excelLib -> push($title, $this -> packScoreData($infos, $cout)['indexes'], $res);
     }
 
     public function getTargetClass($key, $num) {
@@ -106,6 +105,53 @@ class Synthesize
     public function getAllClass($num) {
         return $this -> classesModel -> getAllClasses($num);
     }
+
+    public function exportLeaderExcel($classId) {
+        $class = $this -> classesModel -> findById($classId);
+        $title = $class['name'] . "班委打分表";
+        $id = 1;
+        $res = [];
+        $infos = $this -> userClassModel -> findAllByClassId($classId);
+        $cout = $this -> userClassModel -> countByClass($classId);
+        $signs = $this -> synthesizeLeaderSignModel -> seletAll();
+        foreach ($signs as $item) {
+            $notScore = [];
+            $tem = [];
+            $avgScore = 0;
+            $sum = 0;
+            $userName = $this -> synthesizeLeaderSignModel -> findByUid($item['uid'])['user']['name'];
+            foreach ($infos as $info) {
+                $results = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($info['uid'], $item['uid']);
+                if ($item['uid'] == $info['uid']) {
+                    $results['mark'] = null;
+                }
+                if (empty($results)) {
+                    $name = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+                    $notScore[] = $name;
+                    $results['mark'] = null;
+                }
+                $tem[] = $results['mark'];
+                $sum += $results['mark'];
+                $avgScore = $sum / ($cout - 1);
+            }
+            $temp = [
+                'id' => $id,
+                'target' => $userName,
+                'notScore' => implode(",", $notScore)
+            ];
+            for ($i = 0; $i < $cout; $i++) {
+                $temp['rater' . $i] = $tem[$i];
+            }
+            $temp['avgScore'] = $avgScore;
+            $temp['sumScore'] = $sum;
+            $id++;
+            $res[] = $temp;
+        }
+        $this -> excelLib -> push($title, $this -> packScoreData($infos, $cout)['indexes'], $res);
+
+    }
+
+
 
     public function exportPoorSignScoreExcel($classId) {
         $class = $this -> classesModel -> findById($classId);
@@ -151,21 +197,8 @@ class Synthesize
                 $id++;
                 $res[] = $temp;
         }
-            foreach ($infos as $info){
-                $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
-            }
-            $count = $cout + 3;
-            $indexes[0] = '序号';
-            $indexes[1] = '被评分人';
-            $indexes[2] = '未打分人';
-            for ($i = 3, $j = 0; $i < $count; $i++) {
-                $indexes[$i] = $user[$j++];
-            }
-            $indexes[$count + 1] = '平均分';
-            $indexes[$count + 2] = '总分';
+            $this -> excelLib -> push($title, $this -> packScoreData($infos, $cout)['indexes'], $res);
         }
-
-
         if ($type == 1) {
             foreach ($signs as $item) {
                 $tem = [];
@@ -206,9 +239,12 @@ class Synthesize
                 $indexes[$i] = $user[$j++];
             }
             $indexes[$count + 1] = '票数';
+
+            $this -> excelLib -> push($title, $indexes, $res);
         }
-        $this -> excelLib -> push($title, $indexes, $res);
     }
+
+
     public function exportPoorSignExcel($class_id){
         $class = (new \app\common\model\api\Classes()) -> findByIdWithStatus($class_id);
         if (empty($class)){
@@ -223,6 +259,26 @@ class Synthesize
         }catch (\Exception $exception){
             return NULL;
         }
+    }
+
+    private function packScoreData($infos, $cout){
+        $user = [];
+        foreach ($infos as $info) {
+            $user[] = $this -> userClassModel -> findByUidWithUser($info['uid'])['user']['name'];
+        }
+        $count = $cout + 3;
+        $indexes[0] = '序号';
+        $indexes[1] = '被评分人';
+        $indexes[2] = '未打分人';
+        for ($i = 3, $j = 0; $i < $count; $i++) {
+            $indexes[$i] = $user[$j++];
+        }
+        $indexes[$count + 1] = '平均分';
+        $indexes[$count + 2] = '总分';
+        return[
+            'indexes' => $indexes
+        ];
+
     }
 
     private function exportPoorSignExcelByClass($class){
@@ -243,27 +299,6 @@ class Synthesize
         }
         $this -> excelLib -> push('贫困生报名-' . $class['name'], $indexes, $data);
     }
-
-//    private function exportAllPoorSignExcel(){
-//        try {
-//            $signs = $this -> synthesizeModel -> findAll();
-//            $data = [];
-//            foreach ($signs as $sign){
-//                $temp = (new \app\common\model\api\UserClass()) -> findByUid($sign['uid']);
-//                $class = (new \app\common\model\api\Classes()) -> findById($temp['class_id']);
-//                $department = (new \app\common\model\api\Department()) -> findById($class['depart_id']);
-//                $user = (new \app\common\model\api\User()) -> findById($sign['uid']);
-//                if (empty($temp) || empty($class) || empty($department) || empty($user)){
-//                    continue;
-//                }
-//                $data[] = $this -> packPoorSignData($department, $user, $sign, $class);
-//            }
-//            $indexes = $this -> getPoorSignIndexes();
-//            return $this -> excelLib -> push('贫困生报名(全部信息)', $indexes, $data);
-//        }catch (\Exception $exception){
-//            return NULL;
-//        }
-//    }
 
     private function packPoorSignData($department, $user, $sign, $class, $id){
         $user['sex'] = $this -> strLib -> convertSex($user['sex']);
