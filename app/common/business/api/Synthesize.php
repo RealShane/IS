@@ -54,6 +54,20 @@ class Synthesize
         $this -> synthesizeAuth = new SynthesizeAuth();
     }
 
+    public function getLeaderScore($uid, $id){
+        $mark = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($uid, $id);
+        if (empty($mark)){
+            $mark['mark'] = null;
+        }
+        $sign = $this -> synthesizeLeaderSignModel -> findByUid($uid);
+        return [
+            'job' => $sign['job'],
+            'advantage' => $sign['advantage'],
+            'mark' => $mark['mark'],
+            'time' => $mark['update_time']
+        ];
+    }
+
     public function leaderScore($data){
         $this -> check($data['uid'], $data['target']);
         $scoreStart = $this -> config ->  getSynthesizeLeaderScoreStatus();

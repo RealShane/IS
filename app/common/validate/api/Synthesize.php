@@ -51,6 +51,7 @@ class Synthesize extends Validate
         'download_prove' => ['target', 'uid'],
         'leader_Sign' => ['job', 'advantage'],
         'leader_score' => ['target', 'score'],
+        'get_leader_score' => ['target'],
     ];
 
 }
