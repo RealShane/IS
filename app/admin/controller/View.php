@@ -42,6 +42,12 @@ class View extends BaseController
         ]);
     }
 
+    public function configView(){
+        return V::fetch('synthesize/config/index', [
+            'secret' => Env::get('ADMIN.FILE', '')
+        ]);
+    }
+
     /**
      * 综合测评
      */
