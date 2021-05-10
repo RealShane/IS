@@ -79,12 +79,12 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label"></label>
                             <div class="layui-input-inline">
-                                <input type="text" id="create" name="create" autocomplete="off" class="layui-input">
+                                <input type="text" id="tag" name="tag" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label"></label>
-                            <button  class="layui-btn" lay-filter="create" lay-submit="">
+                            <button  class="layui-btn" lay-filter="push" lay-submit="">
                                 添加
                             </button>
                         </div>
@@ -140,10 +140,11 @@
     });
     layui.use(['form'], function(){
         var form = layui.form;
-        form.on('submit(create)', function(res) {
+        form.on('submit(push)', function(res) {
             $("#options").append(
-                "<input value=\"" + res.field.create + "\" type=\"checkbox\" name=\"POOR_SIGN_OPTION\" title=\"" + res.field.create + "\" checked>"
+                "<div><input value=\"" + res.field.tag + "\" type=\"checkbox\" name=\"POOR_SIGN_OPTION\" title=\"" + res.field.tag + "\" checked></div>"
             );
+            renderForm()
             return false;
         });
         form.on('submit(add)', function(res) {
@@ -156,8 +157,6 @@
             $("[name=POOR_SIGN_OPTION]:checked").each(function(){
                 POOR_SIGN_OPTION.push($(this).val());
             });
-            console.log(POOR_SIGN_OPTION);
-            return false;
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
@@ -185,5 +184,11 @@
             return false;
         });
     });
+    function renderForm(){
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
+        });
+    }
 </script>
 </html>
