@@ -52,7 +52,7 @@ class Synthesize
     }
 
     public function getAllConfig(){
-        return json_encode($this -> synthesizeConfigModel -> selectAll());
+        return $this -> synthesizeConfigModel -> selectAll();
     }
 
     public function exportCrossExcel($classId) {

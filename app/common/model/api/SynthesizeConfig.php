@@ -24,6 +24,10 @@ class SynthesizeConfig extends Model
 
     protected $table = 'api_synthesize_config';
 
+    protected $type = [
+        'value' => 'json'
+    ];
+
     public function keyValue($key){
         return $this -> field('value') -> where('key', $key) -> where('status', 1) -> find();
     }
