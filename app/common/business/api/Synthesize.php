@@ -346,7 +346,12 @@ class Synthesize
     }
 
     public function viewPoorOption(){
-        return $this -> config -> getSynthesizePoorSignOption();
+        $options = $this -> config -> getSynthesizePoorSignOption();
+        $result = [];
+        foreach ($options as $option){
+            $result[] = ['option' => $option];
+        }
+        return $result;
     }
 
     public function downloadProve($data) {
