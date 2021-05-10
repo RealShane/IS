@@ -60,9 +60,6 @@
                                     <option value=0>投票</option>
                                 </select>
                             </div>
-                            <div class="layui-form-mid layui-word-aux">
-                                0是打分1是投票
-                            </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">
@@ -133,8 +130,11 @@
                 POOR_SIGN_STATUS = $("select[name='POOR_SIGN_STATUS']").val(),
                 POOR_SCORE_STATUS = $("select[name='POOR_SCORE_STATUS']").val(),
                 POOR_SIGN_MARK_STATUS = $("select[name='POOR_SIGN_MARK_STATUS']").val(),
-                POOR_SIGN_OPTION = $("input[name='POOR_SIGN_OPTION']").val(),
+                POOR_SIGN_OPTION = [],
                 LEADER_SIGN_STATUS = $("select[name='LEADER_SIGN_STATUS']").val();
+            $("input[name='POOR_SIGN_OPTION']").each(function(){
+                POOR_SIGN_OPTION.push($(this).val());
+            })
             console.log(POOR_SIGN_OPTION);
             return false;
             $.ajax({
