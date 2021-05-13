@@ -205,7 +205,7 @@ class Synthesize
         $mark = $this -> synthesizePoorScoreModel -> findByUidAndTarget($uid, $id);
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
         $scoreStart = $this -> config ->  getSynthesizePoorSignScoreOption();
-        $sign = $this -> synthesizePoorSignModel -> findByUid($uid);
+        $sign = $this -> synthesizePoorSignModel -> findByUid($id);
         return [
             'mark' => $mark['mark'],
             'type' => $type,
