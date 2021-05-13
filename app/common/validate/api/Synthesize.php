@@ -18,7 +18,7 @@ class Synthesize extends Validate
 {
 
     protected $regex = [
-        'phone' => '/^0?(13|14|15|17|18)[0-9]{9}$/'
+        'phone' => '/^0?(13|14|15|17|18|19)[0-9]{9}$/'
     ];
 
     protected $rule = [
