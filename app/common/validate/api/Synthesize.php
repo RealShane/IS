@@ -17,6 +17,10 @@ use think\Validate;
 class Synthesize extends Validate
 {
 
+    protected $regex = [
+        'phone' => '/^0?(13|14|15|17|18)[0-9]{9}$/'
+    ];
+
     protected $rule = [
         'political_outlook|政治面貌' => ['require'],
         'id_card_number|身份证件号' => ['require'],
@@ -31,8 +35,8 @@ class Synthesize extends Validate
         'confirm_reason|选项认定原因' => ['require'],
         'confirm_reason_explain|认定原因补充说明' => ['require', 'max:200'],
         'address|家庭住址' => ['require'],
-        'home_phone|家庭电话' => ['require'],
-        'contact_phone|联系方式' => ['require'],
+        'home_phone|家庭电话' => ['require', 'regex:phone'],
+        'contact_phone|联系方式' => ['require', 'regex:phone'],
         'remark|备注' => ['require'],
         'supporting_document|证明文件' => ['require'],
         'target|被评分人id' => ['require'],
