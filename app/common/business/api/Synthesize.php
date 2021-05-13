@@ -56,7 +56,7 @@ class Synthesize
 
     public function getLeaderScore($uid, $id){
         $mark = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($uid, $id);
-        $sign = $this -> synthesizeLeaderSignModel -> findByUid($uid);
+        $sign = $this -> synthesizeLeaderSignModel -> findByUid($id);
         return [
             'job' => $sign['job'],
             'advantage' => $sign['advantage'],
