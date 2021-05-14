@@ -94,7 +94,7 @@ class Synthesize
         $ids = $this -> userClassModel -> findAllByClassId($temp['class_id']);
         $result = [];
         foreach ($ids as $id){
-            $sign = $this -> synthesizePoorSignModel -> findByUid($id['uid']);
+            $sign = $this -> synthesizeLeaderSignModel -> findByUid($id['uid']);
             if (empty($sign) || $sign['uid'] == $user['id']){
                 continue;
             }
