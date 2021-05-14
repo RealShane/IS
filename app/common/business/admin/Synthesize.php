@@ -214,7 +214,7 @@ class Synthesize
                 $tem = [];
                 $avgScore = 0;
                 $sum = 0;
-                if ($this -> userClassModel -> findByUid($item['uid'])['class'] != $class['id']){
+                if ($this -> userClassModel -> findByUid($item['uid'])['class_id'] != $class['id']){
                     continue;
                 }
                 $userName = $this -> synthesizePoorSignModel -> findByUid($item['uid'])['user']['name'];
