@@ -23,6 +23,7 @@ use app\common\model\api\SynthesizeCross;
 use app\common\model\api\SynthesizePoorSign;
 use app\common\model\api\UserClass;
 use app\common\model\api\SynthesizeConfig;
+use app\common\model\api\Department;
 class Synthesize
 {
     private $config = NULL;
@@ -36,6 +37,7 @@ class Synthesize
     private $synthesizeLeaderSignModel = NULL;
     private $userClassModel = NULL;
     private $synthesizeConfigModel = NULL;
+    private $departmentModel = NULL;
 
     public function __construct() {
         $this -> config = new Config();
@@ -49,6 +51,7 @@ class Synthesize
         $this -> synthesizeLeaderSignModel = new SynthesizeLeaderSign();
         $this -> userClassModel = new UserClass();
         $this -> synthesizeConfigModel = new SynthesizeConfig();
+        $this -> departmentModel = new Department();
     }
 
     public function setConfig($data){
@@ -326,7 +329,7 @@ class Synthesize
     private function exportPoorSignExcelByClass($class){
         $indexes = $this -> getPoorSignIndexes();
         $temp = $this -> userClassModel -> findAllByClassId($class['id']);
-        $department = (new \app\common\odel\api\Department()) -> findById($class['depart_id']);
+        $department = $this -> departmentModel -> findById($class['depart_id']);
         $data = [];
         $id = 1;
         foreach ($temp as $key){
