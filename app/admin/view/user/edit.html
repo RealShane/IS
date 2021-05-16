@@ -105,6 +105,7 @@
                 id : id
             },
             success : function(res) {
+                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                     return false
