@@ -79,6 +79,7 @@
             success : function(res) {
                 if (res.status === config('failed')){
                     layer.msg(res.message);
+                    return false;
                 }
                 renderMenu(res.result['viewWithMenu']);
                 renderView(res.result['view']);
@@ -92,6 +93,7 @@
                 success : function(res) {
                     if (res.status === config('failed')){
                         layer.msg(res.message);
+                        return false;
                     }
                     if (res.status === config('success')){
                         layer.msg(res.result, function () {

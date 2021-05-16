@@ -21,6 +21,26 @@ class View extends BaseController
 {
 
     /**
+     * 用户
+     */
+
+    public function userView(){
+        return V::fetch('user/index', [
+            'secret' => Env::get('ADMIN.FILE', '')
+        ]);
+    }
+
+    public function userEditView(){
+        return V::fetch('user/edit', [
+            'secret' => Env::get('ADMIN.FILE', '')
+        ]);
+    }
+
+    /**
+     * 用户
+     */
+
+    /**
      * 综合测评
      */
 
