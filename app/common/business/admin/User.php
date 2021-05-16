@@ -50,6 +50,7 @@ class User
     public function viewAllUser($num){
         return $this -> apiUserModel -> findAll($num) -> each(function($item, $key){
             $classId = $this -> userClassModel -> findByUid($item['id'])['class_id'];
+            $item['sex'] = $this -> str -> convertSex($item['sex']);
             if (empty($classId)){
                 $item['class'] = '未加入';
                 $item['charge'] = '未加入';
@@ -58,7 +59,6 @@ class User
             }
             $class = $this -> classesModel -> findById($classId);
             $department = $this -> departmentModel -> findById($class['depart_id'])['name'];
-            $item['sex'] = $this -> str -> convertSex($item['sex']);
             $item['class'] = $class['name'];
             $item['charge'] = $class['charge'];
             $item['department'] = $department;
