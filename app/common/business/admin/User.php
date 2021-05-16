@@ -50,10 +50,10 @@ class User
     public function updateUser($data){
         $isExist = $this -> userModel -> findById($data['target']);
         if (empty($isExist)){
-            throw new Exception("管理员不存在！");
+            throw new Exception("用户不存在！");
         }
-        $data['update_time'] = time();
-        $this -> userModel -> updateAdmin($data);
+        $this -> apiUserModel -> updateUser($data);
+        $this -> userClassModel -> updateUser($data);
     }
 
     public function getUser($id){

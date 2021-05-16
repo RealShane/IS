@@ -21,6 +21,11 @@ class User extends Validate
         'username|用户名' => ['require'],
         'target|目标' => ['require'],
         'password|密码' => ['require'],
+        'email|邮箱' => ['require'],
+        'name|用户名' => ['require'],
+        'sex|性别' => ['require'],
+        'student_id|学号' => ['require'],
+        'class_id|班级' => ['require'],
         'status|状态' => ['require'],
 //        'validate|验证码' => ['require', 'captcha']
     ];
@@ -30,7 +35,8 @@ class User extends Validate
         'updateAdmin' => ['target', 'username', 'status'],
         'changePassword' => ['target', 'password'],
         'addAdmin' => ['username', 'password'],
-        'login' => ['username', 'password', 'validate']
+        'login' => ['username', 'password', 'validate'],
+        'updateUser' => ['name', 'target', 'email', 'sex', 'student_id', 'class_id', 'status']
     ];
 
 }

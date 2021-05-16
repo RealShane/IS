@@ -24,6 +24,11 @@ class UserClass extends Model
 
     protected $table = "api_user_class";
 
+    public function updateUser($data){
+        $result = $this -> findByUid($data['target']);
+        return $result -> allowField(['class_id']) -> save($data);
+    }
+
     public function countByClass($classId){
         return $this ->  where('class_id', $classId) -> count();
     }

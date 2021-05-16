@@ -24,6 +24,12 @@ class User extends Model
 
     protected $table = "api_user";
 
+    public function updateUser($data){
+        $result = $this -> findById($data['target']);
+        return $result -> allowField(['email', 'name', 'sex', 'student_id', 'status']) -> save($data);
+    }
+
+
     public function getTargetUser($name){
         return $this -> where('name', $name)
             -> field(['id', 'email', 'name', 'sex', 'student_id', 'last_login_ip', 'last_login_time', 'create_time', 'update_time', 'status'])

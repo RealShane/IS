@@ -28,11 +28,15 @@ class User extends BaseController
     }
 
     public function updateUser(){
-        $data['target'] = $this -> request -> param("target", '', 'htmlspecialchars');
-        $data['username'] = $this -> request -> param("username", '', 'htmlspecialchars');
+        $data['target'] = $this -> request -> param("id", '', 'htmlspecialchars');
+        $data['email'] = $this -> request -> param("email", '', 'htmlspecialchars');
+        $data['name'] = $this -> request -> param("name", '', 'htmlspecialchars');
+        $data['sex'] = $this -> request -> param("sex", '', 'htmlspecialchars');
+        $data['student_id'] = $this -> request -> param("student_id", '', 'htmlspecialchars');
+        $data['class_id'] = $this -> request -> param("class_id", '', 'htmlspecialchars');
         $data['status'] = $this -> request -> param("status", '', 'htmlspecialchars');
         try {
-            validate(Validate::class) -> scene('updateAdmin') -> check($data);
+            validate(Validate::class) -> scene('updateUser') -> check($data);
         }catch (\Exception $exception){
             return $this -> fail($exception -> getMessage());
         }
