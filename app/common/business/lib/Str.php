@@ -52,12 +52,11 @@ class Str
     }
 
     public function convertSex($sex){
-        switch ($sex){
-            case 0 : $sex = '女'; break;
-            case 1 : $sex = '男'; break;
-            case -1 : $sex = '保密'; break;
+        switch ((int)$sex){
+            case 0 : return '女';
+            case 1 : return '男';
+            case -1 : return '保密';
         }
-        return $sex;
     }
 
     public function convertIs($is){
