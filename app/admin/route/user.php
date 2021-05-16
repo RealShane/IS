@@ -21,6 +21,7 @@ Route::group('User', function () {
     Route::rule('viewAllUser', '/admin/User/viewAllUser', 'POST');
     Route::rule('getTargetUser', '/admin/User/getTargetUser', 'POST');
     Route::rule('getUser', '/admin/User/getUser', 'POST');
+    Route::rule('updateUser', '/admin/User/updateUser', 'POST');
 }) -> middleware(IsLogin::class) -> middleware(Auth::class);
 //----------------------------------------------------------------------------------
 /*
