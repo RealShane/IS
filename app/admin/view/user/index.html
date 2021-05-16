@@ -98,7 +98,6 @@
                     name : res.field.name
                 },
                 success : function(res) {
-                    console.log(res);
                     if(res.status === config('failed')){
                         layer.msg(res.message);
                         return false;
@@ -117,7 +116,7 @@
             "</div>"
         );
         let str = "";
-        for (let key of data['data']){
+        for (let key of data){
             let status = "<span class=\"layui-btn layui-btn-normal layui-btn-mini\">已启用</span></td>";
             if (key['status'] === 0){
                 status = "<span class=\"layui-btn layui-btn-disabled layui-btn-mini\">已停用</span></td>";
