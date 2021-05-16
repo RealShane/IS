@@ -2,15 +2,6 @@
 <html class="x-admin-sm">
 <head>
     {include file="public/_meta" /}
-    <style type="text/css">
-        .layui-table-body {
-            position: relative;
-            overflow: auto;
-            margin-right: -1px;
-            margin-bottom: -1px;
-            height: 500px;
-        }
-    </style>
 </head>
 <body>
 <div class="x-nav">
@@ -52,7 +43,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="layui-card-body ">
+                <div class="layui-card-body" style="overflow:scroll;">
                     <table class="layui-table layui-form" id="data">
                         <thead>
                         <tr>
@@ -75,7 +66,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="layui-card-body ">
+                <div class="layui-card-body">
                     <div class="page" id="page">
                         <div id="page_remove">
 
