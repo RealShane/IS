@@ -24,6 +24,12 @@ class User extends Model
 
     protected $table = "api_user";
 
+    public function findAll($num){
+        return $this -> where('id', '>', 0)
+            -> field(['id', 'email', 'name', 'sex', 'student_id', 'last_login_ip', 'last_login_time', 'create_time', 'update_time', 'status'])
+            -> paginate($num);
+    }
+
     public function findById($id){
         return $this -> where('id', $id) -> find();
     }
