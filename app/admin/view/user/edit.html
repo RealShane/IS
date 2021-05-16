@@ -83,7 +83,6 @@
             contentType : "application/x-www-form-urlencoded",
             url : '/{$secret}/Exam/selectAllClass',
             success : function(res) {
-                console.log(res);
                 if (res.status === config('failed')){
                     layer.msg(res.message);
                     return false
@@ -93,6 +92,7 @@
                     var form = layui.form;
                     let str = "";
                     for (let key of res.result){
+                        console.log(key);
                         str +=
                             "<option value=" + key['id'] + ">" + key['name'] + "</option>";
                     }
