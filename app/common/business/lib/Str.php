@@ -53,8 +53,8 @@ class Str
 
     public function convertSex($sex){
         switch ($sex){
-            case '0' : $sex = '女'; break;
-            case '1' : $sex = '男'; break;
+            case 0 : $sex = '女'; break;
+            case 1 : $sex = '男'; break;
             default :  $sex = '保密'; break;
         }
         return $sex;
