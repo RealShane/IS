@@ -26,7 +26,7 @@ class User extends Model
 
     public function findAll($num){
         return $this -> where('id', '>', 0)
-            -> field(['id', 'email', 'username', 'sex', 'student_id', 'last_login_ip', 'last_login_time', 'create_time', 'update_time', 'status'])
+            -> field(['id', 'email', 'name', 'sex', 'student_id', 'last_login_ip', 'last_login_time', 'create_time', 'update_time', 'status'])
             -> paginate($num);
     }
 
