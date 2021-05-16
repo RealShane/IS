@@ -43,7 +43,7 @@ class User
 
     public function viewAllUser($num){
         return $this -> apiUserModel -> findAll($num) -> each(function($item, $key){
-            $class = $this -> userClassModel -> findByUid($key['id'])['class_id'];
+            $class = $this -> userClassModel -> findByUid($item['id'])['class_id'];
             echo json_encode($class);exit();
         });
     }
