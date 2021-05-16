@@ -24,6 +24,12 @@ class User extends Model
 
     protected $table = "api_user";
 
+    public function getTargetUser($name){
+        return $this -> where('name', $name)
+            -> field(['id', 'email', 'name', 'sex', 'student_id', 'last_login_ip', 'last_login_time', 'create_time', 'update_time', 'status'])
+            -> select();
+    }
+
     public function findAll($num){
         return $this -> where('id', '>', 0)
             -> field(['id', 'email', 'name', 'sex', 'student_id', 'last_login_ip', 'last_login_time', 'create_time', 'update_time', 'status'])

@@ -47,9 +47,31 @@ class User
         $this -> departmentModel = new Department();
     }
 
+
+    public function getTargetUser($name){
+        $data = $this -> apiUserModel -> getTargetUser($name);
+        foreach ($data as $item){
+            $classId = $this -> userClassModel -> findByUid($item['id'])['class_id'];
+            $item['sex'] = $this -> str -> convertSex($item['sex']);
+            if (empty($classId)){
+                $item['class'] = '未加入';
+                $item['charge'] = '未加入';
+                $item['department'] = '未加入';
+                continue;
+            }
+            $class = $this -> classesModel -> findById($classId);
+            $department = $this -> departmentModel -> findById($class['depart_id'])['name'];
+            $item['class'] = $class['name'];
+            $item['charge'] = $class['charge'];
+            $item['department'] = $department;
+        }
+        return $data;
+    }
+
     public function viewAllUser($num){
         return $this -> apiUserModel -> findAll($num) -> each(function($item, $key){
             $classId = $this -> userClassModel -> findByUid($item['id'])['class_id'];
+            $item['sex'] = $this -> str -> convertSex($item['sex']);
             if (empty($classId)){
                 $item['class'] = '未加入';
                 $item['charge'] = '未加入';
