@@ -46,6 +46,7 @@
             success : function(res) {
                 if(res.status === config('failed')){
                     layer.msg(res.message);
+                    return false;
                 }
                 renderAdminSelect(res.result['user']);
                 renderGroupSelect(res.result['group']);

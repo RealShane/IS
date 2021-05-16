@@ -65,6 +65,7 @@
             success : function(res) {
                 if(res.status === config('failed')){
                     layer.msg(res.message);
+                    return false;
                 }
                 $("#name").val(res.result['name']);
                 $("#icon").val(res.result['icon']);
