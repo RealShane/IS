@@ -18,6 +18,8 @@ use app\common\model\admin\AuthGroup;
 use app\common\model\admin\User as UserModel;
 use app\common\model\api\User as ApiUserModel;
 use app\common\model\api\UserClass;
+use app\common\model\api\Classes;
+use app\common\model\api\Department;
 use think\Exception;
 
 class User
@@ -30,6 +32,8 @@ class User
     private $redis = NULL;
     private $apiUserModel = NULL;
     private $userClassModel = NULL;
+    private $classesModel = NULL;
+    private $departmentModel = NULL;
 
     public function __construct(){
         $this -> str = new Str();
@@ -39,12 +43,19 @@ class User
         $this -> redis = new Redis();
         $this -> apiUserModel = new ApiUserModel();
         $this -> userClassModel = new UserClass();
+        $this -> classesModel = new Classes();
+        $this -> departmentModel = new Department();
     }
 
     public function viewAllUser($num){
         return $this -> apiUserModel -> findAll($num) -> each(function($item, $key){
-            $class = $this -> userClassModel -> findByUid($item['id'])['class_id'];
-            echo json_encode($class);exit();
+            $classId = $this -> userClassModel -> findByUid($item['id'])['class_id'];
+            $class = $this -> classesModel -> findById($classId);
+            $department = $this -> departmentModel -> findById($class['depart_id'])['name'];
+            $item['class'] = $class['name'];
+            $item['charge'] = $class['charge'];
+            $item['department'] = $department;
+            return $item;
         });
     }
 
