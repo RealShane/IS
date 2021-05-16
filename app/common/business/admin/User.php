@@ -17,6 +17,7 @@ use app\common\model\admin\AuthAccess;
 use app\common\model\admin\AuthGroup;
 use app\common\model\admin\User as UserModel;
 use app\common\model\api\User as ApiUserModel;
+use app\common\model\api\UserClass;
 use think\Exception;
 
 class User
@@ -28,6 +29,7 @@ class User
     private $groupModel = NULL;
     private $redis = NULL;
     private $apiUserModel = NULL;
+    private $userClassModel = NULL;
 
     public function __construct(){
         $this -> str = new Str();
@@ -36,10 +38,14 @@ class User
         $this -> groupModel = new AuthGroup();
         $this -> redis = new Redis();
         $this -> apiUserModel = new ApiUserModel();
+        $this -> userClassModel = new UserClass();
     }
 
     public function viewAllUser($num){
-        return $this -> apiUserModel -> findAll($num);
+        return $this -> apiUserModel -> findAll($num) -> each(function($item, $key){
+            $class = $this -> userClassModel -> findByUid($key['id'])['class_id'];
+            echo json_encode($class);exit();
+        });
     }
 
     public function getAdmin($id){
