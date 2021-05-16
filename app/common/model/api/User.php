@@ -25,7 +25,7 @@ class User extends Model
     protected $table = "api_user";
 
     public function getTargetUser($name){
-        return $this -> where('username', $name)
+        return $this -> where('name', $name)
             -> field(['id', 'email', 'name', 'sex', 'student_id', 'last_login_ip', 'last_login_time', 'create_time', 'update_time', 'status'])
             -> select();
     }
