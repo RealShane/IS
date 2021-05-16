@@ -28,7 +28,7 @@ class User extends BaseController
     }
 
     public function updateUser(){
-        $data['target'] = $this -> request -> param("id", '', 'htmlspecialchars');
+        $data['target'] = $this -> request -> param("target", '', 'htmlspecialchars');
         $data['email'] = $this -> request -> param("email", '', 'htmlspecialchars');
         $data['name'] = $this -> request -> param("name", '', 'htmlspecialchars');
         $data['sex'] = $this -> request -> param("sex", '', 'htmlspecialchars');
