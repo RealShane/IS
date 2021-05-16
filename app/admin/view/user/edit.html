@@ -90,13 +90,9 @@
                 layui.use(['form'], function() {
                     $ = layui.jquery;
                     var form = layui.form;
-                    let str = "";
                     for (let key of res.result){
-                        console.log(key);
-                        str +=
-                            "<option value=" + key['id'] + ">" + key['name'] + "</option>";
+                        $("#class_id").append("<option value=" + key['id'] + ">" + key['name'] + "</option>");
                     }
-                    $("#class_id").val(str);
                     form.render();
                 });
             }
