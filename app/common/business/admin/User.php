@@ -58,6 +58,7 @@ class User
             }
             $class = $this -> classesModel -> findById($classId);
             $department = $this -> departmentModel -> findById($class['depart_id'])['name'];
+            $item['sex'] = $this -> str -> convertSex($item['sex']);
             $item['class'] = $class['name'];
             $item['charge'] = $class['charge'];
             $item['department'] = $department;
