@@ -186,29 +186,28 @@
          */
         str = "";
         for (let key of data['data']){
-            console.log(key);
             let status = "<span class=\"layui-btn layui-btn-normal layui-btn-mini\">已启用</span></td>";
             if (key['status'] === 0){
                 status = "<span class=\"layui-btn layui-btn-disabled layui-btn-mini\">已停用</span></td>";
             }
-            let last_login_time = empty(data['last_login_time']) ? "时间缺失" : timestampToTime(data['last_login_time']),
-                create_time = empty(data['create_time']) ? "时间缺失" : data['create_time'],
-                update_time = empty(data['update_time']) ? "时间缺失" : data['update_time'];
+            let last_login_time = empty(key['last_login_time']) ? "时间缺失" : timestampToTime(key['last_login_time']),
+                create_time = empty(key['create_time']) ? "时间缺失" : key['create_time'],
+                update_time = empty(key['update_time']) ? "时间缺失" : key['update_time'];
             str +=
                 "<tr>" +
-                    "<td>" + data['id'] + "</td>" +
-                    "<td>" + data['email'] + "</td>" +
-                    "<td>" + data['name'] + "</td>" +
-                    "<td>" + data['sex'] + "</td>" +
-                    "<td>" + data['student_id'] + "</td>" +
-                    "<td>" + data['last_login_ip'] + "</td>" +
+                    "<td>" + key['id'] + "</td>" +
+                    "<td>" + key['email'] + "</td>" +
+                    "<td>" + key['name'] + "</td>" +
+                    "<td>" + key['sex'] + "</td>" +
+                    "<td>" + key['student_id'] + "</td>" +
+                    "<td>" + key['last_login_ip'] + "</td>" +
                     "<td>" + last_login_time + "</td>" +
                     "<td>" + create_time + "</td>" +
                     "<td>" + update_time + "</td>" +
                     "<td>" + status + "</td>" +
-                    "<td>" + data['class'] + "</td>" +
-                    "<td>" + data['charge'] + "</td>" +
-                    "<td>" + data['department'] + "</td>" +
+                    "<td>" + key['class'] + "</td>" +
+                    "<td>" + key['charge'] + "</td>" +
+                    "<td>" + key['department'] + "</td>" +
                     "<td class=\"td-manage\">" +
                         "<a title=\"编辑\"  onclick=\"xadmin.open('编辑', '/{$secret}/View/User/edit?id=" + data['id'] + "')\" href=\"javascript:;\">" +
                             "<i class=\"layui-icon\">&#xe642;</i>" +

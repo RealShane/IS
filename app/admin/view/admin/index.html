@@ -188,9 +188,9 @@
             if (key['status'] === 0){
                 status = "<span class=\"layui-btn layui-btn-disabled layui-btn-mini\">已停用</span></td>";
             }
-            let last_login_time = empty(data['last_login_time']) ? "时间缺失" : timestampToTime(data['last_login_time']),
-                create_time = empty(data['create_time']) ? "时间缺失" : data['create_time'],
-                update_time = empty(data['update_time']) ? "时间缺失" : data['update_time'];
+            let last_login_time = empty(key['last_login_time']) ? "时间缺失" : timestampToTime(key['last_login_time']),
+                create_time = empty(key['create_time']) ? "时间缺失" : key['create_time'],
+                update_time = empty(key['update_time']) ? "时间缺失" : key['update_time'];
             str +=
                 "<tr>" +
                     "<td>" + key['id'] + "</td>" +
