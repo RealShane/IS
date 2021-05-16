@@ -49,7 +49,8 @@ class User
 
 
     public function getTargetUser($name){
-        return $this -> apiUserModel -> getTargetUser($name);
+        $data = $this -> apiUserModel -> getTargetUser($name);
+        echo json_encode($data);exit();
     }
 
     public function viewAllUser($num){
