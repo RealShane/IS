@@ -27,6 +27,19 @@ class User extends BaseController
         $this -> business = $business;
     }
 
+    public function updateUser(){
+        $data['target'] = $this -> request -> param("target", '', 'htmlspecialchars');
+        $data['username'] = $this -> request -> param("username", '', 'htmlspecialchars');
+        $data['status'] = $this -> request -> param("status", '', 'htmlspecialchars');
+        try {
+            validate(Validate::class) -> scene('updateAdmin') -> check($data);
+        }catch (\Exception $exception){
+            return $this -> fail($exception -> getMessage());
+        }
+        $this -> business -> updateUser($data);
+        return $this -> success("修改成功！");
+    }
+
     public function getUser(){
         $errCode = $this -> business -> getUser($this -> request -> param("id", '', 'htmlspecialchars'));
         return $this -> success($errCode);

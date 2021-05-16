@@ -47,12 +47,21 @@ class User
         $this -> departmentModel = new Department();
     }
 
+    public function updateUser($data){
+        $isExist = $this -> userModel -> findById($data['target']);
+        if (empty($isExist)){
+            throw new Exception("管理员不存在！");
+        }
+        $data['update_time'] = time();
+        $this -> userModel -> updateAdmin($data);
+    }
+
     public function getUser($id){
         $data = $this -> apiUserModel -> findById($id);
         return [
             'email' => $data['email'],
             'name' => $data['name'],
-            'sex' => $this -> str -> convertSex($data['sex']),
+            'sex' => $data['sex'],
             'student_id' => $data['student_id'],
             'class_id' => $this -> userClassModel -> findByUid($data['id'])['class_id'],
             'status' => $data['status'],
