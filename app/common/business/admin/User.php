@@ -47,6 +47,11 @@ class User
         $this -> departmentModel = new Department();
     }
 
+
+    public function getTargetUser($name){
+        return $this -> apiUserModel -> getTargetUser($name);
+    }
+
     public function viewAllUser($num){
         return $this -> apiUserModel -> findAll($num) -> each(function($item, $key){
             $classId = $this -> userClassModel -> findByUid($item['id'])['class_id'];
