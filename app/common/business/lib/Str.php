@@ -52,7 +52,12 @@ class Str
     }
 
     public function convertSex($sex){
-        return $sex == 1 ? '男' : '女';
+        switch ($sex){
+            case 0 : $sex = '女';
+            case 1 : $sex = '男';
+            case -1 : $sex = '保密';break;
+        }
+        return $sex;
     }
 
     public function convertIs($is){
