@@ -47,6 +47,17 @@ class User
         $this -> departmentModel = new Department();
     }
 
+    public function getUser($id){
+        $data = $this -> apiUserModel -> findById($id);
+        return [
+            'email' => $data['email'],
+            'name' => $data['name'],
+            'sex' => $this -> str -> convertSex($data['sex']),
+            'student_id' => $data['student_id'],
+            'class_id' => $this -> userClassModel -> findByUid($data['id'])['class_id'],
+            'status' => $data['status'],
+        ];
+    }
 
     public function getTargetUser($name){
         $data = $this -> apiUserModel -> getTargetUser($name);
