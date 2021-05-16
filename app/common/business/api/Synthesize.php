@@ -56,7 +56,7 @@ class Synthesize
 
     public function getLeaderScore($uid, $id){
         $mark = $this -> synthesizeLeaderScoreModel -> findByUidAndTarget($uid, $id);
-        $sign = $this -> synthesizeLeaderSignModel -> findByUid($uid);
+        $sign = $this -> synthesizeLeaderSignModel -> findByUid($id);
         return [
             'job' => $sign['job'],
             'advantage' => $sign['advantage'],
@@ -94,7 +94,7 @@ class Synthesize
         $ids = $this -> userClassModel -> findAllByClassId($temp['class_id']);
         $result = [];
         foreach ($ids as $id){
-            $sign = $this -> synthesizePoorSignModel -> findByUid($id['uid']);
+            $sign = $this -> synthesizeLeaderSignModel -> findByUid($id['uid']);
             if (empty($sign) || $sign['uid'] == $user['id']){
                 continue;
             }
@@ -205,7 +205,7 @@ class Synthesize
         $mark = $this -> synthesizePoorScoreModel -> findByUidAndTarget($uid, $id);
         $type = $this -> config -> getSynthesizePoorSignMarkOption();
         $scoreStart = $this -> config ->  getSynthesizePoorSignScoreOption();
-        $sign = $this -> synthesizePoorSignModel -> findByUid($uid);
+        $sign = $this -> synthesizePoorSignModel -> findByUid($id);
         return [
             'mark' => $mark['mark'],
             'type' => $type,
