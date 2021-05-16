@@ -27,6 +27,11 @@ class User extends BaseController
         $this -> business = $business;
     }
 
+    public function viewAllUser(){
+        $errCode = $this -> business -> viewAllUser($this -> request -> param("num", 10, 'htmlspecialchars'));
+        return $this -> success($errCode);
+    }
+
     public function getAdmin(){
         $errCode = $this -> business -> getAdmin($this -> request -> param("id", '', 'htmlspecialchars'));
         return $this -> success($errCode);
