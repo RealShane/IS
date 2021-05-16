@@ -16,19 +16,11 @@ class Auth extends BaseController
         $user = $this -> getUser();
         $authAccess = (new AuthAccess()) -> findByUid($user['id']);
         if (empty($authAccess)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "超级管理员未给此管理员分配权限，请联系超级管理员！"
-            );
+            return $this -> fail("超级管理员未给此管理员分配权限，请联系超级管理员！");
         }
         $authGroup = (new AuthGroup()) -> findByIdWithStatus($authAccess['group']);
         if (empty($authGroup)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "权限被禁用！"
-            );
+            return $this -> fail("权限被禁用！");
         }
         if ($authGroup['rules'] == '*'){
             return $next($request);
@@ -47,11 +39,7 @@ class Auth extends BaseController
                 return $next($request);
             }
         }
-        return show_res(
-            config("status.failed"),
-            config("message.failed"),
-            "你没有权限访问！"
-        );
+        return $this -> fail("你没有权限访问！");
     }
 
 }

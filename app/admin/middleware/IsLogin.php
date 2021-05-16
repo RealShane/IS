@@ -12,11 +12,7 @@ class IsLogin extends BaseController
     public function handle($request, \Closure $next){
         $token = $this -> getToken();
         if (empty($token)){
-            return $this -> show(
-                config("status.failed"),
-                config("message.failed"),
-                "非法请求！"
-            );
+            return $this -> fail("非法请求！");
         }
         $user = $this -> getUser();
         if (empty($user)){
