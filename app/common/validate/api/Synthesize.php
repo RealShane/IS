@@ -51,7 +51,7 @@ class Synthesize extends Validate
         'cross_score' => ['target', 'score'],
         'get_cross_score' => ['target'],
         'get_poor_score' => ['target'],
-        'poor_score' => ['target', 'score'],
+        'poor_score' => ['target'],
         'download_prove' => ['target', 'uid'],
         'leader_Sign' => ['job', 'advantage'],
         'leader_score' => ['target', 'score'],
