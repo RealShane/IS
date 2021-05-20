@@ -133,7 +133,7 @@ class Synthesize
         if (empty($isJoin)){
             throw new Exception("班委报名请先加入班级！");
         }
-        if (!in_array($data['job'], ['班长', '团支书', '纪律委员', '生活委员', '文艺委员', '宣传委员', '组织委员', '心理委员'])){
+        if (!in_array($data['job'], ['班长', '团支书', '纪律委员', '生活委员', '文艺委员', '宣传委员', '组织委员', '心理委员', '学习委员'])){
             throw new Exception("无此班委职务！");
         }
         $isExist = $this -> synthesizeLeaderSignModel -> findByUid($uid);
