@@ -142,4 +142,5 @@ abstract class BaseController
     public function getParamUid(){
         return $this -> getParamUser()['id'];
     }
+
 }
